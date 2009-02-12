@@ -1,0 +1,230 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Text.RegularExpressions;
+using TidyNet;
+using TidyNet.Dom;
+
+namespace XWiki.Html
+{
+    public class HtmlUtil
+    {
+        public String HtmlToXhtml(String htmlSource)
+        {
+            return CleanHTML(htmlSource, false);            
+        }
+
+        public String WordHtmlToXhtml(String htmlSource)
+        {
+            return CleanHTML(htmlSource, true);            
+        }
+
+        public String CleanHTML(String htmlSource,bool isWordHtml)
+        {
+            Tidy tidy = new Tidy();
+            //Options required dor xhtml conversion.
+            tidy.Options.DocType = DocType.Strict;
+            tidy.Options.DropFontTags = true;
+            tidy.Options.LogicalEmphasis = true;
+            tidy.Options.Xhtml = true;
+            tidy.Options.XmlOut = true;
+            tidy.Options.MakeClean = true;
+            tidy.Options.TidyMark = false;
+            tidy.Options.DropEmptyParas = true;
+            tidy.Options.IndentContent = true;
+            tidy.Options.SmartIndent = true;
+            tidy.Options.Word2000 = isWordHtml;
+            tidy.Options.EncloseBlockText = true;
+
+            TidyMessageCollection tmc = new TidyMessageCollection();
+            MemoryStream input = new MemoryStream();
+            MemoryStream output = new MemoryStream();
+            
+            byte[] byteArray = Encoding.UTF8.GetBytes(htmlSource);
+            input.Write(byteArray, 0, byteArray.Length);
+            input.Position = 0;
+            tidy.Parse(input, output, tmc);
+
+            string cleanContent = Encoding.UTF8.GetString(output.ToArray());
+            return cleanContent;
+        }
+
+        public String CorectAttributes(String htmlSource)
+        {
+            StringBuilder sb = new StringBuilder(htmlSource);
+            foreach (Match match in Regex.Matches(htmlSource, "<.*?\\s*(.*?)=(.*?)\\s*?>"))//<.*?>
+            {
+                String matchValue = match.Value;
+                char[] separators = {' ','>','/','\r'};
+                bool hasChanged = false;
+                foreach(String s in match.Value.Split(separators))
+                {
+                    String[] attribute = s.Split('=');
+                    if(attribute.Length == 2)
+                    {
+                        try
+                        {
+                            String newValue = attribute[1];
+                            if (attribute[1][0] != '\'' && attribute[1][0] != '\"')
+                            {
+                                newValue = attribute[0] + "=\"" + attribute[1] + "\"";
+                                matchValue = matchValue.Replace(s, newValue);
+                                hasChanged = true;
+                            }
+                        }
+                        catch (IndexOutOfRangeException) { };
+                    }
+                }
+                if (hasChanged)
+                {
+                    sb = sb.Replace(match.Value, matchValue);
+                }
+            }
+            return sb.ToString();
+        }
+
+        public String RemoveOfficeNameSpacesTags(String content)
+        {
+            bool foundTags = false;
+            int startIndex = 0;
+            int endIndex = 0;
+            do
+            {
+                foundTags = false;
+                startIndex = content.IndexOf("<o:", startIndex);
+                if (startIndex >= 0)
+                {
+                    endIndex = content.IndexOf("</o:", startIndex);
+                    if(endIndex >= 0)
+                    {
+                        endIndex = content.IndexOf(">",endIndex + 1);
+                        content = content.Remove(startIndex, endIndex - startIndex + 1);                       
+                    }
+                    foundTags = true;
+                    startIndex = endIndex - (endIndex - startIndex + 1);
+                }                
+            } while (foundTags);
+            return content;
+        }
+
+        /// <summary>
+        /// Removes a char sequence that starts and ends with the given valaues.
+        /// </summary>
+        /// <param name="content">The initial content.</param>
+        /// <param name="tagBegining">The begining of the char sequence.</param>
+        /// <param name="tagEnding">The end of the char sequence.</param>
+        /// <returns></returns>
+        public String RemoveSpecificTagContent(String content, String tagBegining, String tagEnding)
+        {
+            bool foundTags = false;
+            int startIndex = 0;
+            int endIndex = 0;
+            do
+            {
+                foundTags = false;
+                startIndex = content.IndexOf(tagBegining, startIndex);
+                if (startIndex >= 0)
+                {
+                    endIndex = content.IndexOf(tagEnding, startIndex + tagBegining.Length);
+                    if (endIndex >= 0)
+                    {
+                        content = content.Remove(startIndex, endIndex - startIndex + tagEnding.Length);
+                    }
+                    foundTags = true;
+                    startIndex = endIndex - (endIndex - startIndex + 1);
+                }
+            } while (foundTags);
+            return content;
+        }
+
+        /// <summary>
+        /// Gets the content between the opening and closing html tags.
+        /// </summary>
+        /// <param name="htmlCode">The html source to be </param>
+        /// <returns>the inner html of the body.</returns>
+        public String GetBodyContent(String htmlCode)
+        {
+            //Delete header & footer
+            int startIndex, endIndex;
+            startIndex = htmlCode.IndexOf("<body");
+            endIndex = htmlCode.IndexOf(">", startIndex);
+            htmlCode = htmlCode.Remove(0, endIndex + 1);
+            startIndex = htmlCode.IndexOf("</body");
+            if (startIndex >= 0)
+                htmlCode = htmlCode.Remove(startIndex);
+            return htmlCode;
+        }
+
+        /// <summary>
+        /// Indents the given html source.
+        /// </summary>
+        /// <param name="htmlSource">The html source.</param>
+        /// <returns>A string with the new source.</returns>
+        public String IndentContent(String htmlSource)
+        {
+            Tidy tidy = new Tidy();
+            tidy.Options.IndentContent = true;
+            TidyMessageCollection tmc = new TidyMessageCollection();
+            MemoryStream input = new MemoryStream();
+            MemoryStream output = new MemoryStream();
+
+            byte[] byteArray = Encoding.UTF8.GetBytes(htmlSource);
+            input.Write(byteArray, 0, byteArray.Length);
+            input.Position = 0;
+            tidy.Parse(input, output, tmc);
+
+            htmlSource = Encoding.UTF8.GetString(output.ToArray());
+            return htmlSource;
+        }
+
+        public String RemoveDoctype(String htmlCode)
+        {
+            int startIndex, endIndex;
+            startIndex = htmlCode.IndexOf("<!DOCTYPE");
+            endIndex = htmlCode.IndexOf(">", startIndex);
+            return htmlCode.Remove(startIndex, endIndex - startIndex);
+        }
+
+        /// <summary>
+        /// Gets a string representing the opening html tag with the XML namespace definitions, if any.
+        /// </summary>
+        /// <param name="content">The html source to be processed</param>
+        /// <returns>a string representing the opening html tag.</returns>
+        public String GetXmlNamespaceDefinitions(String htmlCode)
+        {
+            int startIndex, endIndex;
+            startIndex = htmlCode.IndexOf("<html");
+            endIndex = htmlCode.IndexOf(">", startIndex);
+            return htmlCode.Substring(startIndex, endIndex - startIndex + 1);
+        }
+
+        /// <summary>
+        /// Replaces the opening html tag with a given one.
+        /// </summary>
+        /// <param name="htmlCode">The html source.</param>
+        /// <param name="newHtmlTag">The new html tag.</param>
+        /// <returns></returns>
+        public String ReplaceXmlNamespaceDefinitions(String htmlCode, String newHtmlTag)
+        {
+            String oldHtmlTag = GetXmlNamespaceDefinitions(htmlCode);
+            return htmlCode.Replace(oldHtmlTag, newHtmlTag);            
+        }
+
+        /// <summary>
+        /// Replaces the body tag with a new given one.
+        /// </summary>
+        /// <param name="initialContent">The initial html code.</param>
+        /// <param name="newBodyTag">The new body tag.</param>
+        /// <returns>The new html code.</returns>
+        public String ReplaceBody(String initialContent, String newBodyTag)
+        {
+            int startIndex, endIndex;
+            startIndex = initialContent.IndexOf("<body");
+            endIndex = initialContent.IndexOf(">", startIndex);
+            String body = initialContent.Substring(startIndex, endIndex - startIndex + 1);
+            return initialContent.Replace(body, newBodyTag);
+        }
+    }    
+}
