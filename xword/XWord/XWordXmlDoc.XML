@@ -1246,6 +1246,14 @@
             <param name="wiki">The wiki instance.</param>
             <param name="wildcards">The list of protected pages wildcards.</param>
         </member>
+        <member name="M:XWriter.AddinActions.IsProtectedPage(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Specifies if a page is protected or not.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <param name="wildCards">The wildcard list of protected pages.</param>
+            <returns></returns>
+        </member>
         <member name="P:XWriter.AddinActions.Client">
             <summary>
             Generic webclient used for conneting to xwiki.

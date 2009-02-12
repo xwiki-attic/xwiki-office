@@ -595,7 +595,9 @@ namespace XWriter
             {
                 GetWikiStructure();
                 addin.ProtectedPages = GetProtectedPages();
-                AddinActions.HideProtectedPages(wiki, addin.ProtectedPages);
+                //The pages will be displayed, and the user will be prompted
+                //when trying to edit a protected page.
+                //AddinActions.HideProtectedPages(wiki, addin.ProtectedPages);
             }
             catch (Exception ex)
             {

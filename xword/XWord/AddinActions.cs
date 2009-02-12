@@ -203,6 +203,13 @@ namespace XWriter
             {
                 Client.Login(addin.username, addin.password);
             }
+            if(IsProtectedPage(pageFullName, addin.ProtectedPages))
+            {
+                String message = "You cannot edit this page." + Environment.NewLine;
+                message += "This page contains scrips that provide functionality to the wiki.";
+                MessageBox.Show(message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
             LoadingDialog loadingDialog = new LoadingDialog("Opening page...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             Thread.Sleep(500);
@@ -553,9 +560,29 @@ namespace XWriter
                     if(UtilityClass.IsWildcardMatch(wildcard, docFullName, true))
                     {
                         wiki.RemoveXWikiDocument(doc);
+                        break;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Specifies if a page is protected or not.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the page.</param>
+        /// <param name="wildCards">The wildcard list of protected pages.</param>
+        /// <returns></returns>
+        public bool IsProtectedPage(String pageFullName, List<String> wildCards)
+        {
+            bool isProtectedPage = false;
+            foreach (String wildcard in wildCards)
+            {
+                if (UtilityClass.IsWildcardMatch(wildcard, pageFullName, true))
+                {
+                    isProtectedPage = true;
+                }
+            }
+            return isProtectedPage;
         }
     }
 }
