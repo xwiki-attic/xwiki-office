@@ -89,7 +89,7 @@ namespace XWriter
         {
             try
             {
-                Addin.AddinActions.SaveToServer();
+                Addin.AddinActions.SaveToServer(false);
             }
             catch(NullReferenceException)
             {
@@ -109,7 +109,7 @@ namespace XWriter
             {
                 //see XOFFICE-20
                 //MessageBox.Show("You need to select a space in the wiki explorer.","XWord");
-                new AddPageForm(ref Globals.XWikiAddIn.wiki, true).Show();
+                new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false).Show();
             }
         }
 
@@ -220,6 +220,11 @@ namespace XWriter
         private void btnAboutXWord_Click(object sender, RibbonControlEventArgs e)
         {
             new AboutXWord().ShowDialog();
+        }
+
+        private void button20_Click(object sender, RibbonControlEventArgs e)
+        {
+            new AddPageForm(ref Addin.wiki, false, true).Show();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace XWriter
         String spaceName;
         String pageName;
         String pageTitle;
+        bool exportMode = false;
 
         /// <param name="_wiki">A reference to the currently loaded wiki structure.</param>
         public AddPageForm(ref WikiStructure _wiki)
@@ -60,10 +61,15 @@ namespace XWriter
 
         /// <param name="_wiki">A reference to the currently loaded wiki structure.</param>
         /// <param name="newSpace">Specifies if a new space will be created.</param>
-        public AddPageForm(ref WikiStructure _wiki, bool newSpace)
+        /// <param name="_exportMode">
+        /// Specifies if the form is used to assign an export destination
+        /// for a document
+        /// </param>
+        public AddPageForm(ref WikiStructure _wiki, bool newSpace, bool _exportMode)
         {
             InitializeComponent();
             this.wiki = _wiki;
+            this.exportMode = _exportMode;
             LoadSpaces();
             if (newSpace)
             {
@@ -72,6 +78,10 @@ namespace XWriter
                 radioButtonNewSpace.Checked = true;
                 txtPageName.Text = "WebHome";
                 txtPageTitle.Text = "WebHome";
+            }
+            if (exportMode)
+            {
+                btnAddPage.Text = "Export page";
             }
         }
 
@@ -135,7 +145,15 @@ namespace XWriter
                 try
                 {
                     this.Close();
-                    Globals.XWikiAddIn.AddinActions.AddNewPage(spaceName, pageName, pageTitle, this);
+                    if (!exportMode)
+                    {
+                        Globals.XWikiAddIn.AddinActions.AddNewPage(spaceName, pageName, pageTitle, this);
+                    }
+                    else
+                    {
+                        Globals.XWikiAddIn.currentPageFullName = spaceName + "." + pageName;
+                        Globals.XWikiAddIn.AddinActions.SaveToServer(true);
+                    }
                 }
                 catch (COMException) { }
                 catch (Exception ex)

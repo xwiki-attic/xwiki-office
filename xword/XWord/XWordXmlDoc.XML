@@ -18,9 +18,13 @@
             The default space name in which the new page will be created
             </param>
         </member>
-        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@,System.Boolean)">
+        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@,System.Boolean,System.Boolean)">
             <param name="_wiki">A reference to the currently loaded wiki structure.</param>
             <param name="newSpace">Specifies if a new space will be created.</param>
+            <param name="_exportMode">
+            Specifies if the form is used to assign an export destination
+            for a document
+            </param>
         </member>
         <member name="M:XWriter.AddPageForm.AddPageForm_Load(System.Object,System.EventArgs)">
             <summary>
@@ -1189,13 +1193,13 @@
             <param name="path">The path to the file.</param>
             <returns>Returns a Document instance.</returns>
         </member>
-        <member name="M:XWriter.AddinActions.SaveToServer">
+        <member name="M:XWriter.AddinActions.SaveToServer(System.Boolean)">
             <summary>
             Saves the currently edited page or document to the server.
             Displays the operation in progress dialog.
             </summary>
         </member>
-        <member name="M:XWriter.AddinActions.SaveToXwiki">
+        <member name="M:XWriter.AddinActions.SaveToXwiki(System.Boolean)">
             <summary>
             Saves the currently edited page or document to the server.
             </summary>

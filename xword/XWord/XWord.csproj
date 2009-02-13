@@ -38,7 +38,7 @@
     <PublishUrl>D:\XWord\</PublishUrl>
     <InstallUrl>http://82.77.20.196:9191/XWord/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.52</ApplicationVersion>
+    <ApplicationVersion>1.0.0.53</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>

@@ -385,7 +385,7 @@ namespace XWriter
         private void btnSaveToXWiki_click(object sender, EventArgs e)
         {
             //Saves the currently edited page or document to the server.
-            AddinActions.SaveToServer();
+            AddinActions.SaveToServer(false);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace XWriter
         /// </summary>
         private void btnAddSpace_Click(object sender, EventArgs e)
         {
-            new AddPageForm(ref addin.wiki, true).Show();
+            new AddPageForm(ref addin.wiki, true, false).Show();
         }
 
         /// <summary>

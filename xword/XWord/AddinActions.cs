@@ -321,35 +321,66 @@ namespace XWriter
         /// Saves the currently edited page or document to the server.
         /// Displays the operation in progress dialog.
         /// </summary>
-        public void SaveToServer()
+        public void SaveToServer(bool export)
         {
-            if (addin.currentPageFullName == "" || addin.currentPageFullName == null)
+            if ((addin.currentPageFullName == "" || addin.currentPageFullName == null) && (!export))
             {
                 MessageBox.Show("You are not currently editing a wiki page", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }            
             LoadingDialog loadingDialog = new LoadingDialog("Operation in progress...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
-            SaveToXwiki();
+            SaveToXwiki(export);
             loadingDialog.CloseSyncDialog();
         }
 
         /// <summary>
         /// Saves the currently edited page or document to the server.
         /// </summary>
-        private void SaveToXwiki()
+        private void SaveToXwiki(bool export)
         {
             try
             {
+                String contentFileName = "";
                 addin.ReinforceApplicationOptions();
-                addin.ActiveDocumentInstance.Save();
-                String filePath = addin.ActiveDocumentFullName;
+                if (!export)
+                {
+                    addin.ActiveDocumentInstance.Save();
+                    String filePath = addin.ActiveDocumentFullName;
+                    String tempExportFileName = addin.ActiveDocumentFullName + "_TempExport.html";
+                    addin.ActiveDocumentContentRange.ExportFragment(tempExportFileName, addin.SaveFormat);
+                    contentFileName = tempExportFileName;
+                }
+                else
+                {
+                    if(!Path.IsPathRooted(addin.ActiveDocumentFullName))
+                    {
+                        addin.ActiveDocumentInstance.Save();
+                    }
+                    Object oldPath = addin.Application.ActiveDocument.FullName;
+                    String currentFileName = Path.GetFileNameWithoutExtension(addin.ActiveDocumentFullName);
+                    contentFileName = Path.GetDirectoryName(addin.ActiveDocumentFullName) +"\\" + currentFileName + ".html";
+                    object objFileName = contentFileName;
+                    Object missing = Type.Missing;
+                    Object saveFormat = addin.SaveFormat;
+                    Object _false = false;
+                    Word.Document initialDoc = addin.ActiveDocumentInstance;
+                    addin.ActiveDocumentInstance.SaveAs(ref objFileName, ref saveFormat, ref missing,
+                                                        ref missing, ref _false, ref missing, ref missing,
+                                                        ref missing, ref missing, ref missing, ref missing,
+                                                        ref missing, ref missing, ref missing, ref missing,
+                                                        ref missing);
+                    Word.Document htmlDoc = addin.ActiveDocumentInstance;
+                    htmlDoc.Close(ref missing, ref missing, ref missing);
+                    addin.Application.Documents.Open(ref oldPath, ref missing, ref missing, ref missing,
+                                                     ref missing, ref missing, ref missing, ref missing,
+                                                     ref missing, ref missing, ref missing, ref missing,
+                                                     ref missing, ref missing, ref missing, ref missing);
+                }              
                 
-                String tempExportFileName = addin.ActiveDocumentFullName + "_TempExport.html";
-                addin.ActiveDocumentContentRange.ExportFragment(tempExportFileName, addin.SaveFormat);
                 //addin.Application.ActiveDocument.Close(ref missing, ref missing, ref missing);
                 //StreamReader sr = new StreamReader(addin.currentLocalFilePath);
-                StreamReader sr = new StreamReader(tempExportFileName);
+                StreamReader sr = new StreamReader(contentFileName);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();
                 String cleanHTML = "";
@@ -366,8 +397,8 @@ namespace XWriter
                 }
                 else
                 {
-                    pageConverter = new ConversionManager(addin.serverURL, Path.GetDirectoryName(addin.currentLocalFilePath),
-                                                          addin.currentPageFullName, Path.GetFileName(addin.currentLocalFilePath), addin.Client);
+                    pageConverter = new ConversionManager(addin.serverURL, Path.GetDirectoryName(contentFileName),
+                                                          addin.currentPageFullName, Path.GetFileName(contentFileName), addin.Client);
                 }
                 cleanHTML = pageConverter.ConvertFromWordToWeb(cleanHTML);
                 cleanHTML = htmlUtil.GetBodyContent(cleanHTML);
