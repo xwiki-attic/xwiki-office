@@ -27,12 +27,11 @@
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ManifestCertificateThumbprint>4416D2C3C45DB97469A709C213CEB40C5A64DFCA</ManifestCertificateThumbprint>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>XWiki_certification.pfx</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>XWord_key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>XWiki_certification.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>D:\XWord\</PublishUrl>
@@ -351,6 +350,7 @@
     <None Include="Resources\browser.png" />
     <None Include="Resources\Crystal_Clear_download_and_open.png" />
     <None Include="Resources\Crystal_Clear_app_package_settings.png" />
+    <None Include="XWiki_certification.pfx" />
     <None Include="XWord_key.snk" />
     <None Include="Resources\Crystal_Clear_action_reload.png" />
     <None Include="Resources\Crystal_Clear_action_reload1.png" />
