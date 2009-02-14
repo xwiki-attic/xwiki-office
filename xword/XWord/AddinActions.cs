@@ -321,18 +321,31 @@ namespace XWriter
         /// Saves the currently edited page or document to the server.
         /// Displays the operation in progress dialog.
         /// </summary>
-        public void SaveToServer(bool export)
+        public void SaveToServer()
         {
-            if ((addin.currentPageFullName == "" || addin.currentPageFullName == null) && (!export))
+            if (addin.currentPageFullName == "" || addin.currentPageFullName == null)
             {
                 MessageBox.Show("You are not currently editing a wiki page", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }            
-            LoadingDialog loadingDialog = new LoadingDialog("Operation in progress...");
+            LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
-            SaveToXwiki(export);
+            SaveToXwiki(false);
             loadingDialog.CloseSyncDialog();
         }
+
+        /// <summary>
+        /// Saves a Word document to the wiki.
+        /// Displays the operation in progress dialog.
+        /// </summary>
+        public void ExportToServer()
+        {
+            LoadingDialog loadingDialog = new LoadingDialog("Exporting to wiki...");
+            ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
+            SaveToXwiki(true);
+            loadingDialog.CloseSyncDialog();
+        }
+
 
         /// <summary>
         /// Saves the currently edited page or document to the server.
@@ -376,10 +389,8 @@ namespace XWriter
                                                      ref missing, ref missing, ref missing, ref missing,
                                                      ref missing, ref missing, ref missing, ref missing,
                                                      ref missing, ref missing, ref missing, ref missing);
-                }              
+                }             
                 
-                //addin.Application.ActiveDocument.Close(ref missing, ref missing, ref missing);
-                //StreamReader sr = new StreamReader(addin.currentLocalFilePath);
                 StreamReader sr = new StreamReader(contentFileName);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();

@@ -385,7 +385,7 @@ namespace XWriter
         private void btnSaveToXWiki_click(object sender, EventArgs e)
         {
             //Saves the currently edited page or document to the server.
-            AddinActions.SaveToServer(false);
+            AddinActions.SaveToServer();
         }
 
         /// <summary>

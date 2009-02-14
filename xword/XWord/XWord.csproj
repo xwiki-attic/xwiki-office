@@ -31,7 +31,7 @@
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>XWiki_certification.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>XWord_key.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>D:\XWord\</PublishUrl>

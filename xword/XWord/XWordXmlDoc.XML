@@ -930,7 +930,7 @@
             Button used to create a new page.
             </summary>
         </member>
-        <member name="F:XWriter.XWikiRibbon.btnSavePage">
+        <member name="F:XWriter.XWikiRibbon.btnPublishDocument">
             <summary>
             Button used to save/publish the active document to the wiki.
             </summary>
@@ -1193,9 +1193,15 @@
             <param name="path">The path to the file.</param>
             <returns>Returns a Document instance.</returns>
         </member>
-        <member name="M:XWriter.AddinActions.SaveToServer(System.Boolean)">
+        <member name="M:XWriter.AddinActions.SaveToServer">
             <summary>
             Saves the currently edited page or document to the server.
+            Displays the operation in progress dialog.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinActions.ExportToServer">
+            <summary>
+            Saves a Word document to the wiki.
             Displays the operation in progress dialog.
             </summary>
         </member>

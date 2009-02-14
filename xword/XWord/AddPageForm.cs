@@ -81,6 +81,8 @@ namespace XWriter
             }
             if (exportMode)
             {
+                btnAddPage.Left = btnAddPage.Left - (100 - btnAddPage.Width);
+                btnAddPage.Width = 100;                 
                 btnAddPage.Text = "Export page";
             }
         }
@@ -152,7 +154,7 @@ namespace XWriter
                     else
                     {
                         Globals.XWikiAddIn.currentPageFullName = spaceName + "." + pageName;
-                        Globals.XWikiAddIn.AddinActions.SaveToServer(true);
+                        Globals.XWikiAddIn.AddinActions.ExportToServer();                        
                     }
                 }
                 catch (COMException) { }

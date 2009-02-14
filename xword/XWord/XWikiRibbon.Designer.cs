@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncher1 = new Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher();
-            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncher2 = new Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem1 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem2 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem3 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
@@ -47,21 +46,15 @@
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem15 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem16 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             this.tab1 = new Microsoft.Office.Tools.Ribbon.RibbonTab();
-            this.group1 = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
-            this.button1 = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.XWikiTab = new Microsoft.Office.Tools.Ribbon.RibbonTab();
             this.XEGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnNewPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.btnSavePage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
+            this.btnPublishDocument = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.toggleButton1 = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
             this.button20 = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.AttachmentsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.uploadAttToPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.downloadAtt = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.XWSGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
-            this.toggleButton3 = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
-            this.XWatchGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
-            this.toggleButton5 = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
             this.selectionOptionsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnAddPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnEditPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -71,10 +64,6 @@
             this.btnShowPages = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnShowAttachments = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnViewInBrowser = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.WorkStreamGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
-            this.btnGetPosts = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.btnNewPost = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.btnPollServer = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
             this.OptionsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnXWordOptions = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.syncSaving = new Microsoft.Office.Tools.Ribbon.RibbonCheckBox();
@@ -109,14 +98,10 @@
             this.button18 = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.button19 = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.tab1.SuspendLayout();
-            this.group1.SuspendLayout();
             this.XWikiTab.SuspendLayout();
             this.XEGroup.SuspendLayout();
             this.AttachmentsGroup.SuspendLayout();
-            this.XWSGroup.SuspendLayout();
-            this.XWatchGroup.SuspendLayout();
             this.selectionOptionsGroup.SuspendLayout();
-            this.WorkStreamGroup.SuspendLayout();
             this.OptionsGroup.SuspendLayout();
             this.MyActivityGroup.SuspendLayout();
             this.TeamActivityGroup.SuspendLayout();
@@ -125,30 +110,15 @@
             // tab1
             // 
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tab1.Groups.Add(this.group1);
             this.tab1.Label = "TabAddIns";
             this.tab1.Name = "tab1";
             this.tab1.Visible = false;
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.button1);
-            this.group1.Label = "group1";
-            this.group1.Name = "group1";
-            // 
-            // button1
-            // 
-            this.button1.Label = "button1";
-            this.button1.Name = "button1";
             // 
             // XWikiTab
             // 
             this.XWikiTab.Groups.Add(this.XEGroup);
             this.XWikiTab.Groups.Add(this.AttachmentsGroup);
-            this.XWikiTab.Groups.Add(this.XWSGroup);
-            this.XWikiTab.Groups.Add(this.XWatchGroup);
             this.XWikiTab.Groups.Add(this.selectionOptionsGroup);
-            this.XWikiTab.Groups.Add(this.WorkStreamGroup);
             this.XWikiTab.Groups.Add(this.OptionsGroup);
             this.XWikiTab.Groups.Add(this.MyActivityGroup);
             this.XWikiTab.Groups.Add(this.TeamActivityGroup);
@@ -158,7 +128,7 @@
             // XEGroup
             // 
             this.XEGroup.Items.Add(this.btnNewPage);
-            this.XEGroup.Items.Add(this.btnSavePage);
+            this.XEGroup.Items.Add(this.btnPublishDocument);
             this.XEGroup.Items.Add(this.toggleButton1);
             this.XEGroup.Items.Add(this.button20);
             this.XEGroup.Label = "XWiki Pages";
@@ -179,16 +149,16 @@
                 "w page.";
             this.btnNewPage.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnNewPage_Click);
             // 
-            // btnSavePage
+            // btnPublishDocument
             // 
-            this.btnSavePage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSavePage.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_apply;
-            this.btnSavePage.Label = "Publish page";
-            this.btnSavePage.Name = "btnSavePage";
-            this.btnSavePage.ScreenTip = "Publish Page to XWiki";
-            this.btnSavePage.ShowImage = true;
-            this.btnSavePage.SuperTip = "Saves the current document to the XWiki server.";
-            this.btnSavePage.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnSavePage_Click);
+            this.btnPublishDocument.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnPublishDocument.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_apply;
+            this.btnPublishDocument.Label = "Publish document";
+            this.btnPublishDocument.Name = "btnPublishDocument";
+            this.btnPublishDocument.ScreenTip = "Publish Page to XWiki";
+            this.btnPublishDocument.ShowImage = true;
+            this.btnPublishDocument.SuperTip = "Saves the current document to the XWiki server.";
+            this.btnPublishDocument.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnSavePage_Click);
             // 
             // toggleButton1
             // 
@@ -246,36 +216,6 @@
             this.downloadAtt.SuperTip = "Downloads the selected attachment to the local file system. To select an attchmen" +
                 "t you must navigate the wiki using the Wiki explorer.";
             this.downloadAtt.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.downloadAtt_Click);
-            // 
-            // XWSGroup
-            // 
-            this.XWSGroup.Items.Add(this.toggleButton3);
-            this.XWSGroup.Label = "XWS";
-            this.XWSGroup.Name = "XWSGroup";
-            this.XWSGroup.Visible = false;
-            // 
-            // toggleButton3
-            // 
-            this.toggleButton3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toggleButton3.Image = global::XWriter.Properties.Resources.XWiki;
-            this.toggleButton3.Label = "Show WorkSpaces";
-            this.toggleButton3.Name = "toggleButton3";
-            this.toggleButton3.ShowImage = true;
-            // 
-            // XWatchGroup
-            // 
-            this.XWatchGroup.Items.Add(this.toggleButton5);
-            this.XWatchGroup.Label = "XWatch";
-            this.XWatchGroup.Name = "XWatchGroup";
-            this.XWatchGroup.Visible = false;
-            // 
-            // toggleButton5
-            // 
-            this.toggleButton5.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toggleButton5.Image = global::XWriter.Properties.Resources.XWiki;
-            this.toggleButton5.Label = "Show Feeds";
-            this.toggleButton5.Name = "toggleButton5";
-            this.toggleButton5.ShowImage = true;
             // 
             // selectionOptionsGroup
             // 
@@ -382,35 +322,9 @@
             this.btnViewInBrowser.SuperTip = "THe selected page will be opened in the system\'s default browser.";
             this.btnViewInBrowser.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnViewInBrowser_Click);
             // 
-            // WorkStreamGroup
-            // 
-            this.WorkStreamGroup.DialogLauncher = ribbonDialogLauncher1;
-            this.WorkStreamGroup.Items.Add(this.btnGetPosts);
-            this.WorkStreamGroup.Items.Add(this.btnNewPost);
-            this.WorkStreamGroup.Items.Add(this.btnPollServer);
-            this.WorkStreamGroup.Label = "WorkStream";
-            this.WorkStreamGroup.Name = "WorkStreamGroup";
-            this.WorkStreamGroup.Visible = false;
-            // 
-            // btnGetPosts
-            // 
-            this.btnGetPosts.Label = "Get posts";
-            this.btnGetPosts.Name = "btnGetPosts";
-            // 
-            // btnNewPost
-            // 
-            this.btnNewPost.Label = "New Post";
-            this.btnNewPost.Name = "btnNewPost";
-            // 
-            // btnPollServer
-            // 
-            this.btnPollServer.Checked = true;
-            this.btnPollServer.Label = "Poll Server";
-            this.btnPollServer.Name = "btnPollServer";
-            // 
             // OptionsGroup
             // 
-            this.OptionsGroup.DialogLauncher = ribbonDialogLauncher2;
+            this.OptionsGroup.DialogLauncher = ribbonDialogLauncher1;
             this.OptionsGroup.Items.Add(this.btnXWordOptions);
             this.OptionsGroup.Items.Add(this.syncSaving);
             this.OptionsGroup.Items.Add(this.dropDownSyntax);
@@ -691,22 +605,14 @@
             this.Load += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonUIEventArgs>(this.XWikiRibbon_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
             this.XWikiTab.ResumeLayout(false);
             this.XWikiTab.PerformLayout();
             this.XEGroup.ResumeLayout(false);
             this.XEGroup.PerformLayout();
             this.AttachmentsGroup.ResumeLayout(false);
             this.AttachmentsGroup.PerformLayout();
-            this.XWSGroup.ResumeLayout(false);
-            this.XWSGroup.PerformLayout();
-            this.XWatchGroup.ResumeLayout(false);
-            this.XWatchGroup.PerformLayout();
             this.selectionOptionsGroup.ResumeLayout(false);
             this.selectionOptionsGroup.PerformLayout();
-            this.WorkStreamGroup.ResumeLayout(false);
-            this.WorkStreamGroup.PerformLayout();
             this.OptionsGroup.ResumeLayout(false);
             this.OptionsGroup.PerformLayout();
             this.MyActivityGroup.ResumeLayout(false);
@@ -720,20 +626,10 @@
         #endregion
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
         private Microsoft.Office.Tools.Ribbon.RibbonTab XWikiTab;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup XEGroup;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup XWSGroup;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleButton3;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup OptionsGroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox syncSaving;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup XWatchGroup;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleButton5;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup WorkStreamGroup;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGetPosts;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNewPost;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnPollServer;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnXWordOptions;
         /// <summary>
         /// Group containing the buttons for handling attachments.
@@ -755,7 +651,7 @@
         /// <summary>
         /// Button used to save/publish the active document to the wiki.
         /// </summary>
-        public Microsoft.Office.Tools.Ribbon.RibbonButton btnSavePage;
+        public Microsoft.Office.Tools.Ribbon.RibbonButton btnPublishDocument;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup selectionOptionsGroup;
         /// <summary>
         /// Button used to add the a new page to the wiki.

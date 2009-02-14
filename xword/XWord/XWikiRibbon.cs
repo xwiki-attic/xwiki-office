@@ -89,7 +89,14 @@ namespace XWriter
         {
             try
             {
-                Addin.AddinActions.SaveToServer(false);
+                if (Addin.currentPageFullName == "" || Addin.currentPageFullName == null)
+                {
+                    new AddPageForm(ref Addin.wiki, false, true).Show();
+                }
+                else
+                {
+                    Addin.AddinActions.SaveToServer();
+                }
             }
             catch(NullReferenceException)
             {
@@ -224,7 +231,7 @@ namespace XWriter
 
         private void button20_Click(object sender, RibbonControlEventArgs e)
         {
-            new AddPageForm(ref Addin.wiki, false, true).Show();
+            
         }
     }
 }
