@@ -190,6 +190,19 @@ namespace XWriter
             }
         }
 
+        /// <summary>
+        /// Specifies if a wiki page is opened for editing.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the page.</param>
+        /// <returns>True if the page is already opened. False otherwise.</returns>
+        public bool IsOpened(String pageFullName)
+        {
+            if (addin.EditedPages.ContainsValue(pageFullName))
+            {
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Edits a wiki page.
@@ -199,6 +212,11 @@ namespace XWriter
         /// <param name="pageFullName">The full name of the wiki page that is being opened for editing.</param>
         public void EditPage(String pageFullName)
         {
+            if(IsOpened(pageFullName))
+            {
+                MessageBox.Show("You are already editing this page.", "XWord");
+                return;
+            }
             if (!this.Client.IsLoggedIn)
             {
                 Client.Login(addin.username, addin.password);
@@ -268,6 +286,7 @@ namespace XWriter
 
                 //Open the file with Word
                 OpenHTMLDocument(localFileName);
+                addin.EditedPages.Add(localFileName, pageFullName);
             }
             catch (IOException ex)
             {

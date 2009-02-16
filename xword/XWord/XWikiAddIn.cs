@@ -1,4 +1,24 @@
-﻿using System;
+﻿/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -19,6 +39,8 @@ namespace XWriter
 {
     public partial class XWikiAddIn
     {
+        #region declarations
+
         System.Timers.Timer timer;
         const int TIMER_INTERVAL = 2000;
         bool bShowTaskPanes = true;
@@ -65,8 +87,18 @@ namespace XWriter
         /// Collection containing all custom task panes in all opened Word instances.
         /// </summary>
         public Dictionary<String, XWikiNavigationPane> panes = new Dictionary<string, XWikiNavigationPane>();
+        /// <summary>
+        /// A list with the pages that cannot be edited with Word.
+        /// </summary>
         private List<String> protectedPages = new List<string>();
-        
+        /// <summary>
+        /// A dictionary that contains a key value pair with the local file name of the document
+        /// and the full name of the associated wiki page.
+        /// </summary>
+        private Dictionary<String, String> editedPages = new Dictionary<string, string>();
+
+        #endregion
+
         /// <summary>
         /// Gets or sets the wildcards for the protected pages.
         /// The protected pages contain scripts and cannot be editited with Word.
@@ -75,6 +107,14 @@ namespace XWriter
         {
             get { return protectedPages; }
             set { protectedPages = value; }
+        }
+
+        /// <summary>
+        /// Gets a dictionary with the edited pages list.
+        /// </summary>
+        public Dictionary<String, String> EditedPages
+        {
+            get { return editedPages; }
         }
 
         /// <summary>
@@ -301,6 +341,10 @@ namespace XWriter
         void Application_DocumentBeforeClose(Microsoft.Office.Interop.Word.Document Doc, ref bool Cancel)
         {
             RemoveTaskPane(Doc);
+            if(EditedPages.ContainsKey(Doc.FullName))
+            {
+                EditedPages.Remove(Doc.FullName);
+            }
         }
 
         /// <summary>

@@ -9,18 +9,37 @@ using TidyNet.Dom;
 
 namespace XWiki.Html
 {
+    /// <summary>
+    /// Provides functionalities for cleaning and repairing html code.
+    /// </summary>
     public class HtmlUtil
     {
+        /// <summary>
+        /// Cleans a given html code. 
+        /// </summary>
+        /// <param name="htmlSource">The html code.</param>
+        /// <returns>The cleaned html code.</returns>
         public String HtmlToXhtml(String htmlSource)
         {
             return CleanHTML(htmlSource, false);            
         }
 
+        /// <summary>
+        /// Cleans a Word html source.
+        /// </summary>
+        /// <param name="htmlSource">The initila html source.</param>
+        /// <returns>The cleaned html.</returns>
         public String WordHtmlToXhtml(String htmlSource)
         {
             return CleanHTML(htmlSource, true);            
         }
 
+        /// <summary>
+        /// Uses Tidy.Net to clean a html source.
+        /// </summary>
+        /// <param name="htmlSource">The original html source.</param>
+        /// <param name="isWordHtml">Specifies if the source is an output from Microsoft Word</param>
+        /// <returns>The cleaned Html.</returns>
         public String CleanHTML(String htmlSource,bool isWordHtml)
         {
             Tidy tidy = new Tidy();
@@ -51,6 +70,11 @@ namespace XWiki.Html
             return cleanContent;
         }
 
+        /// <summary>
+        /// Corrects the attributes that miss ' or ".
+        /// </summary>
+        /// <param name="htmlSource">The original html source code.</param>
+        /// <returns>The source with corrected attributes.</returns>
         public String CorectAttributes(String htmlSource)
         {
             StringBuilder sb = new StringBuilder(htmlSource);
@@ -85,6 +109,11 @@ namespace XWiki.Html
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Removes the tags that are in the office namespaces.
+        /// </summary>
+        /// <param name="content">The original content.</param>
+        /// <returns>The cleaned content.</returns>
         public String RemoveOfficeNameSpacesTags(String content)
         {
             bool foundTags = false;
@@ -179,6 +208,11 @@ namespace XWiki.Html
             return htmlSource;
         }
 
+        /// <summary>
+        /// Removes the doctype declaration from an given html code.
+        /// </summary>
+        /// <param name="htmlCode">The original html code.</param>
+        /// <returns>The modified html code.</returns>
         public String RemoveDoctype(String htmlCode)
         {
             int startIndex, endIndex;
