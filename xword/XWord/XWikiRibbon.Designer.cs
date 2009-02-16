@@ -51,7 +51,6 @@
             this.btnNewPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnPublishDocument = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.toggleButton1 = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
-            this.button20 = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.AttachmentsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.uploadAttToPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.downloadAtt = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -130,7 +129,6 @@
             this.XEGroup.Items.Add(this.btnNewPage);
             this.XEGroup.Items.Add(this.btnPublishDocument);
             this.XEGroup.Items.Add(this.toggleButton1);
-            this.XEGroup.Items.Add(this.button20);
             this.XEGroup.Label = "XWiki Pages";
             this.XEGroup.Name = "XEGroup";
             // 
@@ -171,18 +169,6 @@
             this.toggleButton1.ShowImage = true;
             this.toggleButton1.SuperTip = "Use this button to show or to hide the wiki explorer.";
             this.toggleButton1.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.toggleButton1_Click);
-            // 
-            // button20
-            // 
-            this.button20.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button20.Description = "Uploads the current document to the wiki.";
-            this.button20.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager2;
-            this.button20.Label = "Export";
-            this.button20.Name = "button20";
-            this.button20.ScreenTip = "Uploads the active document to the wiki.";
-            this.button20.ShowImage = true;
-            this.button20.SuperTip = "The file will be attached to the page that is selected in the wiki explorer.";
-            this.button20.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.button20_Click);
             // 
             // AttachmentsGroup
             // 
@@ -721,7 +707,6 @@
         private Microsoft.Office.Tools.Ribbon.RibbonGallery galTeamRecentlyView;
         private Microsoft.Office.Tools.Ribbon.RibbonGallery galTeamRecentlyModified;
         private Microsoft.Office.Tools.Ribbon.RibbonGallery galTeamRecentlyCreated;
-        public Microsoft.Office.Tools.Ribbon.RibbonButton button20;
     }
 
     partial class ThisRibbonCollection : Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection

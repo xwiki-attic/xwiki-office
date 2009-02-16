@@ -499,7 +499,8 @@ namespace XWriter
         /// </summary>
         public void InitializeAddin()
         {
-            Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUTF8;
+            //Set encoding to ISO-8859-1(Western)
+            Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
             Application.Options.UseNormalStyleForList = true;
             this.SaveFormat = Word.WdSaveFormat.wdFormatFilteredHTML;
             timer = new System.Timers.Timer(TIMER_INTERVAL);
@@ -549,8 +550,13 @@ namespace XWriter
         {
             try
             {
-                Application.ActiveDocument.SaveEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUTF8;
-                Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUTF8;
+                //Application.ActiveDocument.SaveEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
+                //Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
+                //Using UnicodeLittleEndian as we read data from the disk using StreamReader
+                //The .NET String has UTF16 littleEndian(Unicode) encoding.
+                Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUnicodeLittleEndian;
+                Application.ActiveDocument.SaveEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUnicodeLittleEndian;
+
                 Application.Options.UseNormalStyleForList = true;
             }
             //Is thrown because in some cases the VSTO runtime is stopped after the word instance is closed.

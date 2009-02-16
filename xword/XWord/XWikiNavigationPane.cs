@@ -604,11 +604,13 @@ namespace XWriter
                 if (System.Diagnostics.Debugger.IsAttached)
                 {
                     System.Diagnostics.Debugger.Break();
+                    Log.Exception(ex);
                 }
                 else
                 {
                     treeView.Nodes.Clear();
                     loadingWikiData = false;
+                    Log.Exception(ex);
                     MessageBox.Show(ex.Message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

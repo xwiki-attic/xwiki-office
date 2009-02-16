@@ -14,6 +14,7 @@ using XWord.Util;
 using XWiki.Office.Word;
 using XWiki.Html;
 using Word = Microsoft.Office.Interop.Word;
+using Microsoft.Office.Core;
 
 namespace XWriter
 {
