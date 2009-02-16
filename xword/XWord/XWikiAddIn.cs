@@ -325,10 +325,16 @@ namespace XWriter
         /// </summary>
         void Application_DocumentChange()
         {
+            //Remove the orphan task panes.
             RemoveOrphans();
+            //Reassign values to the document and wiki page states. 
             lastActiveDocument = ActiveDocumentInstance;
             lastActiveDocumentFullName = ActiveDocumentFullName;
             activeDocumentContent = ActiveDocumentContentRange;
+            if (editedPages.ContainsKey(lastActiveDocumentFullName))
+            {
+                currentPageFullName = editedPages[lastActiveDocumentFullName];
+            }
         }
 
         /// <summary>
