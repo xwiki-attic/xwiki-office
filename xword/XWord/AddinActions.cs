@@ -303,10 +303,6 @@ namespace XWriter
         /// <param name="syntax">The wiki syntax of the saved page.</param>
         private void SavePage(String pageName, ref String pageContent, String syntax)
         {
-            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
-            byte[] content = Encoding.Unicode.GetBytes(pageContent);
-            byte[] wikiContent = Encoding.Convert(Encoding.Unicode, iso, content);
-            pageContent = iso.GetString(wikiContent);
             if (!this.Client.IsLoggedIn)
             {
                 Client.Login(addin.username, addin.password);
@@ -334,6 +330,7 @@ namespace XWriter
                                                      ref missing, ref missing, ref missing,
                                                      ref missing, ref missing, ref missing);
             addin.ActiveDocumentInstance.WebOptions.AllowPNG = true;
+            addin.ActiveDocumentInstance.WebOptions.Encoding = MsoEncoding.msoEncodingUnicodeLittleEndian;
             return newDoc;
         }
 
@@ -374,15 +371,20 @@ namespace XWriter
         {
             try
             {
-                String contentFileName = "";
+                String contentFilePath = "";
                 addin.ReinforceApplicationOptions();
                 if (!export)
                 {
                     addin.ActiveDocumentInstance.Save();
                     String filePath = addin.ActiveDocumentFullName;
                     String tempExportFileName = addin.ActiveDocumentFullName + "_TempExport.html";
-                    addin.ActiveDocumentContentRange.ExportFragment(tempExportFileName, addin.SaveFormat);
-                    contentFileName = tempExportFileName;
+                    //addin.ActiveDocumentContentRange.ExportFragment(tempExportFileName, addin.SaveFormat);
+                    if (!ExportDocument(addin.ActiveDocumentInstance, tempExportFileName, addin.SaveFormat))
+                    {
+                        MessageBox.Show("There was an error when trying to save the page.", "XWord");
+                        return;
+                    }
+                    contentFilePath = tempExportFileName;
                 }
                 else
                 {
@@ -392,8 +394,8 @@ namespace XWriter
                     }
                     Object oldPath = addin.Application.ActiveDocument.FullName;
                     String currentFileName = Path.GetFileNameWithoutExtension(addin.ActiveDocumentFullName);
-                    contentFileName = Path.GetDirectoryName(addin.ActiveDocumentFullName) +"\\" + currentFileName + ".html";
-                    object objFileName = contentFileName;
+                    contentFilePath = Path.GetDirectoryName(addin.ActiveDocumentFullName) +"\\" + currentFileName + ".html";
+                    object objFileName = contentFilePath;
                     Object missing = Type.Missing;
                     Object saveFormat = addin.SaveFormat;
                     Object _false = false;
@@ -411,9 +413,10 @@ namespace XWriter
                                                      ref missing, ref missing, ref missing, ref missing);
                 }             
                 
-                StreamReader sr = new StreamReader(contentFileName);
+                StreamReader sr = new StreamReader(contentFilePath);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();
+                File.Delete(contentFilePath);
                 String cleanHTML = "";
                 cleanHTML = htmlUtil.RemoveSpecificTagContent(fileContent, "<!--", "-->");
                 cleanHTML = htmlUtil.RemoveSpecificTagContent(cleanHTML, "<![", "]>");
@@ -428,8 +431,8 @@ namespace XWriter
                 }
                 else
                 {
-                    pageConverter = new ConversionManager(addin.serverURL, Path.GetDirectoryName(contentFileName),
-                                                          addin.currentPageFullName, Path.GetFileName(contentFileName), addin.Client);
+                    pageConverter = new ConversionManager(addin.serverURL, Path.GetDirectoryName(contentFilePath),
+                                                          addin.currentPageFullName, Path.GetFileName(contentFilePath), addin.Client);
                 }
                 cleanHTML = pageConverter.ConvertFromWordToWeb(cleanHTML);
                 cleanHTML = htmlUtil.GetBodyContent(cleanHTML);
@@ -438,12 +441,30 @@ namespace XWriter
                 {
                     addin.AddinStatus.Syntax = "XHTML";
                 }
+                //Convert the source to the propper encoding.
+                Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+                byte[] content = Encoding.Unicode.GetBytes(cleanHTML);
+                byte[] wikiContent = null;
+                //TODO: remove differences between export and edit mode in the entire addin
+                if (export)
+                {
+                    wikiContent = Encoding.Convert(Encoding.Unicode, iso, content);
+                }
+                else
+                {
+                    //Encoding windows = Encoding.GetEncoding(1252);
+                    //wikiContent = Encoding.Convert(windows, iso, content);
+                    wikiContent = Encoding.Convert(Encoding.Unicode, iso, content);
+                }
+                cleanHTML = iso.GetString(wikiContent);
                 SavePage(addin.currentPageFullName, ref cleanHTML, addin.AddinStatus.Syntax);
+                
             }
             catch (COMException ex)
             {
                 string message = "An internal Word error appeared when trying to save your file.";
                 message += Environment.NewLine + ex.Message;
+                Log.Exception(ex);
                 MessageBox.Show(message, "XWord");    
             }
         }
@@ -645,6 +666,46 @@ namespace XWriter
                 }
             }
             return isProtectedPage;
+        }
+
+        /// <summary>
+        /// Exports a document to a specified path.
+        /// </summary>
+        /// <param name="document">The Document instance.</param>
+        /// <param name="path">The path where the new file will be saved.</param>
+        /// <param name="saveFormat">The export format.</param>
+        /// <exception cref="IOException">When the file cannot be saved.</exception>
+        /// <remarks>The document is saved in Unicode little endian encoding.</remarks>
+        /// <returns>True if the operation succedes. False otherwise.</returns>
+        public bool ExportDocument(Word.Document document, string path, Word.WdSaveFormat saveFormat)
+        {
+            try
+            {
+                Word.DocumentClass doc = new Word.DocumentClass();
+                //Prevents the new document window from being displayed.
+                foreach (Word.Window window in doc.Windows)
+                {
+                    window.Visible = false;
+                }
+                addin.ActiveDocumentInstance.Content.Copy();
+                doc.Content.Paste();
+                Object format = saveFormat;
+                Object exportPath = path;
+                Object encoding = MsoEncoding.msoEncodingUnicodeLittleEndian;
+                Object missing = Type.Missing;
+                
+                doc.SaveAs(ref exportPath, ref format, ref missing, ref missing, ref missing, ref missing,
+                           ref missing, ref missing, ref missing, ref missing, ref missing, ref encoding,
+                           ref missing, ref missing, ref missing, ref missing);
+                doc.Close(ref missing, ref missing, ref missing);
+                document.Activate();
+            }
+            catch (IOException ioex)
+            {
+                Log.Exception(ioex);
+                return false;
+            }            
+            return true;
         }
     }
 }

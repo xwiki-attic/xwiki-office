@@ -550,13 +550,11 @@ namespace XWriter
         {
             try
             {
-                //Application.ActiveDocument.SaveEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
-                //Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
                 //Using UnicodeLittleEndian as we read data from the disk using StreamReader
                 //The .NET String has UTF16 littleEndian(Unicode) encoding.
                 Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUnicodeLittleEndian;
                 Application.ActiveDocument.SaveEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUnicodeLittleEndian;
-
+                                
                 Application.Options.UseNormalStyleForList = true;
             }
             //Is thrown because in some cases the VSTO runtime is stopped after the word instance is closed.

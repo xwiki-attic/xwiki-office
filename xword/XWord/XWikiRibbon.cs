@@ -219,19 +219,9 @@ namespace XWriter
             dropDownSaveFormat.SelectedItemIndex = 0;
         }
 
-        private void helpGallery_ItemsLoading(object sender, RibbonControlEventArgs e)
-        {
-            
-        }
-
         private void btnAboutXWord_Click(object sender, RibbonControlEventArgs e)
         {
             new AboutXWord().ShowDialog();
-        }
-
-        private void button20_Click(object sender, RibbonControlEventArgs e)
-        {
-            
         }
     }
 }

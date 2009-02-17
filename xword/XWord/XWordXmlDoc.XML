@@ -1287,6 +1287,17 @@
             <param name="wildCards">The wildcard list of protected pages.</param>
             <returns></returns>
         </member>
+        <member name="M:XWriter.AddinActions.ExportDocument(Microsoft.Office.Interop.Word.Document,System.String,Microsoft.Office.Interop.Word.WdSaveFormat)">
+            <summary>
+            Exports a document to a specified path.
+            </summary>
+            <param name="document">The Document instance.</param>
+            <param name="path">The path where the new file will be saved.</param>
+            <param name="saveFormat">The export format.</param>
+            <exception cref="T:System.IO.IOException">When the file cannot be saved.</exception>
+            <remarks>The document is saved in Unicode little endian encoding.</remarks>
+            <returns>True if the operation succedes. False otherwise.</returns>
+        </member>
         <member name="P:XWriter.AddinActions.Client">
             <summary>
             Generic webclient used for conneting to xwiki.
