@@ -1222,13 +1222,7 @@
             Displays the operation in progress dialog.
             </summary>
         </member>
-        <member name="M:XWriter.AddinActions.ExportToServer">
-            <summary>
-            Saves a Word document to the wiki.
-            Displays the operation in progress dialog.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinActions.SaveToXwiki(System.Boolean)">
+        <member name="M:XWriter.AddinActions.SaveToXwiki">
             <summary>
             Saves the currently edited page or document to the server.
             </summary>
@@ -1287,13 +1281,13 @@
             <param name="wildCards">The wildcard list of protected pages.</param>
             <returns></returns>
         </member>
-        <member name="M:XWriter.AddinActions.ExportDocument(Microsoft.Office.Interop.Word.Document,System.String,Microsoft.Office.Interop.Word.WdSaveFormat)">
+        <member name="M:XWriter.AddinActions.ShadowCopyDocument(Microsoft.Office.Interop.Word.Document,System.String,Microsoft.Office.Interop.Word.WdSaveFormat)">
             <summary>
-            Exports a document to a specified path.
+            Copies a document to a specified path.
             </summary>
             <param name="document">The Document instance.</param>
             <param name="path">The path where the new file will be saved.</param>
-            <param name="saveFormat">The export format.</param>
+            <param name="saveFormat">The save format.</param>
             <exception cref="T:System.IO.IOException">When the file cannot be saved.</exception>
             <remarks>The document is saved in Unicode little endian encoding.</remarks>
             <returns>True if the operation succedes. False otherwise.</returns>

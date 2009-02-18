@@ -154,7 +154,7 @@ namespace XWriter
                     else
                     {
                         Globals.XWikiAddIn.currentPageFullName = spaceName + "." + pageName;
-                        Globals.XWikiAddIn.AddinActions.ExportToServer();                        
+                        Globals.XWikiAddIn.AddinActions.SaveToServer();                    
                     }
                 }
                 catch (COMException) { }

@@ -155,7 +155,7 @@
             this.btnPublishDocument.Name = "btnPublishDocument";
             this.btnPublishDocument.ScreenTip = "Publish Page to XWiki";
             this.btnPublishDocument.ShowImage = true;
-            this.btnPublishDocument.SuperTip = "Saves the current document to the XWiki server.";
+            this.btnPublishDocument.SuperTip = "Saves the current document as a wiki page on the XWiki server.";
             this.btnPublishDocument.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnSavePage_Click);
             // 
             // toggleButton1
