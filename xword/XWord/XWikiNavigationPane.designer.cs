@@ -121,7 +121,7 @@ namespace XWriter
             this.iconList.TransparentColor = System.Drawing.Color.Transparent;
             this.iconList.Images.SetKeyName(0, "Crystal_Clear_filesystem_folder_blue.png");
             this.iconList.Images.SetKeyName(1, "Crystal_Clear_mimetype_document.png");
-            this.iconList.Images.SetKeyName(2, "Crystal_Clear_mimetype_document2.png");
+            this.iconList.Images.SetKeyName(2, "attach.gif");
             this.iconList.Images.SetKeyName(3, "Crystal_Clear_action_loopnone.png");
             // 
             // tableLayoutPanel
