@@ -26,12 +26,13 @@
     <RootNamespace>XWriter</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ManifestCertificateThumbprint>4416D2C3C45DB97469A709C213CEB40C5A64DFCA</ManifestCertificateThumbprint>
-    <ManifestKeyFile>XWikiCert.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>F5B474122ED81F0F663C400C6B5328F00F049DDF</ManifestCertificateThumbprint>
+    <ManifestKeyFile>XWord_TemporaryKey.pfx</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>XWord_key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>D:\XWord\</PublishUrl>
@@ -44,11 +45,6 @@
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
   </PropertyGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -64,11 +60,6 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Office.PIARedist.2007">
       <Visible>False</Visible>
       <ProductName>Microsoft Office 2007 Primary Interop Assemblies</ProductName>
@@ -76,7 +67,7 @@
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.VSTORuntime.3.0">
       <Visible>False</Visible>
-      <ProductName>Visual Studio Tools for the Office system 3.0 Runtime Service Pack 1</ProductName>
+      <ProductName>Visual Studio Tools for the Office system 3.0 Runtime</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
@@ -350,9 +341,6 @@
     <None Include="Resources\browser.png" />
     <None Include="Resources\Crystal_Clear_download_and_open.png" />
     <None Include="Resources\Crystal_Clear_app_package_settings.png" />
-    <None Include="XWikiCert.pfx" />
-    <None Include="XWiki_certification.pfx" />
-    <None Include="XWord_key.snk" />
     <None Include="Resources\Crystal_Clear_action_reload.png" />
     <None Include="Resources\Crystal_Clear_action_reload1.png" />
     <None Include="Resources\Crystal_Clear_action_reload_small.png" />
@@ -361,6 +349,7 @@
     <None Include="Resources\loadingWikiData.bmp" />
     <None Include="Resources\loading4.gif" />
     <None Include="Resources\Nuvola_apps_download_manager2.png" />
+    <None Include="XWord_TemporaryKey.pfx" />
     <Content Include="Resources\storegrid_browser_icon.gif" />
     <Content Include="Resources\viewInBrowser.gif" />
     <Content Include="Resources\viewInBrowser.png" />
