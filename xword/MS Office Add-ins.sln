@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		MS Office Add-ins.vsmdi = MS Office Add-ins.vsmdi
+		MS Office Add-ins1.vsmdi = MS Office Add-ins1.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWord", "XWord\XWord.csproj", "{2815740E-E05C-4163-8951-F550A27B5668}"
@@ -19,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWikiLib", "XWikiLib\XWikiL
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = MS Office Add-ins.vsmdi
+		CategoryFile = MS Office Add-ins1.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
