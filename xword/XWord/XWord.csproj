@@ -23,11 +23,9 @@
     <ProjectGuid>{2815740E-E05C-4163-8951-F550A27B5668}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <RootNamespace>XWriter</RootNamespace>
+    <RootNamespace>XWord</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ManifestCertificateThumbprint>F5B474122ED81F0F663C400C6B5328F00F049DDF</ManifestCertificateThumbprint>
-    <ManifestKeyFile>XWord_TemporaryKey.pfx</ManifestKeyFile>
     <SignManifests>false</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>false</SignAssembly>
