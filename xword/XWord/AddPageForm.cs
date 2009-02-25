@@ -84,6 +84,7 @@ namespace XWriter
                 btnAddPage.Left = btnAddPage.Left - (100 - btnAddPage.Width);
                 btnAddPage.Width = 100;                 
                 btnAddPage.Text = "Export page";
+                txtPageTitle.Visible = false;
             }
         }
 

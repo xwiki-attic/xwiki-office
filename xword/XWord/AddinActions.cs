@@ -366,7 +366,9 @@ namespace XWriter
                 String contentFilePath = "";
                 addin.ReinforceApplicationOptions();
                 String filePath = addin.ActiveDocumentFullName;
-                String tempExportFileName = addin.ActiveDocumentFullName + "_TempExport.html";
+                String currentFileName = Path.GetDirectoryName(addin.ActiveDocumentFullName);
+                currentFileName += Path.GetFileNameWithoutExtension(addin.ActiveDocumentFullName);
+                String tempExportFileName = currentFileName + "_TempExport.html";
                 if (!ShadowCopyDocument(addin.ActiveDocumentInstance, tempExportFileName, addin.SaveFormat))
                 {
                     MessageBox.Show("There was an error when trying to save the page.", "XWord");
@@ -635,10 +637,11 @@ namespace XWriter
                 Object encoding = MsoEncoding.msoEncodingUnicodeLittleEndian;
                 Object missing = Type.Missing;
                 Object originalFilePath = document.FullName;
+                Object initialDocSaveFormat = document.SaveFormat;
                 document.SaveAs(ref copyPath, ref format, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref encoding,
                                 ref missing, ref missing, ref missing, ref missing);
-                document.SaveAs(ref originalFilePath, ref missing, ref missing, ref missing, ref missing, ref missing,
+                document.SaveAs(ref originalFilePath, ref initialDocSaveFormat, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing);                
             }
