@@ -124,6 +124,11 @@ namespace XWriter
         /// <param name="page">The name of the page.</param>
         public bool AttachCurrentFile(String space, String page)
         {
+            if (space == null || page == null)
+            {
+                Log.Error("Trying to attach a file to a page with an invalid name!");
+                return false;
+            }
             if (!this.Client.IsLoggedIn)
             {
                 Client.Login(addin.username, addin.password);

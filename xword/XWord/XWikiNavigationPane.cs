@@ -343,7 +343,7 @@ namespace XWriter
         private void cmnuAttachFile_Click(object sender, EventArgs e)
         {
             String page = Globals.XWikiAddIn.AddinStatus.TaskPaneSelectedPage.Get("page");
-            bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page, null);
+            bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page);
             if (finished)
             {
                 MessageBox.Show("Upload finished.", "XWord");

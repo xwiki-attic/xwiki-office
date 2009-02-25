@@ -69,7 +69,12 @@ namespace XWriter
         private void uploadAttToPage_Click(object sender, RibbonControlEventArgs e)
         {
             String page = Globals.XWikiAddIn.AddinStatus.TaskPaneSelectedPage.Get("page");
-            bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page, null);
+            if (page == null)
+            {
+                MessageBox.Show("You need to select a pege in the wiki explorer first.");
+                return;
+            }
+            bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page);
             if (finished)
             {
                 MessageBox.Show("Upload finished.", "XWord");
