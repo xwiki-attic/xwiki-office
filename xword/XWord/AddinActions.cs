@@ -258,7 +258,7 @@ namespace XWriter
                 String content = Client.GetRenderedPageContent(pageFullName);
                 
                 String localFileName = pageFullName.Replace(".", "-");
-                String folder = addin.PagesRepository + "\\TempPages";
+                String folder = addin.PagesRepository + "TempPages";
                 ConvertToNormalFolder(folder);               
                 //content = new WebToLocalHTML(addin.serverURL, folder, localFileName).AdaptSource(content);
                 ConversionManager pageConverter;
@@ -367,7 +367,7 @@ namespace XWriter
                 addin.ReinforceApplicationOptions();
                 String filePath = addin.ActiveDocumentFullName;
                 String currentFileName = Path.GetDirectoryName(addin.ActiveDocumentFullName);
-                currentFileName += Path.GetFileNameWithoutExtension(addin.ActiveDocumentFullName);
+                currentFileName += "\\" + Path.GetFileNameWithoutExtension(addin.ActiveDocumentFullName);
                 String tempExportFileName = currentFileName + "_TempExport.html";
                 if (!ShadowCopyDocument(addin.ActiveDocumentInstance, tempExportFileName, addin.SaveFormat))
                 {
@@ -468,7 +468,7 @@ namespace XWriter
                 }
                 String pageFullName = space + "." + pageName;
                 String localFileName = pageFullName.Replace(".", "-");
-                String folder = addin.PagesRepository + "\\TempPages";
+                String folder = addin.PagesRepository + "TempPages";
                 ConvertToNormalFolder(folder);
                 //content = new WebToLocalHTML(addin.serverURL, folder, localFileName).AdaptSource(content);
                 ConversionManager pageConverter = new ConversionManager(addin.serverURL, folder, pageFullName, localFileName, addin.Client);

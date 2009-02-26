@@ -38,6 +38,7 @@ namespace XWiki.Office.Word
             xmlDoc.LoadXml(content);
             AdaptImages(ref xmlDoc);            
             AdaptLists(ref xmlDoc);
+            
             return xmlDoc.InnerXml;
         }
 
@@ -67,6 +68,7 @@ namespace XWiki.Office.Word
                         {
                             //set src and upload
                             String attachmentName = Path.GetFileName(imagePath);
+                            manager.States.LocalFolder = manager.States.LocalFolder.Replace("\\\\", "\\");
                             if (!Path.IsPathRooted(imagePath))
                             {
                                 imagePath = Path.Combine(manager.States.LocalFolder, imagePath);
@@ -228,6 +230,6 @@ namespace XWiki.Office.Word
                 }
             }
             return imgIds;
-        }
+        }        
     }
 }
