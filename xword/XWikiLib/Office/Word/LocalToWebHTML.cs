@@ -82,12 +82,13 @@ namespace XWiki.Office.Word
                     }
                 }
             }
+            BorderImages(ref xmlDoc);
         }
 
         /// <summary>
         /// Adapts to the lists to a less styled format.
         /// </summary>
-        /// <param name="listElements">A reference to the xml document.</param>
+        /// <param name="xmlDoc">A reference to the xml filtered document instance.</param>
         private void AdaptLists(ref XmlDocument xmlDoc)
         {
             XmlNodeList listItems = xmlDoc.GetElementsByTagName("li");
@@ -230,6 +231,24 @@ namespace XWiki.Office.Word
                 }
             }
             return imgIds;
-        }        
+        }
+
+        /// <summary>
+        /// Adds comments before and after image tags.
+        /// </summary>
+        /// <param name="xmlDoc">A reference to the filtered XmlDocument instance.</param>
+        private void BorderImages(ref XmlDocument xmlDoc)
+        {
+            foreach(XmlNode node in xmlDoc.GetElementsByTagName("img"))
+            {
+                String imageName = node.Attributes["src"].Value;
+                imageName = Path.GetFileName(imageName);
+                XmlNode startComment = xmlDoc.CreateComment("startimage:" + imageName);
+                XmlNode endComment = xmlDoc.CreateComment("stopimage");
+                XmlNode parent = node.ParentNode;
+                parent.InsertBefore(startComment, node);
+                parent.InsertAfter(endComment, node);
+            }
+        }
     }
 }
