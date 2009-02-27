@@ -21,7 +21,7 @@
             <summary>
             Adapts to the lists to a less styled format.
             </summary>
-            <param name="listElements">A reference to the xml document.</param>
+            <param name="xmlDoc">A reference to the xml filtered document instance.</param>
         </member>
         <member name="M:XWiki.Office.Word.LocalToWebHTML.RemoveExtraLists(System.Xml.XmlDocument@)">
             <summary>
@@ -50,6 +50,12 @@
             </summary>
             <param name="node">Teh </param>
             <returns></returns>
+        </member>
+        <member name="M:XWiki.Office.Word.LocalToWebHTML.BorderImages(System.Xml.XmlDocument@)">
+            <summary>
+            Adds comments before and after image tags.
+            </summary>
+            <param name="xmlDoc">A reference to the filtered XmlDocument instance.</param>
         </member>
         <member name="T:XWiki.Clients.HTTPResponses">
             <summary>

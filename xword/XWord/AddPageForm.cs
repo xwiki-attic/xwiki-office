@@ -85,6 +85,7 @@ namespace XWriter
                 btnAddPage.Width = 100;                 
                 btnAddPage.Text = "Export page";
                 txtPageTitle.Visible = false;
+                label2.Visible = false;
             }
         }
 
