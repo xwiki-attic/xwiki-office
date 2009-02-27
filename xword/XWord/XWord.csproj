@@ -26,8 +26,8 @@
     <RootNamespace>XWriter</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ManifestCertificateThumbprint>4416D2C3C45DB97469A709C213CEB40C5A64DFCA</ManifestCertificateThumbprint>
-    <ManifestKeyFile>XWikiCert.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>E62442FE6D3A20F050E565BC4983E6191FE1C94F</ManifestCertificateThumbprint>
+    <ManifestKeyFile>XWord_TemporaryKey.pfx</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>false</SignAssembly>
@@ -38,7 +38,7 @@
     <PublishUrl>publish/</PublishUrl>
     <InstallUrl>http://82.77.20.196:9191/XWord/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.63</ApplicationVersion>
+    <ApplicationVersion>1.0.0.64</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -352,6 +352,7 @@
     <None Include="Resources\loadingWikiData.bmp" />
     <None Include="Resources\loading4.gif" />
     <None Include="Resources\Nuvola_apps_download_manager2.png" />
+    <None Include="XWord_TemporaryKey.pfx" />
     <Content Include="Resources\storegrid_browser_icon.gif" />
     <Content Include="Resources\viewInBrowser.gif" />
     <Content Include="Resources\viewInBrowser.png" />
