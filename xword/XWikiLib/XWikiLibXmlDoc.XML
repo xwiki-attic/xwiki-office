@@ -4,6 +4,47 @@
         <name>XWikiLib</name>
     </assembly>
     <members>
+        <member name="T:XWiki.Clients.HTTPResponses">
+            <summary>
+            Contains response strings from the velocity pages that provide XWord functionality.
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.SAVE_OK">
+            <summary>
+            Specifies that the saving process was completed successfully.
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.WRONG_REQUEST">
+            <summary>
+            Appears when a request was in a wrong format or had insufficinet parameters.
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.VELOCITY_PARSER_ERROR">
+            <summary>
+            Appears when the the server fails to parse a page.
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.INSUFFICIENT_MEMMORY">
+            <summary>
+            Appears when the server has insufficeinet memmory for the current tasks.
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.NO_PROGRAMMING_RIGHTS">
+            <summary>
+            Returned if the page requires programming rights 
+            but it was las saved by a user without programming rights
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.NO_EDIT_RIGHTS">
+            <summary>
+            Returned if the current user does not have the right to edit the specified page.
+            </summary>
+        </member>
+        <member name="F:XWiki.Clients.HTTPResponses.NO_GROOVY_RIGHTS">
+            <summary>
+            Returned when the user/page does not have the right to parse and execute groovy pages.
+            </summary>
+        </member>
         <member name="M:XWiki.Office.Word.LocalToWebHTML.AdaptSource(System.String)">
             <summary>
             Adapts the HTML source from it's local MS Word form in order to be used by the wiki
@@ -57,47 +98,6 @@
             </summary>
             <param name="xmlDoc">A reference to the filtered XmlDocument instance.</param>
         </member>
-        <member name="T:XWiki.Clients.HTTPResponses">
-            <summary>
-            Contains response strings from the velocity pages that provide XWord functionality.
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.SAVE_OK">
-            <summary>
-            Specifies that the saving process was completed successfully.
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.WRONG_REQUEST">
-            <summary>
-            Appears when a request was in a wrong format or had insufficinet parameters.
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.VELOCITY_PARSER_ERROR">
-            <summary>
-            Appears when the the server fails to parse a page.
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.INSUFFICIENT_MEMMORY">
-            <summary>
-            Appears when the server has insufficeinet memmory for the current tasks.
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.NO_PROGRAMMING_RIGHTS">
-            <summary>
-            Returned if the page requires programming rights 
-            but it was las saved by a user without programming rights
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.NO_EDIT_RIGHTS">
-            <summary>
-            Returned if the current user does not have the right to edit the specified page.
-            </summary>
-        </member>
-        <member name="F:XWiki.Clients.HTTPResponses.NO_GROOVY_RIGHTS">
-            <summary>
-            Returned when the user/page does not have the right to parse and execute groovy pages.
-            </summary>
-        </member>
         <member name="T:XWiki.XWikiURLs">
             <summary>
             Contains a list with the XWiki Word services url's.
@@ -133,6 +133,13 @@
             Gets or sets the URL of the page that contains the list of protected wiki pages.
             This wiki pages contain scripts that provide functionality to the wiki and cannot be edited
             with Word without having macro support.
+            </summary>
+        </member>
+        <member name="T:XWiki.Clients.XWikiHTTPClient">
+            <summary>
+            Adaptor over System.Net.WebClient
+            Uses plain HTTP calls to send and retrieve data from the XWiki server
+            Service pages on the server are in the MSOffice space
             </summary>
         </member>
         <member name="M:XWiki.Clients.IXWikiClient.Login(System.String,System.String)">
@@ -291,18 +298,6 @@
         <member name="P:XWiki.Clients.IXWikiClient.IsLoggedIn">
             <summary>
             Specifies if the current user is logged in to the server.
-            </summary>
-        </member>
-        <member name="T:XWiki.Office.Word.ConverterActionState">
-            <summary>
-            The 
-            </summary>
-        </member>
-        <member name="T:XWiki.Clients.XWikiHTTPClient">
-            <summary>
-            Adaptor over System.Net.WebClient
-            Uses plain HTTP calls to send and retrieve data from the XWiki server
-            Service pages on the server are in the MSOffice space
             </summary>
         </member>
         <member name="M:XWiki.Clients.XWikiHTTPClient.#ctor(System.String,System.String,System.String)">
@@ -685,35 +680,6 @@
             <param name="newBodyTag">The new body tag.</param>
             <returns>The new html code.</returns>
         </member>
-        <member name="T:XWiki.WikiStructure">
-            <summary>
-            Class used to store data about the wiki structure.
-            Contains the list of spaces and documents.
-            </summary>
-        </member>
-        <member name="F:XWiki.WikiStructure.spaces">
-            <summary>
-            A list with all spaces in the wiki.
-            </summary>
-        </member>
-        <member name="M:XWiki.WikiStructure.#ctor">
-            <summary>
-            Default constructor. Instantiates the spaces list.
-            </summary>
-        </member>
-        <member name="M:XWiki.WikiStructure.GetAllDocuments">
-            <summary>
-            Gets all document instances in the wiki.
-            </summary>
-            <returns>A list with all document instances.</returns>
-        </member>
-        <member name="M:XWiki.WikiStructure.RemoveXWikiDocument(XWiki.XWikiDocument)">
-            <summary>
-            Removes a XWikiDocument instance from the wiki structure.
-            This has no effect on the server. It only affects the document list
-            Word works with.
-            </summary>
-        </member>
         <member name="M:XWiki.Clients.XWikiXMLRPCClient.#ctor">
             <summary>
             XML-RPC implementation of IXWikiCLient.
@@ -797,6 +763,40 @@
         <member name="P:XWiki.Office.Word.BidirectionalConversionStates.IsUploading">
             <summary>
             True only if local file to web page conversion is in progress.
+            </summary>
+        </member>
+        <member name="T:XWiki.Office.Word.ConverterActionState">
+            <summary>
+            The 
+            </summary>
+        </member>
+        <member name="T:XWiki.WikiStructure">
+            <summary>
+            Class used to store data about the wiki structure.
+            Contains the list of spaces and documents.
+            </summary>
+        </member>
+        <member name="F:XWiki.WikiStructure.spaces">
+            <summary>
+            A list with all spaces in the wiki.
+            </summary>
+        </member>
+        <member name="M:XWiki.WikiStructure.#ctor">
+            <summary>
+            Default constructor. Instantiates the spaces list.
+            </summary>
+        </member>
+        <member name="M:XWiki.WikiStructure.GetAllDocuments">
+            <summary>
+            Gets all document instances in the wiki.
+            </summary>
+            <returns>A list with all document instances.</returns>
+        </member>
+        <member name="M:XWiki.WikiStructure.RemoveXWikiDocument(XWiki.XWikiDocument)">
+            <summary>
+            Removes a XWikiDocument instance from the wiki structure.
+            This has no effect on the server. It only affects the document list
+            Word works with.
             </summary>
         </member>
     </members>
