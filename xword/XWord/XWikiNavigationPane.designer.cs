@@ -133,7 +133,7 @@ namespace XWriter
             this.tableLayoutPanel.Controls.Add(this.btnAddSpace, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.treeView, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.pictureBox, 0, 2);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -141,7 +141,7 @@ namespace XWriter
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(214, 572);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(214, 561);
             this.tableLayoutPanel.TabIndex = 2;
             // 
             // btnRefresh
@@ -181,7 +181,7 @@ namespace XWriter
             this.treeView.Location = new System.Drawing.Point(5, 40);
             this.treeView.Margin = new System.Windows.Forms.Padding(5);
             this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(204, 507);
+            this.treeView.Size = new System.Drawing.Size(204, 496);
             this.treeView.TabIndex = 3;
             this.treeView.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -189,7 +189,7 @@ namespace XWriter
             // 
             // pictureBox
             // 
-            this.pictureBox.Location = new System.Drawing.Point(3, 555);
+            this.pictureBox.Location = new System.Drawing.Point(3, 544);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(100, 14);
             this.pictureBox.TabIndex = 5;
