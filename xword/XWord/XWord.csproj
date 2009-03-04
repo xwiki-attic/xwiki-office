@@ -282,6 +282,7 @@
     <Compile Include="RepositorySettings.cs" />
     <Compile Include="Test\XWikiRibbonTest.cs" />
     <Compile Include="Util\UtilityClass.cs" />
+    <Compile Include="Vsto Extensions\ContentProtectionExtension.cs" />
     <Compile Include="XWikiAddIn.cs">
       <SubType>Code</SubType>
     </Compile>

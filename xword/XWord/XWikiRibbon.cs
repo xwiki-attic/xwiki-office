@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
+using XWriter.VstoExtensions;
 
 namespace XWriter
 {
@@ -227,6 +228,11 @@ namespace XWriter
         private void btnAboutXWord_Click(object sender, RibbonControlEventArgs e)
         {
             new AboutXWord().ShowDialog();
+        }
+
+        private void button1_Click(object sender, RibbonControlEventArgs e)
+        {
+            
         }
     }
 }

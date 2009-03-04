@@ -4,85 +4,111 @@
         <name>XWord</name>
     </assembly>
     <members>
-        <member name="T:XWriter.AddPageForm">
+        <member name="T:XWriter.XWikiRibbon">
             <summary>
-            UI for adding a page or a space.
+            Provides XWiki specific UI elements using the Office 2007 Ribbon UI.
             </summary>
         </member>
-        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@)">
-            <param name="_wiki">A reference to the currently loaded wiki structure.</param>
-        </member>
-        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@,System.String)">
-            <param name="_wiki">A reference to the currently loaded wiki structure.</param>
-            <param name="_spaceName">
-            The default space name in which the new page will be created
-            </param>
-        </member>
-        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@,System.Boolean,System.Boolean)">
-            <param name="_wiki">A reference to the currently loaded wiki structure.</param>
-            <param name="newSpace">Specifies if a new space will be created.</param>
-            <param name="_exportMode">
-            Specifies if the form is used to assign an export destination
-            for a document
-            </param>
-        </member>
-        <member name="M:XWriter.AddPageForm.AddPageForm_Load(System.Object,System.EventArgs)">
+        <member name="M:XWriter.XWikiRibbon.#ctor">
             <summary>
-            Event triggered when the form is loading.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddPageForm.LoadSpaces">
-            <summary>
-            Loads the spaces into the combo.
+            Default constructor. Initializes all components.
             </summary>
         </member>
-        <member name="M:XWriter.AddPageForm.radioButton1_CheckedChanged(System.Object,System.EventArgs)">
-            <summary>
-            Refreshes the UI to the coresponding option regarding the space.
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:XWriter.AddPageForm.btnAddPage_Click(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the "Add page" button is pressed.
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:XWriter.AddPageForm.ValidateFormData">
-            <summary>
-            Validates the data.
-            </summary>
-            <returns>True if data is valid. False if data is invalid.</returns>
-        </member>
-        <member name="M:XWriter.AddPageForm.comboBox1_SelectedIndexChanged(System.Object,System.EventArgs)">
-            <summary>
-            Sets the instance of the selected space when the combo box selection is changed
-            </summary>
-        </member>
-        <member name="M:XWriter.AddPageForm.btnCancel_Click(System.Object,System.EventArgs)">
-            <summary>
-            Closes the form.
-            </summary>
-        </member>
-        <member name="F:XWriter.AddPageForm.components">
+        <member name="F:XWriter.XWikiRibbon.components">
             <summary>
             Required designer variable.
             </summary>
         </member>
-        <member name="M:XWriter.AddPageForm.Dispose(System.Boolean)">
-            <summary>
+        <member name="M:XWriter.XWikiRibbon.Dispose(System.Boolean)">
+            <summary> 
             Clean up any resources being used.
             </summary>
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
-        <member name="M:XWriter.AddPageForm.InitializeComponent">
+        <member name="M:XWriter.XWikiRibbon.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.AttachmentsGroup">
+            <summary>
+            Group containing the buttons for handling attachments.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.uploadAttToPage">
+            <summary>
+            Button used to upload the active document to the selected page.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.downloadAtt">
+            <summary>
+            Button used to upload the download the selected attachment.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnNewPage">
+            <summary>
+            Button used to create a new page.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnPublishDocument">
+            <summary>
+            Button used to save/publish the active document to the wiki.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnAddPage">
+            <summary>
+            Button used to add the a new page to the wiki.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnUpload">
+            <summary>
+            Button used to upload the active document to the seleted page.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnDownload">
+            <summary>
+            Button used to donwload the selected attachment.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnShowPages">
+            <summary>
+            Button used to show the pages of a space in Wiki Explorer.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnShowAttachments">
+            <summary>
+            Button used to show the attachments of a page in Wiki Exploerer.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnViewInBrowser">
+            <summary>
+            Button used to view the selected page in the default browser.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnDownloadAndOpen">
+            <summary>
+            Downloads and opens the selected attachement with the assigned application.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.btnEditPage">
+            <summary>
+            Edit the selected page with Word.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.dropDownSyntax">
+            <summary>
+            Contains the syntax options to save a pege on the wiki.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiRibbon.dropDownSaveFormat">
+            <summary>
+            Contains a list with the html formats that Word can use to save the local wiki pages.
+            </summary>
+        </member>
+        <member name="P:XWriter.XWikiRibbon.Addin">
+            <summary>
+            The addin instance.
             </summary>
         </member>
         <member name="T:XWriter.Properties.Resources">
@@ -101,34 +127,140 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="T:XWriter.LoginData">
+        <member name="T:XWriter.AddinStatus">
             <summary>
-            Provindes functionality for storing authentication data. 
+            Represents the context of the add-in.
             </summary>
         </member>
-        <member name="M:XWriter.LoginData.WriteCredentials(System.String[])">
+        <member name="M:XWriter.AddinStatus.SetTaskPaneSelectedPage(System.String,System.String)">
             <summary>
-            Writes the user credentials to the disk for automatic login
+            Sets the values corresponding to the selected page in the tree view
             </summary>
-            <param name="credentials">Array of strings containing the credentials</param>
-            <returns>True if the operation is uscessfull. False otherwise.</returns>
+            <param name="space">The value for the "space" key.</param>
+            <param name="page">The value for the "page" key.</param>
         </member>
-        <member name="M:XWriter.LoginData.GetCredentials">
+        <member name="P:XWriter.AddinStatus.Syntax">
             <summary>
-            Gets the last used credentials.
-            </summary>
-            <returns>Array of strings containing the last used credentials</returns>
-        </member>
-        <member name="M:XWriter.LoginData.ClearCredentials">
-            <summary>
-            Erases the last saved credentials form isolated storage.
+            The syntax used to save the wiki pages.
+            <remarks>The conversion is done on the web server</remarks>
             </summary>
         </member>
-        <member name="M:XWriter.LoginData.CanAutoLogin">
+        <member name="P:XWriter.AddinStatus.ServerURL">
             <summary>
-            Specifies if the last user saved his credentials for autologin.
+            The URL of the server to which the user is conected.
             </summary>
-            <returns></returns>
+        </member>
+        <member name="P:XWriter.AddinStatus.LoggedIn">
+            <summary>
+            Specifies if the user is logged in to XWiki server or not.
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinStatus.ConnectedWithServer">
+            <summary>
+            Specifies if the server is connected to the XWiki server or not.
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinStatus.TaskPaneSelectedPage">
+            <summary>
+            Gets the value of the curently selected tree node representing a page
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinStatus.TaskPaneShown">
+            <summary>
+            Gets/Sets the status of the task pane.
+            The keys are: "page" and "space".
+            </summary>
+        </member>
+        <member name="T:XWriter.RepositorySettings">
+            <summary>
+            Structure used for writing and retrieving data from Isolated Storage.
+            </summary>
+        </member>
+        <member name="M:XWriter.RepositorySettings.#ctor">
+            <summary>
+            Creates a new instance of the class.
+            <remarks>Used for serialization.</remarks>
+            </summary>
+        </member>
+        <member name="P:XWriter.RepositorySettings.PagesRepository">
+            <summary>
+            Gets or sets the value for the pages repositoy.
+            </summary>
+        </member>
+        <member name="P:XWriter.RepositorySettings.DownloadedAttachmentsRepository">
+            <summary>
+            Gets ot sets the value of the path where the downloaded attachments are stored.
+            </summary>
+        </member>
+        <member name="T:XWriter.Repositories">
+            <summary>
+            Offers functionality for storing the repository settings to Isolated Storage.
+            </summary>
+        </member>
+        <member name="M:XWriter.Repositories.WriteRepositorySettings(XWriter.RepositorySettings)">
+            <summary>
+            Writes the repository settings to Isolated Storage.
+            </summary>
+            <param name="settings">The settings to be saved.</param>
+            <returns>True if the operation succeded. False if the operation failed.</returns>
+        </member>
+        <member name="M:XWriter.Repositories.GetRepositorySettings">
+            <summary>
+            Gets the repository settings from Isolated Storage.
+            </summary>
+            <returns>A instance containing the repository settings.</returns>
+        </member>
+        <member name="M:XWriter.Repositories.HasRepositorySettings">
+            <summary>
+            Specifies if the application has the repository settings saved in Isolated Storage.
+            </summary>
+            <returns>
+            True is the repository configuration file exists in Isolated Storage.
+            False if the file does not exist.
+            </returns>
+        </member>
+        <member name="T:XWriter.LoadingDialog">
+            <summary>
+            A dialog that is shown when a long operation is executed or a Word instance restart/swich is required.
+            </summary>
+        </member>
+        <member name="M:XWriter.LoadingDialog.#ctor(System.String)">
+            <summary>
+            Displays a continuous progress bar while an operation is in progress.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:XWriter.LoadingDialog.ShowSyncDialog(System.Object)">
+            <summary>
+            Shows the form.
+            </summary>
+            <remarks>Recomended for cross tread calls.</remarks>
+            <param name="obj">Extra parameter to match the wait callback signature.</param>
+        </member>
+        <member name="M:XWriter.LoadingDialog.CloseSyncDialog">
+            <summary>
+            Closes the dialog in a safe cross thread manner.
+            </summary>
+        </member>
+        <member name="F:XWriter.LoadingDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:XWriter.LoadingDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:XWriter.LoadingDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:XWriter.ThisRibbonCollection">
+            
         </member>
         <member name="F:XWriter.AboutXWord.components">
             <summary>
@@ -184,6 +316,22 @@
         <member name="F:XWriter.XWikiNavigationPane.SELECTED_NODE_IMAGE_INDEX">
             <summary>
             Specifies the index of the image displayed by the selected node.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiNavigationPane.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:XWriter.XWikiNavigationPane.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:XWriter.XWikiNavigationPane.treeView">
+            <summary>
+            The tree view that displays the wiki structure.
             </summary>
         </member>
         <member name="M:XWriter.XWikiNavigationPane.#ctor(XWriter.XWikiAddIn)">
@@ -371,22 +519,6 @@
             Refreshes the wiki explorer after the data has finished loadind.
             </summary>
         </member>
-        <member name="F:XWriter.XWikiNavigationPane.components">
-            <summary> 
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:XWriter.XWikiNavigationPane.InitializeComponent">
-            <summary> 
-            Required method for Designer support - do not modify 
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiNavigationPane.treeView">
-            <summary>
-            The tree view that displays the wiki structure.
-            </summary>
-        </member>
         <member name="P:XWriter.XWikiNavigationPane.DocumentContent">
             <summary>
             Gets or sets the rendered content of the Active Document.
@@ -409,6 +541,380 @@
             <summary>
             Instance containing the most common actions the add-in could perform.
             </summary>
+        </member>
+        <member name="T:XWriter.AddinActions">
+            <summary>
+            Provides implementations for the common addin actions.
+            This class should contain most VSTO specific code.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinActions.#ctor(XWriter.XWikiAddIn)">
+            <summary>
+            Creates an instance for this class.
+            </summary>
+            <param name="addin">The instance of the current add-in.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.DownloadAttachment(System.String,System.String,System.String)">
+            <summary>
+            Downloads the file to a local folder. The folder is located in MyDocuments
+            </summary>
+            <param name="pageFullName">FullName of the wiki page - Space.Name</param>
+            <param name="attachmentName">Name of the attached file</param>
+            <param name="path">The location where the attachment will be downloaded. Use null for default location.</param>
+            <returns></returns>
+        </member>
+        <member name="M:XWriter.AddinActions.AttachCurrentFile(System.String)">
+            <summary>
+            Saves the document and attaches it to a wiki page
+            </summary>
+            <param name="pageFullName">The full name of the wiki page.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.AttachCurrentFile(System.String,System.String)">
+            <summary>
+            Saves the document and attaches it to a wiki page
+            </summary>
+            <param name="space">The name of the wiki space.</param>
+            <param name="page">The name of the page.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.StartProcess(System.String)">
+            <summary>
+            Starts a new process. 
+             - If the file is executable then it will execute that file.
+             - If the file file is resistered to be opened with another application
+             then it will be opened with that application
+             - If the file doesnt have an assigned application then Windows Explorer openes it's directory.
+            </summary>
+            <param name="fullFileName">The full path and name of the file.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.IsOpened(System.String)">
+            <summary>
+            Specifies if a wiki page is opened for editing.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <returns>True if the page is already opened. False otherwise.</returns>
+        </member>
+        <member name="M:XWriter.AddinActions.EditPage(System.String)">
+            <summary>
+            Edits a wiki page.
+            The LoadingDialog is shown during the operation.
+            <see cref="M:XWriter.AddinActions.EditPage(System.String)"/>
+            </summary>
+            <param name="pageFullName">The full name of the wiki page that is being opened for editing.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.GetPage(System.Object)">
+            <summary>
+            Edits a wiki page.
+            </summary>
+            <param name="_pageFullName">The full name of the wiki page that is being opened for editing.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.SavePage(System.String,System.String@,System.String)">
+            <summary>
+            Saves the page to the wiki. Shows a message box with an error if the operation fails.
+            </summary>
+            <param name="pageName">The full name of the wiki page.</param>
+            <param name="pageContent">The contant to be saved.</param>
+            <param name="syntax">The wiki syntax of the saved page.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.OpenHTMLDocument(System.String)">
+            <summary>
+            Opens a local(document) file with Word.
+            </summary>
+            <param name="path">The path to the file.</param>
+            <returns>Returns a Document instance.</returns>
+        </member>
+        <member name="M:XWriter.AddinActions.SaveToServer">
+            <summary>
+            Saves the currently edited page or document to the server.
+            Displays the operation in progress dialog.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinActions.SaveToXwiki">
+            <summary>
+            Saves the currently edited page or document to the server.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinActions.AddNewPage(System.String,System.String)">
+            <summary>
+            Starts editing a new wiki page. The page will not be created in the wiki until the fisrt save.
+            </summary>
+            <param name="space">The name of the wiki space</param>
+            <param name="pageName">The name of page</param>
+        </member>
+        <member name="M:XWriter.AddinActions.ConvertToNormalFolder(System.String)">
+            <summary>
+            Converts the folder to a "Normal" type folder.
+            </summary>
+            <param name="folder"></param>
+        </member>
+        <member name="M:XWriter.AddinActions.AddNewPage(System.String,System.String,System.String,System.Windows.Forms.Form)">
+            <summary>
+            Starts editing a new wiki page. The page will not be created in the wiki until the fisrt save.
+            </summary>
+            <param name="space">The name of the wiki space.</param>
+            <param name="pageName">The name of page.</param>
+            <param name="pageTitle">The title of the page.</param>
+            <param name="sender">
+            The instance of the fprm that started the action.
+            This form need to be closed before swithing the Active Word Document.
+            </param>
+        </member>
+        <member name="M:XWriter.AddinActions.SaveFileDialog(System.String)">
+            <summary>
+            Displays a SaveFileDialog
+            </summary>
+            <param name="fileName">Optional name of file to be saved.</param>
+            <returns>The path to the file to be saved. Null if the user cancels the saving.</returns>
+        </member>
+        <member name="M:XWriter.AddinActions.CheckForErrors(System.String)">
+            <summary>
+            Searches the server response for error strings.
+            </summary>
+            <param name="content">The server response.</param>
+            <returns>True if the response contains error reports. False if the response does not ocntain error reports.</returns>
+        </member>
+        <member name="M:XWriter.AddinActions.HideProtectedPages(XWiki.WikiStructure,System.Collections.Generic.List{System.String})">
+            <summary>
+            Removes all protected pages from the Word wiki structure.
+            </summary>
+            <param name="wiki">The wiki instance.</param>
+            <param name="wildcards">The list of protected pages wildcards.</param>
+        </member>
+        <member name="M:XWriter.AddinActions.IsProtectedPage(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Specifies if a page is protected or not.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <param name="wildCards">The wildcard list of protected pages.</param>
+            <returns></returns>
+        </member>
+        <member name="M:XWriter.AddinActions.ShadowCopyDocument(Microsoft.Office.Interop.Word.Document,System.String,Microsoft.Office.Interop.Word.WdSaveFormat)">
+            <summary>
+            Copies a document to a specified path.
+            </summary>
+            <param name="document">The Document instance.</param>
+            <param name="path">The path where the new file will be saved.</param>
+            <param name="saveFormat">The save format.</param>
+            <exception cref="T:System.IO.IOException">When the file cannot be saved.</exception>
+            <remarks>The document is saved in Unicode little endian encoding.</remarks>
+            <returns>True if the operation succedes. False otherwise.</returns>
+        </member>
+        <member name="P:XWriter.AddinActions.Client">
+            <summary>
+            Generic webclient used for conneting to xwiki.
+            </summary>        
+        </member>
+        <member name="T:XWriter.AddinSettingsForm">
+            <summary>
+            Provides UI for changing the add-in settings.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.#ctor">
+            <summary>
+            Default constructor. Initializes all components.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.btnApply_Click(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the "Apply" button is clicked.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.ApplyConnectionSettings">
+            <summary>
+            Sets the new connection settings for the addin,
+            connects to the server and refreshes the active wiki explorer.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.ApplyRepositoriesSettings">
+            <summary>
+            Sets the pages and attachments repositories.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.btnCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the "Cancel button is pressed.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.ConnectionSettingsForm_Load(System.Object,System.EventArgs)">
+            <summary>
+            Event that is automatically triggered the Form is loading.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.txtAnyConnectionSetting_TextChanged(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when a connection setting is changed.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.btnOK_Click(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the OK button is pressed.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.btnPagesRepo_Click(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the select pages repository is clicked.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.btnAttachmentsRepo_Click(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the select downloaded attachments repository is clicked.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.ValidateURL(System.String)">
+            <summary>
+            Checks if a url is valid.
+            </summary>
+            <param name="url">The value of the url to be checked.</param>
+            <returns>True if the url is valid. False if the url is not valid.</returns>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.ValidatePath(System.String)">
+            <summary>
+            Checks if a path is valid
+            </summary>
+            <param name="path">The value of the path.</param>
+            <returns>True if the path is valid. False if the path is not valid.</returns>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.txtPagesRepo_Leave(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the textbox loses the focus.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.txtAttachmentsRepo_Leave(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the textbox loses the focus.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.anyRepoSettingChanged_TextChanged(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when a repository setting is changed.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event paramaters.</param>
+        </member>
+        <member name="F:XWriter.AddinSettingsForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:XWriter.AddinSettingsForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinSettingsForm.Addin">
+            <summary>
+            Gets a refferesnce to the Addin instance.
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinSettingsForm.ServerURL">
+            <summary>
+            Gets or sets the URL of the server that the add-in conncets to.
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinSettingsForm.UserName">
+            <summary>
+            Gets the user name that was provided.
+            </summary>
+        </member>
+        <member name="P:XWriter.AddinSettingsForm.Password">
+            <summary>
+            Gets the password that was provided.
+            </summary>
+        </member>
+        <member name="T:XWord.Util.UtilityClass">
+            <summary>
+            Provides misc functionality for the add-in.
+            </summary>
+        </member>
+        <member name="M:XWord.Util.UtilityClass.GenerateUniqueFileName(System.String,System.String)">
+            <summary>
+            Generates an unique filename based on the existing files in a folder.
+            </summary>
+            <param name="initialFileName">The initial file name.</param>
+            <param name="folder">The folder where the file will be saved.</param>
+            <returns>The assigned filename.</returns>
+        </member>
+        <member name="M:XWord.Util.UtilityClass.IsWildcardMatch(System.String,System.String,System.Boolean)">
+            <summary>
+            Compares a string withs another string that contains whildcards.
+            </summary>
+            <param name="wildcard">The wildcard string.</param>
+            <param name="text">The compared strings.</param>
+            <param name="casesensitive">Specifies if the comparation shouls be case sensitive or not.</param>
+            <returns>True if the string mathches the wildcard. False otherwize.</returns>
+        </member>
+        <member name="T:XWriter.XWikiRibbonTest">
+            <summary>
+            Test class for the ribbon.
+            </summary>
+        </member>
+        <member name="M:XWriter.XWikiRibbonTest.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:XWriter.XWikiRibbonTest.GlobalSetUp">
+            <summary>
+            Initialize the test.
+            </summary>
+        </member>
+        <member name="M:XWriter.XWikiRibbonTest.TestDropDownSaveFormat">
+            <summary>
+            Test method for DropDownSave format consistency
+            </summary>
+        </member>
+        <member name="T:XWriter.LoginData">
+            <summary>
+            Provindes functionality for storing authentication data. 
+            </summary>
+        </member>
+        <member name="M:XWriter.LoginData.WriteCredentials(System.String[])">
+            <summary>
+            Writes the user credentials to the disk for automatic login
+            </summary>
+            <param name="credentials">Array of strings containing the credentials</param>
+            <returns>True if the operation is uscessfull. False otherwise.</returns>
+        </member>
+        <member name="M:XWriter.LoginData.GetCredentials">
+            <summary>
+            Gets the last used credentials.
+            </summary>
+            <returns>Array of strings containing the last used credentials</returns>
+        </member>
+        <member name="M:XWriter.LoginData.ClearCredentials">
+            <summary>
+            Erases the last saved credentials form isolated storage.
+            </summary>
+        </member>
+        <member name="M:XWriter.LoginData.CanAutoLogin">
+            <summary>
+            Specifies if the last user saved his credentials for autologin.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:XWriter.XWikiAddIn">
             
@@ -710,592 +1216,40 @@
         <member name="M:XWriter.Globals.#ctor">
             
         </member>
-        <member name="T:XWriter.ThisRibbonCollection">
-            
-        </member>
-        <member name="T:XWriter.AddinSettingsForm">
-            <summary>
-            Provides UI for changing the add-in settings.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.#ctor">
-            <summary>
-            Default constructor. Initializes all components.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.btnApply_Click(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the "Apply" button is clicked.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.ApplyConnectionSettings">
-            <summary>
-            Sets the new connection settings for the addin,
-            connects to the server and refreshes the active wiki explorer.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.ApplyRepositoriesSettings">
-            <summary>
-            Sets the pages and attachments repositories.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.btnCancel_Click(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the "Cancel button is pressed.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.ConnectionSettingsForm_Load(System.Object,System.EventArgs)">
-            <summary>
-            Event that is automatically triggered the Form is loading.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.txtAnyConnectionSetting_TextChanged(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when a connection setting is changed.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.btnOK_Click(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the OK button is pressed.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.btnPagesRepo_Click(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the select pages repository is clicked.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.btnAttachmentsRepo_Click(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the select downloaded attachments repository is clicked.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.ValidateURL(System.String)">
-            <summary>
-            Checks if a url is valid.
-            </summary>
-            <param name="url">The value of the url to be checked.</param>
-            <returns>True if the url is valid. False if the url is not valid.</returns>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.ValidatePath(System.String)">
-            <summary>
-            Checks if a path is valid
-            </summary>
-            <param name="path">The value of the path.</param>
-            <returns>True if the path is valid. False if the path is not valid.</returns>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.txtPagesRepo_Leave(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the textbox loses the focus.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.txtAttachmentsRepo_Leave(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when the textbox loses the focus.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event parameters.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.anyRepoSettingChanged_TextChanged(System.Object,System.EventArgs)">
-            <summary>
-            Event triggered when a repository setting is changed.
-            </summary>
-            <param name="sender">The control that triggered the event.</param>
-            <param name="e">The event paramaters.</param>
-        </member>
-        <member name="F:XWriter.AddinSettingsForm.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:XWriter.AddinSettingsForm.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinSettingsForm.Addin">
-            <summary>
-            Gets a refferesnce to the Addin instance.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinSettingsForm.ServerURL">
-            <summary>
-            Gets or sets the URL of the server that the add-in conncets to.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinSettingsForm.UserName">
-            <summary>
-            Gets the user name that was provided.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinSettingsForm.Password">
-            <summary>
-            Gets the password that was provided.
-            </summary>
-        </member>
-        <member name="T:XWriter.AddinStatus">
-            <summary>
-            Represents the context of the add-in.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinStatus.SetTaskPaneSelectedPage(System.String,System.String)">
-            <summary>
-            Sets the values corresponding to the selected page in the tree view
-            </summary>
-            <param name="space">The value for the "space" key.</param>
-            <param name="page">The value for the "page" key.</param>
-        </member>
-        <member name="P:XWriter.AddinStatus.Syntax">
-            <summary>
-            The syntax used to save the wiki pages.
-            <remarks>The conversion is done on the web server</remarks>
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinStatus.ServerURL">
-            <summary>
-            The URL of the server to which the user is conected.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinStatus.LoggedIn">
-            <summary>
-            Specifies if the user is logged in to XWiki server or not.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinStatus.ConnectedWithServer">
-            <summary>
-            Specifies if the server is connected to the XWiki server or not.
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinStatus.TaskPaneSelectedPage">
-            <summary>
-            Gets the value of the curently selected tree node representing a page
-            </summary>
-        </member>
-        <member name="P:XWriter.AddinStatus.TaskPaneShown">
-            <summary>
-            Gets/Sets the status of the task pane.
-            The keys are: "page" and "space".
-            </summary>
-        </member>
-        <member name="T:XWriter.XWikiRibbon">
-            <summary>
-            Provides XWiki specific UI elements using the Office 2007 Ribbon UI.
-            </summary>
-        </member>
-        <member name="M:XWriter.XWikiRibbon.#ctor">
-            <summary>
-            Default constructor. Initializes all components.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:XWriter.XWikiRibbon.Dispose(System.Boolean)">
-            <summary> 
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:XWriter.XWikiRibbon.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.AttachmentsGroup">
-            <summary>
-            Group containing the buttons for handling attachments.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.uploadAttToPage">
-            <summary>
-            Button used to upload the active document to the selected page.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.downloadAtt">
-            <summary>
-            Button used to upload the download the selected attachment.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnNewPage">
-            <summary>
-            Button used to create a new page.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnPublishDocument">
-            <summary>
-            Button used to save/publish the active document to the wiki.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnAddPage">
-            <summary>
-            Button used to add the a new page to the wiki.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnUpload">
-            <summary>
-            Button used to upload the active document to the seleted page.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnDownload">
-            <summary>
-            Button used to donwload the selected attachment.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnShowPages">
-            <summary>
-            Button used to show the pages of a space in Wiki Explorer.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnShowAttachments">
-            <summary>
-            Button used to show the attachments of a page in Wiki Exploerer.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnViewInBrowser">
-            <summary>
-            Button used to view the selected page in the default browser.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnDownloadAndOpen">
-            <summary>
-            Downloads and opens the selected attachement with the assigned application.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.btnEditPage">
-            <summary>
-            Edit the selected page with Word.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.dropDownSyntax">
-            <summary>
-            Contains the syntax options to save a pege on the wiki.
-            </summary>
-        </member>
-        <member name="F:XWriter.XWikiRibbon.dropDownSaveFormat">
-            <summary>
-            Contains a list with the html formats that Word can use to save the local wiki pages.
-            </summary>
-        </member>
-        <member name="P:XWriter.XWikiRibbon.Addin">
-            <summary>
-            The addin instance.
-            </summary>
-        </member>
-        <member name="T:XWord.Util.UtilityClass">
-            <summary>
-            Provides misc functionality for the add-in.
-            </summary>
-        </member>
-        <member name="M:XWord.Util.UtilityClass.GenerateUniqueFileName(System.String,System.String)">
-            <summary>
-            Generates an unique filename based on the existing files in a folder.
-            </summary>
-            <param name="initialFileName">The initial file name.</param>
-            <param name="folder">The folder where the file will be saved.</param>
-            <returns>The assigned filename.</returns>
-        </member>
-        <member name="M:XWord.Util.UtilityClass.IsWildcardMatch(System.String,System.String,System.Boolean)">
-            <summary>
-            Compares a string withs another string that contains whildcards.
-            </summary>
-            <param name="wildcard">The wildcard string.</param>
-            <param name="text">The compared strings.</param>
-            <param name="casesensitive">Specifies if the comparation shouls be case sensitive or not.</param>
-            <returns>True if the string mathches the wildcard. False otherwize.</returns>
-        </member>
-        <member name="T:XWriter.RepositorySettings">
-            <summary>
-            Structure used for writing and retrieving data from Isolated Storage.
-            </summary>
-        </member>
-        <member name="M:XWriter.RepositorySettings.#ctor">
-            <summary>
-            Creates a new instance of the class.
-            <remarks>Used for serialization.</remarks>
-            </summary>
-        </member>
-        <member name="P:XWriter.RepositorySettings.PagesRepository">
-            <summary>
-            Gets or sets the value for the pages repositoy.
-            </summary>
-        </member>
-        <member name="P:XWriter.RepositorySettings.DownloadedAttachmentsRepository">
-            <summary>
-            Gets ot sets the value of the path where the downloaded attachments are stored.
-            </summary>
-        </member>
-        <member name="T:XWriter.LoadingDialog">
-            <summary>
-            A dialog that is shown when a long operation is executed or a Word instance restart/swich is required.
-            </summary>
-        </member>
-        <member name="F:XWriter.LoadingDialog.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:XWriter.LoadingDialog.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:XWriter.LoadingDialog.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="M:XWriter.LoadingDialog.#ctor(System.String)">
-            <summary>
-            Displays a continuous progress bar while an operation is in progress.
-            </summary>
-            <param name="message"></param>
-        </member>
-        <member name="M:XWriter.LoadingDialog.ShowSyncDialog(System.Object)">
-            <summary>
-            Shows the form.
-            </summary>
-            <remarks>Recomended for cross tread calls.</remarks>
-            <param name="obj">Extra parameter to match the wait callback signature.</param>
-        </member>
-        <member name="M:XWriter.LoadingDialog.CloseSyncDialog">
-            <summary>
-            Closes the dialog in a safe cross thread manner.
-            </summary>
-        </member>
-        <member name="T:XWriter.Repositories">
-            <summary>
-            Offers functionality for storing the repository settings to Isolated Storage.
-            </summary>
-        </member>
-        <member name="M:XWriter.Repositories.WriteRepositorySettings(XWriter.RepositorySettings)">
-            <summary>
-            Writes the repository settings to Isolated Storage.
-            </summary>
-            <param name="settings">The settings to be saved.</param>
-            <returns>True if the operation succeded. False if the operation failed.</returns>
-        </member>
-        <member name="M:XWriter.Repositories.GetRepositorySettings">
-            <summary>
-            Gets the repository settings from Isolated Storage.
-            </summary>
-            <returns>A instance containing the repository settings.</returns>
-        </member>
-        <member name="M:XWriter.Repositories.HasRepositorySettings">
-            <summary>
-            Specifies if the application has the repository settings saved in Isolated Storage.
-            </summary>
-            <returns>
-            True is the repository configuration file exists in Isolated Storage.
-            False if the file does not exist.
-            </returns>
-        </member>
-        <member name="T:XWriter.XWikiRibbonTest">
-            <summary>
-            Test class for the ribbon.
-            </summary>
-        </member>
-        <member name="M:XWriter.XWikiRibbonTest.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:XWriter.XWikiRibbonTest.GlobalSetUp">
-            <summary>
-            Initialize the test.
-            </summary>
-        </member>
-        <member name="M:XWriter.XWikiRibbonTest.TestDropDownSaveFormat">
+        <member name="T:XWriter.VstoExtensions.ContentProtectionExtension">
             <summary>
-            Test method for DropDownSave format consistency
+            Extension for protecting Word content with VSTO
             </summary>
         </member>
-        <member name="T:XWriter.AddinActions">
+        <member name="M:XWriter.VstoExtensions.ContentProtectionExtension.eProtectDoc(Microsoft.Office.Interop.Word.Document,System.Boolean)">
             <summary>
-            Provides implementations for the common addin actions.
-            This class should contain most VSTO specific code.
+            Protect a Document
             </summary>
+            <param name="objDoc"></param>
+            <param name="blnProtect"></param>
         </member>
-        <member name="M:XWriter.AddinActions.#ctor(XWriter.XWikiAddIn)">
+        <member name="M:XWriter.VstoExtensions.ContentProtectionExtension.eProtectDocClean(Microsoft.Office.Interop.Word.Document,System.Boolean)">
             <summary>
-            Creates an instance for this class.
+            Protect a Document with deleting all editable ranges
             </summary>
-            <param name="addin">The instance of the current add-in.</param>
+            <param name="objDoc"></param>
+            <param name="blnProtect"></param>
         </member>
-        <member name="M:XWriter.AddinActions.DownloadAttachment(System.String,System.String,System.String)">
+        <member name="M:XWriter.VstoExtensions.ContentProtectionExtension.eProtectRange(Microsoft.Office.Interop.Word.Range,System.Boolean)">
             <summary>
-            Downloads the file to a local folder. The folder is located in MyDocuments
+            Protect Range
             </summary>
-            <param name="pageFullName">FullName of the wiki page - Space.Name</param>
-            <param name="attachmentName">Name of the attached file</param>
-            <param name="path">The location where the attachment will be downloaded. Use null for default location.</param>
+            <param name="objRng"></param>
+            <param name="blnProtect"></param>
             <returns></returns>
         </member>
-        <member name="M:XWriter.AddinActions.AttachCurrentFile(System.String)">
+        <member name="M:XWriter.VstoExtensions.ContentProtectionExtension.eProtectBookMark(Microsoft.Office.Interop.Word.Document,System.String,System.Boolean)">
             <summary>
-            Saves the document and attaches it to a wiki page
+            Protect BookMark
             </summary>
-            <param name="pageFullName">The full name of the wiki page.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.AttachCurrentFile(System.String,System.String)">
-            <summary>
-            Saves the document and attaches it to a wiki page
-            </summary>
-            <param name="space">The name of the wiki space.</param>
-            <param name="page">The name of the page.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.StartProcess(System.String)">
-            <summary>
-            Starts a new process. 
-             - If the file is executable then it will execute that file.
-             - If the file file is resistered to be opened with another application
-             then it will be opened with that application
-             - If the file doesnt have an assigned application then Windows Explorer openes it's directory.
-            </summary>
-            <param name="fullFileName">The full path and name of the file.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.IsOpened(System.String)">
-            <summary>
-            Specifies if a wiki page is opened for editing.
-            </summary>
-            <param name="pageFullName">The full name of the page.</param>
-            <returns>True if the page is already opened. False otherwise.</returns>
-        </member>
-        <member name="M:XWriter.AddinActions.EditPage(System.String)">
-            <summary>
-            Edits a wiki page.
-            The LoadingDialog is shown during the operation.
-            <see cref="M:XWriter.AddinActions.EditPage(System.String)"/>
-            </summary>
-            <param name="pageFullName">The full name of the wiki page that is being opened for editing.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.GetPage(System.Object)">
-            <summary>
-            Edits a wiki page.
-            </summary>
-            <param name="_pageFullName">The full name of the wiki page that is being opened for editing.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.SavePage(System.String,System.String@,System.String)">
-            <summary>
-            Saves the page to the wiki. Shows a message box with an error if the operation fails.
-            </summary>
-            <param name="pageName">The full name of the wiki page.</param>
-            <param name="pageContent">The contant to be saved.</param>
-            <param name="syntax">The wiki syntax of the saved page.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.OpenHTMLDocument(System.String)">
-            <summary>
-            Opens a local(document) file with Word.
-            </summary>
-            <param name="path">The path to the file.</param>
-            <returns>Returns a Document instance.</returns>
-        </member>
-        <member name="M:XWriter.AddinActions.SaveToServer">
-            <summary>
-            Saves the currently edited page or document to the server.
-            Displays the operation in progress dialog.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinActions.SaveToXwiki">
-            <summary>
-            Saves the currently edited page or document to the server.
-            </summary>
-        </member>
-        <member name="M:XWriter.AddinActions.AddNewPage(System.String,System.String)">
-            <summary>
-            Starts editing a new wiki page. The page will not be created in the wiki until the fisrt save.
-            </summary>
-            <param name="space">The name of the wiki space</param>
-            <param name="pageName">The name of page</param>
-        </member>
-        <member name="M:XWriter.AddinActions.ConvertToNormalFolder(System.String)">
-            <summary>
-            Converts the folder to a "Normal" type folder.
-            </summary>
-            <param name="folder"></param>
-        </member>
-        <member name="M:XWriter.AddinActions.AddNewPage(System.String,System.String,System.String,System.Windows.Forms.Form)">
-            <summary>
-            Starts editing a new wiki page. The page will not be created in the wiki until the fisrt save.
-            </summary>
-            <param name="space">The name of the wiki space.</param>
-            <param name="pageName">The name of page.</param>
-            <param name="pageTitle">The title of the page.</param>
-            <param name="sender">
-            The instance of the fprm that started the action.
-            This form need to be closed before swithing the Active Word Document.
-            </param>
-        </member>
-        <member name="M:XWriter.AddinActions.SaveFileDialog(System.String)">
-            <summary>
-            Displays a SaveFileDialog
-            </summary>
-            <param name="fileName">Optional name of file to be saved.</param>
-            <returns>The path to the file to be saved. Null if the user cancels the saving.</returns>
-        </member>
-        <member name="M:XWriter.AddinActions.CheckForErrors(System.String)">
-            <summary>
-            Searches the server response for error strings.
-            </summary>
-            <param name="content">The server response.</param>
-            <returns>True if the response contains error reports. False if the response does not ocntain error reports.</returns>
-        </member>
-        <member name="M:XWriter.AddinActions.HideProtectedPages(XWiki.WikiStructure,System.Collections.Generic.List{System.String})">
-            <summary>
-            Removes all protected pages from the Word wiki structure.
-            </summary>
-            <param name="wiki">The wiki instance.</param>
-            <param name="wildcards">The list of protected pages wildcards.</param>
-        </member>
-        <member name="M:XWriter.AddinActions.IsProtectedPage(System.String,System.Collections.Generic.List{System.String})">
-            <summary>
-            Specifies if a page is protected or not.
-            </summary>
-            <param name="pageFullName">The full name of the page.</param>
-            <param name="wildCards">The wildcard list of protected pages.</param>
+            <param name="objRng"></param>
+            <param name="blnProtect"></param>
             <returns></returns>
-        </member>
-        <member name="M:XWriter.AddinActions.ShadowCopyDocument(Microsoft.Office.Interop.Word.Document,System.String,Microsoft.Office.Interop.Word.WdSaveFormat)">
-            <summary>
-            Copies a document to a specified path.
-            </summary>
-            <param name="document">The Document instance.</param>
-            <param name="path">The path where the new file will be saved.</param>
-            <param name="saveFormat">The save format.</param>
-            <exception cref="T:System.IO.IOException">When the file cannot be saved.</exception>
-            <remarks>The document is saved in Unicode little endian encoding.</remarks>
-            <returns>True if the operation succedes. False otherwise.</returns>
-        </member>
-        <member name="P:XWriter.AddinActions.Client">
-            <summary>
-            Generic webclient used for conneting to xwiki.
-            </summary>        
         </member>
         <member name="T:XWriter.Log">
             <summary>
@@ -1350,6 +1304,87 @@
             Logs info about an exception.
             </summary>
             <param name="ex">The logged exception.</param>
+        </member>
+        <member name="T:XWriter.AddPageForm">
+            <summary>
+            UI for adding a page or a space.
+            </summary>
+        </member>
+        <member name="F:XWriter.AddPageForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddPageForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:XWriter.AddPageForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@)">
+            <param name="_wiki">A reference to the currently loaded wiki structure.</param>
+        </member>
+        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@,System.String)">
+            <param name="_wiki">A reference to the currently loaded wiki structure.</param>
+            <param name="_spaceName">
+            The default space name in which the new page will be created
+            </param>
+        </member>
+        <member name="M:XWriter.AddPageForm.#ctor(XWiki.WikiStructure@,System.Boolean,System.Boolean)">
+            <param name="_wiki">A reference to the currently loaded wiki structure.</param>
+            <param name="newSpace">Specifies if a new space will be created.</param>
+            <param name="_exportMode">
+            Specifies if the form is used to assign an export destination
+            for a document
+            </param>
+        </member>
+        <member name="M:XWriter.AddPageForm.AddPageForm_Load(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the form is loading.
+            </summary>
+            <param name="sender">The control that triggered the event.</param>
+            <param name="e">The event parameters.</param>
+        </member>
+        <member name="M:XWriter.AddPageForm.LoadSpaces">
+            <summary>
+            Loads the spaces into the combo.
+            </summary>
+        </member>
+        <member name="M:XWriter.AddPageForm.radioButton1_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            Refreshes the UI to the coresponding option regarding the space.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:XWriter.AddPageForm.btnAddPage_Click(System.Object,System.EventArgs)">
+            <summary>
+            Event triggered when the "Add page" button is pressed.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:XWriter.AddPageForm.ValidateFormData">
+            <summary>
+            Validates the data.
+            </summary>
+            <returns>True if data is valid. False if data is invalid.</returns>
+        </member>
+        <member name="M:XWriter.AddPageForm.comboBox1_SelectedIndexChanged(System.Object,System.EventArgs)">
+            <summary>
+            Sets the instance of the selected space when the combo box selection is changed
+            </summary>
+        </member>
+        <member name="M:XWriter.AddPageForm.btnCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            Closes the form.
+            </summary>
         </member>
     </members>
 </doc>
