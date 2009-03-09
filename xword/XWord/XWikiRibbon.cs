@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
+using VSTO = Microsoft.Office.Tools;
 using XWriter.VstoExtensions;
 
 namespace XWriter
@@ -232,6 +233,13 @@ namespace XWriter
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
+            Word.ContentControl cc;
+            //Addin.ActiveDocumentInstance.eProtectDoc(true);
+            //Addin.ActiveDocumentInstance.eProtectBookMark("Item24", false);
+            Object range = Addin.ActiveDocumentContentRange;
+            cc = Addin.ActiveDocumentContentRange.ContentControls.Add(Word.WdContentControlType.wdContentControlRichText, ref range);
+            cc.LockContentControl = true;
+            cc.LockContents = true;    
             
         }
     }

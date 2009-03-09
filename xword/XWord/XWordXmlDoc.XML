@@ -1247,9 +1247,6 @@
             <summary>
             Protect BookMark
             </summary>
-            <param name="objRng"></param>
-            <param name="blnProtect"></param>
-            <returns></returns>
         </member>
         <member name="T:XWriter.Log">
             <summary>

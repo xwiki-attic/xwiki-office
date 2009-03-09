@@ -16,7 +16,7 @@ namespace XWiki.Office.Word
         }
 
         /// <summary>
-        /// Adapts the HTML source from it's local MS Word form in order to be used by the wiki
+        /// Adapts the HTML source from it's local MS Word form in order to be used by the wiki.
         /// </summary>
         /// <param name="content">The initial HTML source.</param>
         /// <returns>The adapted HTML code.</returns>
@@ -31,7 +31,7 @@ namespace XWiki.Office.Word
                 content = uncleanedContent;
             }
             //content = htmlUtil.RemoveOfficeNameSpacesTags(content);
-            content = htmlUtil.ReplaceBody(content, "<body>");
+            //content = htmlUtil.ReplaceBody(content, "<body>");
             content = htmlUtil.ReplaceXmlNamespaceDefinitions(content, HTML_OPENING_TAG);
             content = content.Replace('·','o');
             content = content.Replace('§', 'o');//"·"; "o"; "§";

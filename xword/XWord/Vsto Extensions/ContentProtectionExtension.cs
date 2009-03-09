@@ -75,9 +75,12 @@ namespace XWriter.VstoExtensions
             Range Rng = null;
             if (objRng == null) return Rng;
             if (objRng.Start == objRng.End) return Rng;
-            object obj = WdEditorType.wdEditorEveryone;
-            objRng.Editors.Add(ref  obj);
-            if (blnProtect) objRng.Editors.Item(ref obj).Delete();
+            Object obj = WdEditorType.wdEditorEveryone;
+            Object editor = objRng.Editors.Add(ref obj);
+            if (blnProtect)
+            {
+                objRng.Editors.Item(ref obj).Delete();
+            }
             return objRng;
         }
 
@@ -86,9 +89,6 @@ namespace XWriter.VstoExtensions
         /// <summary>
         /// Protect BookMark
         /// </summary>
-        /// <param name="objRng"></param>
-        /// <param name="blnProtect"></param>
-        /// <returns></returns>
         public static Range eProtectBookMark(this Document objDoc, string strBookMark, bool blnProtect)
         {
             Range Rng = null;

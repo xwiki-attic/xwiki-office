@@ -27,7 +27,7 @@ namespace XWiki.Clients
         bool Login(String username, String password);
         
         /// <summary>
-        /// Gets the Wiki's structure, containing: spaces & pages.
+        /// Gets the Wiki's structure, containing: spaces and pages.
         /// </summary>
         /// <returns>A stream with a serialized XWikiStructure instance</returns>
         Stream GetWikiStructure();
@@ -171,9 +171,9 @@ namespace XWiki.Clients
         /// gettables, createchart, previewchart, chartwizard,
         /// lock, redirect, admin, export, import, jcaptcha, unknown.
         /// </remarks>
-        /// <param name="documentFullName"></param>
-        /// <param name="Action"></param>
-        /// <returns></returns>
+        /// <param name="documentFullName">The full name of the xwiki page</param>
+        /// <param name="xwikiAction">The struts action.</param>
+        /// <returns>The URL for the specified page and action.</returns>
         String GetURL(String documentFullName, String xwikiAction);        
     }
 }

@@ -11,30 +11,50 @@ using XWiki.Html;
 
 namespace XWiki.Office.Word
 {
+    /// <summary>
+    /// Class used to package the image information between threads.
+    /// </summary>
     class ImageDownloadInfo
     {
         String _URI;
-
+        /// <summary>
+        /// The URI of the image.
+        /// </summary>
         public String URI
         {
             get { return _URI; }
             set { _URI = value; }
         }
+        /// <summary>
+        /// The folder where the local image is located.
+        /// </summary>
         String downloadFolder;
 
         private ImageInfo imageInfo;
-
+        /// <summary>
+        /// Gets or sets the states of the XWord image.
+        /// </summary>
         public ImageInfo ImageInfo
         {
             get { return imageInfo; }
             set { imageInfo = value; }
         }
 
+        /// <summary>
+        /// The folder where the image is downloaded to.
+        /// </summary>
         public String DownloadFolder
         {
             get { return downloadFolder; }
             set { downloadFolder = value; }
         }
+
+        /// <summary>
+        /// Creates a new instance for the ImageInfo class.
+        /// </summary>
+        /// <param name="URI">The URI of the image.</param>
+        /// <param name="downloadFolder">The folder where the image will be downloaded.</param>
+        /// <param name="imageInfo">The states of the image on the server and on the local file system.</param>
         public ImageDownloadInfo(String URI, String downloadFolder, ImageInfo imageInfo)
         {
             this._URI = URI;
@@ -43,15 +63,28 @@ namespace XWiki.Office.Word
         }
     }
 
+    /// <summary>
+    /// Adapts the html source returned by the XWiki server and makes it usable by Word using a local html file.
+    /// </summary>
     class WebToLocalHTML : AbstractConverter
     {
         private const string IMAGE_TAG = "<img";
         private const string IMAGE_SOURCE_ATTRIBUTE = "src=\"";
 
+        /// <summary>
+        /// Creates a new instance of the WebToLocalHTML class.
+        /// </summary>
+        /// <param name="manager">The instance of the bidirectional conversion manager.</param>
         public WebToLocalHTML(ConversionManager manager)
         {
             this.manager = manager;
         }
+
+        /// <summary>
+        /// Adapts the 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public String AdaptSource(String content)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -69,10 +102,88 @@ namespace XWiki.Office.Word
                 System.Windows.Forms.MessageBox.Show("Sorry the page you requested seems to have an invalid html source", "XWord");
                 return "Sorry, a problem appeared when loading the page";
             }
+            //AdaptMacros(ref xmlDoc);
             AdaptImages(ref xmlDoc);
             return xmlDoc.InnerXml;
         }
 
+        /// <summary>
+        /// Adapts the html source to convert XWiki macros to Word Content Controls.
+        /// </summary>
+        /// <param name="xmlDoc">A reference to the xml dom containing the source.</param>
+        private void AdaptMacros(ref XmlDocument xmlDoc)
+        {
+            XmlNode node = xmlDoc;
+            ReplaceMacros(ref node, ref xmlDoc);
+        }
+
+        private void ReplaceMacros(ref XmlNode node, ref XmlDocument xmlDoc)
+        {
+            int context = 0; //0 - outside macros, 1- inside macro.
+            List<XmlNode> macroNodes = new List<XmlNode>();
+            List<XmlNode> regularNodes = new List<XmlNode>();
+            foreach (XmlNode childNode in node.ChildNodes)
+            {
+                if (childNode.NodeType == XmlNodeType.Comment)
+                {
+                    if (childNode.InnerText.StartsWith("startmacro"))
+                    {
+                        context = 1;
+                    }
+                    else if (childNode.InnerText.StartsWith("stopmacro"))
+                    {
+                        context = 0;
+                    }
+                }
+                else
+                {
+                    if (context == 0)
+                    {
+                        regularNodes.Add(childNode);
+                    }
+                    else
+                    {
+                        macroNodes.Add(childNode);
+                    }
+                }
+            }
+            //Initialize the node of the content control.
+            XmlElement element = xmlDoc.CreateElement("w:Sdt");
+            XmlAttribute sdtLocked = xmlDoc.CreateAttribute("SdtLocked");
+            sdtLocked.Value = "t";
+            XmlAttribute contentLocked = xmlDoc.CreateAttribute("ContentLocked");
+            contentLocked.Value = "t";
+            XmlAttribute docPart = xmlDoc.CreateAttribute("DocPart");
+            docPart.Value = "DefaultPlaceholder_22675703";
+            Random random = new Random();
+            XmlAttribute id = xmlDoc.CreateAttribute("ID");
+            id.Value = random.Next(9000000, 9999999).ToString();
+            element.Attributes.Append(sdtLocked);
+            element.Attributes.Append(contentLocked);
+            element.Attributes.Append(docPart);
+            element.Attributes.Append(id);
+            try
+            {
+                XmlNode parent = macroNodes[0].ParentNode;
+                parent.InsertBefore(element, macroNodes[0]);
+                foreach (XmlNode n in macroNodes)
+                {
+                    XmlNode nn = parent.RemoveChild(n);
+                    element.AppendChild(nn);
+                }
+            }
+            catch (XmlException ex) { };
+            foreach (XmlNode n in regularNodes)
+            {
+                XmlNode clone = n.Clone();
+                ReplaceMacros(ref clone, ref xmlDoc);
+            }
+        }
+
+        /// <summary>
+        /// Adapts the html source returned by the XWiki server and makes it usable by Word using a local html file.
+        /// </summary>
+        /// <param name="xmlDoc">A reference to the xml dom.</param>
         private void AdaptImages(ref XmlDocument xmlDoc)
         {
             XmlNodeList images = xmlDoc.GetElementsByTagName("img");
@@ -118,11 +229,19 @@ namespace XWiki.Office.Word
             }
         }
 
+        /// <summary>
+        /// Adapts lthe lists from the XWiki server to a fomat used by Word.
+        /// </summary>
+        /// <param name="xmlDoc"></param>
         private void AdaptLists(ref XmlDocument xmlDoc)
         {
-
+            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Downloads the image from the server and saves it to a local file.
+        /// </summary>
+        /// <param name="obj">The image data. Instance of ImageDownloadInfo used in cross thread data sharing.</param>
         private void DownloadImage(Object obj)
         {
             try

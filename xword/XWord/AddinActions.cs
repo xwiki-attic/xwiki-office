@@ -15,6 +15,7 @@ using XWiki.Office.Word;
 using XWiki.Html;
 using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
+using XWriter.VstoExtensions;
 
 namespace XWriter
 {
@@ -291,7 +292,8 @@ namespace XWriter
                 addin.currentPageFullName = pageFullName;
 
                 //Open the file with Word
-                OpenHTMLDocument(localFileName);
+                Word.Document doc =  OpenHTMLDocument(localFileName);
+                //doc.eProtectDoc(true);
                 addin.EditedPages.Add(localFileName, pageFullName);
             }
             catch (IOException ex)
