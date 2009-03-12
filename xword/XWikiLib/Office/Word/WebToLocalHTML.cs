@@ -102,7 +102,7 @@ namespace XWiki.Office.Word
                 System.Windows.Forms.MessageBox.Show("Sorry the page you requested seems to have an invalid html source", "XWord");
                 return "Sorry, a problem appeared when loading the page";
             }
-            //AdaptMacros(ref xmlDoc);
+            AdaptMacros(ref xmlDoc);
             AdaptImages(ref xmlDoc);
             return xmlDoc.InnerXml;
         }
@@ -117,6 +117,11 @@ namespace XWiki.Office.Word
             ReplaceMacros(ref node, ref xmlDoc);
         }
 
+        /// <summary>
+        /// Replaces the macros in a xml node with a Word content control tag.
+        /// </summary>
+        /// <param name="node">The xml node to be adapted.</param>
+        /// <param name="xmlDoc">A refrence to the xml document.</param>
         private void ReplaceMacros(ref XmlNode node, ref XmlDocument xmlDoc)
         {
             int context = 0; //0 - outside macros, 1- inside macro.
@@ -135,7 +140,7 @@ namespace XWiki.Office.Word
                         context = 0;
                     }
                 }
-                else
+                else if(childNode.NodeType != XmlNodeType.Document && childNode.NodeType != XmlNodeType.DocumentType )
                 {
                     if (context == 0)
                     {
@@ -147,8 +152,38 @@ namespace XWiki.Office.Word
                     }
                 }
             }
+            if (macroNodes.Count > 0)
+            {                
+                try
+                {
+                    XmlNode element = GenerateContentControlNode(ref xmlDoc);
+                    XmlNode parent = macroNodes[0].ParentNode;
+                    parent.InsertBefore(element, macroNodes[0]);
+                    foreach (XmlNode n in macroNodes)
+                    {
+                        XmlNode nn = parent.RemoveChild(n);
+                        element.AppendChild(n);
+                    }
+                }
+                catch (XmlException ex) { };
+            }
+            foreach (XmlNode n in regularNodes)
+            {
+                XmlNode clone = n.Clone();
+                n.ParentNode.ReplaceChild(clone, n);
+                ReplaceMacros(ref clone, ref xmlDoc);
+            }
+        }
+
+        /// <summary>
+        /// Generates a new node instance for the Word Content Control.
+        /// </summary>
+        /// <param name="xmlDoc">A refence to the xml document.</param>
+        /// <returns>The instance of the new node.</returns>
+        private XmlNode GenerateContentControlNode(ref XmlDocument xmlDoc)
+        {
             //Initialize the node of the content control.
-            XmlElement element = xmlDoc.CreateElement("w:Sdt");
+            XmlElement element = xmlDoc.CreateElement("w:Sdt", "urn:schemas-microsoft-com:office:word");
             XmlAttribute sdtLocked = xmlDoc.CreateAttribute("SdtLocked");
             sdtLocked.Value = "t";
             XmlAttribute contentLocked = xmlDoc.CreateAttribute("ContentLocked");
@@ -162,22 +197,7 @@ namespace XWiki.Office.Word
             element.Attributes.Append(contentLocked);
             element.Attributes.Append(docPart);
             element.Attributes.Append(id);
-            try
-            {
-                XmlNode parent = macroNodes[0].ParentNode;
-                parent.InsertBefore(element, macroNodes[0]);
-                foreach (XmlNode n in macroNodes)
-                {
-                    XmlNode nn = parent.RemoveChild(n);
-                    element.AppendChild(nn);
-                }
-            }
-            catch (XmlException ex) { };
-            foreach (XmlNode n in regularNodes)
-            {
-                XmlNode clone = n.Clone();
-                ReplaceMacros(ref clone, ref xmlDoc);
-            }
+            return element;
         }
 
         /// <summary>
@@ -230,7 +250,7 @@ namespace XWiki.Office.Word
         }
 
         /// <summary>
-        /// Adapts lthe lists from the XWiki server to a fomat used by Word.
+        /// Adapts lthe lists from the XWiki server to a format used by Word.
         /// </summary>
         /// <param name="xmlDoc"></param>
         private void AdaptLists(ref XmlDocument xmlDoc)
