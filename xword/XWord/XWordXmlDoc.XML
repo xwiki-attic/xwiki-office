@@ -1210,6 +1210,11 @@
             Gets or sets the save format for the html documents.
             </summary>
         </member>
+        <member name="P:XWriter.XWikiAddIn.DefaultSyntax">
+            <summary>
+            Gets the value of the default syntax.
+            </summary>
+        </member>
         <member name="T:XWriter.Globals">
             
         </member>

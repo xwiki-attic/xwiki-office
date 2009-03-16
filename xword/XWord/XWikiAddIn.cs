@@ -97,6 +97,7 @@ namespace XWriter
         /// and the full name of the associated wiki page.
         /// </summary>
         private Dictionary<String, String> editedPages = new Dictionary<string, string>();
+        private String defaultSyntax = "XWiki 2.0";
 
         #endregion
 
@@ -271,6 +272,14 @@ namespace XWriter
         {
             get { return saveFormat; }
             set { saveFormat = value; }
+        }
+
+        /// <summary>
+        /// Gets the value of the default syntax.
+        /// </summary>
+        public String DefaultSyntax
+        {
+            get { return defaultSyntax; }
         }
 
         /// <summary>

@@ -403,7 +403,7 @@ namespace XWriter
                 //openHTMLDocument(addin.currentLocalFilePath);
                 if (addin.AddinStatus.Syntax == null)
                 {
-                    addin.AddinStatus.Syntax = "XHTML";
+                    addin.AddinStatus.Syntax = addin.DefaultSyntax;
                 }
                 //Convert the source to the propper encoding.
                 Encoding iso = Encoding.GetEncoding("ISO-8859-1");

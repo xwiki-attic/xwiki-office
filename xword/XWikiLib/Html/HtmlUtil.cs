@@ -56,7 +56,9 @@ namespace XWiki.Html
             tidy.Options.SmartIndent = true;
             tidy.Options.Word2000 = isWordHtml;
             tidy.Options.EncloseBlockText = true;
-
+            
+            tidy.Options.XmlTags = true;
+            tidy.Options.FixComments = true;
             TidyMessageCollection tmc = new TidyMessageCollection();
             MemoryStream input = new MemoryStream();
             MemoryStream output = new MemoryStream();
@@ -75,10 +77,12 @@ namespace XWiki.Html
         /// </summary>
         /// <param name="htmlSource">The original html source code.</param>
         /// <returns>The source with corrected attributes.</returns>
-        public String CorectAttributes(String htmlSource)
+        public String CorrectAttributes(String htmlSource)
         {
             StringBuilder sb = new StringBuilder(htmlSource);
-            foreach (Match match in Regex.Matches(htmlSource, "<.*?\\s*(.*?)=(.*?)\\s*?>"))//<.*?>
+            //MatchCollection matches = Regex.Matches(htmlSource, "<.*?\\s*(.*?)=(.*?)\\s*?>");//<.*?>
+            MatchCollection matches = Regex.Matches(htmlSource, "<.*?>");
+            foreach (Match match in matches)
             {
                 String matchValue = match.Value;
                 char[] separators = {' ','>','/','\r'};
@@ -224,14 +228,22 @@ namespace XWiki.Html
         /// <summary>
         /// Gets a string representing the opening html tag with the XML namespace definitions, if any.
         /// </summary>
-        /// <param name="content">The html source to be processed</param>
+        /// <param name="htmlCode">The html source to be processed</param>
         /// <returns>a string representing the opening html tag.</returns>
         public String GetXmlNamespaceDefinitions(String htmlCode)
         {
             int startIndex, endIndex;
             startIndex = htmlCode.IndexOf("<html");
-            endIndex = htmlCode.IndexOf(">", startIndex);
-            return htmlCode.Substring(startIndex, endIndex - startIndex + 1);
+
+            if (startIndex < 0)
+            {
+                return null;
+            }
+            else
+            {
+                endIndex = htmlCode.IndexOf(">", startIndex);
+                return htmlCode.Substring(startIndex, endIndex - startIndex + 1);
+            }
         }
 
         /// <summary>
@@ -243,7 +255,21 @@ namespace XWiki.Html
         public String ReplaceXmlNamespaceDefinitions(String htmlCode, String newHtmlTag)
         {
             String oldHtmlTag = GetXmlNamespaceDefinitions(htmlCode);
-            return htmlCode.Replace(oldHtmlTag, newHtmlTag);            
+            if (oldHtmlTag == null)
+            {
+                if (!htmlCode.Contains("<body"))
+                {
+                    htmlCode = htmlCode.Insert(0, "<body>");
+                    htmlCode = htmlCode.Insert(htmlCode.Length, "</body>");
+                }
+                htmlCode = htmlCode.Insert(0, newHtmlTag);
+                htmlCode = htmlCode.Insert(htmlCode.Length, "</html>");
+            }
+            else
+            {
+                htmlCode = htmlCode.Replace(oldHtmlTag, newHtmlTag);            
+            }
+            return htmlCode;
         }
 
         /// <summary>

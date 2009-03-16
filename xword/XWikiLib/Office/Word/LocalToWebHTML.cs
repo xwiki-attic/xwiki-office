@@ -24,8 +24,8 @@ namespace XWiki.Office.Word
         {
             XmlDocument xmlDoc = new XmlDocument();
             //xmlDoc.XmlResolver = null;
-            String uncleanedContent = htmlUtil.CorectAttributes(content);
-            content = htmlUtil.CleanHTML(content, true);
+            String uncleanedContent = htmlUtil.CorrectAttributes(content);
+            content = htmlUtil.CleanHTML(uncleanedContent, true);
             if (content.Length == 0)
             {
                 content = uncleanedContent;
