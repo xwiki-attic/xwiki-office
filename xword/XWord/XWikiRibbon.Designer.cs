@@ -357,8 +357,8 @@
             // 
             // dropDownSaveFormat
             // 
-            ribbonDropDownItem3.Label = "Filtered HTML";
-            ribbonDropDownItem4.Label = "HTML";
+            ribbonDropDownItem3.Label = "HTML";
+            ribbonDropDownItem4.Label = "Filtered HTML";
             this.dropDownSaveFormat.Items.Add(ribbonDropDownItem3);
             this.dropDownSaveFormat.Items.Add(ribbonDropDownItem4);
             this.dropDownSaveFormat.Label = "Local save format:";

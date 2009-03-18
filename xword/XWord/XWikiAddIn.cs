@@ -512,7 +512,7 @@ namespace XWriter
             //Set encoding to ISO-8859-1(Western)
             Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
             Application.Options.UseNormalStyleForList = true;
-            this.SaveFormat = Word.WdSaveFormat.wdFormatFilteredHTML;
+            this.SaveFormat = Word.WdSaveFormat.wdFormatHTML;
             timer = new System.Timers.Timer(TIMER_INTERVAL);
             //Repositories and temporary files settings
             if (Repositories.HasRepositorySettings())
