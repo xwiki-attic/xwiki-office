@@ -92,6 +92,7 @@ namespace XWiki.Office.Word
             //String namespaces = htmlUtil.GetXmlNamespaceDefinitions(content);
             content = htmlUtil.CleanHTML(content, false);
             content = htmlUtil.ReplaceXmlNamespaceDefinitions(content, HTML_OPENING_TAG);
+            content = content.Replace("<p>&nbsp;</p>", "<br />");
             //content = content.Insert(0, DOCTYPE);
             try
             {

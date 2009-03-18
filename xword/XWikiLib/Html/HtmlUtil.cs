@@ -66,10 +66,46 @@ namespace XWiki.Html
             byte[] byteArray = Encoding.UTF8.GetBytes(htmlSource);
             input.Write(byteArray, 0, byteArray.Length);
             input.Position = 0;
-            tidy.Parse(input, output, tmc);
-
+            try
+            {
+                tidy.Parse(input, output, tmc);
+            }
+            catch (FormatException ex)
+            {
+                return htmlSource;
+            }
             string cleanContent = Encoding.UTF8.GetString(output.ToArray());
             return cleanContent;
+        }
+
+        /// <summary>
+        /// Gets a list with all the tags that contain attributes.
+        /// </summary>
+        /// <param name="htmlSource">The html source.</param>
+        /// <returns>A of strings with the tags containing attributes.</returns>
+        public List<String> GetTagsWithAttributes(String htmlSource)
+        {
+            List<String> tags = new List<String>();
+            int startIndex = 0;
+            int endIndex = 0;
+            do
+            {
+                startIndex = htmlSource.IndexOf('<', endIndex);
+                if (startIndex >= 0)
+                {
+                    endIndex = htmlSource.IndexOf('>', startIndex);
+                    if (endIndex >= 0)
+                    {
+                        String tag = htmlSource.Substring(startIndex, endIndex - startIndex + 1);
+                        if (tag.Contains('='))
+                        {
+                            tags.Add(tag);
+                        }
+                    }
+                }
+
+            } while (startIndex < (htmlSource.Length - 1) && endIndex < (htmlSource.Length - 1) && (startIndex >= 0) && (endIndex >= 0));
+            return tags;
         }
 
         /// <summary>
@@ -80,14 +116,13 @@ namespace XWiki.Html
         public String CorrectAttributes(String htmlSource)
         {
             StringBuilder sb = new StringBuilder(htmlSource);
-            //MatchCollection matches = Regex.Matches(htmlSource, "<.*?\\s*(.*?)=(.*?)\\s*?>");//<.*?>
-            MatchCollection matches = Regex.Matches(htmlSource, "<.*?>");
-            foreach (Match match in matches)
+            List<String> tags = GetTagsWithAttributes(htmlSource);
+            foreach(String initialValue in tags)
             {
-                String matchValue = match.Value;
+                String value = initialValue;
                 char[] separators = {' ','>','/','\r'};
                 bool hasChanged = false;
-                foreach(String s in match.Value.Split(separators))
+                foreach (String s in initialValue.Split(separators))
                 {
                     String[] attribute = s.Split('=');
                     if(attribute.Length == 2)
@@ -98,7 +133,7 @@ namespace XWiki.Html
                             if (attribute[1][0] != '\'' && attribute[1][0] != '\"')
                             {
                                 newValue = attribute[0] + "=\"" + attribute[1] + "\"";
-                                matchValue = matchValue.Replace(s, newValue);
+                                value = value.Replace(s, newValue);
                                 hasChanged = true;
                             }
                         }
@@ -107,7 +142,7 @@ namespace XWiki.Html
                 }
                 if (hasChanged)
                 {
-                    sb = sb.Replace(match.Value, matchValue);
+                    sb = sb.Replace(initialValue, value);
                 }
             }
             return sb.ToString();

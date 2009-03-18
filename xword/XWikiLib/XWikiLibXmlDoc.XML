@@ -618,7 +618,14 @@
             <param name="isWordHtml">Specifies if the source is an output from Microsoft Word</param>
             <returns>The cleaned Html.</returns>
         </member>
-        <member name="M:XWiki.Html.HtmlUtil.CorectAttributes(System.String)">
+        <member name="M:XWiki.Html.HtmlUtil.GetTagsWithAttributes(System.String)">
+            <summary>
+            Gets a list with all the tags that contain attributes.
+            </summary>
+            <param name="htmlSource">The html source.</param>
+            <returns>A of strings with the tags containing attributes.</returns>
+        </member>
+        <member name="M:XWiki.Html.HtmlUtil.CorrectAttributes(System.String)">
             <summary>
             Corrects the attributes that miss ' or ".
             </summary>
@@ -666,7 +673,7 @@
             <summary>
             Gets a string representing the opening html tag with the XML namespace definitions, if any.
             </summary>
-            <param name="content">The html source to be processed</param>
+            <param name="htmlCode">The html source to be processed</param>
             <returns>a string representing the opening html tag.</returns>
         </member>
         <member name="M:XWiki.Html.HtmlUtil.ReplaceXmlNamespaceDefinitions(System.String,System.String)">

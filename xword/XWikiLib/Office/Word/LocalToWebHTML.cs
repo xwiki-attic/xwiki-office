@@ -35,10 +35,12 @@ namespace XWiki.Office.Word
             content = htmlUtil.ReplaceXmlNamespaceDefinitions(content, HTML_OPENING_TAG);
             content = content.Replace('·','o');
             content = content.Replace('§', 'o');//"·"; "o"; "§";
+            //Removing &nbsp; from Word and Tidy output
+            content = content.Replace("<p>&nbsp;</p>", "<br />");
+            content = content.Replace(">&nbsp;<", "><");
             xmlDoc.LoadXml(content);
             AdaptImages(ref xmlDoc);            
-            AdaptLists(ref xmlDoc);
-            
+            AdaptLists(ref xmlDoc);            
             return xmlDoc.InnerXml;
         }
 
