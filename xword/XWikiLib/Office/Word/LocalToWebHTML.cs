@@ -25,6 +25,8 @@ namespace XWiki.Office.Word
             XmlDocument xmlDoc = new XmlDocument();
             //xmlDoc.XmlResolver = null;
             String uncleanedContent = htmlUtil.CorrectAttributes(content);
+            uncleanedContent = htmlUtil.CorrectTagsClosing(uncleanedContent, "img");
+            uncleanedContent = htmlUtil.CorrectTagsClosing(uncleanedContent, "br");
             content = htmlUtil.CleanHTML(uncleanedContent, true);
             if (content.Length == 0)
             {
