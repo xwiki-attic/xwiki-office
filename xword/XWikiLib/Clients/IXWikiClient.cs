@@ -8,6 +8,9 @@ using XWiki;
 
 namespace XWiki.Clients
 {
+    /// <summary>
+    /// Primary interface used in communication between XOffice and XWiki servers.
+    /// </summary>
     public interface IXWikiClient
     {
         /// <summary>

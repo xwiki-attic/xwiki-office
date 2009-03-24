@@ -345,14 +345,13 @@
             // 
             // dropDownSyntax
             // 
-            ribbonDropDownItem1.Label = "XHTML";
-            ribbonDropDownItem2.Label = "XWiki 2.0";
+            ribbonDropDownItem1.Label = "XWiki 2.0";
+            ribbonDropDownItem2.Label = "XHTML";
             this.dropDownSyntax.Items.Add(ribbonDropDownItem1);
             this.dropDownSyntax.Items.Add(ribbonDropDownItem2);
             this.dropDownSyntax.Label = "Server syntax:       ";
             this.dropDownSyntax.Name = "dropDownSyntax";
             this.dropDownSyntax.ScreenTip = "The syntax used to save the page on the XWiki server.";
-            this.dropDownSyntax.ItemsLoading += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSyntax_ItemsLoading);
             this.dropDownSyntax.SelectionChanged += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSyntax_SelectionChanged);
             // 
             // dropDownSaveFormat

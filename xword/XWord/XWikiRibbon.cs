@@ -204,11 +204,6 @@ namespace XWriter
             Addin.AddinStatus.Syntax = dropDownSyntax.SelectedItem.Label;
         }
 
-        private void dropDownSyntax_ItemsLoading(object sender, RibbonControlEventArgs e)
-        {
-            Addin.AddinStatus.Syntax = dropDownSyntax.Items[0].Label;
-        }
-
         private void dropDownSaveFormat_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
             if (dropDownSaveFormat.SelectedItem.Label == "Filtered HTML")

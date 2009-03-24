@@ -513,6 +513,7 @@ namespace XWriter
             Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
             Application.Options.UseNormalStyleForList = true;
             this.SaveFormat = Word.WdSaveFormat.wdFormatHTML;
+            this.AddinStatus.Syntax = this.DefaultSyntax;
             timer = new System.Timers.Timer(TIMER_INTERVAL);
             //Repositories and temporary files settings
             if (Repositories.HasRepositorySettings())

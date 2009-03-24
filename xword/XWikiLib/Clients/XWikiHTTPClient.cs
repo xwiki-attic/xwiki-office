@@ -602,7 +602,7 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="space">The space name.</param>
         /// <param name="page">The page name.</param>
-        /// <returns><The rendered content of the page./returns>
+        /// <returns>The rendered content of the page.</returns>
         public string GetRenderedPageContent(string space, string page)
         {
             String pageFullName = space + "." + page;

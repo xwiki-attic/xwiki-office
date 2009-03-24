@@ -6,19 +6,40 @@ using System.Text;
 
 namespace XWiki.Office.Word
 {
+    /// <summary>
+    /// Contains the states of the bidirectional conversion(Wiki->Word, Word->Wiki)
+    /// </summary>
     public class BidirectionalConversionStates
     {
         /// <summary>
         /// Creates an instance of the conversion states class.
         /// </summary>
         /// <param name="serverURL">The URL of the server.</param>
-        /// <param name="pageFullName">The full name of the wiki page that is being edited.</param>
         public BidirectionalConversionStates(String serverURL)
         {
             this.serverURL = serverURL;
             images = new Dictionary<Guid, ImageInfo>();
+            macros = new Dictionary<string, string>();
             links = new List<object>();
             styles = new List<object>();
+        }
+
+        /// <summary>
+        /// Dictionary containig the macros in the converted page.
+        /// Key - the id of the WordML(RichTextBox content control) element replacing the macro.
+        /// Value - the macro in web html form.
+        /// </summary>
+        private Dictionary<String, String> macros;
+
+        /// <summary>
+        /// Gets  the page macros collection.
+        /// Dictionary containig the macros in the converted page.
+        /// Key - the id of the WordML(RichTextBox content control) element replacing the macro.
+        /// Value - the macro in web html form.
+        /// </summary>
+        public Dictionary<String, String> Macros
+        {
+            get { return macros; }
         }
 
         /// <summary>
@@ -62,6 +83,9 @@ namespace XWiki.Office.Word
         /// </summary>
         private String pageFullName;
 
+        /// <summary>
+        /// Gets or sets the full name of the edited page.
+        /// </summary>
         public String PageFullName
         {
             get { return pageFullName; }
@@ -73,6 +97,9 @@ namespace XWiki.Office.Word
         /// </summary>
         private String localFolder;
 
+        /// <summary>
+        /// Gets or sets the name of the folder where the local file is stored.
+        /// </summary>
         public String LocalFolder
         {
             get { return localFolder; }
@@ -84,6 +111,9 @@ namespace XWiki.Office.Word
         /// </summary>
         private String localFileName;
 
+        /// <summary>
+        /// Gets or sets the name of the local file.
+        /// </summary>
         public String LocalFileName
         {
             get { return localFileName; }
@@ -95,6 +125,9 @@ namespace XWiki.Office.Word
         /// </summary>
         private Dictionary<Guid,ImageInfo> images;
 
+        /// <summary>
+        /// Dictionary containing the data of the images from both web and local versions of the document.
+        /// </summary>
         internal Dictionary<Guid, ImageInfo> Images
         {
             get { return images; }
