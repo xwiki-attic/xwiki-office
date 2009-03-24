@@ -129,7 +129,6 @@ namespace XWiki.Office.Word
             List<List<XmlNode>> macroNodes = new List<List<XmlNode>>();
             List<XmlNode> currentMacroNodes = new List<XmlNode>();
             List<XmlNode> regularNodes = new List<XmlNode>();
-            String macroText = "";
             foreach (XmlNode childNode in node.ChildNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Comment)
@@ -137,7 +136,6 @@ namespace XWiki.Office.Word
                     if (childNode.InnerText.StartsWith("startmacro"))
                     {
                         context = 1;
-                        macroText = childNode.OuterXml;
                         currentMacroNodes = new List<XmlNode>();
                         currentMacroNodes.Add(childNode);
                         macroNodes.Add(currentMacroNodes);
@@ -145,7 +143,6 @@ namespace XWiki.Office.Word
                     else if (childNode.InnerText.StartsWith("stopmacro"))
                     {
                         context = 0;
-                        macroText += childNode.OuterXml;
                         currentMacroNodes.Add(childNode);
                     }
                 }
@@ -158,7 +155,6 @@ namespace XWiki.Office.Word
                     else
                     {
                         currentMacroNodes.Add(childNode);
-                        macroText += childNode.OuterXml;
                     }
                 }
             }
@@ -168,14 +164,18 @@ namespace XWiki.Office.Word
                 {
                     try
                     {
+                        String macroContent = "";
                         XmlNode element = GenerateContentControlNode(ref xmlDoc);
+                        String id = element.Attributes["ID"].Value;
                         XmlNode parent = macroElements[0].ParentNode;
                         parent.InsertBefore(element, macroElements[0]);
                         foreach (XmlNode n in macroElements)
                         {
+                            macroContent += n.OuterXml;
                             parent.RemoveChild(n);
                             element.AppendChild(n);
                         }
+                        this.manager.States.Macros.Add(id, macroContent);
                     }
                     catch (XmlException ex) { };
                 }
