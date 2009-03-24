@@ -126,8 +126,10 @@ namespace XWiki.Office.Word
         private void ReplaceMacros(ref XmlNode node, ref XmlDocument xmlDoc)
         {
             int context = 0; //0 - outside macros, 1- inside macro.
-            List<XmlNode> macroNodes = new List<XmlNode>();
+            List<List<XmlNode>> macroNodes = new List<List<XmlNode>>();
+            List<XmlNode> currentMacroNodes = new List<XmlNode>();
             List<XmlNode> regularNodes = new List<XmlNode>();
+            String macroText = "";
             foreach (XmlNode childNode in node.ChildNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Comment)
@@ -135,10 +137,16 @@ namespace XWiki.Office.Word
                     if (childNode.InnerText.StartsWith("startmacro"))
                     {
                         context = 1;
+                        macroText = childNode.OuterXml;
+                        currentMacroNodes = new List<XmlNode>();
+                        currentMacroNodes.Add(childNode);
+                        macroNodes.Add(currentMacroNodes);
                     }
                     else if (childNode.InnerText.StartsWith("stopmacro"))
                     {
                         context = 0;
+                        macroText += childNode.OuterXml;
+                        currentMacroNodes.Add(childNode);
                     }
                 }
                 else if(childNode.NodeType != XmlNodeType.Document && childNode.NodeType != XmlNodeType.DocumentType )
@@ -149,24 +157,28 @@ namespace XWiki.Office.Word
                     }
                     else
                     {
-                        macroNodes.Add(childNode);
+                        currentMacroNodes.Add(childNode);
+                        macroText += childNode.OuterXml;
                     }
                 }
             }
-            if (macroNodes.Count > 0)
-            {                
-                try
+            foreach (List<XmlNode> macroElements in macroNodes)
+            {
+                if (macroElements.Count > 0)
                 {
-                    XmlNode element = GenerateContentControlNode(ref xmlDoc);
-                    XmlNode parent = macroNodes[0].ParentNode;
-                    parent.InsertBefore(element, macroNodes[0]);
-                    foreach (XmlNode n in macroNodes)
+                    try
                     {
-                        XmlNode nn = parent.RemoveChild(n);
-                        element.AppendChild(n);
+                        XmlNode element = GenerateContentControlNode(ref xmlDoc);
+                        XmlNode parent = macroElements[0].ParentNode;
+                        parent.InsertBefore(element, macroElements[0]);
+                        foreach (XmlNode n in macroElements)
+                        {
+                            parent.RemoveChild(n);
+                            element.AppendChild(n);
+                        }
                     }
+                    catch (XmlException ex) { };
                 }
-                catch (XmlException ex) { };
             }
             foreach (XmlNode n in regularNodes)
             {
@@ -175,6 +187,8 @@ namespace XWiki.Office.Word
                 ReplaceMacros(ref clone, ref xmlDoc);
             }
         }
+
+        private Random random = new Random();
 
         /// <summary>
         /// Generates a new node instance for the Word Content Control.
@@ -189,9 +203,8 @@ namespace XWiki.Office.Word
             sdtLocked.Value = "t";
             XmlAttribute contentLocked = xmlDoc.CreateAttribute("ContentLocked");
             contentLocked.Value = "t";
-            XmlAttribute docPart = xmlDoc.CreateAttribute("DocPart");
-            docPart.Value = "DefaultPlaceholder_22675703";
-            Random random = new Random();
+            XmlAttribute docPart = xmlDoc.CreateAttribute("DocPart");            
+            docPart.Value = "DefaultPlaceholder_" + random.Next(9000000, 9999999).ToString();            
             XmlAttribute id = xmlDoc.CreateAttribute("ID");
             id.Value = random.Next(9000000, 9999999).ToString();
             element.Attributes.Append(sdtLocked);
