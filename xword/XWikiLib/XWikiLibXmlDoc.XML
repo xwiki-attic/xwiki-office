@@ -58,11 +58,17 @@
             </summary>
             <param name="xmlDoc">A reference to the xml document.</param>
         </member>
+        <member name="M:XWiki.Office.Word.LocalToWebHTML.AdaptMacros(System.Xml.XmlDocument@)">
+            <summary>
+            Replaces the read-only Word content controls with XWiki macro markup.
+            </summary>
+            <param name="xmlDoc">A reference to the xml document instance.</param>
+        </member>
         <member name="M:XWiki.Office.Word.LocalToWebHTML.AdaptLists(System.Xml.XmlDocument@)">
             <summary>
             Adapts to the lists to a less styled format.
             </summary>
-            <param name="xmlDoc">A reference to the xml filtered document instance.</param>
+            <param name="xmlDoc">A reference to the xml document instance.</param>
         </member>
         <member name="M:XWiki.Office.Word.LocalToWebHTML.RemoveExtraLists(System.Xml.XmlDocument@)">
             <summary>

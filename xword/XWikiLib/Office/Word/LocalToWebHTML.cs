@@ -38,11 +38,14 @@ namespace XWiki.Office.Word
             content = content.Replace('·','o');
             content = content.Replace('§', 'o');//"·"; "o"; "§";
             //Removing &nbsp; from Word and Tidy output
+            content = content.Replace("<o:p></o:p>", "<br />");
             content = content.Replace("<p>&nbsp;</p>", "<br />");
             content = content.Replace(">&nbsp;<", "><");
+            content = content.Replace("&nbsp;", " ");
             xmlDoc.LoadXml(content);
             AdaptImages(ref xmlDoc);            
-            AdaptLists(ref xmlDoc);            
+            AdaptLists(ref xmlDoc);
+            //AdaptMacros(ref xmlDoc);            
             return xmlDoc.InnerXml;
         }
 
@@ -90,9 +93,44 @@ namespace XWiki.Office.Word
         }
 
         /// <summary>
+        /// Replaces the read-only Word content controls with XWiki macro markup.
+        /// </summary>
+        /// <param name="xmlDoc">A reference to the xml document instance.</param>
+        private void AdaptMacros(ref XmlDocument xmlDoc)
+        {
+            XmlNodeList macroNodes = xmlDoc.GetElementsByTagName("Sdt", "urn:schemas-microsoft-com:office:word");
+            XmlDocumentFragment docFrag = xmlDoc.CreateDocumentFragment();
+            Dictionary<String, String> macros = this.manager.States.Macros;
+            //We use a new list because the XmlNodeList will break when operationg with its' elements.
+            List<XmlNode> nodeList = new List<XmlNode>();
+            foreach (XmlNode node in macroNodes)
+            {
+                nodeList.Add(node);
+            }
+            foreach (XmlNode node in nodeList)
+            {
+                try
+                {
+                    String id = node.Attributes["ID"].Value;
+                    if (macros.ContainsKey(id))
+                    {
+                        String content = macros[id];
+                        docFrag.InnerXml = content;
+                        node.ParentNode.ReplaceChild(docFrag, node);
+                    }
+                }
+                catch (NullReferenceException) { }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        /// <summary>
         /// Adapts to the lists to a less styled format.
         /// </summary>
-        /// <param name="xmlDoc">A reference to the xml filtered document instance.</param>
+        /// <param name="xmlDoc">A reference to the xml document instance.</param>
         private void AdaptLists(ref XmlDocument xmlDoc)
         {
             XmlNodeList listItems = xmlDoc.GetElementsByTagName("li");
