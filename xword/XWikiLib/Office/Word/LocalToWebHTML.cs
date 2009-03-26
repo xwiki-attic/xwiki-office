@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
+using System.Xml.XPath;
 
 namespace XWiki.Office.Word
 {
@@ -43,10 +44,37 @@ namespace XWiki.Office.Word
             content = content.Replace(">&nbsp;<", "><");
             content = content.Replace("&nbsp;", " ");
             xmlDoc.LoadXml(content);
+            ClearStyles(ref xmlDoc);
             AdaptImages(ref xmlDoc);            
             AdaptLists(ref xmlDoc);
-            //AdaptMacros(ref xmlDoc);            
-            return xmlDoc.InnerXml;
+            AdaptMacros(ref xmlDoc);
+            StringBuilder sb = new StringBuilder(xmlDoc.InnerXml);
+            sb.Replace(" xmlns=\"\"","");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Deletes the style attributes from the Word generated content
+        /// </summary>
+        /// <param name="xmlDoc">A refrence to the xml document.</param>
+        private void ClearStyles(ref XmlDocument xmlDoc)
+        {
+            XPathNavigator navigator = xmlDoc.CreateNavigator();
+            XPathExpression expression = navigator.Compile("//@style");
+            XPathNodeIterator xIterator = navigator.Select(expression);
+            foreach (XPathNavigator nav in xIterator)
+            {
+                nav.DeleteSelf();                
+            }
+            expression = navigator.Compile("//@class");
+            xIterator = navigator.Select(expression);
+            foreach (XPathNavigator nav in xIterator)
+            {
+                if (nav.Value == "MsoNormal" || nav.Value == "MsoNormalTable")
+                {
+                    nav.DeleteSelf();
+                }
+            }
         }
 
         /// <summary>

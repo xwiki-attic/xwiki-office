@@ -52,6 +52,12 @@
             <param name="content">The initial HTML source.</param>
             <returns>The adapted HTML code.</returns>
         </member>
+        <member name="M:XWiki.Office.Word.LocalToWebHTML.ClearStyles(System.Xml.XmlDocument@)">
+            <summary>
+            Deletes the style attributes from the Word generated content
+            </summary>
+            <param name="xmlDoc">A refrence to the xml document.</param>
+        </member>
         <member name="M:XWiki.Office.Word.LocalToWebHTML.AdaptImages(System.Xml.XmlDocument@)">
             <summary>
             Adapts the images from the local(file:///) to the xwiki format.
@@ -1045,7 +1051,7 @@
         </member>
         <member name="M:XWiki.Office.Word.WebToLocalHTML.AdaptSource(System.String)">
             <summary>
-            Adapts the 
+            Adapts the Word generated content to XWiki friendly content.
             </summary>
             <param name="content"></param>
             <returns></returns>

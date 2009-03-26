@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Text;
 using System.Xml;
+using System.Xml.XPath;
 using XWiki.Clients;
 using XWiki.Html;
 
@@ -81,7 +82,7 @@ namespace XWiki.Office.Word
         }
 
         /// <summary>
-        /// Adapts the 
+        /// Adapts the Word generated content to XWiki friendly content.
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
@@ -92,7 +93,10 @@ namespace XWiki.Office.Word
             //String namespaces = htmlUtil.GetXmlNamespaceDefinitions(content);
             content = htmlUtil.CleanHTML(content, false);
             content = htmlUtil.ReplaceXmlNamespaceDefinitions(content, HTML_OPENING_TAG);
+            content = content.Replace("<o:p></o:p>", "<br />");
             content = content.Replace("<p>&nbsp;</p>", "<br />");
+            content = content.Replace(">&nbsp;<", "><");
+            content = content.Replace("&nbsp;", " ");
             //content = content.Insert(0, DOCTYPE);
             try
             {
@@ -104,7 +108,7 @@ namespace XWiki.Office.Word
                 return "Sorry, a problem appeared when loading the page";
             }
             AdaptMacros(ref xmlDoc);
-            AdaptImages(ref xmlDoc);
+            AdaptImages(ref xmlDoc);            
             return xmlDoc.InnerXml;
         }
 
@@ -171,7 +175,14 @@ namespace XWiki.Office.Word
                         parent.InsertBefore(element, macroElements[0]);
                         foreach (XmlNode n in macroElements)
                         {
-                            macroContent += n.OuterXml;
+                            String s = n.OuterXml;
+                            if (n.NamespaceURI.Length > 0)
+                            {
+                                //Removing inline namespace declaration
+                                String ns = " xmlns=\"" + n.NamespaceURI + "\"";
+                                s = s.Replace(ns, "");
+                            }
+                            macroContent += s;
                             parent.RemoveChild(n);
                             element.AppendChild(n);
                         }
