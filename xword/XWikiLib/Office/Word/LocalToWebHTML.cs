@@ -48,6 +48,7 @@ namespace XWiki.Office.Word
             AdaptImages(ref xmlDoc);            
             AdaptLists(ref xmlDoc);
             AdaptMacros(ref xmlDoc);
+            ClearOfficeAttributes(ref xmlDoc);
             StringBuilder sb = new StringBuilder(xmlDoc.InnerXml);
             sb.Replace(" xmlns=\"\"","");
             return sb.ToString();
@@ -74,6 +75,28 @@ namespace XWiki.Office.Word
                 {
                     nav.DeleteSelf();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Deletes all office specific attributes
+        /// </summary>
+        /// <param name="xmlDoc">A reference to the xml document.</param>
+        private void ClearOfficeAttributes(ref XmlDocument xmlDoc)
+        {
+            XPathNavigator navigator = xmlDoc.CreateNavigator();
+            XmlNamespaceManager nsMr = new XmlNamespaceManager(xmlDoc.NameTable);
+            nsMr.AddNamespace(String.Empty, "http://www.w3.org/1999/xhtml");
+            nsMr.AddNamespace("v", "urn:schemas-microsoft-com:vml");
+            nsMr.AddNamespace("o", "urn:schemas-microsoft-com:office:office");
+            nsMr.AddNamespace("w", "urn:schemas-microsoft-com:office:word");
+            nsMr.AddNamespace("m", "http://schemas.microsoft.com/office/2004/12/omml");
+
+            XPathExpression expression = navigator.Compile("//@v:* | //@o:* | //@w:* | //@m:*");
+            XPathNodeIterator xIterator = navigator.Select(expression.Expression, nsMr);
+            foreach (XPathNavigator nav in xIterator)
+            {
+                nav.DeleteSelf();
             }
         }
 
