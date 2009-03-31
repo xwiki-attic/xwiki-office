@@ -58,6 +58,12 @@
             </summary>
             <param name="xmlDoc">A refrence to the xml document.</param>
         </member>
+        <member name="M:XWiki.Office.Word.LocalToWebHTML.ClearOfficeAttributes(System.Xml.XmlDocument@)">
+            <summary>
+            Deletes all office specific attributes
+            </summary>
+            <param name="xmlDoc">A reference to the xml document.</param>
+        </member>
         <member name="M:XWiki.Office.Word.LocalToWebHTML.AdaptImages(System.Xml.XmlDocument@)">
             <summary>
             Adapts the images from the local(file:///) to the xwiki format.

@@ -42,6 +42,8 @@ namespace XWiki.Office.Word
             content = content.Replace("<o:p></o:p>", "<br />");
             content = content.Replace("<p>&nbsp;</p>", "<br />");
             content = content.Replace(">&nbsp;<", "><");
+            content = content.Replace("<o:p>", "");
+            content = content.Replace("</o:p>", "");
             content = content.Replace("&nbsp;", " ");
             xmlDoc.LoadXml(content);
             ClearStyles(ref xmlDoc);
@@ -71,10 +73,18 @@ namespace XWiki.Office.Word
             xIterator = navigator.Select(expression);
             foreach (XPathNavigator nav in xIterator)
             {
-                if (nav.Value == "MsoNormal" || nav.Value == "MsoNormalTable")
+                if (nav.Value == "MsoNormal" || nav.Value == "MsoNormalTable" || nav.Value == "MsoTableGrid")
                 {
                     nav.DeleteSelf();
                 }
+            }
+            expression = navigator.Compile("//td[@valign]");
+            XmlNodeList nodes = xmlDoc.GetElementsByTagName("td");
+            foreach (XmlNode node in nodes)
+            {
+                //XmlAttribute valign = node.Attributes["valign"];
+                //node.Attributes.Remove(valign);
+                node.Attributes.RemoveAll();
             }
         }
 

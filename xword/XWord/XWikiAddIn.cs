@@ -565,7 +565,6 @@ namespace XWriter
                 //The .NET String has UTF16 littleEndian(Unicode) encoding.
                 Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUnicodeLittleEndian;
                 Application.ActiveDocument.SaveEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUnicodeLittleEndian;
-                                
                 Application.Options.UseNormalStyleForList = true;
             }
             //Is thrown because in some cases the VSTO runtime is stopped after the word instance is closed.

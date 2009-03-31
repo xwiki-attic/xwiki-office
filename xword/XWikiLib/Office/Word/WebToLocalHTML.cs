@@ -193,6 +193,7 @@ namespace XWiki.Office.Word
             }
             foreach (XmlNode n in regularNodes)
             {
+
                 XmlNode clone = n.Clone();
                 n.ParentNode.ReplaceChild(clone, n);
                 ReplaceMacros(ref clone, ref xmlDoc);
