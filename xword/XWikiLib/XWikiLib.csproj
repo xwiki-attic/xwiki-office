@@ -72,6 +72,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Xml\XmlDocumentExtension.cs" />
     <Compile Include="XWiki\Space.cs" />
     <Compile Include="XWiki\WikiStructure.cs" />
     <Compile Include="Clients\XWikiHTTPClient.cs" />
@@ -88,9 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="XWikiLibXmlDoc.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Xml\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.XPath;
 using XWiki.Clients;
 using XWiki.Html;
+using XWiki.Xml;
 
 namespace XWiki.Office.Word
 {
@@ -109,7 +110,7 @@ namespace XWiki.Office.Word
             }
             AdaptMacros(ref xmlDoc);
             AdaptImages(ref xmlDoc);            
-            return xmlDoc.InnerXml;
+            return xmlDoc.GetIndentedXml();
         }
 
         /// <summary>

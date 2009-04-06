@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
+using XWiki.Xml;
 
 namespace XWiki.Office.Word
 {
@@ -51,7 +52,7 @@ namespace XWiki.Office.Word
             AdaptLists(ref xmlDoc);
             AdaptMacros(ref xmlDoc);
             ClearOfficeAttributes(ref xmlDoc);
-            StringBuilder sb = new StringBuilder(xmlDoc.InnerXml);
+            StringBuilder sb = new StringBuilder(xmlDoc.GetIndentedXml());
             sb.Replace(" xmlns=\"\"","");
             return sb.ToString();
         }
