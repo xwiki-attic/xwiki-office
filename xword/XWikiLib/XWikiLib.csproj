@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\.NET Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -57,6 +61,9 @@
   <ItemGroup>
     <Compile Include="Clients\HTTPResponses.cs" />
     <Compile Include="Clients\IXWikiClient.cs" />
+    <Compile Include="Clients\XmlRpc\Model\Page.cs" />
+    <Compile Include="Clients\XmlRpc\Model\PageSummary.cs" />
+    <Compile Include="Clients\XmlRpc\Model\SpaceSummary.cs" />
     <Compile Include="Clients\XWikiXMLRPCClient.cs" />
     <Compile Include="Html\HtmlUtil.cs" />
     <Compile Include="Office\Word\AbstractConverter.cs" />
