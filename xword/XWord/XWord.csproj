@@ -360,7 +360,6 @@
     <Content Include="Resources\viewInBrowser.png" />
     <Content Include="Resources\viewInBrowser1.png" />
     <Content Include="Resources\XWiki.ico" />
-    <Content Include="XWordXmlDoc.XML" />
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
