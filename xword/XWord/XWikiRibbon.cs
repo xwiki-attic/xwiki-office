@@ -36,7 +36,24 @@ namespace XWriter
         {
 
         }
-
+        /// <summary>
+        /// Refreshes the buttons from the selectionOptionsGroup according to the connection state.
+        /// </summary>
+        public void Refresh(object sender, EventArgs e) 
+        {
+            if (Addin.Client.LoggedIn)
+            {
+                if (!selectionOptionsGroup.Visible)
+                {
+                    selectionOptionsGroup.Visible = true;
+                }
+            }
+            else if (selectionOptionsGroup.Visible)
+            {
+                selectionOptionsGroup.Visible = false;
+            }
+        }
+        
         private void SyncSaving_Click(object sender, RibbonControlEventArgs e)
         {
             if (syncSaving.Checked)

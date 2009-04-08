@@ -71,14 +71,6 @@ namespace XWiki.Clients
         }
 
         /// <summary>
-        /// Specifies if the user is logged in;
-        /// </summary>
-        public bool LoggedIn
-        {
-            get { return isLoggedIn; }
-        }
-
-        /// <summary>
         /// The webclient's headers.
         /// </summary>
         public WebHeaderCollection Headers
@@ -308,7 +300,7 @@ namespace XWiki.Clients
         /// <summary>
         /// Specifies if the current user is logged in.
         /// </summary>
-        public bool IsLoggedIn
+        public bool LoggedIn
         {
             get
             {

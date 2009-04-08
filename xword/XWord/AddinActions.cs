@@ -72,7 +72,7 @@ namespace XWriter
         /// <returns></returns>
         public FileInfo DownloadAttachment(String pageFullName, String attachmentName, String path)
         {
-            if (!this.Client.IsLoggedIn)
+            if (!this.Client.LoggedIn)
             {
                 Client.Login(addin.username, addin.password);
             }
@@ -102,7 +102,7 @@ namespace XWriter
         {
             if (pageFullName != null)
             {
-                if (!this.Client.IsLoggedIn)
+                if (!this.Client.LoggedIn)
                 {
                     Client.Login(addin.username, addin.password);
                 }
@@ -130,7 +130,7 @@ namespace XWriter
                 Log.Error("Trying to attach a file to a page with an invalid name!");
                 return false;
             }
-            if (!this.Client.IsLoggedIn)
+            if (!this.Client.LoggedIn)
             {
                 Client.Login(addin.username, addin.password);
             }
@@ -224,7 +224,7 @@ namespace XWriter
                 MessageBox.Show("You are already editing this page.", "XWord");
                 return;
             }
-            if (!this.Client.IsLoggedIn)
+            if (!this.Client.LoggedIn)
             {
                 Client.Login(addin.username, addin.password);
             }
@@ -250,7 +250,7 @@ namespace XWriter
         {
             try
             {
-                if (!this.Client.IsLoggedIn)
+                if (!this.Client.LoggedIn)
                 {
                     Client.Login(addin.username, addin.password);
                 }
@@ -313,7 +313,7 @@ namespace XWriter
         /// <param name="syntax">The wiki syntax of the saved page.</param>
         private void SavePage(String pageName, ref String pageContent, String syntax)
         {
-            if (!this.Client.IsLoggedIn)
+            if (!this.Client.LoggedIn)
             {
                 Client.Login(addin.username, addin.password);
             }
@@ -467,7 +467,7 @@ namespace XWriter
             }
             try
             {
-                if (!this.Client.IsLoggedIn)
+                if (!this.Client.LoggedIn)
                 {
                     Client.Login(addin.username, addin.password);
                 }

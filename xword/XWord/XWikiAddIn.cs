@@ -537,6 +537,9 @@ namespace XWriter
                 if (result == DialogResult.OK)
                 {
                     Client = new XWikiHTTPClient(serverURL, username, password);
+                    // refreshes the ribbon buttons
+                    // which allow the user to work with the documents from XWiki server
+                    Globals.Ribbons.XWikiRibbon.Refresh(null,null);
                     AddTaskPanes();
                 }
             }
@@ -586,6 +589,9 @@ namespace XWriter
                 username = credentials[1];
                 password = credentials[2];
                 client = new XWikiHTTPClient(serverURL, username, password);
+                // refreshes the ribbon buttons
+                // which allow the user to work with the documents from XWiki server
+                Globals.Ribbons.XWikiRibbon.Refresh(null, null);
                 AddTaskPanes();
             }
             return canAutoLogin;

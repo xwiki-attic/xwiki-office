@@ -22,7 +22,7 @@ namespace XWiki.Clients
         /// <summary>
         /// Specifies if the current user is logged in.
         /// </summary>
-        public bool IsLoggedIn
+        public bool LoggedIn
         {
             get
             {

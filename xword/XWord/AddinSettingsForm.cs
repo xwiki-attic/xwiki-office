@@ -112,6 +112,11 @@ namespace XWriter
             Addin.password = Password;
             LoginData loginData = new LoginData();
             Addin.Client = new XWikiHTTPClient(ServerURL, UserName, Password);
+            // refreshes the ribbon buttons
+            // which allow the user to work with the documents from XWiki server
+            Globals.Ribbons.XWikiRibbon.Refresh(null, null);
+            
+
             //TODO if login fails then...
             //AddTaskPanes(); TODO: Sync all taskpanes
             if (Addin.XWikiTaskPane != null)
