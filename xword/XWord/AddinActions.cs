@@ -293,8 +293,11 @@ namespace XWriter
 
                 //Open the file with Word
                 Word.Document doc =  OpenHTMLDocument(localFileName);
-                //doc.eProtectDoc(true);
                 addin.EditedPages.Add(localFileName, pageFullName);
+
+                //Mark just-opened document as saved. This prevents a silly confirmation box that
+                //warns about unsaved changes when closing an unchanged document.
+                doc.Saved = true;
             }
             catch (IOException ex)
             {
@@ -653,6 +656,7 @@ namespace XWriter
                 MessageBox.Show(ioex.Message);
                 return false;
             }
+            
             return true;
         }
     }
