@@ -52,10 +52,30 @@ namespace XWiki.XmlRpc
         /// <summary>
         /// Gets a summary data for the pages in a space.
         /// </summary>
-        /// <param name="token">The authentication space.</param>
+        /// <param name="token">The authentication page.</param>
         /// <param name="spaceId">The id of the page.</param>
         /// <returns>Summary data for the pages in the specified space.</returns>
         [XmlRpcMethod("confluence1.getPages")]
         PageSummary[] GetPages(String token, String spaceId);
+
+        /// <summary>
+        /// Gets the list of attachments from a wiki page.
+        /// </summary>
+        /// <param name="token">The authentication page.</param>
+        /// <param name="pageId">The id of the page containing the attachment</param>
+        /// <returns></returns>
+        [XmlRpcMethod("confluence1.getAttachments")]
+        Attachment[] GetAttachments(String token, String pageId);
+
+        /// <summary>
+        /// Attaches a file to a wiki page.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="contentId"></param>
+        /// <param name="attachment">Attachment instance specifiing the filename and other attributes.</param>
+        /// <param name="attachmentData">The binary data for the attachment.</param>
+        /// <returns>A new instance of an Attachment containing all attributes for the attached file.</returns>
+        [XmlRpcMethod("confluence1.addAttachment")]
+        Attachment AddAttachment(String token, int contentId, Attachment attachment, byte[] attachmentData);
     }
 }

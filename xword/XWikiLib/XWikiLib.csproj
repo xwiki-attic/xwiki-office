@@ -62,6 +62,7 @@
     <Compile Include="Clients\HTTPResponses.cs" />
     <Compile Include="Clients\IXWikiClient.cs" />
     <Compile Include="Clients\XmlRpc\IXWikiProxy.cs" />
+    <Compile Include="Clients\XmlRpc\Model\Attachment.cs" />
     <Compile Include="Clients\XmlRpc\Model\Page.cs" />
     <Compile Include="Clients\XmlRpc\Model\PageSummary.cs" />
     <Compile Include="Clients\XmlRpc\Model\SpaceSummary.cs" />
