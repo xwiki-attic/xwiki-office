@@ -53,7 +53,19 @@ namespace XWriter
                 selectionOptionsGroup.Visible = false;
             }
         }
-        
+
+        /// <summary>
+        /// Changes the selected item from dropDownSyntax control with the one
+        /// that is labeled with toSyntax string.
+        /// </summary>
+        /// <param name="toSyntax">Existing item in dropDownSyntax to be selected.</param>
+        public void SwitchSyntax(string toSyntax)
+        {
+            for (int i = 0; i < dropDownSyntax.Items.Count; i++)
+                if (dropDownSyntax.Items[i].Label == toSyntax)
+                    dropDownSyntax.SelectedItem = dropDownSyntax.Items[i];
+        }
+
         private void SyncSaving_Click(object sender, RibbonControlEventArgs e)
         {
             if (syncSaving.Checked)

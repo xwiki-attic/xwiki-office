@@ -354,11 +354,53 @@ namespace XWriter
             {
                 MessageBox.Show("You are not currently editing a wiki page", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
-            }            
+            }
+            bool continueWithSaving = ShowSwitchSyntaxDialog();
+            if (!continueWithSaving)
+            {
+                return;
+            }
             LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             SaveToXwiki();
             loadingDialog.CloseSyncDialog();
+        }
+
+        /// <summary>
+        /// If current syntax is XWiki 2.0 and the page contains table(s), promt the user
+        /// to switch to XHTML syntax with an Yes/No/Cancel message box.
+        /// </summary>
+        /// <param name="cleanHTML">Cleaned HTML source code.</param>
+        /// <returns>FALSE if the user presses 'Cancel', meaning the saving should not continue. TRUE in other cases.</returns>
+        private bool ShowSwitchSyntaxDialog()
+        {
+            if (addin.AddinStatus.Syntax == null)
+            {
+                addin.AddinStatus.Syntax = addin.DefaultSyntax;
+            }
+            if ((addin.ActiveDocumentInstance.Tables.Count>0) && 
+                (addin.AddinStatus.Syntax.ToLower().IndexOf("xhtml") < 0))
+            {
+                DialogResult dr;
+                string infoMessage, caption;
+                infoMessage = "This page contains elements that can not properly be saved inXWiki 2.0 syntax.";
+                infoMessage += Environment.NewLine;
+                infoMessage += "Would you like to switch to XHTML syntax?";
+                caption = "Feature Not Yet Implemented";
+            
+                dr = System.Windows.Forms.MessageBox.Show(infoMessage, caption, MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                
+                if (dr == DialogResult.Yes)
+                {
+                    addin.AddinStatus.Syntax = "XHTML";
+                    Globals.Ribbons.XWikiRibbon.SwitchSyntax("XHTML");
+                }
+                if (dr == DialogResult.Cancel)
+                    return false;
+
+            }
+            return true;
         }
 
         /// <summary>
@@ -408,6 +450,8 @@ namespace XWriter
                 {
                     addin.AddinStatus.Syntax = addin.DefaultSyntax;
                 }
+
+
                 //Convert the source to the propper encoding.
                 Encoding iso = Encoding.GetEncoding("ISO-8859-1");
                 byte[] content = Encoding.Unicode.GetBytes(cleanHTML);
