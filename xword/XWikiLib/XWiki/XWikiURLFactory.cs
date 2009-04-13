@@ -16,6 +16,7 @@ namespace XWiki
         static String wikiStructureURL = "/xwiki/bin/view/MSOffice/StructureService?xpage=plain";
         static String attachmentServiceURL = "/xwiki/bin/view/MSOffice/AttachmentService?xpage=plain";
         static String protectedPagesURL = "/xwiki/bin/view/MSOffice/ProtectedPages?xpage=plain";
+        static String getEncoding = "/xwiki/bin/view/MSOffice/GetEncodingService?xpage=plain";
 
         /// <summary>
         /// Gets or sets the URL of the service that handles attachments.
@@ -72,5 +73,15 @@ namespace XWiki
             get { return protectedPagesURL; }
             set { protectedPagesURL = value; }
         }
+
+        /// <summary>
+        /// Gets the encoding of the wiki.
+        /// </summary>
+        public static String GetEncoding
+        {
+            get { return getEncoding; }
+            set { getEncoding = value; }
+        }
+
     }
 }

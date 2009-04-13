@@ -28,6 +28,7 @@ namespace XWiki.Clients
                                           "rememeberme",
                                           "validation"};
         private bool isLoggedIn;
+        private Encoding encoding;
         /// <param name="serverURL">The url of the server.</param>
         /// <param name="username">The username used to authenticate.</param>
         /// <param name="password">The passowrd used to authenticate.</param>
@@ -118,6 +119,14 @@ namespace XWiki.Clients
                 return false;
             }
             isLoggedIn = true;
+            try
+            {
+                encoding = GetEncoding();
+            }
+            catch (InvalidEncodingNameException ex)
+            {
+                encoding = null;
+            }
             return true;
         }
 
@@ -138,6 +147,34 @@ namespace XWiki.Clients
             String value = cookiesString.Substring(middleIndex + 1, lastIndex - middleIndex - 1);
             String headerString = cookiesString.Substring(index, lastIndex - index);
             return headerString;
+        }
+
+        /// <summary>
+        /// Gets the encoding of the wiki instance.
+        /// </summary>
+        /// <returns>The character encoding from the XWiki server.</returns>
+        private Encoding GetEncoding()
+        {
+            Encoding enc;
+
+            InsertCookies();
+            String uri = ServerURL + XWikiURLs.GetEncoding;
+            Stream data = webClient.OpenRead(uri);
+            StreamReader reader = new StreamReader(data);
+            String response = reader.ReadToEnd();
+            data.Close();
+            reader.Close();
+            try
+            {
+                enc = Encoding.GetEncoding(response);
+            }
+            catch (ArgumentException e)
+            {
+                // TODO: Log this error
+                throw new InvalidEncodingNameException();
+
+            }
+            return enc;
         }
 
         /// <summary>
@@ -305,6 +342,28 @@ namespace XWiki.Clients
             get
             {
                 return isLoggedIn;
+            }
+        }
+
+        /// <summary>
+        /// Specifies if the current encoding from the XWiki server.
+        /// </summary>
+        public Encoding ServerEncoding
+        {
+            get
+            {
+                if (encoding == null)
+                {
+                    try
+                    {
+                        encoding = GetEncoding();
+                    }
+                    catch (InvalidEncodingNameException ex)
+                    {
+                        encoding = Encoding.GetEncoding("ISO-8859-1");
+                    }
+                }
+                return encoding;
             }
         }
 

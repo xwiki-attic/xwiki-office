@@ -453,7 +453,7 @@ namespace XWriter
 
 
                 //Convert the source to the propper encoding.
-                Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+                Encoding iso = Client.ServerEncoding;
                 byte[] content = Encoding.Unicode.GetBytes(cleanHTML);
                 byte[] wikiContent = null;
                 wikiContent = Encoding.Convert(Encoding.Unicode, iso, content);
@@ -532,7 +532,7 @@ namespace XWriter
                 pageContent = pageContent + newPageText;
                 FileStream stream = new FileStream(localFileName, FileMode.Create);
                 //byte[] buffer = UTF8Encoding.UTF8.GetBytes(pageContent.ToString());
-                Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+                Encoding iso = Client.ServerEncoding;
                 byte[] buffer = iso.GetBytes(pageContent);
                 stream.Write(buffer, 0, buffer.Length);
                 stream.Close();

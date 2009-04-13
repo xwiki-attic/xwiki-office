@@ -8,6 +8,7 @@ namespace XWiki.Clients
     public class XWikiXMLRPCClient : IXWikiClient
     {
         private bool isLoggedIn;
+        private Encoding encoding;
         /// <summary>
         /// XML-RPC implementation of IXWikiCLient.
         /// Provides access to the main features of XWiki using the XML-RPC API.
@@ -30,6 +31,17 @@ namespace XWiki.Clients
             }
         }
               
+        /// <summary>
+        /// Specifies if the current encoding from the XWiki server.
+        /// </summary>
+        public Encoding ServerEncoding
+        {
+            get
+            {
+                return encoding;
+            }
+        }
+
         /// <summary>
         /// Authenticates the user to the server.
         /// </summary>

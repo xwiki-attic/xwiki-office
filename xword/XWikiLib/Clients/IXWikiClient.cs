@@ -22,6 +22,14 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Specifies the encoding from the XWiki server.
+        /// </summary>
+        Encoding ServerEncoding
+        {
+            get;
+        }
+
+        /// <summary>
         /// Basic authentification method.
         /// </summary>
         /// <param name="username"></param>

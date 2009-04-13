@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\HTTPResponses.cs" />
+    <Compile Include="Clients\InvalidEncodingNameException.cs" />
     <Compile Include="Clients\IXWikiClient.cs" />
     <Compile Include="Clients\XmlRpc\IXWikiProxy.cs" />
     <Compile Include="Clients\XmlRpc\Model\Attachment.cs" />
