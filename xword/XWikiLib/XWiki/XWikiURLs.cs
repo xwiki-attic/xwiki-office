@@ -82,6 +82,5 @@ namespace XWiki
             get { return getEncoding; }
             set { getEncoding = value; }
         }
-
     }
 }

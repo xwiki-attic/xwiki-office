@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Text = System.Text;
 using System.Net;
 using System.Collections;
 using System.IO;
@@ -28,7 +28,7 @@ namespace XWiki.Clients
                                           "rememeberme",
                                           "validation"};
         private bool isLoggedIn;
-        private Encoding encoding;
+        private Text.Encoding encoding;
         /// <param name="serverURL">The url of the server.</param>
         /// <param name="username">The username used to authenticate.</param>
         /// <param name="password">The passowrd used to authenticate.</param>
@@ -121,7 +121,7 @@ namespace XWiki.Clients
             isLoggedIn = true;
             try
             {
-                encoding = GetEncoding();
+                encoding = Encoding();
             }
             catch (InvalidEncodingNameException ex)
             {
@@ -153,9 +153,9 @@ namespace XWiki.Clients
         /// Gets the encoding of the wiki instance.
         /// </summary>
         /// <returns>The character encoding from the XWiki server.</returns>
-        private Encoding GetEncoding()
+        private Text.Encoding Encoding()
         {
-            Encoding enc;
+            Text.Encoding enc;
 
             InsertCookies();
             String uri = ServerURL + XWikiURLs.GetEncoding;
@@ -166,13 +166,12 @@ namespace XWiki.Clients
             reader.Close();
             try
             {
-                enc = Encoding.GetEncoding(response);
+                enc = Text.Encoding.GetEncoding(response);
             }
             catch (ArgumentException e)
             {
                 // TODO: Log this error
                 throw new InvalidEncodingNameException();
-
             }
             return enc;
         }
@@ -326,8 +325,8 @@ namespace XWiki.Clients
         /// <returns>The convertes string.</returns>
         private String ConvertEncoding(string content)
         {
-            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
-            Encoding unicode = Encoding.UTF8;
+            Text.Encoding iso = Text.Encoding.GetEncoding("ISO-8859-1");
+            Text.Encoding unicode = Text.Encoding.UTF8;
             byte[] byteContent = unicode.GetBytes(content);
             return iso.GetString(byteContent);
         }
@@ -348,7 +347,7 @@ namespace XWiki.Clients
         /// <summary>
         /// Specifies if the current encoding from the XWiki server.
         /// </summary>
-        public Encoding ServerEncoding
+        public Text.Encoding ServerEncoding
         {
             get
             {
@@ -356,11 +355,11 @@ namespace XWiki.Clients
                 {
                     try
                     {
-                        encoding = GetEncoding();
+                        encoding = Encoding();
                     }
                     catch (InvalidEncodingNameException ex)
                     {
-                        encoding = Encoding.GetEncoding("ISO-8859-1");
+                        encoding = Text.Encoding.GetEncoding("ISO-8859-1");
                     }
                 }
                 return encoding;
@@ -458,7 +457,7 @@ namespace XWiki.Clients
                 parameters.Add("pagecontent", content);
                 parameters.Add("xpage", "plain");
                 byte[] response = webClient.UploadValues(targetURL, "POST", parameters);
-                String responseText = Encoding.UTF8.GetString(response);
+                String responseText = Text.Encoding.UTF8.GetString(response);
                 return responseText.Contains(HTTPResponses.SAVE_OK);
             }
             catch (WebException)
@@ -565,7 +564,7 @@ namespace XWiki.Clients
             String uploadAddress = serverURL + XWikiURLs.AttachmentServiceURL;
             uploadAddress += "&page=" + docName + "&action=attachFile";
             byte[] buffer = webClient.UploadFile(uploadAddress, filePath);
-            String response = UTF8Encoding.UTF8.GetString(buffer);
+            String response = Text.UTF8Encoding.UTF8.GetString(buffer);
             if(response.Contains(HTTPResponses.NO_PROGRAMMING_RIGHTS) || response.Contains(HTTPResponses.NO_GROOVY_RIGHTS))
             {
                 return false;
