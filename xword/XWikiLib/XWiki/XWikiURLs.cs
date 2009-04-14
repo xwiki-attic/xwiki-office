@@ -75,9 +75,9 @@ namespace XWiki
         }
 
         /// <summary>
-        /// Gets the encoding of the wiki.
+        /// Gets or sets the encoding of the wiki.
         /// </summary>
-        public static String GetEncoding
+        public static String Encoding
         {
             get { return getEncoding; }
             set { getEncoding = value; }

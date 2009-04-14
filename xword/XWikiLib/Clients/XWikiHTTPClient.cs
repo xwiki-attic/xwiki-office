@@ -158,7 +158,7 @@ namespace XWiki.Clients
             Text.Encoding enc;
 
             InsertCookies();
-            String uri = ServerURL + XWikiURLs.GetEncoding;
+            String uri = ServerURL + XWikiURLs.Encoding;
             Stream data = webClient.OpenRead(uri);
             StreamReader reader = new StreamReader(data);
             String response = reader.ReadToEnd();
