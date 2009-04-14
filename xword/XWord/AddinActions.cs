@@ -364,6 +364,15 @@ namespace XWriter
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             SaveToXwiki();
             loadingDialog.CloseSyncDialog();
+
+            //After a new page has been published to XWiki, refresh the tree view
+            //so the user can see his/her page plus other pages that might have been
+            //created while the user was working on the current one.
+            if (!addin.currentPagePublished)
+            {
+                Globals.XWikiAddIn.XWikiTaskPane.RefreshWikiExplorer();
+                addin.currentPagePublished = true;
+            }
         }
 
         /// <summary>

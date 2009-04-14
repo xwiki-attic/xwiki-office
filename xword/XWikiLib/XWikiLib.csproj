@@ -87,7 +87,7 @@
     <Compile Include="XWiki\WikiStructure.cs" />
     <Compile Include="Clients\XWikiHTTPClient.cs" />
     <Compile Include="XWiki\XWikiDocument.cs" />
-    <Compile Include="XWiki\XWikiURLFactory.cs" />
+    <Compile Include="XWiki\XWikiURLs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

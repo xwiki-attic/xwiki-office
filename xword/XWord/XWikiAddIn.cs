@@ -53,6 +53,14 @@ namespace XWriter
         /// Specifies the full name of the currently edited page(if any).
         /// </summary>
         public string currentPageFullName = "";
+
+        /// <summary>
+        /// Specifies if the current page was published on the server.
+        /// It does not specify if the last modifications were saved, but
+        /// if the local document has a coresponding wiki page. It's FALSE
+        /// until first saving to wiki.
+        /// </summary>
+        public bool currentPagePublished = false;
         /// <summary>
         /// A list of the web client's cookies.
         /// </summary>
