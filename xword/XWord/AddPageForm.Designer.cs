@@ -52,7 +52,7 @@
             this.lblSpaceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSpaceName.Location = new System.Drawing.Point(7, 55);
             this.lblSpaceName.Name = "lblSpaceName";
-            this.lblSpaceName.Size = new System.Drawing.Size(88, 16);
+            this.lblSpaceName.Size = new System.Drawing.Size(95, 18);
             this.lblSpaceName.TabIndex = 0;
             this.lblSpaceName.Text = "Space name:";
             // 
@@ -60,7 +60,7 @@
             // 
             this.txtSpaceName.Location = new System.Drawing.Point(117, 55);
             this.txtSpaceName.Name = "txtSpaceName";
-            this.txtSpaceName.Size = new System.Drawing.Size(284, 21);
+            this.txtSpaceName.Size = new System.Drawing.Size(284, 23);
             this.txtSpaceName.TabIndex = 2;
             // 
             // groupBoxSpace
@@ -103,7 +103,7 @@
             this.radioButtonExistingSpace.AutoSize = true;
             this.radioButtonExistingSpace.Location = new System.Drawing.Point(7, 22);
             this.radioButtonExistingSpace.Name = "radioButtonExistingSpace";
-            this.radioButtonExistingSpace.Size = new System.Drawing.Size(118, 19);
+            this.radioButtonExistingSpace.Size = new System.Drawing.Size(118, 21);
             this.radioButtonExistingSpace.TabIndex = 0;
             this.radioButtonExistingSpace.TabStop = true;
             this.radioButtonExistingSpace.Text = "Existing Space";
@@ -127,7 +127,7 @@
             // 
             this.txtPageTitle.Location = new System.Drawing.Point(117, 63);
             this.txtPageTitle.Name = "txtPageTitle";
-            this.txtPageTitle.Size = new System.Drawing.Size(284, 21);
+            this.txtPageTitle.Size = new System.Drawing.Size(284, 23);
             this.txtPageTitle.TabIndex = 4;
             // 
             // label2
@@ -144,7 +144,7 @@
             // 
             this.txtPageName.Location = new System.Drawing.Point(117, 33);
             this.txtPageName.Name = "txtPageName";
-            this.txtPageName.Size = new System.Drawing.Size(284, 21);
+            this.txtPageName.Size = new System.Drawing.Size(284, 23);
             this.txtPageName.TabIndex = 3;
             // 
             // label1
@@ -153,7 +153,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(7, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 16);
+            this.label1.Size = new System.Drawing.Size(87, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Page name:";
             // 
@@ -170,6 +170,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.Location = new System.Drawing.Point(359, 254);
             this.btnCancel.Name = "btnCancel";
@@ -181,8 +182,9 @@
             // 
             // AddPageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(448, 294);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAddPage);
