@@ -18,10 +18,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWord", "XWord\XWord.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWikiLib", "XWikiLib\XWikiLib.csproj", "{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Style Enforcer", "Code Style Enforcer", "{A7A5BD15-0CF5-4C3D-A782-C489D92D53F9}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\ImplementationRules.xml = C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\ImplementationRules.xml
+		C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\NameRules.xml = C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\NameRules.xml
+		C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\VisibilityRules.xml = C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\VisibilityRules.xml
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = MS Office Add-ins1.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -50,5 +54,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		CodeStyleEnforcer_RulesLocation = 0
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal
