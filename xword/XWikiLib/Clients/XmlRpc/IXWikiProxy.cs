@@ -132,6 +132,23 @@ namespace XWiki.XmlRpc
             bool fromLatest);
 
         /// <summary>
+        /// Gets the information about a XWiki class.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="className">The name of the XWiki class.</param>
+        /// <returns>A XWikiClass instance containing the description of the class.</returns>
+        [XmlRpcMethod("confluence1.getClass")]
+        XWikiClass GetClass(String token, String className);
+
+        /// <summary>
+        /// Gets a summary about the existing XWiki classes on the current server.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <returns>A summary about the existing XWiki classes on the current server.</returns>
+        [XmlRpcMethod("confluence1.getClasses")]
+        XWikiClassSummary[] GetClasses(String token);
+
+        /// <summary>
         /// Gets the list of attachments from a wiki page.
         /// </summary>
         /// <param name="token">The authentication page.</param>
