@@ -24,6 +24,14 @@ namespace XWiki.XmlRpc
         String Login(String username, String password);
 
         /// <summary>
+        /// Gets a summary data about the server.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <returns>Summary data about the server.</returns>
+        [XmlRpcMethod("confluence1.getServerInfo")]
+        ServerInfo GetServerInfo(String token);
+
+        /// <summary>
         /// Gets a list containg all spaces names in the wiki.
         /// </summary>
         /// <param name="token">The authentication token.</param>
@@ -82,6 +90,17 @@ namespace XWiki.XmlRpc
         Page StorePage(String token, Page page, bool checkVersion);
 
         /// <summary>
+        /// Gets the rendered content of a page.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="space">The space the contains the rendered page.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="content">The unrendered content of the page.</param>
+        /// <returns>The rendered content of the page.</returns>
+        [XmlRpcMethod("confluence1.renderContent")]
+        String RenderContent(String token, String space, String pageId, String content);
+
+        /// <summary>
         /// Removes a page from the wiki.
         /// </summary>
         /// <param name="token">The authentication token.</param>
@@ -98,6 +117,19 @@ namespace XWiki.XmlRpc
         /// <returns>The history of the page.</returns>
         [XmlRpcMethod("confluence1.getPageHistory")]
         PageHistorySummary[] GetPageHistory(String token, String pageId);
+
+        /// <summary>
+        /// Gets the history of the last modified pages.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="date">The date since when the history should be retrieved.</param>
+        /// <param name="numberOfResults">The number of results.</param>
+        /// <param name="start">The start offset.</param>
+        /// <param name="fromLatest">Specifies if the retrived data should be start with the lates modification.</param>
+        /// <returns>A history summary of the last modifications.</returns>
+        [XmlRpcMethod("confluence1.getModifiedPagesHistory")]
+        PageHistorySummary[] GetModifiedPagesHistory(String token, DateTime date, int numberOfResults, int start,
+            bool fromLatest);
 
         /// <summary>
         /// Gets the list of attachments from a wiki page.

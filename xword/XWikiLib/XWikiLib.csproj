@@ -67,6 +67,7 @@
     <Compile Include="Clients\XmlRpc\Model\Page.cs" />
     <Compile Include="Clients\XmlRpc\Model\PageHistorySummary.cs" />
     <Compile Include="Clients\XmlRpc\Model\PageSummary.cs" />
+    <Compile Include="Clients\XmlRpc\Model\ServerInfo.cs" />
     <Compile Include="Clients\XmlRpc\Model\SpaceSummary.cs" />
     <Compile Include="Clients\XWikiXMLRPCClient.cs" />
     <Compile Include="Html\HtmlUtil.cs" />
