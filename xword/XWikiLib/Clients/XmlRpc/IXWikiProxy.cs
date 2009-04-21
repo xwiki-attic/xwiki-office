@@ -59,6 +59,38 @@ namespace XWiki.XmlRpc
         PageSummary[] GetPages(String token, String spaceId);
 
         /// <summary>
+        /// Stores the content of a wiki page to the server.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="page">Page object conatining the information about the page, including the content.</param>
+        /// <returns>A new instance of the page containing the updated info.</returns>
+        [XmlRpcMethod("confluence1.storePage")]
+        Page StorePage(String token, Page page);
+
+        /// <summary>
+        /// Stores the content of a wiki page to the server.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="page">Page object conatining the information about the page, including the content.</param>
+        /// <param name="checkVersion">
+        /// When true checks if the page already exists 
+        /// and saves the content only if the page doesn't exist yet.
+        /// When false the content is saved no matter if the page already exists or not.
+        /// </param>
+        /// <returns>A new instance of the page containing the updated info.</returns>
+        [XmlRpcMethod("confluence1.storePage")]
+        Page StorePage(String token, Page page, bool checkVersion);
+
+        /// <summary>
+        /// Removes a page from the wiki.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <returns>True if the page was removed successfully. False otherwise.</returns>
+        [XmlRpcMethod("confluence1.removePage")]
+        bool RemovePage(String token, String pageId);
+
+        /// <summary>
         /// Gets the list of attachments from a wiki page.
         /// </summary>
         /// <param name="token">The authentication page.</param>
