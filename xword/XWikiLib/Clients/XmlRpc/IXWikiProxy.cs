@@ -91,6 +91,15 @@ namespace XWiki.XmlRpc
         bool RemovePage(String token, String pageId);
 
         /// <summary>
+        /// Gets the history of a page.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <returns>The history of the page.</returns>
+        [XmlRpcMethod("confluence1.getPageHistory")]
+        PageHistorySummary[] GetPageHistory(String token, String pageId);
+
+        /// <summary>
         /// Gets the list of attachments from a wiki page.
         /// </summary>
         /// <param name="token">The authentication page.</param>
