@@ -77,5 +77,26 @@ namespace XWiki.XmlRpc
         /// <returns>A new instance of an Attachment containing all attributes for the attached file.</returns>
         [XmlRpcMethod("confluence1.addAttachment")]
         Attachment AddAttachment(String token, int contentId, Attachment attachment, byte[] attachmentData);
+
+        /// <summary>
+        /// Gets the binary data of an attachment.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="fileName">The name of the attached file.</param>
+        /// <param name="versionNumber">The version of the attachment.</param>
+        /// <returns>The binary data of the attachment.</returns>
+        [XmlRpcMethod("confluence1.getAttachmentData")]
+        byte[] GetAttachmentData(String token, String pageId, String fileName, String versionNumber);
+
+        /// <summary>
+        /// Removes an attachment from a page
+        /// </summary>
+        /// <param name="token">The autehntication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="fileName">The name of the attached file.</param>
+        /// <returns>True if the attachement was successfully removed. False otherwise.</returns>
+        [XmlRpcMethod("confluence1.removeAttachment")]
+        Boolean RemoveAttachment(String token, String pageId, String fileName);
     }
 }
