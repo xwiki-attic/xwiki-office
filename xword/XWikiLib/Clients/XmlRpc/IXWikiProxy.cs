@@ -60,7 +60,25 @@ namespace XWiki.XmlRpc
         /// <param name="spaceId">The id of the space.</param>
         /// <returns>The data regarding a space.</returns>
         [XmlRpcMethod("confluence1.getSpace")]
-        SpaceSummary GetSpace(String token, String spaceId);
+        Space GetSpace(String token, String spaceId);
+
+        /// <summary>
+        /// Adds a space to the wiki.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="spaceInfo">A Space instance containing data about the new space.</param>
+        /// <returns>A new Space instance with the updated space data after the saving.</returns>
+        [XmlRpcMethod("confluence1.addSpace")]
+        Space AddSpace(String token, Space spaceInfo);
+
+        /// <summary>
+        /// Removes a space from the wiki.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="spaceKey">The name of the space.</param>
+        /// <returns>True is the space is successfully removed. False otherwise.</returns>
+        [XmlRpcMethod("confluence1.removeSpace")]
+        bool RemoveSpace(String token, String spaceKey);
 
         #endregion//Spaces
 

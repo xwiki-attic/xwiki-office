@@ -5,7 +5,7 @@ namespace XWiki.XmlRpc
     /// <summary>
     /// Contains summary data regarding a space.
     /// </summary>
-    public struct SpaceSummary
+    public class SpaceSummary
     {
         /// <summary>
         /// The name of the space.
