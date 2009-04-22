@@ -11,6 +11,8 @@ namespace XWiki.XmlRpc
     /// </summary>
     public interface IXWikiProxy : IXmlRpcProxy
     {
+        #region Authentication
+
         /// <summary>
         /// Authenticates a user to the XWiki Server.
         /// </summary>
@@ -24,12 +26,24 @@ namespace XWiki.XmlRpc
         String Login(String username, String password);
 
         /// <summary>
+        /// Logs out a user from the XWiki server.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <returns>True if the operation succeded. False otherwise.</returns>
+        [XmlRpcMethod("confluence1.logout")]
+        bool Logout(String token);
+
+        #endregion//Authentication
+
+        /// <summary>
         /// Gets a summary data about the server.
         /// </summary>
         /// <param name="token">The authentication token.</param>
         /// <returns>Summary data about the server.</returns>
         [XmlRpcMethod("confluence1.getServerInfo")]
         ServerInfo GetServerInfo(String token);
+
+        #region Spaces
 
         /// <summary>
         /// Gets a list containg all spaces names in the wiki.
@@ -47,6 +61,10 @@ namespace XWiki.XmlRpc
         /// <returns>The data regarding a space.</returns>
         [XmlRpcMethod("confluence1.getSpace")]
         SpaceSummary GetSpace(String token, String spaceId);
+
+        #endregion//Spaces
+
+        #region Pages
 
         /// <summary>
         /// Gets the data of a page.
@@ -116,7 +134,7 @@ namespace XWiki.XmlRpc
         /// <param name="pageId">The id of the page.</param>
         /// <returns>The history of the page.</returns>
         [XmlRpcMethod("confluence1.getPageHistory")]
-        PageHistorySummary[] GetPageHistory(String token, String pageId);
+        PageHistorySummary[] GetPageHistory(String token, String pageId);        
 
         /// <summary>
         /// Gets the history of the last modified pages.
@@ -130,6 +148,10 @@ namespace XWiki.XmlRpc
         [XmlRpcMethod("confluence1.getModifiedPagesHistory")]
         PageHistorySummary[] GetModifiedPagesHistory(String token, DateTime date, int numberOfResults, int start,
             bool fromLatest);
+
+        #endregion//Pages
+
+        #region Classes
 
         /// <summary>
         /// Gets the information about a XWiki class.
@@ -147,6 +169,10 @@ namespace XWiki.XmlRpc
         /// <returns>A summary about the existing XWiki classes on the current server.</returns>
         [XmlRpcMethod("confluence1.getClasses")]
         XWikiClassSummary[] GetClasses(String token);
+
+        #endregion//Classes
+
+        #region Attachments
 
         /// <summary>
         /// Gets the list of attachments from a wiki page.
@@ -189,6 +215,9 @@ namespace XWiki.XmlRpc
         [XmlRpcMethod("confluence1.removeAttachment")]
         Boolean RemoveAttachment(String token, String pageId, String fileName);
 
+        #endregion//Attachments
+
+        #region Objects
 
         /// <summary>
         /// Gets the XWiki objects in a XWiki document.
@@ -250,5 +279,17 @@ namespace XWiki.XmlRpc
         /// <returns>True if the object is removed sucessfully. False otherwise.</returns>
         [XmlRpcMethod("confluence1.removeObject")]
         bool RemoveObject(String token, String pageId, String className, int id);
+
+        #endregion//Objects
+
+        /// <summary>
+        /// Searches the server using hql queries
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="query">The hql query on the XWiki data model.</param>
+        /// <param name="maxResults">Maximum number of results to be returned by the query.</param>
+        /// <returns>A result set for the speified query.</returns>
+        [XmlRpcMethod("confluence1.search")]
+        XmlRpcStruct[] Search(String token, String query, int maxResults);
     }
 }
