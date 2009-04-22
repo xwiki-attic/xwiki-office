@@ -188,5 +188,67 @@ namespace XWiki.XmlRpc
         /// <returns>True if the attachement was successfully removed. False otherwise.</returns>
         [XmlRpcMethod("confluence1.removeAttachment")]
         Boolean RemoveAttachment(String token, String pageId, String fileName);
+
+
+        /// <summary>
+        /// Gets the XWiki objects in a XWiki document.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <returns>An array with summary data about the XWiki Objects in the given page.</returns>
+        [XmlRpcMethod("confluence1.getObjects")]
+        XWikiObjectSummary[] GetObjects(String token, String pageId);
+
+        /// <summary>
+        /// Retrives information about an object in a wiki document.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="className">The class name of the object.</param>
+        /// <param name="id">The id/index of the object.</param>
+        /// <returns>An XWikiObject instance containing detailed data about the xwiki object.</returns>
+        [XmlRpcMethod("confluence1.getObject")]
+        XWikiObject GetObject(String token, String pageId, String className, int id);
+
+        /// <summary>
+        /// Retrives information about an object in a wiki document.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="guid">The guid of the object.</param>
+        /// <returns>An XWikiObject instance containing detailed data about the xwiki object.</returns>
+        [XmlRpcMethod("confluence1.getObject")]
+        XWikiObject GetObject(String token, String pageId, String guid);
+
+        /// <summary>
+        /// Stores a object to a wiki document.
+        /// </summary>
+        /// <param name="token">The autthentication token.</param>
+        /// <param name="objectMap">An XWikiObject instance with the data to be stored.</param>
+        /// <returns>An XWikiObject instance containing all updated attributes after the object has been stored.</returns>
+        [XmlRpcMethod("confluence1.storeObject")]
+        XWikiObject StoreObject(String token, XWikiObject objectMap);
+
+        /// <summary>
+        /// Stores a object to a wiki document.
+        /// </summary>
+        /// <param name="token">The autthentication token.</param>
+        /// <param name="objectMap">An XWikiObject instance with the data to be stored.</param>
+        /// <returns>An XWikiObject instance containing all updated attributes after the object has been stored.</returns>
+        /// <param name="checkVersion">Specifies if the existence of an previous version of the object
+        /// should be checked before storing the object.</param>
+        [XmlRpcMethod("confluence1.storeObject")]
+        XWikiObject StoreObject(String token, XWikiObject objectMap, bool checkVersion);
+
+        /// <summary>
+        /// Removes an XWiki object from a wiki document.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="className">The XWiki class name of the object instance to be deleted.</param>
+        /// <param name="id">The id(index) of the object ot be deleted.</param>
+        /// <returns>True if the object is removed sucessfully. False otherwise.</returns>
+        [XmlRpcMethod("confluence1.removeObject")]
+        bool RemoveObject(String token, String pageId, String className, int id);
     }
 }

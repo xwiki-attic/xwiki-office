@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWord", "XWord\XWord.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWikiLib", "XWikiLib\XWikiLib.csproj", "{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Style Enforcer", "Code Style Enforcer", "{A7A5BD15-0CF5-4C3D-A782-C489D92D53F9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Style Enforcer", "Code Style Enforcer", "{0FBB069A-3620-4370-9741-E6F5D79C7596}"
 	ProjectSection(SolutionItems) = preProject
 		C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\ImplementationRules.xml = C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\ImplementationRules.xml
 		C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\NameRules.xml = C:\Users\Florin\Documents\Code Style Enforcer\CustomRules\NameRules.xml
