@@ -300,6 +300,46 @@ namespace XWiki.XmlRpc
 
         #endregion//Objects
 
+        #region Comments
+
+        /// <summary>
+        /// Gets the comments from a page.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="pageId">The id of the page containing the comments to be retrieved.</param>
+        /// <returns>An array of Comment instances.</returns>
+        [XmlRpcMethod("confluence1.getComments")]
+        Comment[] GetComments(String token, String pageId);
+
+        /// <summary>
+        /// Retrieves information about a given comment.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="commentId">The id of the comment. Eg: "Main.WebHome?commentId=0"</param>
+        /// <returns>A Comment instance with detailed information about the requested comment.</returns>
+        [XmlRpcMethod("confluence1.getComment")]
+        Comment GetComment(String token, String commentId);
+
+        /// <summary>
+        /// Adds a comment to a wiki page.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="comment">A comment instance containing the comment's content.</param>
+        /// <returns>A updated instance of the comment with the new attributes values generated while saving.</returns>
+        [XmlRpcMethod("confluence1.addComment")]
+        Comment AddComment(String token, Comment comment);
+
+        /// <summary>
+        /// Removes a comment from a wiki page.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="commentId">The id of the comment. Eg: "Main.WebHome?commentId=0"</param>
+        /// <returns>True if the comment is removed successfully. False otherwise.</returns>
+        [XmlRpcMethod("confluence1.removeComment")]
+        bool RemoveComment(String token, String commentId);
+
+        #endregion//Comments
+
         /// <summary>
         /// Searches the server using hql queries
         /// </summary>
