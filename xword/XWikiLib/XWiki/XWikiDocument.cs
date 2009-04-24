@@ -25,6 +25,13 @@ namespace XWiki
         public String space;
 
         /// <summary>
+        /// Specifies if the document is published on wiki or if it's a local one.
+        /// Default is TRUE, since the majority of pages are from the server.
+        /// FALSE only for new added (and not published) pages.
+        /// </summary>
+        public bool published=true;
+
+        /// <summary>
         /// The rendered content of the document.
         /// </summary>
         [NonSerialized]

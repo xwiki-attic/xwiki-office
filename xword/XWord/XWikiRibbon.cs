@@ -128,6 +128,7 @@ namespace XWriter
                 if (Addin.currentPageFullName == "" || Addin.currentPageFullName == null)
                 {
                     new AddPageForm(ref Addin.wiki, false, true).Show();
+                    
                 }
                 else
                 {

@@ -322,6 +322,28 @@ namespace XWriter
                 Log.Error("Failed to save page " + pageName + "on server " + addin.serverURL);
                 MessageBox.Show("There was an error on the server when trying to save the page");
             }
+            else
+            {
+                //mark the page from wiki structure as published
+                bool markedDone = false;
+                foreach (Space sp in addin.wiki.spaces)
+                {
+                    foreach (XWikiDocument xwdoc in sp.documents)
+                    {
+                        if ((xwdoc.space + "." + xwdoc.name) == pageName)
+                        {
+                            sp.published = true;
+                            xwdoc.published = true;
+                            markedDone = true;
+                            break;//inner foreach
+                        }
+                    }
+                    if (markedDone)
+                    {
+                        break;//outer foreach
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -379,7 +401,6 @@ namespace XWriter
         /// If current syntax is XWiki 2.0 and the page contains table(s), promt the user
         /// to switch to XHTML syntax with an Yes/No/Cancel message box.
         /// </summary>
-        /// <param name="cleanHTML">Cleaned HTML source code.</param>
         /// <returns>FALSE if the user presses 'Cancel', meaning the saving should not continue. TRUE in other cases.</returns>
         private bool ShowSwitchSyntaxDialog()
         {
@@ -504,14 +525,14 @@ namespace XWriter
         /// <summary>
         /// Starts editing a new wiki page. The page will not be created in the wiki until the fisrt save.
         /// </summary>
-        /// <param name="space">The name of the wiki space.</param>
+        /// <param name="spaceName">The name of the wiki space.</param>
         /// <param name="pageName">The name of page.</param>
         /// <param name="pageTitle">The title of the page.</param>
         /// <param name="sender">
         /// The instance of the fprm that started the action.
         /// This form need to be closed before swithing the Active Word Document.
         /// </param>
-        public void AddNewPage(String space, String pageName, String pageTitle, Form sender)
+        public void AddNewPage(String spaceName, String pageName, String pageTitle, Form sender)
         {
             //Any modal dialog nust be closed before opening or closing active documents.
             if (sender != null)
@@ -524,7 +545,7 @@ namespace XWriter
                 {
                     Client.Login(addin.username, addin.password);
                 }
-                String pageFullName = space + "." + pageName;
+                String pageFullName = spaceName + "." + pageName;
                 String localFileName = pageFullName.Replace(".", "-");
                 String folder = addin.PagesRepository + "TempPages";
                 ConvertToNormalFolder(folder);
@@ -549,6 +570,47 @@ namespace XWriter
                 
                 //Open the file with Word
                 Word.Document doc = OpenHTMLDocument(localFileName);
+
+
+                //If it's a new space, add it to the wiki structure and mark it as unpublished
+                List<Space> spaces = Globals.XWikiAddIn.wiki.spaces;
+                Space space=null;
+                foreach (Space sp in spaces)
+                {
+                    if (sp.name == spaceName)
+                    {
+                        space = sp;
+
+                        //Add the new page to the wiki structure and mark it as unpublished
+                        XWikiDocument xwdoc = new XWikiDocument();
+                        xwdoc.name = pageName;
+                        xwdoc.published = false;
+                        xwdoc.space = spaceName;
+                        space.documents.Add(xwdoc);
+
+                        break;
+                    }
+                }
+
+                if (space==null)
+                {
+                    space = new Space();
+                    space.name = spaceName;
+                    space.published = false;
+                    Globals.XWikiAddIn.wiki.spaces.Add(space);
+
+                    //Add the new page to the wiki structure and mark it as unpublished
+                    XWikiDocument xwdoc = new XWikiDocument();
+                    xwdoc.name = pageName;
+                    xwdoc.published = false;
+                    xwdoc.space = spaceName;
+                    space.documents.Add(xwdoc);
+
+                }
+
+               
+                //??
+                
             }
             catch (IOException ex)
             {

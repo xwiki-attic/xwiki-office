@@ -57,5 +57,52 @@ namespace XWiki
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the unplublished spaces and documents from wiki structure instance.
+        /// </summary>
+        /// <returns>A new WikiStructure instance containing only the unpublished spaces and documents.</returns>
+        public WikiStructure GetUnpublishedWikiStructure()
+        {
+            WikiStructure unpublishedStruct = new WikiStructure();
+            foreach (Space sp in spaces)
+            {
+                //space with unpublished pages?
+                if (!sp.published)
+                {
+                    unpublishedStruct.spaces.Add(sp);
+                }
+                else
+                {
+                    //or a space with local (unpublished) pages?
+                    foreach (XWikiDocument xwdoc in sp.documents)
+                    {
+                        if (!xwdoc.published)
+                        {
+                            unpublishedStruct.spaces.Add(sp);
+                            break;
+                        }
+                    }
+                }
+            }
+            return unpublishedStruct;
+        }
+
+        /// <summary>
+        /// Specifies if the wiki contains a given space.
+        /// </summary>
+        /// <param name="spaceName">The name of the searched space.</param>
+        /// <returns>True if a space with the given name exists in the wiki. False otherwise.</returns>
+        public bool ContainsSpace(string spaceName)
+        {
+            foreach (Space space in spaces)
+            {
+                if (space.name == spaceName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

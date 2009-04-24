@@ -144,8 +144,42 @@ namespace XWriter
             byte[] buffer = encoding.GetBytes(s);
             MemoryStream memoryStream = new MemoryStream(buffer, false);
             XmlSerializer serializer = new XmlSerializer(typeof(WikiStructure));
+            
+            //keep unpublished spaces and pages
+            WikiStructure oldWikiStruct = null;
+            if (addin.wiki != null)
+            {
+                oldWikiStruct = addin.wiki.GetUnpublishedWikiStructure();
+            }
+            
             wiki = (WikiStructure)serializer.Deserialize(memoryStream);
             addin.wiki = wiki;
+
+            //add local spaces and pages
+            if (oldWikiStruct != null)
+            {
+                //add unexistent spaces from old structure
+                //and update existing spaces with unpublished pages
+                foreach (Space sp in oldWikiStruct.spaces)
+                {
+                    if(wiki.spaces.Contains(sp))
+                    //if (wiki.ContainsSpace(sp.name))
+                    {
+                        Space exstngWithUnpubPagesSpace = wiki.spaces[wiki.spaces.IndexOf(sp)];
+                        foreach (XWikiDocument xwd in sp.documents)
+                        {
+                            exstngWithUnpubPagesSpace.documents.Add(xwd);
+                        }
+                        exstngWithUnpubPagesSpace.published = true;
+                    }
+                    else
+                    {
+                        sp.published = false;
+                        addin.wiki.spaces.Add(sp);
+                    }
+                }
+            }
+
             memoryStream.Close();
         }
 
@@ -161,10 +195,29 @@ namespace XWriter
                 {
                     TreeNode node = treeView.Nodes.Add(space.name);
                     node.ImageIndex = TREE_SPACE_LEVEL;
+                    //mark unpublished spaces   
+                   
+                    if (!space.published)
+                    {
+                        node.ForeColor = Color.Blue;
+                    }
+                    
+
                     foreach (XWikiDocument doc in space.documents)
                     {
                         TreeNode childNode = node.Nodes.Add(doc.space + "." + doc.name, doc.name);
                         childNode.ImageIndex = TREE_PAGE_LEVEL;
+                        if (!doc.published)
+                        {
+                            //mark unpublished pages
+                            childNode.ForeColor = Color.Blue;
+                            if (space.published)
+                            {
+                                //mark published spaces with unpublished pages
+                                node.ForeColor = Color.BlueViolet;
+                                //node.Text += "X";
+                            }
+                        }
                     }
                 }
             }

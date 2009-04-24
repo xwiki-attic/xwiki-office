@@ -23,7 +23,15 @@ namespace XWiki
         /// </summary>
         [XmlAttribute]
         public bool hidden;
-        
+
+        /// <summary>
+        /// Specifies if the space is published on wiki, or if it is a new local one.
+        /// Default is TRUE, since the majority of spaces are from the server.
+        /// FALSE only for new added spaces.
+        /// </summary>
+        [XmlAttribute]
+        public bool published=true;
+
         /// <summary>
         /// The list of documents in the space.
         /// </summary>
