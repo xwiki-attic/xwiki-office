@@ -162,8 +162,7 @@ namespace XWriter
                 //and update existing spaces with unpublished pages
                 foreach (Space sp in oldWikiStruct.spaces)
                 {
-                    if(wiki.spaces.Contains(sp))
-                    //if (wiki.ContainsSpace(sp.name))
+                    if (wiki.ContainsSpace(sp.name))
                     {
                         Space exstngWithUnpubPagesSpace = wiki.spaces[wiki.spaces.IndexOf(sp)];
                         foreach (XWikiDocument xwd in sp.documents)

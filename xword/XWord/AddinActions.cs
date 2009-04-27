@@ -567,7 +567,8 @@ namespace XWriter
                 stream.Write(buffer, 0, buffer.Length);
                 stream.Close();
                 addin.currentPageFullName = pageFullName;
-                
+                addin.EditedPages.Add(localFileName, pageFullName);
+
                 //Open the file with Word
                 Word.Document doc = OpenHTMLDocument(localFileName);
 
@@ -605,12 +606,7 @@ namespace XWriter
                     xwdoc.published = false;
                     xwdoc.space = spaceName;
                     space.documents.Add(xwdoc);
-
-                }
-
-               
-                //??
-                
+                }                
             }
             catch (IOException ex)
             {
