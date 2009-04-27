@@ -46,5 +46,23 @@ namespace XWiki
             hidden = false;
             documents = new List<XWikiDocument>();
         }
+
+        /// <summary>
+        /// Gets the unpublished XWiki documents in the Space instance.
+        /// </summary>
+        /// <returns>A list of unpublished XWiki documents.</returns>
+        public List<XWikiDocument> GetUnpublishedDocuments()
+        {
+            //The list of unpublished documents to be returned
+            List<XWikiDocument> docs = new List<XWikiDocument>();
+            foreach (XWikiDocument doc in documents)
+            {
+                if (!doc.published)
+                {
+                    docs.Add(doc);
+                }
+            }
+            return docs;
+        }
     }
 }

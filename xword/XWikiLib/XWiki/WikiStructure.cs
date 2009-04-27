@@ -95,14 +95,11 @@ namespace XWiki
                 }
                 else
                 {
-                    //or a space with local (unpublished) pages?
-                    foreach (XWikiDocument xwdoc in sp.documents)
+                    List<XWikiDocument> docs = sp.GetUnpublishedDocuments();
+                    if (docs.Count > 0)
                     {
-                        if (!xwdoc.published)
-                        {
-                            unpublishedStruct.spaces.Add(sp);
-                            break;
-                        }
+                        sp.documents = docs;
+                        unpublishedStruct.spaces.Add(sp);
                     }
                 }
             }
