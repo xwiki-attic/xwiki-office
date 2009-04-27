@@ -26,6 +26,27 @@ namespace XWiki
         }
 
         /// <summary>
+        /// Wiki indexer. Gets the instance of the specified space in the wiki.
+        /// </summary>
+        /// <param name="spaceName">The name of the wiki space.</param>
+        /// <returns>A instance of the space.</returns>
+        public Space this[String spaceName]
+        {
+            get
+            {
+                foreach (Space space in spaces)
+                {
+                    if (space.name == spaceName)
+                    {
+                        return space;
+                    }
+                }
+                String message = "There is no space '" + spaceName + "in the wiki";
+                throw new Exception(message);
+            }
+        }
+
+        /// <summary>
         /// Gets all document instances in the wiki.
         /// </summary>
         /// <returns>A list with all document instances.</returns>

@@ -50,7 +50,7 @@ namespace XWriter
         
         //NetworkCredential nc = new NetworkCredential("Admin", "admin");
         XmlSerializer serializer = new XmlSerializer(typeof(WikiStructure));
-        WikiStructure wiki;
+        //WikiStructure wiki;
         XWikiAddIn addin;
         private object missing = Type.Missing;
 
@@ -93,6 +93,12 @@ namespace XWriter
         {
             get { return XWikiAddIn.cookies; }
             set { XWikiAddIn.cookies = value; }
+        }
+
+        public WikiStructure Wiki
+        {
+            get { return Globals.XWikiAddIn.wiki; }
+            set { Globals.XWikiAddIn.wiki = value; }
         }
 
         /// <summary>
@@ -151,8 +157,8 @@ namespace XWriter
             {
                 oldWikiStruct = addin.wiki.GetUnpublishedWikiStructure();
             }
-            
-            wiki = (WikiStructure)serializer.Deserialize(memoryStream);
+
+            WikiStructure wiki = (WikiStructure)serializer.Deserialize(memoryStream);
             addin.wiki = wiki;
 
             //add local spaces and pages
@@ -164,7 +170,9 @@ namespace XWriter
                 {
                     if (wiki.ContainsSpace(sp.name))
                     {
-                        Space exstngWithUnpubPagesSpace = wiki.spaces[wiki.spaces.IndexOf(sp)];
+                        //Space exstngWithUnpubPagesSpace = wiki.spaces[wiki.spaces.IndexOf(sp)];
+                        Space exstngWithUnpubPagesSpace = wiki[sp.name];
+                        //wiki.spaces.g
                         foreach (XWikiDocument xwd in sp.documents)
                         {
                             exstngWithUnpubPagesSpace.documents.Add(xwd);
@@ -188,9 +196,9 @@ namespace XWriter
         public void BuildTree()
         {
             treeView.Nodes.Clear();
-            if (wiki != null)
+            if (Wiki != null)
             {
-                foreach (Space space in wiki.spaces)
+                foreach (Space space in Wiki.spaces)
                 {
                     TreeNode node = treeView.Nodes.Add(space.name);
                     node.ImageIndex = TREE_SPACE_LEVEL;
