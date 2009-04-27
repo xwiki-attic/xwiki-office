@@ -487,30 +487,6 @@ namespace XWriter
         }
 
         /// <summary>
-        /// Syncronizes all XWiki task panes.
-        /// </summary>
-        /// <param name="uc">
-        /// The original taskpane.
-        /// All other taskpanes update the values according to this taskpane.
-        /// </param>
-        public void SynchTaskPanes(XWikiNavigationPane uc)
-        {
-            foreach (Tools.CustomTaskPane ctp in this.CustomTaskPanes)
-            {
-                //<see>RemoveTaskPane</see>
-                if (ctp.Title == "XWiki Navigation Pane")
-                {
-                    if (ctp.GetType() == typeof(XWikiNavigationPane))
-                    {
-                        XWikiNavigationPane pane = (XWikiNavigationPane)ctp.Control;
-                        //Do sync work;
-                    }
-
-                }
-            }
-        }
-
-        /// <summary>
         /// Makes the login to the server, using the ConnectionSettingsForm
         /// or the last stored credentials.
         /// Adds the taskpanes.

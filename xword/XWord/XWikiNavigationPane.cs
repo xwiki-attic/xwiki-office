@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Xml.Serialization;
+using Tools = Microsoft.Office.Tools;
 using Word = Microsoft.Office.Interop.Word;
 using XWiki;
 using XWiki.Clients;
@@ -46,12 +47,15 @@ namespace XWriter
         /// </summary>
         public const int SELECTED_NODE_IMAGE_INDEX = 3;
 
+        /// <summary>
+        /// The tag for WikiExplorer
+        /// </summary>
+        const String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";        
+
         private bool loadingWikiData;
         
         //NetworkCredential nc = new NetworkCredential("Admin", "admin");
         XmlSerializer serializer = new XmlSerializer(typeof(WikiStructure));
-        //WikiStructure wiki;
-        XWikiAddIn addin;
         private object missing = Type.Missing;
 
         #region properties
@@ -66,13 +70,13 @@ namespace XWriter
         {
             get
             {
-                Word.Range range = addin.Application.ActiveDocument.Range(ref missing, ref missing);
+                Word.Range range = Addin.Application.ActiveDocument.Range(ref missing, ref missing);
                 range.TextRetrievalMode.IncludeHiddenText = true;
                 return range.Text;
             }
             set
             { 
-                Word.Range range = addin.Application.ActiveDocument.Range(ref missing, ref missing);
+                Word.Range range = Addin.Application.ActiveDocument.Range(ref missing, ref missing);
                 range.Text = value;
             }
         }
@@ -95,10 +99,24 @@ namespace XWriter
             set { XWikiAddIn.cookies = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the WikiStructure of wiki the add-in is curreltly connected to.
+        /// </summary>
         public WikiStructure Wiki
         {
             get { return Globals.XWikiAddIn.wiki; }
             set { Globals.XWikiAddIn.wiki = value; }
+        }
+
+        /// <summary>
+        /// Gets the instance of the add-in.
+        /// </summary>
+        public XWikiAddIn Addin
+        {
+            get
+            {
+                return Globals.XWikiAddIn;
+            }
         }
 
         /// <summary>
@@ -120,7 +138,6 @@ namespace XWriter
         {
             InitializeComponent();
             Client = new XWikiHTTPClient(Globals.XWikiAddIn.serverURL, Globals.XWikiAddIn.username, Globals.XWikiAddIn.password);                
-            this.addin = addin;
             //Client.Credentials = nc;
             pictureBox.Visible = false;
             loadingWikiData = false;
@@ -153,13 +170,13 @@ namespace XWriter
             
             //keep unpublished spaces and pages
             WikiStructure oldWikiStruct = null;
-            if (addin.wiki != null)
+            if (Addin.wiki != null)
             {
-                oldWikiStruct = addin.wiki.GetUnpublishedWikiStructure();
+                oldWikiStruct = Addin.wiki.GetUnpublishedWikiStructure();
             }
 
             WikiStructure wiki = (WikiStructure)serializer.Deserialize(memoryStream);
-            addin.wiki = wiki;
+            Addin.wiki = wiki;
 
             //add local spaces and pages
             if (oldWikiStruct != null)
@@ -182,7 +199,7 @@ namespace XWriter
                     else
                     {
                         sp.published = false;
-                        addin.wiki.spaces.Add(sp);
+                        Addin.wiki.spaces.Add(sp);
                     }
                 }
             }
@@ -207,8 +224,7 @@ namespace XWriter
                     if (!space.published)
                     {
                         node.ForeColor = Color.Blue;
-                    }
-                    
+                    }                    
 
                     foreach (XWikiDocument doc in space.documents)
                     {
@@ -482,7 +498,8 @@ namespace XWriter
             if (treeView.SelectedNode.Level == TREE_SPACE_LEVEL)
             {
                 String spaceName = treeView.SelectedNode.Text;
-                new AddPageForm(ref addin.wiki, spaceName).Show();
+                WikiStructure wiki = Wiki;
+                new AddPageForm(ref wiki, spaceName).Show();
             }
         }
 
@@ -530,7 +547,7 @@ namespace XWriter
                     {
                         String pageFullName = treeView.SelectedNode.Name;
                         String url = Client.GetURL(pageFullName, "view");
-                        url = addin.serverURL + url;
+                        url = Addin.serverURL + url;
                         Process p = new Process();
                         p.StartInfo = new ProcessStartInfo(url);
                         p.Start();
@@ -581,7 +598,7 @@ namespace XWriter
         /// </summary>
         private void btnAddSpace_Click(object sender, EventArgs e)
         {
-            new AddPageForm(ref addin.wiki, true, false).Show();
+            new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false).Show();
         }
 
         /// <summary>
@@ -636,7 +653,7 @@ namespace XWriter
         public List<String> GetProtectedPages()
         {
             String[] separators = { " ", "\n", "\t", "\r", ";", "\\" };
-            String URL = addin.serverURL + XWikiURLs.ProtectedPagesURL;
+            String URL = Addin.serverURL + XWikiURLs.ProtectedPagesURL;
             Stream data = Client.OpenRead(URL);
             StreamReader reader = new StreamReader(data);
             String pages = reader.ReadToEnd();
@@ -654,7 +671,7 @@ namespace XWriter
             try
             {
                 GetWikiStructure();
-                addin.ProtectedPages = GetProtectedPages();
+                Addin.ProtectedPages = GetProtectedPages();
                 //The pages will be displayed, and the user will be prompted
                 //when trying to edit a protected page.
                 //AddinActions.HideProtectedPages(wiki, addin.ProtectedPages);
@@ -704,13 +721,31 @@ namespace XWriter
             if (!loadingWikiData && pictureBox.Visible)
             {
                 pictureBox.Visible = false;
-                BuildTree();
+                //Display the same content in all WikiExplorers
+                SynchTaskPanes();
                 //Stops the timer until the next data load.
                 timerUI.Stop();
             } 
             else if (loadingWikiData)
             {
                 pictureBox.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Syncronizes all WikiExplorer task panes.
+        /// </summary>
+        public static void SynchTaskPanes()
+        {
+            foreach (Tools.CustomTaskPane ctp in Globals.XWikiAddIn.XWikiCustomTaskPanes)
+            {
+                String tag = (String)ctp.Control.Tag;
+                if (tag.Contains(XWIKI_EXPLORER_TAG))
+                {
+                    XWikiNavigationPane pane = (XWikiNavigationPane)ctp.Control;
+                    //Do sync work;
+                    pane.BuildTree();
+                }
             }
         }
     }

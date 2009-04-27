@@ -211,6 +211,7 @@ namespace XWriter
             this.DoubleBuffered = true;
             this.Name = "XWikiNavigationPane";
             this.Size = new System.Drawing.Size(214, 561);
+            this.Tag = "WIKI_EXPLORER";
             this.Load += new System.EventHandler(this.XWikiNavigationPane_Load);
             this.Leave += new System.EventHandler(this.XWikiNavigationPane_Leave);
             this.Resize += new System.EventHandler(this.XWikiNavigationPane_Resize);
