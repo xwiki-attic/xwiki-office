@@ -613,8 +613,8 @@ namespace XWiki.Clients
         /// <summary>
         /// Gets the rendered content of a page.
         /// </summary>
-        /// <param name="pageFullName">The full nae of the wiki page.</param>
-        /// <returns>The rendred content of the page.</returns>
+        /// <param name="pageFullName">The full name of the wiki page.</param>
+        /// <returns>The rendered content of the page.</returns>
         public string GetRenderedPageContent(string pageFullName)
         {
             String response = null;
