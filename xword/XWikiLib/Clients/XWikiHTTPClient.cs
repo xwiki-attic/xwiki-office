@@ -388,25 +388,6 @@ namespace XWiki.Clients
         }
 
         /// <summary>
-        /// Gets the spaces and pages of the wiki.
-        /// </summary>
-        /// <returns>A stream with a serialized WikiStructure object.</returns>
-        public Stream GetWikiStructure()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the rendered content of the page.
-        /// </summary>
-        /// <param name="docName">The full name of the page.</param>
-        /// <returns>A stream with content.</returns>
-        public Stream GetWikiPageAsPlainHTML(string docName)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Gets the spaces of a wiki.
         /// </summary>
         /// <returns>A list containing the spaces names.</returns>

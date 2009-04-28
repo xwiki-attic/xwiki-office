@@ -91,21 +91,6 @@ namespace XWiki.Clients
             }            
         }
 
-        public System.IO.Stream GetWikiStructure()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// G
-        /// </summary>
-        /// <param name="docName"></param>
-        /// <returns></returns>
-        public System.IO.Stream GetWikiPageAsPlainHTML(string docName)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Gets the spaces of a wiki.
         /// </summary>

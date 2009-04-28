@@ -38,19 +38,6 @@ namespace XWiki.Clients
         bool Login(String username, String password);
         
         /// <summary>
-        /// Gets the Wiki's structure, containing: spaces and pages.
-        /// </summary>
-        /// <returns>A stream with a serialized XWikiStructure instance</returns>
-        Stream GetWikiStructure();
-
-        /// <summary>
-        /// Gets the rendered html of a page.
-        /// </summary>
-        /// <param name="docName">Wiki page name - SpaceName.PageName</param>
-        /// <returns>A stream with the encoded html.</returns>
-        Stream GetWikiPageAsPlainHTML(String docName);
-
-        /// <summary>
         /// Gets the spaces form the wiki instance.
         /// </summary>
         /// <returns>A list containg spaces names.</returns>
