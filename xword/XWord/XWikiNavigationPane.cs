@@ -187,14 +187,13 @@ namespace XWriter
                 {
                     if (wiki.ContainsSpace(sp.name))
                     {
-                        //Space exstngWithUnpubPagesSpace = wiki.spaces[wiki.spaces.IndexOf(sp)];
-                        Space exstngWithUnpubPagesSpace = wiki[sp.name];
-                        //wiki.spaces.g
+                        //The old local space containing local unpublished documents.
+                        Space existingSpace = wiki[sp.name];
                         foreach (XWikiDocument xwd in sp.documents)
                         {
-                            exstngWithUnpubPagesSpace.documents.Add(xwd);
+                            existingSpace.documents.Add(xwd);
                         }
-                        exstngWithUnpubPagesSpace.published = true;
+                        existingSpace.published = true;
                     }
                     else
                     {
@@ -238,7 +237,6 @@ namespace XWriter
                             {
                                 //mark published spaces with unpublished pages
                                 node.ForeColor = Color.BlueViolet;
-                                //node.Text += "X";
                             }
                         }
                     }
