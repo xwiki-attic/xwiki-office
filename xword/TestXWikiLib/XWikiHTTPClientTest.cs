@@ -385,41 +385,6 @@ namespace TestXWikiLib
         }
 
         /// <summary>
-        ///A test for GetWikiStructure
-        ///</summary>
-        [TestMethod()]
-        public void GetWikiStructureTest()
-        {
-            string serverURL = string.Empty; // TODO: Initialize to an appropriate value
-            string username = string.Empty; // TODO: Initialize to an appropriate value
-            string password = string.Empty; // TODO: Initialize to an appropriate value
-            XWikiHTTPClient target = new XWikiHTTPClient(serverURL, username, password); // TODO: Initialize to an appropriate value
-            Stream expected = null; // TODO: Initialize to an appropriate value
-            Stream actual;
-            actual = target.GetWikiStructure();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for GetWikiPageAsPlainHTML
-        ///</summary>
-        [TestMethod()]
-        public void GetWikiPageAsPlainHTMLTest()
-        {
-            string serverURL = string.Empty; // TODO: Initialize to an appropriate value
-            string username = string.Empty; // TODO: Initialize to an appropriate value
-            string password = string.Empty; // TODO: Initialize to an appropriate value
-            XWikiHTTPClient target = new XWikiHTTPClient(serverURL, username, password); // TODO: Initialize to an appropriate value
-            string docName = string.Empty; // TODO: Initialize to an appropriate value
-            Stream expected = null; // TODO: Initialize to an appropriate value
-            Stream actual;
-            actual = target.GetWikiPageAsPlainHTML(docName);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for GetURL
         ///</summary>
         [TestMethod()]

@@ -31,7 +31,7 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="serverUrl">The url of the server.</param>
         /// <param name="username">The username used to authenticate.</param>
-        /// <param name="password">The passowrd used to authenticate.</param>
+        /// <param name="password">The password used to authenticate.</param>
         public XWikiXMLRPCClient(String serverUrl, String username, String password)
         {
             this.serverUrl = serverUrl;
