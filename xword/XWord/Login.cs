@@ -22,16 +22,50 @@ namespace XWriter
         /// <returns>True if the operation is uscessfull. False otherwise.</returns>
         public bool WriteCredentials(String[] credentials)
         {
-            IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-            IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Create, isFile);
-            StreamWriter writer = new StreamWriter(stream);
-            foreach (String s in credentials)
+            IsolatedStorageFile isFile = null;
+            IsolatedStorageFileStream stream = null;
+            StreamWriter writer = null;
+
+            bool successfulWrite = false;
+
+            try
             {
-                writer.WriteLine(s);
+
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                stream = new IsolatedStorageFileStream(filename, FileMode.Create, isFile);
+                writer = new StreamWriter(stream);
+                foreach (String s in credentials)
+                {
+                    writer.WriteLine(s);
+                }
+                successfulWrite = true;
             }
-            writer.Close();
-            stream.Close();
-            return true;
+            catch (IOException ioException)
+            {
+                Log.Exception(ioException);
+            }
+            catch (Exception exception)
+            {
+                Log.Exception(exception);
+            }
+            finally
+            {
+                if (writer != null)
+                {
+                    writer.Close();
+                }
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
+            }
+
+            return successfulWrite;
         }
         /// <summary>
         /// Gets the last used credentials.
@@ -39,26 +73,46 @@ namespace XWriter
         /// <returns>Array of strings containing the last used credentials</returns>
         public String[] GetCredentials()
         {
+            String[] credentials = new String[3];
+            IsolatedStorageFile isFile=null;
+            IsolatedStorageFileStream stream = null;
+            StreamReader reader = null;
             try
             {
-                String[] credentials = new String[3];
-                IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-                IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Open, isFile);
-                StreamReader reader = new StreamReader(stream);
-                int i=0;
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                stream = new IsolatedStorageFileStream(filename, FileMode.Open, isFile);
+                reader = new StreamReader(stream);
+                int i = 0;
                 while (!reader.EndOfStream)
                 {
                     String s = reader.ReadLine();
                     credentials[i] = s;
                     i++;
                 }
-                return credentials;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.ExceptionSummary(ex);
-                return null;
+                credentials = null;
             }
+            finally
+            {
+                if (reader != null)
+                { 
+                    reader.Close(); 
+                }
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
+
+            }
+            return credentials;
         }
 
         /// <summary>
@@ -66,14 +120,23 @@ namespace XWriter
         /// </summary>
         public void ClearCredentials()
         {
+            IsolatedStorageFile isFile=null;
             try
             {
-                IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
                 isFile.DeleteFile(filename);
             }
             catch (IsolatedStorageException ex)
             {
                 Log.ExceptionSummary(ex);
+            }
+            finally
+            {
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
             }
         }
 
@@ -83,8 +146,28 @@ namespace XWriter
         /// <returns></returns>
         public bool CanAutoLogin()
         {
-            IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-            return (isFile.GetFileNames(filename).Length > 0);
+            IsolatedStorageFile isFile=null;
+            bool canAutoLogin = false;
+
+            try
+            {
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                canAutoLogin = (isFile.GetFileNames(filename).Length > 0);
+            }
+            catch (Exception exception)
+            {
+                Log.Exception(exception);
+            }
+            finally
+            {
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
+            }
+
+            return canAutoLogin;
         }
     }
 }

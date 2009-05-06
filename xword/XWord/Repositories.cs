@@ -24,11 +24,33 @@ namespace XWriter
         /// <returns>True if the operation succeded. False if the operation failed.</returns>
         public static bool WriteRepositorySettings(RepositorySettings settings)
         {
-            IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-            IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Create, isFile);
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, settings);
-            stream.Close();
+            IsolatedStorageFile isFile=null;
+            IsolatedStorageFileStream stream = null;
+            BinaryFormatter formatter = null;
+
+            try
+            {
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                stream = new IsolatedStorageFileStream(filename, FileMode.Create, isFile);
+                formatter = new BinaryFormatter();
+                formatter.Serialize(stream, settings);
+            }
+            catch (IOException ioException)
+            {
+                Log.Exception(ioException);
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
+            }
             return true;
         }
 
@@ -38,14 +60,16 @@ namespace XWriter
         /// <returns>A instance containing the repository settings.</returns>
         public static RepositorySettings GetRepositorySettings()
         {
+            RepositorySettings settings=new RepositorySettings();
+            IsolatedStorageFile isFile=null;
+            IsolatedStorageFileStream stream=null;
+            BinaryFormatter formatter;
             try
             {
-                RepositorySettings settings = new RepositorySettings();
-                IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-                IsolatedStorageFileStream stream = new IsolatedStorageFileStream(filename, FileMode.Open, isFile);
-                BinaryFormatter formatter = new BinaryFormatter();
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                stream = new IsolatedStorageFileStream(filename, FileMode.Open, isFile);
+                formatter = new BinaryFormatter();
                 settings = (RepositorySettings)formatter.Deserialize(stream);
-                return settings;
             }
             catch (InvalidCastException ce)
             {
@@ -57,6 +81,19 @@ namespace XWriter
                 Log.ExceptionSummary(ex);
                 return null;
             }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
+            }
+            return settings;
         }
 
         /// <summary>
@@ -68,8 +105,27 @@ namespace XWriter
         /// </returns>
         public static bool HasRepositorySettings()
         {
-            IsolatedStorageFile isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-            return (isFile.GetFileNames(filename).Length > 0);
+            IsolatedStorageFile isFile=null;
+            bool hasRepositorySettings=false;
+            try
+            {
+                isFile = IsolatedStorageFile.GetUserStoreForAssembly();
+                hasRepositorySettings = (isFile.GetFileNames(filename).Length > 0);
+            }
+            catch (IOException ioException)
+            {
+                Log.Exception(ioException);
+            }
+            finally
+            {
+                if (isFile != null)
+                {
+                    isFile.Dispose();
+                    isFile.Close();
+                }
+            }
+
+            return hasRepositorySettings;
         }
     }
 }
