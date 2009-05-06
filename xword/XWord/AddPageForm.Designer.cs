@@ -52,7 +52,7 @@
             this.lblSpaceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSpaceName.Location = new System.Drawing.Point(7, 55);
             this.lblSpaceName.Name = "lblSpaceName";
-            this.lblSpaceName.Size = new System.Drawing.Size(95, 18);
+            this.lblSpaceName.Size = new System.Drawing.Size(88, 16);
             this.lblSpaceName.TabIndex = 0;
             this.lblSpaceName.Text = "Space name:";
             // 
@@ -60,7 +60,7 @@
             // 
             this.txtSpaceName.Location = new System.Drawing.Point(117, 55);
             this.txtSpaceName.Name = "txtSpaceName";
-            this.txtSpaceName.Size = new System.Drawing.Size(284, 23);
+            this.txtSpaceName.Size = new System.Drawing.Size(284, 21);
             this.txtSpaceName.TabIndex = 2;
             // 
             // groupBoxSpace
@@ -83,7 +83,7 @@
             this.comboBoxSpaceName.FormattingEnabled = true;
             this.comboBoxSpaceName.Location = new System.Drawing.Point(117, 77);
             this.comboBoxSpaceName.Name = "comboBoxSpaceName";
-            this.comboBoxSpaceName.Size = new System.Drawing.Size(284, 25);
+            this.comboBoxSpaceName.Size = new System.Drawing.Size(284, 23);
             this.comboBoxSpaceName.TabIndex = 2;
             this.comboBoxSpaceName.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -92,7 +92,7 @@
             this.radioButtonNewSpace.AutoSize = true;
             this.radioButtonNewSpace.Location = new System.Drawing.Point(125, 22);
             this.radioButtonNewSpace.Name = "radioButtonNewSpace";
-            this.radioButtonNewSpace.Size = new System.Drawing.Size(97, 21);
+            this.radioButtonNewSpace.Size = new System.Drawing.Size(88, 19);
             this.radioButtonNewSpace.TabIndex = 1;
             this.radioButtonNewSpace.TabStop = true;
             this.radioButtonNewSpace.Text = "New Space";
@@ -103,7 +103,7 @@
             this.radioButtonExistingSpace.AutoSize = true;
             this.radioButtonExistingSpace.Location = new System.Drawing.Point(7, 22);
             this.radioButtonExistingSpace.Name = "radioButtonExistingSpace";
-            this.radioButtonExistingSpace.Size = new System.Drawing.Size(118, 21);
+            this.radioButtonExistingSpace.Size = new System.Drawing.Size(106, 19);
             this.radioButtonExistingSpace.TabIndex = 0;
             this.radioButtonExistingSpace.TabStop = true;
             this.radioButtonExistingSpace.Text = "Existing Space";
@@ -127,7 +127,7 @@
             // 
             this.txtPageTitle.Location = new System.Drawing.Point(117, 63);
             this.txtPageTitle.Name = "txtPageTitle";
-            this.txtPageTitle.Size = new System.Drawing.Size(284, 23);
+            this.txtPageTitle.Size = new System.Drawing.Size(284, 21);
             this.txtPageTitle.TabIndex = 4;
             // 
             // label2
@@ -136,7 +136,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(7, 63);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 18);
+            this.label2.Size = new System.Drawing.Size(67, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "Page title:";
             // 
@@ -144,7 +144,7 @@
             // 
             this.txtPageName.Location = new System.Drawing.Point(117, 33);
             this.txtPageName.Name = "txtPageName";
-            this.txtPageName.Size = new System.Drawing.Size(284, 23);
+            this.txtPageName.Size = new System.Drawing.Size(284, 21);
             this.txtPageName.TabIndex = 3;
             // 
             // label1
@@ -153,16 +153,20 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(7, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 18);
+            this.label1.Size = new System.Drawing.Size(81, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Page name:";
             // 
             // btnAddPage
             // 
+            this.btnAddPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddPage.AutoSize = true;
             this.btnAddPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddPage.Location = new System.Drawing.Point(276, 254);
             this.btnAddPage.Name = "btnAddPage";
-            this.btnAddPage.Size = new System.Drawing.Size(77, 28);
+            this.btnAddPage.Size = new System.Drawing.Size(78, 28);
             this.btnAddPage.TabIndex = 5;
             this.btnAddPage.Text = "Add page";
             this.btnAddPage.UseVisualStyleBackColor = true;
@@ -182,7 +186,7 @@
             // 
             // AddPageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(448, 294);
@@ -201,6 +205,7 @@
             this.groupBoxPage.ResumeLayout(false);
             this.groupBoxPage.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
