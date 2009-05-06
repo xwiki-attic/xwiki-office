@@ -87,7 +87,17 @@ namespace XWiki.Clients
         {
             get { return serverURL; }
             set { serverURL = value; }
-        }        
+        }
+
+        /// <summary>
+        /// Get the content of an attachment.
+        /// </summary>
+        /// <param name="URL">The url of the attachment.</param>
+        /// <returns>The content of the attachment.</returns>
+        private byte[] GetAttachmentContent(string URL)
+        {
+            return this.DownloadData(URL);
+        }
 
         /// <summary>
         /// Authenticates the user to the server.
@@ -441,24 +451,12 @@ namespace XWiki.Clients
                 String responseText = Text.Encoding.UTF8.GetString(response);
                 return responseText.Contains(HTTPResponses.SAVE_OK);
             }
-            catch (WebException)
+            catch (WebException ex)
             {
                 return false;
             }
         }        
         
-        /// <summary>
-        /// Adds an attachment to a specified page.
-        /// </summary>
-        /// <param name="docName">The full name of the page.</param>
-        /// <param name="fileName">The name of the file. This is the name that will appear in the wiki.</param>
-        /// <param name="content">A stream to read the file content.</param>
-        /// <returns></returns>
-        public bool AddAttachment(string docName, string fileName, Stream content)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Adds an object to a wiki page.
         /// </summary>
@@ -522,17 +520,7 @@ namespace XWiki.Clients
         {
             String URL = GetAttachmentURL(pageName, fileName);
             return GetAttachmentContent(URL);
-        }
-
-        /// <summary>
-        /// Get the content of an attachment.
-        /// </summary>
-        /// <param name="URL">The url of the attachment.</param>
-        /// <returns>The content of the attachment.</returns>
-        public byte[] GetAttachmentContent(string URL)
-        {
-            return this.DownloadData(URL);
-        }
+        }        
 
         /// <summary>
         /// Adds an attachment to the wiki.
@@ -571,12 +559,11 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="docName">The full name of the wiki page.</param>
         /// <param name="filePath">The path to the file to be attached.</param>
-        public bool AddAttachmentAsync(string docName, string filePath)
+        public void AddAttachmentAsync(string docName, string filePath)
         {
             String uploadAddress = serverURL + XWikiURLs.AttachmentServiceURL;
             uploadAddress += "&page=" + docName + "&action=attachFile";
             webClient.UploadFileAsync(new Uri(uploadAddress), filePath);
-            return true;
         }
 
         /// <summary>
@@ -585,10 +572,10 @@ namespace XWiki.Clients
         /// <param name="space">The space name.</param>
         /// <param name="page">The short page name.</param>
         /// <param name="filePath">The path to the file to be attached.</param>
-        public bool AddAttachmentAsync(string space, string page, string filePath)
+        public void AddAttachmentAsync(string space, string page, string filePath)
         {
             String docFullName = space + "." + page;
-            return AddAttachmentAsync(docFullName, filePath);
+            AddAttachmentAsync(docFullName, filePath);
         }
 
         /// <summary>
@@ -641,15 +628,14 @@ namespace XWiki.Clients
         }
 
         /// <summary>
-        /// Gets the url of a wiki page with the specified action.
+        /// Gets the url of a wiki page for the view action.
         /// </summary>
         /// <param name="documentFullName">The full name of the wiki page.</param>
-        /// <param name="xwikiAction">The name of the action. Eg: edit, view, delete</param>
         /// <returns>The url of the wiki page.</returns>
-        public string GetURL(string documentFullName, string xwikiAction)
+        public string GetURL(string documentFullName)
         {
             String uri = ServerURL + XWikiURLs.GetPageURL;
-            uri += "?pagename=" + documentFullName + "&xwikiAction=" + xwikiAction;
+            uri += "?pagename=" + documentFullName + "&xwikiAction=view";
             uri += "&action=getDocURL&xpage=plain";
             Stream data = webClient.OpenRead(uri);
             StreamReader reader = new StreamReader(data);

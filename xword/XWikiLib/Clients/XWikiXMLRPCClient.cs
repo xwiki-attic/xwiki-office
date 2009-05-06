@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Threading;
 using CookComputing.XmlRpc;
 using XWiki.XmlRpc;
 
@@ -48,6 +50,26 @@ namespace XWiki.Clients
             {
                 isLoggedIn = false;
             }
+        }
+
+        /// <summary>
+        /// Attaches a file to a page on the server.
+        /// </summary>
+        /// <param name="attachmentInfo">AttachmentInfo instance containing data about the attachment.</param>
+        private void AttachFile(object attachmentInfo)
+        {
+            AttachmentInfo info = (AttachmentInfo)attachmentInfo;
+            string filePath = info.filePath;
+            string docName = info.pageId;
+            FileInfo fi = new FileInfo(filePath);
+            FileStream fs = new FileStream(filePath, FileMode.Open);
+            byte[] buffer = new byte[fi.Length];
+            fs.Read(buffer, 0, (int)fi.Length);
+            fs.Close();
+            Attachment att = new Attachment(null);
+            att.pageId = docName;
+            att.fileName = Path.GetFileName(filePath);
+            proxy.AddAttachment(token, 0, att, buffer);
         }
 
         #region IXWikiClient Members
@@ -122,19 +144,54 @@ namespace XWiki.Clients
             return pagesNames;
         }
 
+        /// <summary>
+        /// Sets the html content of a page and then saves the page.
+        /// </summary>
+        /// <param name="docName">Wiki page name - SpaceName.PageName</param>
+        /// <param name="content">The html source to be saved.</param>
+        /// <param name="syntax">The syntax to which the source will be converted.</param>
+        /// <permission>Requires programming rights for wiki page services.</permission>
+        /// <returns>The result of the operation(Success - true/Failure - false).</returns>
         public bool SavePageHTML(string docName, string content, string syntax)
         {
-            throw new NotImplementedException();
+            Page page = new Page(docName, content);            
+            try
+            {
+                proxy.StorePage(token, page);
+                return true;
+            }
+            catch (XmlRpcException ex)
+            {
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Adds a file as an attachment to a wiki page.
+        /// </summary>
+        /// <param name="docName">Wiki page name - SpaceName.PageName</param>
+        /// <param name="filePath">The path to the uploaded file.</param>
+        /// <returns>The result of the operation(Success - true/Failure - false).</returns>
         public bool AddAttachment(string docName, string filePath)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool AddAttachment(string docName, string fileName, System.IO.Stream content)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                FileInfo fi = new FileInfo(filePath);
+                FileStream fs = new FileStream(filePath, FileMode.Open); 
+                byte[] buffer = new byte[fi.Length];
+                fs.Read(buffer, 0, (int)fi.Length);
+                fs.Close();
+                Attachment att = new Attachment(null);
+                att.pageId = docName;
+                att.fileName = Path.GetFileName(filePath);
+                proxy.AddAttachment(token, 0, att, buffer);
+                return true;
+            }
+            catch (IOException ex)
+            {
+                return false;
+            }
+   
         }
 
         public int AddObject(string docName, string ClassName, System.Collections.Specialized.NameValueCollection fieldsValues)
@@ -158,34 +215,73 @@ namespace XWiki.Clients
             return attachmentsNames;
         }
 
+        /// <summary>Gets the download url of an attachment.
+        /// </summary>
+        /// <param name="docFullName">Wiki page name - SpaceName.PageName</param>
+        /// <param name="attachmentName"></param>
+        /// <returns>A string representing the URL of the attached file.</returns>
         public string GetAttachmentURL(string docFullName, string attachmentName)
         {
-            throw new NotImplementedException();
+            Attachment[] attachments = proxy.GetAttachments(token, docFullName);
+            foreach (Attachment att in attachments)
+            {
+                if (att.fileName == attachmentName)
+                {
+                    return att.url;
+                }
+            }
+            throw new Exception("There is no attachment with the name '" + attachmentName + "'");
         }
 
-        public byte[] GetAttachmentContent(string pageName, string FileName)
+        /// <summary>
+        /// Gets the binary data of the attached file.
+        /// </summary>
+        /// <param name="pageName">Wiki page name - SpaceName.PageName</param>
+        /// <param name="fileName">Attached file name</param>
+        /// <returns>The binary data of the file.</returns>
+        public byte[] GetAttachmentContent(string pageName, string fileName)
         {
-            throw new NotImplementedException();
+            byte[] content = proxy.GetAttachmentData(token, pageName, fileName, "");
+            return content;
         }
 
-        public byte[] GetAttachmentContent(string URL)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Adds a file as an attachment to a wiki page.
+        /// </summary>
+        /// <param name="space">The name of the space.</param>
+        /// <param name="page">the name of the page.</param>
+        /// <param name="filePath">The path to the uploaded file.</param>
+        /// <returns>The result of the operation(Success - true/Failure - false).</returns>
         public bool AddAttachment(string space, string page, string filePath)
         {
-            throw new NotImplementedException();
+            string docFullName = space + "." + page;
+            return AddAttachment(docFullName, filePath);
         }
 
-        public bool AddAttachmentAsync(string docName, string filePath)
+        // <summary>
+        /// Adds a file to a wiki page as an attachment. The data transfer is asynchronuous.
+        /// </summary>
+        /// <param name="docName">Wiki page name - SpaceName.PageName</param>
+        /// <param name="filePath">The path to the uploaded file.</param>
+        public void AddAttachmentAsync(string docName, string filePath)
         {
-            throw new NotImplementedException();
+            AttachmentInfo info = new AttachmentInfo();
+            info.pageId = docName;
+            info.filePath = filePath;
+            Thread t = new Thread(AttachFile);
+            t.Start(info);
         }
 
-        public bool AddAttachmentAsync(string space, string page, string filePath)
+        /// <summary>
+        /// Adds a file to a wiki page as an attachment. The data transfer is asynchronuous.
+        /// </summary>
+        /// <param name="space">The name of the space.</param>
+        /// <param name="page">The name of the space.</param>
+        /// <param name="filePath">The path to the uploaded file.</param>
+        public void AddAttachmentAsync(string space, string page, string filePath)
         {
-            throw new NotImplementedException();
+            String pageFullName = space + "." + page;
+            AddAttachment(pageFullName, filePath);
         }
 
         /// <summary>
@@ -211,11 +307,26 @@ namespace XWiki.Clients
             return GetRenderedPageContent(pageFullName);
         }
 
-        public string GetURL(string documentFullName, string xwikiAction)
+        /// <summary>
+        /// Gets the url of a wiki page for the view action.
+        /// </summary>
+        /// <param name="documentFullName">The full name of the wiki page.</param>
+        /// <returns>The url of the wiki page.</returns>
+        public string GetURL(string documentFullName)
         {
-            throw new NotImplementedException();
+            Page page = proxy.GetPage(token, documentFullName);
+            return page.url;
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Auxiliary struct used to send data to other threads.
+    /// </summary>
+    internal struct AttachmentInfo
+    {
+        internal string pageId;
+        internal string filePath;
     }
 }

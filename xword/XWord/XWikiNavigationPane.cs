@@ -50,7 +50,7 @@ namespace XWriter
         /// <summary>
         /// The tag for WikiExplorer
         /// </summary>
-        const String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";        
+        internal const String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";        
 
         private bool loadingWikiData;
         
@@ -544,7 +544,7 @@ namespace XWriter
                     try
                     {
                         String pageFullName = treeView.SelectedNode.Name;
-                        String url = Client.GetURL(pageFullName, "view");
+                        String url = Client.GetURL(pageFullName);
                         url = Addin.serverURL + url;
                         Process p = new Process();
                         p.StartInfo = new ProcessStartInfo(url);
@@ -626,8 +626,8 @@ namespace XWriter
         /// </summary>
         private void GetWikiStructure()
         {
-            String URL = Client.ServerURL + XWikiURLs.WikiStructureURL + "&output=wiki-serialized";
-            Stream data = Client.OpenRead(URL);
+            String url = Client.ServerURL + XWikiURLs.WikiStructureURL + "&output=wiki-serialized";
+            Stream data = Client.OpenRead(url);
             StreamReader reader = new StreamReader(data);
             string response = reader.ReadToEnd();
             if (AddinActions.CheckForErrors(response))
@@ -651,8 +651,8 @@ namespace XWriter
         public List<String> GetProtectedPages()
         {
             String[] separators = { " ", "\n", "\t", "\r", ";", "\\" };
-            String URL = Addin.serverURL + XWikiURLs.ProtectedPagesURL;
-            Stream data = Client.OpenRead(URL);
+            String url = Addin.serverURL + XWikiURLs.ProtectedPagesURL;
+            Stream data = Client.OpenRead(url);
             StreamReader reader = new StreamReader(data);
             String pages = reader.ReadToEnd();
             String[] pagesArray = pages.Split(separators, StringSplitOptions.RemoveEmptyEntries);

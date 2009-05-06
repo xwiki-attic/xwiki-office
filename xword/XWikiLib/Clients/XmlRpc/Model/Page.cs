@@ -42,5 +42,27 @@ namespace XWiki.XmlRpc
         /// The (non-rendered)content of the page.
         /// </summary>
         public String content;
+
+        public Page(String pageId)
+        {
+            this.id = pageId;            
+            this.title = "";
+            this.translations = new String[0];
+            this.space = "";
+            this.url = "";
+            this.content = "";
+            this.parentId = "";
+        }
+
+        public Page(String pageId, String content)
+        {
+            this.id = pageId;
+            this.content = content;
+            this.title = "";
+            this.translations = new String[0];
+            this.space = "";
+            this.url = "";
+            this.parentId = "";
+        }
     }
 }
