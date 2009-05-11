@@ -5,6 +5,7 @@ using System.Text;
 using Security = System.Security;
 using System.IO;
 using System.IO.IsolatedStorage;
+using XWiki;
 
 namespace XWriter
 {

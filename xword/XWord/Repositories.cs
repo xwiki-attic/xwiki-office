@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using XWiki;
 
 namespace XWriter
 {

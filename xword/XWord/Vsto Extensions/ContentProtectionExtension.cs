@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
+using XWiki;
 
 namespace XWriter.VstoExtensions
 {

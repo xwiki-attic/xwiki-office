@@ -105,6 +105,7 @@ namespace XWiki.Office.Word
             }
             catch (XmlException ex)
             {
+                Log.Exception(ex);
                 System.Windows.Forms.MessageBox.Show("Sorry the page you requested seems to have an invalid html source", "XWord");
                 return "Sorry, a problem appeared when loading the page";
             }
@@ -189,7 +190,10 @@ namespace XWiki.Office.Word
                         }
                         this.manager.States.Macros.Add(id, macroContent);
                     }
-                    catch (XmlException ex) { };
+                    catch (XmlException ex)
+                    {
+                        Log.Exception(ex);
+                    }
                 }
             }
             foreach (XmlNode n in regularNodes)

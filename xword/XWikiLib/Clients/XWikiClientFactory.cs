@@ -23,11 +23,9 @@ namespace XWiki.Clients
             switch (clientType)
             {
                 case XWikiClientType.HTTP_Client :
-                    return new XWikiHTTPClient(serverURL, username, password);
-                    break;
+                    return new XWikiHTTPClient(serverURL, username, password);                    
                 case XWikiClientType.XML_RPC :
-                    return new XWikiXMLRPCClient(serverURL, username, password);
-                    break;          
+                    return new XWikiXMLRPCClient(serverURL, username, password);          
             }
             throw new ArgumentException("The client type is not recognized", "clientType");
         }

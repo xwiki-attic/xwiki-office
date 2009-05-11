@@ -79,6 +79,7 @@
     <Compile Include="Clients\XWikiClientType.cs" />
     <Compile Include="Clients\XWikiXMLRPCClient.cs" />
     <Compile Include="Html\HtmlUtil.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Office\Word\AbstractConverter.cs" />
     <Compile Include="Office\Word\BidirectionalConversionStates.cs" />
     <Compile Include="Office\Word\ConversionManager.cs" />

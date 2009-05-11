@@ -136,6 +136,7 @@ namespace XWiki.Clients
             catch (InvalidEncodingNameException ex)
             {
                 encoding = null;
+                Log.Exception(ex);
             }
             return true;
         }
@@ -180,7 +181,7 @@ namespace XWiki.Clients
             }
             catch (ArgumentException e)
             {
-                // TODO: Log this error
+                Log.Exception(e);
                 throw new InvalidEncodingNameException();
             }
             return enc;
@@ -369,6 +370,7 @@ namespace XWiki.Clients
                     }
                     catch (InvalidEncodingNameException ex)
                     {
+                        Log.Exception(ex);
                         encoding = Text.Encoding.GetEncoding("ISO-8859-1");
                     }
                 }
@@ -465,6 +467,7 @@ namespace XWiki.Clients
             }
             catch (WebException ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }        

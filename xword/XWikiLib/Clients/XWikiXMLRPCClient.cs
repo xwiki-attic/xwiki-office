@@ -192,6 +192,7 @@ namespace XWiki.Clients
             }
             catch (XmlRpcException ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -219,6 +220,7 @@ namespace XWiki.Clients
             }
             catch (IOException ex)
             {
+                Log.Exception(ex);
                 return false;
             }   
         }
@@ -328,7 +330,8 @@ namespace XWiki.Clients
         /// <summary>
         /// Gets the rendered content of a page.
         /// </summary>
-        /// <param name="pageFullName">The full name of the wiki page.</param>
+        /// <param name="space">The name of the wiki space.</param>
+        /// <param name="page">The short name of the page.</param>
         /// <returns>The rendered content of the page.</returns>
         public string GetRenderedPageContent(string space, string page)
         {

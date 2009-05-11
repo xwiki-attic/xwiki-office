@@ -6,15 +6,15 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 
-namespace XWriter
+namespace XWiki
 {
     /// <summary>
     /// A class for writing logs to IsolatedStorage
     /// </summary>
     public class Log
     {
-        private static string eventSource = "XOffice";
-        private static string logName = "XWord";
+        private static string eventSource = "XWiki";
+        private static string logName = "XOffice";
 
         /// <summary>
         /// Writes a entry to the application's log.

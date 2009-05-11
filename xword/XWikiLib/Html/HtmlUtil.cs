@@ -72,6 +72,7 @@ namespace XWiki.Html
             }
             catch (FormatException ex)
             {
+                Log.Exception(ex);
                 return htmlSource;
             }
             string cleanContent = Encoding.UTF8.GetString(output.ToArray());
