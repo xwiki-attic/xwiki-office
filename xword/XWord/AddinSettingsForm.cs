@@ -21,7 +21,6 @@ namespace XWriter
         XWikiAddIn addin = Globals.XWikiAddIn;
         bool connectionSettingsApply = true;
         bool reposSettingsApply = true;
-        bool pathsAreValid = true;
 
         /// <summary>
         /// Default constructor. Initializes all components.
@@ -314,7 +313,6 @@ namespace XWriter
             if (!isValid)
             {
                 MessageBox.Show("The path you provided is not valid. Please select a valid path");
-                pathsAreValid = false;
             }
         }
 
@@ -329,7 +327,6 @@ namespace XWriter
             if (!isValid)
             {
                 MessageBox.Show("The path you provided is not valid. Please select a valid path");
-                pathsAreValid = false;
             }
         }
 

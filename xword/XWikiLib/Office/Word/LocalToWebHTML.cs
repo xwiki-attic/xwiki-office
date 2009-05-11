@@ -181,10 +181,13 @@ namespace XWiki.Office.Word
                         node.ParentNode.ReplaceChild(docFrag, node);
                     }
                 }
-                catch (NullReferenceException) { }
+                catch (NullReferenceException nre)
+                {
+                    Log.Exception(nre);
+                }
                 catch (Exception ex)
                 {
-
+                    Log.Exception(ex);
                 }
             }
         }

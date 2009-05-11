@@ -84,8 +84,7 @@ namespace XWiki.Clients
             byte[] buffer = new byte[fi.Length];
             fs.Read(buffer, 0, (int)fi.Length);
             fs.Close();
-            Attachment att = new Attachment(null);
-            att.pageId = docName;
+            Attachment att = new Attachment(docName);
             att.fileName = Path.GetFileName(filePath);
             proxy.AddAttachment(token, 0, att, buffer);
         }
@@ -212,8 +211,7 @@ namespace XWiki.Clients
                 byte[] buffer = new byte[fi.Length];
                 fs.Read(buffer, 0, (int)fi.Length);
                 fs.Close();
-                Attachment att = new Attachment(null);
-                att.pageId = docName;
+                Attachment att = new Attachment(docName);
                 att.fileName = Path.GetFileName(filePath);
                 proxy.AddAttachment(token, 0, att, buffer);
                 return true;
@@ -225,6 +223,13 @@ namespace XWiki.Clients
             }   
         }
 
+        /// <summary>
+        /// Adds and XWiki opbject to a XWiki document.
+        /// </summary>
+        /// <param name="docName">The name of the XWiki Document.</param>
+        /// <param name="ClassName">The class name of the XWiki object.</param>
+        /// <param name="fieldsValues">The values of the object's properties.</param>
+        /// <returns>The index/id of the added object.</returns>
         public int AddObject(string docName, string ClassName, System.Collections.Specialized.NameValueCollection fieldsValues)
         {
             throw new NotImplementedException();
@@ -289,7 +294,7 @@ namespace XWiki.Clients
             return AddAttachment(docFullName, filePath);
         }
 
-        // <summary>
+        /// <summary>
         /// Adds a file to a wiki page as an attachment. The data transfer is asynchronuous.
         /// </summary>
         /// <param name="docName">Wiki page name - SpaceName.PageName</param>

@@ -43,6 +43,10 @@ namespace XWiki.XmlRpc
         /// </summary>
         public String content;
 
+        /// <summary>
+        /// Creates a new Page instance. Initialises the non-parametrized members with the default values.
+        /// </summary>
+        /// <param name="pageId">The id of the page.</param>
         public Page(String pageId)
         {
             this.id = pageId;            
@@ -54,6 +58,11 @@ namespace XWiki.XmlRpc
             this.parentId = "";
         }
 
+        /// <summary>
+        /// Creates a new Page instance. Initialises the non-parametrized members with the default values.
+        /// </summary>
+        /// <param name="pageId">The id of the page.</param>
+        /// <param name="content">The content of the page.</param>
         public Page(String pageId, String content)
         {
             this.id = pageId;

@@ -43,7 +43,7 @@ namespace XWiki.XmlRpc
         public String contentType;
 
         /// <summary>
-        /// The id of the page: [wiki:]Space.page[?param1=value1&param2=value2..]
+        /// The id of the page: '[wiki:]Space.page[?param1=value1..]'
         /// </summary>
         public String pageId;
 
@@ -55,10 +55,12 @@ namespace XWiki.XmlRpc
         /// <summary>
         /// Constructor, initializes the fields with the default values.
         /// Creates a new Attacment instance.
+        /// <param name="_pageId">The name of the document containing the attachment.</param>
         /// </summary>
-        /// <param name="discard" Parameter used because structs cannot have explicit parameterless constructors.
-        public Attachment(Object discard)
+        
+        public Attachment(String _pageId)
         {
+            pageId = _pageId;            
             comment = "";
             fileSize = "0";
             url = "";
@@ -66,7 +68,6 @@ namespace XWiki.XmlRpc
             fileName = "";
             created = DateTime.Now;
             contentType = "";
-            pageId = "";
             creator = "";
         }
     }
