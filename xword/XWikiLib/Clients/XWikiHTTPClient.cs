@@ -32,7 +32,7 @@ namespace XWiki.Clients
         /// <param name="serverURL">The url of the server.</param>
         /// <param name="username">The username used to authenticate.</param>
         /// <param name="password">The passowrd used to authenticate.</param>
-        public XWikiHTTPClient(String serverURL, String username, String password)
+        internal XWikiHTTPClient(String serverURL, String username, String password)
         {
             this.serverURL = serverURL;
             this.username = username;
@@ -398,10 +398,22 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Specifies the protocol used by the client to communicate with the server.
+        /// </summary>
+        public XWikiClientType ClientType
+        {
+            get
+            {
+                return XWikiClientType.HTTP_Client;
+            }
+        }
+
+
+        /// <summary>
         /// Gets the spaces of a wiki.
         /// </summary>
         /// <returns>A list containing the spaces names.</returns>
-        public List<string> GetSpaces()
+        public List<string> GetSpacesNames()
         {
             String url = serverURL + XWikiURLs.WikiStructureURL;
             url += "&output=getSpaces";
@@ -418,7 +430,7 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="spaceName">The name of the space.</param>
         /// <returns>A list with the pages names.</returns>
-        public List<string> GetPages(string spaceName)
+        public List<string> GetPagesNames(string spaceName)
         {
             String url = serverURL + XWikiURLs.WikiStructureURL;
             url += "&output=getPages&space=" + spaceName;
@@ -640,9 +652,10 @@ namespace XWiki.Clients
             Stream data = webClient.OpenRead(uri);
             StreamReader reader = new StreamReader(data);
             String response = reader.ReadToEnd();
+            String url = serverURL + response;
             data.Close();
             reader.Close();
-            return response;
+            return url;
         }
 
         #endregion

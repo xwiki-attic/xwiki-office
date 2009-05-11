@@ -84,7 +84,7 @@ namespace XWriter
         /// <summary>
         /// The instance that the addin uses for conecting to the wiki server.
         /// </summary>
-        public XWikiHTTPClient Client
+        public IXWikiClient Client
         {
             get { return Globals.XWikiAddIn.Client; }
             set { Globals.XWikiAddIn.Client = value; }
@@ -137,7 +137,7 @@ namespace XWriter
         public XWikiNavigationPane(XWikiAddIn addin)
         {
             InitializeComponent();
-            Client = new XWikiHTTPClient(Globals.XWikiAddIn.serverURL, Globals.XWikiAddIn.username, Globals.XWikiAddIn.password);                
+            Client = XWikiClientFactory.CreateXWikiClient(Addin.ClientType, Addin.serverURL, Addin.username, Addin.password);
             //Client.Credentials = nc;
             pictureBox.Visible = false;
             loadingWikiData = false;
@@ -167,43 +167,16 @@ namespace XWriter
             byte[] buffer = encoding.GetBytes(s);
             MemoryStream memoryStream = new MemoryStream(buffer, false);
             XmlSerializer serializer = new XmlSerializer(typeof(WikiStructure));
-            
+            WikiStructure wiki = (WikiStructure)serializer.Deserialize(memoryStream);
+            memoryStream.Close();
+
             //keep unpublished spaces and pages
             WikiStructure oldWikiStruct = null;
             if (Addin.wiki != null)
             {
                 oldWikiStruct = Addin.wiki.GetUnpublishedWikiStructure();
-            }
-
-            WikiStructure wiki = (WikiStructure)serializer.Deserialize(memoryStream);
-            Addin.wiki = wiki;
-
-            //add local spaces and pages
-            if (oldWikiStruct != null)
-            {
-                //add unexistent spaces from old structure
-                //and update existing spaces with unpublished pages
-                foreach (Space sp in oldWikiStruct.spaces)
-                {
-                    if (wiki.ContainsSpace(sp.name))
-                    {
-                        //The old local space containing local unpublished documents.
-                        Space existingSpace = wiki[sp.name];
-                        foreach (XWikiDocument xwd in sp.documents)
-                        {
-                            existingSpace.documents.Add(xwd);
-                        }
-                        existingSpace.published = true;
-                    }
-                    else
-                    {
-                        sp.published = false;
-                        Addin.wiki.spaces.Add(sp);
-                    }
-                }
-            }
-
-            memoryStream.Close();
+            }            
+            Addin.wiki = wiki;                      
         }
 
         /// <summary>
@@ -545,7 +518,7 @@ namespace XWriter
                     {
                         String pageFullName = treeView.SelectedNode.Name;
                         String url = Client.GetURL(pageFullName);
-                        url = Addin.serverURL + url;
+                        //url = Addin.serverURL + url;
                         Process p = new Process();
                         p.StartInfo = new ProcessStartInfo(url);
                         p.Start();
@@ -622,25 +595,75 @@ namespace XWriter
         }
 
         /// <summary>
-        /// Gets the wiki structure(Spaces and pages).
+        /// Loads the wiki structure(Spaces and pages).
         /// </summary>
-        private void GetWikiStructure()
+        private void LoadWikiStructure()
         {
-            String url = Client.ServerURL + XWikiURLs.WikiStructureURL + "&output=wiki-serialized";
-            Stream data = Client.OpenRead(url);
-            StreamReader reader = new StreamReader(data);
-            string response = reader.ReadToEnd();
-            if (AddinActions.CheckForErrors(response))
+            try
             {
-                loadingWikiData = false;
-                return;
+                WikiStructure wiki = RequestWikiStructure();
+                //keep unpublished spaces and pages
+                WikiStructure oldWikiStruct = null;
+                if (Addin.wiki != null)
+                {
+                    oldWikiStruct = Addin.wiki.GetUnpublishedWikiStructure();
+                    AddUnpublishedData(ref wiki, ref oldWikiStruct);
+                }
+                
+                //Attach the newest data to the addin
+                Addin.wiki = wiki;
             }
-            else
+            catch (Exception ex)
             {
-                ParseWikiStructure(response);
-                data.Close();
-                reader.Close();
+                MessageBox.Show(ex.Message);
+                Log.Exception(ex);
             }
+        }
+
+        /// <summary>
+        /// Requests the spaces and pages of the wiki from the server.
+        /// </summary>
+        /// <returns>A WikiStructure instance.</returns>
+        private WikiStructure RequestWikiStructure()
+        {
+            WikiStructure wikiStructure = new WikiStructure();
+            List<String> spacesNames = Client.GetSpacesNames();
+            wikiStructure.AddSpaces(spacesNames);
+            foreach (String spaceName in spacesNames)
+            {
+                List<String> pagesNames = Client.GetPagesNames(spaceName);
+                wikiStructure[spaceName].AddDocuments(pagesNames);
+            }
+            //TODO: Add opt-in prefetch
+            return wikiStructure;
+        }
+
+        private void AddUnpublishedData(ref WikiStructure actualWiki,ref WikiStructure unpublishedWiki)
+        {
+            //add local spaces and pages
+            if (unpublishedWiki != null)
+            {
+                //add unexistent spaces from old structure
+                //and update existing spaces with unpublished pages
+                foreach (Space sp in unpublishedWiki.spaces)
+                {
+                    if (actualWiki.ContainsSpace(sp.name))
+                    {
+                        //The old local space containing local unpublished documents.
+                        Space existingSpace = actualWiki[sp.name];
+                        foreach (XWikiDocument xwd in sp.documents)
+                        {
+                            existingSpace.documents.Add(xwd);
+                        }
+                        existingSpace.published = true;
+                    }
+                    else
+                    {
+                        sp.published = false;
+                        actualWiki.spaces.Add(sp);
+                    }
+                }
+            }  
         }
 
         /// <summary>
@@ -652,11 +675,19 @@ namespace XWriter
         {
             String[] separators = { " ", "\n", "\t", "\r", ";", "\\" };
             String url = Addin.serverURL + XWikiURLs.ProtectedPagesURL;
-            Stream data = Client.OpenRead(url);
-            StreamReader reader = new StreamReader(data);
-            String pages = reader.ReadToEnd();
-            String[] pagesArray = pages.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-            return new List<string>(pagesArray);
+            if (Client.ClientType == XWikiClientType.HTTP_Client)
+            {
+                XWikiHTTPClient httpClient = (XWikiHTTPClient)Client;
+                Stream data = httpClient.OpenRead(url);
+                StreamReader reader = new StreamReader(data);
+                String pages = reader.ReadToEnd();
+                String[] pagesArray = pages.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                return new List<string>(pagesArray);
+            }
+            else
+            {
+                return new List<string>();
+            }
         }
 
         /// <summary>
@@ -668,7 +699,7 @@ namespace XWriter
         {
             try
             {
-                GetWikiStructure();
+                LoadWikiStructure();
                 Addin.ProtectedPages = GetProtectedPages();
                 //The pages will be displayed, and the user will be prompted
                 //when trying to edit a protected page.

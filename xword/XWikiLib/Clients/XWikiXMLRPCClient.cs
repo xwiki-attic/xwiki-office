@@ -16,13 +16,15 @@ namespace XWiki.Clients
     public class XWikiXMLRPCClient : IXWikiClient
     {
         private bool isLoggedIn;
-        private Encoding encoding;
+        //Default value for encoding
+        private Encoding encoding = Encoding.GetEncoding("ISO-8859-1");
 
         private string serverUrl;
         private string username;
         private string password;
         private string token;
 
+        private const string separator = ".";
         IXWikiProxy proxy;
 
         private const string XML_RPC_PATH = "/xwiki/xmlrpc";
@@ -34,7 +36,7 @@ namespace XWiki.Clients
         /// <param name="serverUrl">The url of the server.</param>
         /// <param name="username">The username used to authenticate.</param>
         /// <param name="password">The password used to authenticate.</param>
-        public XWikiXMLRPCClient(String serverUrl, String username, String password)
+        internal XWikiXMLRPCClient(String serverUrl, String username, String password)
         {
             this.serverUrl = serverUrl;
             this.username = username;
@@ -51,6 +53,22 @@ namespace XWiki.Clients
                 isLoggedIn = false;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the base URL of the server.
+        /// </summary>
+        public String ServerURL
+        {
+            get
+            {
+                return serverUrl;
+            }
+            set
+            {
+                serverUrl = value;
+            }
+        }
+
 
         /// <summary>
         /// Attaches a file to a page on the server.
@@ -114,16 +132,27 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Specifies the protocol used by the client to communicate with the server.
+        /// </summary>
+        public XWikiClientType ClientType
+        {
+            get
+            {
+                return XWikiClientType.XML_RPC;
+            }
+        }
+
+        /// <summary>
         /// Gets the spaces of a wiki.
         /// </summary>
         /// <returns>A list containing the wiki spaces names.</returns>
-        public List<string> GetSpaces()
+        public List<string> GetSpacesNames()
         {
             SpaceSummary[] spaces = proxy.GetSpaces(token);
             List<string> spacesNames = new List<string>();
             foreach (SpaceSummary space in spaces)
             {
-                spacesNames.Add(space.name);
+                spacesNames.Add(space.key);
             }
             return spacesNames;
         }
@@ -133,13 +162,14 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="spaceName">The name of the wiki space.</param>
         /// <returns>A list with the full names of the documents in a wiki space.</returns>
-        public List<string> GetPages(string spaceName)
+        public List<string> GetPagesNames(string spaceName)
         {
             PageSummary[] pages = proxy.GetPages(token, spaceName);
             List<string> pagesNames = new List<string>();
             foreach (PageSummary ps in pages)
             {
-                pagesNames.Add(ps.id);
+                String name = ps.id.Remove(0, ps.space.Length + separator.Length);
+                pagesNames.Add(name);
             }
             return pagesNames;
         }
@@ -190,8 +220,7 @@ namespace XWiki.Clients
             catch (IOException ex)
             {
                 return false;
-            }
-   
+            }   
         }
 
         public int AddObject(string docName, string ClassName, System.Collections.Specialized.NameValueCollection fieldsValues)
@@ -254,7 +283,7 @@ namespace XWiki.Clients
         /// <returns>The result of the operation(Success - true/Failure - false).</returns>
         public bool AddAttachment(string space, string page, string filePath)
         {
-            string docFullName = space + "." + page;
+            string docFullName = space + separator + page;
             return AddAttachment(docFullName, filePath);
         }
 
@@ -280,7 +309,7 @@ namespace XWiki.Clients
         /// <param name="filePath">The path to the uploaded file.</param>
         public void AddAttachmentAsync(string space, string page, string filePath)
         {
-            String pageFullName = space + "." + page;
+            String pageFullName = space + separator + page;
             AddAttachment(pageFullName, filePath);
         }
 
@@ -303,7 +332,7 @@ namespace XWiki.Clients
         /// <returns>The rendered content of the page.</returns>
         public string GetRenderedPageContent(string space, string page)
         {
-            String pageFullName = space + "." + page;
+            String pageFullName = space + separator + page;
             return GetRenderedPageContent(pageFullName);
         }
 

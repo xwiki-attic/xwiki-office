@@ -122,5 +122,29 @@ namespace XWiki
             }
             return false;
         }
+
+        /// <summary>
+        /// Adds a collection of spaces to the wiki.
+        /// </summary>
+        /// <param name="_spaces"></param>
+        public void AddSpaces(IEnumerable<Space> _spaces)
+        {
+            spaces.AddRange(_spaces);
+        }
+
+        /// <summary>
+        /// Adds a collection of spaces to the wiki.
+        /// </summary>
+        /// <param name="_spaces"></param>
+        public void AddSpaces(IEnumerable<String> _spaces)
+        {
+            foreach (String spaceName in _spaces)
+            {
+                Space space = new Space();
+                space.name = spaceName;
+                space.published = true;
+                spaces.Add(space);
+            }        
+        }
     }
 }

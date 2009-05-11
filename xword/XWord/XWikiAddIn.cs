@@ -85,13 +85,14 @@ namespace XWriter
         /// of the wiki the use is connected to.
         /// </summary>
         public WikiStructure wiki = null;
-        private XWikiHTTPClient client;
+        private IXWikiClient client;
         private AddinActions addinActions;
         private XWikiNavigationPane xWikiTaskPane;
         private AddinStatus addinStatus;
         private Word.Document lastActiveDocument;
         private Word.Range activeDocumentContent;
         private String lastActiveDocumentFullName;
+        private XWikiClientType clientType = XWikiClientType.HTTP_Client;
         /// <summary>
         /// Collection containing all custom task panes in all opened Word instances.
         /// </summary>
@@ -125,6 +126,21 @@ namespace XWriter
         public Dictionary<String, String> EditedPages
         {
             get { return editedPages; }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of the XWiki client used by the add-in.
+        /// </summary>
+        public XWikiClientType ClientType
+        {
+            get
+            {
+                return clientType;
+            }
+            set
+            {
+                clientType = value;
+            }
         }
 
         /// <summary>
@@ -267,7 +283,7 @@ namespace XWriter
         /// <summary>
         /// The Custom WebClient that communicates with the server.
         /// </summary>
-        public XWikiHTTPClient Client
+        public IXWikiClient Client
         {
             get { return client; }
             set { client = value; }
@@ -520,7 +536,7 @@ namespace XWriter
                 result = new AddinSettingsForm().ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    Client = new XWikiHTTPClient(serverURL, username, password);
+                    Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
                     // refreshes the ribbon buttons
                     // which allow the user to work with the documents from XWiki server
                     Globals.Ribbons.XWikiRibbon.Refresh(null,null);
@@ -572,7 +588,7 @@ namespace XWriter
                 serverURL = credentials[0];
                 username = credentials[1];
                 password = credentials[2];
-                client = new XWikiHTTPClient(serverURL, username, password);
+                client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
                 // refreshes the ribbon buttons
                 // which allow the user to work with the documents from XWiki server
                 Globals.Ribbons.XWikiRibbon.Refresh(null, null);

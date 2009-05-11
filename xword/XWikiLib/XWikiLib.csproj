@@ -75,6 +75,8 @@
     <Compile Include="Clients\XmlRpc\Model\XWikiClassSummary.cs" />
     <Compile Include="Clients\XmlRpc\Model\XWikiObject.cs" />
     <Compile Include="Clients\XmlRpc\Model\XWikiObjectSummary.cs" />
+    <Compile Include="Clients\XWikiClientFactory.cs" />
+    <Compile Include="Clients\XWikiClientType.cs" />
     <Compile Include="Clients\XWikiXMLRPCClient.cs" />
     <Compile Include="Html\HtmlUtil.cs" />
     <Compile Include="Office\Word\AbstractConverter.cs" />

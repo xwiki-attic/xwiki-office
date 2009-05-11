@@ -22,9 +22,26 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Gets or sets the base URL of the server.
+        /// </summary>
+        String ServerURL
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Specifies the encoding from the XWiki server.
         /// </summary>
         Encoding ServerEncoding
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Specifies the protocol used by the client to communicate with the server.
+        /// </summary>
+        XWikiClientType ClientType
         {
             get;
         }
@@ -41,14 +58,14 @@ namespace XWiki.Clients
         /// Gets the spaces form the wiki instance.
         /// </summary>
         /// <returns>A list containg spaces names.</returns>
-        List<String> GetSpaces();
+        List<String> GetSpacesNames();
 
         /// <summary>
         /// Gets the pages of a wiki space. 
         /// </summary>
         /// <param name="spaceName"></param>
         /// <returns>A list containing the pages in the specified space.</returns>
-        List<String> GetPages(String spaceName);
+        List<String> GetPagesNames(String spaceName);
 
         /// <summary>
         /// Sets the html content of a page and then saves the page.
