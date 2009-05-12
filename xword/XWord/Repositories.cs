@@ -75,12 +75,12 @@ namespace XWriter
             catch (InvalidCastException ce)
             {
                 Log.ExceptionSummary(ce);
-                return null;
+                settings = new RepositorySettings();
             }
             catch (Exception ex)
             {
                 Log.ExceptionSummary(ex);
-                return null;
+                settings = new RepositorySettings();
             }
             finally
             {
