@@ -92,7 +92,7 @@ namespace XWriter
         private Word.Document lastActiveDocument;
         private Word.Range activeDocumentContent;
         private String lastActiveDocumentFullName;
-        private XWikiClientType clientType = XWikiClientType.HTTP_Client;
+        private XWikiClientType clientType = XWikiClientType.XML_RPC;
         /// <summary>
         /// Collection containing all custom task panes in all opened Word instances.
         /// </summary>

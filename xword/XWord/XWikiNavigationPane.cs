@@ -152,7 +152,14 @@ namespace XWriter
         {
             treeView.ImageList = iconList;
             treeView.SelectedImageIndex = SELECTED_NODE_IMAGE_INDEX;
-            this.RefreshWikiExplorer();            
+            if (Addin.wiki == null)
+            {
+                this.RefreshWikiExplorer();
+            }
+            else
+            {
+                this.BuildTree();
+            }
         }
 
         /// <summary>
@@ -757,6 +764,7 @@ namespace XWriter
             } 
             else if (loadingWikiData)
             {
+                pictureBox.Visible = true;
                 pictureBox.BringToFront();
             }
         }
