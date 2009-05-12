@@ -15,6 +15,8 @@ namespace XWiki
     {
         private static string eventSource = "XWiki";
         private static string logName = "XOffice";
+        //The message for EventLog can not exceed 32766 bytes
+        private const int MAX_MSG_SIZE = 32766;
 
         /// <summary>
         /// Writes a entry to the application's log.
@@ -22,14 +24,15 @@ namespace XWiki
         /// <param name="message">The logged message.</param>
         /// <param name="type">The type of the message.</param>
         public static void Write(String message, EventLogEntryType type)
-        {
+        {            
+            String msg = (message.Length > MAX_MSG_SIZE) ? message.Substring(0, MAX_MSG_SIZE) : message;
             if (EventLog.Exists(logName))
             {
                 EventLog.CreateEventSource(eventSource, logName);
             }
             else
             {
-                EventLog.WriteEntry(eventSource, message, type);
+                EventLog.WriteEntry(eventSource, msg, type);
             }
         }
 
