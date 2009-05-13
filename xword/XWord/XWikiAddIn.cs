@@ -110,6 +110,16 @@ namespace XWord
 
         #endregion
 
+        ///Delegate and event declarations
+        #region Delegates&Events
+
+        // A delegate type for hooking up Client instance change notifications.
+        public delegate void ClientInstanceChangedHandler(object sender, EventArgs e);
+        public event ClientInstanceChangedHandler ClientInstanceChanged;
+
+        #endregion
+
+
         /// <summary>
         /// Gets or sets the wildcards for the protected pages.
         /// The protected pages contain scripts and cannot be editited with Word.
@@ -285,8 +295,15 @@ namespace XWord
         /// </summary>
         public IXWikiClient Client
         {
-            get { return client; }
-            set { client = value; }
+            get 
+            {
+                return client;
+            }
+            set
+            {
+                client = value;
+                ClientInstanceChanged(this, null);
+            }
         }
 
         /// <summary>

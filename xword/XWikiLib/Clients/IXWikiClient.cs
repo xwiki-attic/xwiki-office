@@ -53,6 +53,12 @@ namespace XWiki.Clients
         /// <param name="password"></param>
         /// <returns>Bool - login succesfull/failed</returns>
         bool Login(String username, String password);
+
+        /// <summary>
+        /// Gets the availbale syntaxes for the server's rendered.
+        /// </summary>
+        /// <returns>A string list containing the names of the wiki server syntaxes.</returns>
+        List<String> GetAvailableSyntaxes();
         
         /// <summary>
         /// Gets the spaces form the wiki instance.

@@ -661,6 +661,21 @@ namespace XWiki.Clients
             return url;
         }
 
+        /// <summary>
+        /// Gets the availbale syntaxes for the server's rendered.
+        /// </summary>
+        /// <returns>A string list containing the names of the wiki server syntaxes.</returns>
+        public List<String> GetAvailableSyntaxes()
+        {
+            //TODO: Get this from the server.
+            List<String> syntaxes = new List<string>();
+            foreach (String s in Properties.Settings.Default.HttpClientSyntaxes)
+            {
+                syntaxes.Add(s);
+            }
+            return syntaxes;
+        }
+
         #endregion
     }
 }

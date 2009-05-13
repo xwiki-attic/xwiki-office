@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
@@ -23,6 +24,8 @@ namespace XWord
             get { return Globals.XWikiAddIn; }
         }
 
+        private List<String> syntaxes;
+
         /// <summary>
         /// Default constructor. Initializes all components.
         /// </summary>
@@ -34,7 +37,21 @@ namespace XWord
 
         private void XWikiRibbon_Load(object sender, RibbonUIEventArgs e)
         {
+            Addin.ClientInstanceChanged += new XWikiAddIn.ClientInstanceChangedHandler(Addin_ClientInstanceChanged);
+        }
 
+        void Addin_ClientInstanceChanged(object sender, EventArgs e)
+        {
+            //Refresh the available syntaxes.
+            syntaxes = Addin.Client.GetAvailableSyntaxes();
+            dropDownSyntax.Items.Clear();
+            foreach (String syntax in syntaxes)
+            {
+                RibbonDropDownItem rddi = new RibbonDropDownItem();
+                rddi.Label = syntax;
+                dropDownSyntax.Items.Add(rddi);
+            }
+            dropDownSyntax.SelectedItemIndex = 0;
         }
         /// <summary>
         /// Refreshes the buttons from the selectionOptionsGroup according to the connection state.
@@ -231,7 +248,15 @@ namespace XWord
 
         private void dropDownSyntax_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
-            Addin.AddinStatus.Syntax = dropDownSyntax.SelectedItem.Label;
+            String selectedValue = dropDownSyntax.SelectedItem.Label;
+            if(syntaxes.Contains(selectedValue))
+            {
+                Addin.AddinStatus.Syntax = selectedValue;
+            }
+            else
+            {
+                MessageBox.Show("Invalid syntax selected", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
 
         private void dropDownSaveFormat_SelectionChanged(object sender, RibbonControlEventArgs e)
