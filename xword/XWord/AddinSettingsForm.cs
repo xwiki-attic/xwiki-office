@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -19,9 +20,12 @@ namespace XWord
     public partial class AddinSettingsForm : Form
     {
         XWikiAddIn addin = Globals.XWikiAddIn;
-        bool connectionSettingsApply = true;
+        bool connectionSettingsApplied = true;
         bool reposSettingsApply = true;
-
+        #region connectivity
+        StringCollection connectMethods = Properties.Settings.Default.ConnectMethods;
+        Dictionary<String, XWikiClientType> connectDictionary = new Dictionary<string, XWikiClientType>();
+        #endregion
         /// <summary>
         /// Default constructor. Initializes all components.
         /// </summary>
@@ -85,7 +89,7 @@ namespace XWord
             if (tabControl.SelectedTab == tabConnection)
             {
                 ApplyConnectionSettings();
-                connectionSettingsApply = true;
+                connectionSettingsApplied = true;
             }
             else if (tabControl.SelectedTab == tabFileRepository)
             {
@@ -200,6 +204,12 @@ namespace XWord
             }
             txtPagesRepo.Text = addin.PagesRepository;
             txtAttachmentsRepo.Text = addin.DownloadedAttachmentsRepository;
+            //init protocol settings
+            connectDictionary.Add(connectMethods[0], XWikiClientType.XML_RPC);
+            connectDictionary.Add(connectMethods[1], XWikiClientType.HTTP_Client);
+            comboProtocol.DataSource = connectMethods;
+            comboProtocol.SelectedIndex = 0;
+            
         }
 
         /// <summary>
@@ -209,7 +219,7 @@ namespace XWord
         /// <param name="e">The event parameters.</param>
         private void txtAnyConnectionSetting_TextChanged(object sender, EventArgs e)
         {
-            connectionSettingsApply = false;
+            connectionSettingsApplied = false;
         }
 
         /// <summary>
@@ -219,7 +229,7 @@ namespace XWord
         /// <param name="e">The event parameters.</param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (!connectionSettingsApply)
+            if (!connectionSettingsApplied)
             {
                 ApplyConnectionSettings();
             }
@@ -338,6 +348,20 @@ namespace XWord
         private void anyRepoSettingChanged_TextChanged(object sender, EventArgs e)
         {
             reposSettingsApply = false;
+        }
+
+        private void comboProtocol_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            String selectedValue = (String)comboProtocol.SelectedValue;
+            if (connectDictionary.Keys.Contains(selectedValue))
+            {
+                Addin.ClientType = connectDictionary[selectedValue];
+                connectionSettingsApplied = false;
+            }
+            else
+            {
+                MessageBox.Show("The selected value is not valid.", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
     }
 }
