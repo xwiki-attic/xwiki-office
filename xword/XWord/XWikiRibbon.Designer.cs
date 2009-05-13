@@ -1,4 +1,4 @@
-﻿namespace XWriter
+﻿namespace XWord
 {
     partial class XWikiRibbon
     {
@@ -136,7 +136,7 @@
             // 
             this.btnNewPage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnNewPage.Description = "Add a new page to the wiki.";
-            this.btnNewPage.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            this.btnNewPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             this.btnNewPage.KeyTip = "A";
             this.btnNewPage.Label = "Add page";
             this.btnNewPage.Name = "btnNewPage";
@@ -150,7 +150,7 @@
             // btnPublishDocument
             // 
             this.btnPublishDocument.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnPublishDocument.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_apply;
+            this.btnPublishDocument.Image = global::XWord.Properties.Resources.Crystal_Clear_action_apply;
             this.btnPublishDocument.Label = "Publish document";
             this.btnPublishDocument.Name = "btnPublishDocument";
             this.btnPublishDocument.ScreenTip = "Publish Page to XWiki";
@@ -162,7 +162,7 @@
             // 
             this.toggleButton1.Checked = true;
             this.toggleButton1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toggleButton1.Image = global::XWriter.Properties.Resources.Crystal_Clear_filesystem_folder_green;
+            this.toggleButton1.Image = global::XWord.Properties.Resources.Crystal_Clear_filesystem_folder_green;
             this.toggleButton1.Label = "Wiki explorer";
             this.toggleButton1.Name = "toggleButton1";
             this.toggleButton1.ScreenTip = "Toggle Wiki Explorer";
@@ -182,7 +182,7 @@
             this.uploadAttToPage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.uploadAttToPage.Description = "Uploads the current document to the wiki.";
             this.uploadAttToPage.Enabled = false;
-            this.uploadAttToPage.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager2;
+            this.uploadAttToPage.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager2;
             this.uploadAttToPage.Label = "Attach current document";
             this.uploadAttToPage.Name = "uploadAttToPage";
             this.uploadAttToPage.ScreenTip = "Uploads the active document to the wiki.";
@@ -194,7 +194,7 @@
             // 
             this.downloadAtt.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.downloadAtt.Enabled = false;
-            this.downloadAtt.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager;
+            this.downloadAtt.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager;
             this.downloadAtt.Label = "Download selected file";
             this.downloadAtt.Name = "downloadAtt";
             this.downloadAtt.ScreenTip = "Download the selected attachment.";
@@ -219,7 +219,7 @@
             // btnAddPage
             // 
             this.btnAddPage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnAddPage.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            this.btnAddPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             this.btnAddPage.Label = "Add page";
             this.btnAddPage.Name = "btnAddPage";
             this.btnAddPage.ScreenTip = "Add a page to the selected space.";
@@ -232,7 +232,7 @@
             // btnEditPage
             // 
             this.btnEditPage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnEditPage.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit;
+            this.btnEditPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit;
             this.btnEditPage.Label = "Edit page";
             this.btnEditPage.Name = "btnEditPage";
             this.btnEditPage.ScreenTip = "Edit the selected page.";
@@ -244,7 +244,7 @@
             // btnUpload
             // 
             this.btnUpload.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnUpload.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager2;
+            this.btnUpload.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager2;
             this.btnUpload.Label = "Upload";
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.ScreenTip = "Upload the current document to the selected wiki page.";
@@ -254,7 +254,7 @@
             // btnDownload
             // 
             this.btnDownload.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnDownload.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager;
+            this.btnDownload.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager;
             this.btnDownload.Label = "Download";
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.ScreenTip = "Download the selected attachment.";
@@ -266,7 +266,7 @@
             // btnDownloadAndOpen
             // 
             this.btnDownloadAndOpen.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnDownloadAndOpen.Image = global::XWriter.Properties.Resources.Crystal_Clear_download_and_open;
+            this.btnDownloadAndOpen.Image = global::XWord.Properties.Resources.Crystal_Clear_download_and_open;
             this.btnDownloadAndOpen.Label = "Download and open";
             this.btnDownloadAndOpen.Name = "btnDownloadAndOpen";
             this.btnDownloadAndOpen.ScreenTip = "Downloads and opens the selected attachment.";
@@ -278,7 +278,7 @@
             // btnShowPages
             // 
             this.btnShowPages.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnShowPages.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_view_tree96;
+            this.btnShowPages.Image = global::XWord.Properties.Resources.Crystal_Clear_action_view_tree96;
             this.btnShowPages.Label = "Show pages";
             this.btnShowPages.Name = "btnShowPages";
             this.btnShowPages.ScreenTip = "Shows the pages for the selectes space.";
@@ -289,7 +289,7 @@
             // btnShowAttachments
             // 
             this.btnShowAttachments.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnShowAttachments.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_view_tree96;
+            this.btnShowAttachments.Image = global::XWord.Properties.Resources.Crystal_Clear_action_view_tree96;
             this.btnShowAttachments.Label = "Show attachments";
             this.btnShowAttachments.Name = "btnShowAttachments";
             this.btnShowAttachments.ScreenTip = "Shows the attachments for the selected page.";
@@ -300,7 +300,7 @@
             // btnViewInBrowser
             // 
             this.btnViewInBrowser.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnViewInBrowser.Image = global::XWriter.Properties.Resources.browser;
+            this.btnViewInBrowser.Image = global::XWord.Properties.Resources.browser;
             this.btnViewInBrowser.Label = "View in browser";
             this.btnViewInBrowser.Name = "btnViewInBrowser";
             this.btnViewInBrowser.ScreenTip = "View the selected page in browser.";
@@ -323,7 +323,7 @@
             // btnXWordOptions
             // 
             this.btnXWordOptions.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnXWordOptions.Image = global::XWriter.Properties.Resources.Crystal_Clear_app_package_settings;
+            this.btnXWordOptions.Image = global::XWord.Properties.Resources.Crystal_Clear_app_package_settings;
             this.btnXWordOptions.Label = "XWord Options";
             this.btnXWordOptions.Name = "btnXWordOptions";
             this.btnXWordOptions.ScreenTip = "Shows the XWord Options dialog.";
@@ -369,7 +369,7 @@
             // btnAboutXWord
             // 
             this.btnAboutXWord.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnAboutXWord.Image = global::XWriter.Properties.Resources.XWiki;
+            this.btnAboutXWord.Image = global::XWord.Properties.Resources.XWiki;
             this.btnAboutXWord.Label = "About XWord";
             this.btnAboutXWord.Name = "btnAboutXWord";
             this.btnAboutXWord.ScreenTip = "About XWord";
@@ -392,9 +392,9 @@
             this.galMyRecentlyViewed.Buttons.Add(this.button3);
             this.galMyRecentlyViewed.Buttons.Add(this.button4);
             this.galMyRecentlyViewed.Enabled = false;
-            ribbonDropDownItem5.Image = global::XWriter.Properties.Resources.browser;
+            ribbonDropDownItem5.Image = global::XWord.Properties.Resources.browser;
             ribbonDropDownItem5.Label = "Item0";
-            ribbonDropDownItem6.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            ribbonDropDownItem6.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             ribbonDropDownItem6.Label = "Item1";
             this.galMyRecentlyViewed.Items.Add(ribbonDropDownItem5);
             this.galMyRecentlyViewed.Items.Add(ribbonDropDownItem6);
@@ -423,9 +423,9 @@
             this.galMyRecentlyModified.Buttons.Add(this.button6);
             this.galMyRecentlyModified.Buttons.Add(this.button7);
             this.galMyRecentlyModified.Enabled = false;
-            ribbonDropDownItem7.Image = global::XWriter.Properties.Resources.browser;
+            ribbonDropDownItem7.Image = global::XWord.Properties.Resources.browser;
             ribbonDropDownItem7.Label = "Item0";
-            ribbonDropDownItem8.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            ribbonDropDownItem8.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             ribbonDropDownItem8.Label = "Item1";
             this.galMyRecentlyModified.Items.Add(ribbonDropDownItem7);
             this.galMyRecentlyModified.Items.Add(ribbonDropDownItem8);
@@ -454,9 +454,9 @@
             this.galMyRecentlyCreated.Buttons.Add(this.button9);
             this.galMyRecentlyCreated.Buttons.Add(this.button10);
             this.galMyRecentlyCreated.Enabled = false;
-            ribbonDropDownItem9.Image = global::XWriter.Properties.Resources.browser;
+            ribbonDropDownItem9.Image = global::XWord.Properties.Resources.browser;
             ribbonDropDownItem9.Label = "Item0";
-            ribbonDropDownItem10.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            ribbonDropDownItem10.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             ribbonDropDownItem10.Label = "Item1";
             this.galMyRecentlyCreated.Items.Add(ribbonDropDownItem9);
             this.galMyRecentlyCreated.Items.Add(ribbonDropDownItem10);
@@ -494,9 +494,9 @@
             this.galTeamRecentlyView.Buttons.Add(this.button12);
             this.galTeamRecentlyView.Buttons.Add(this.button13);
             this.galTeamRecentlyView.Enabled = false;
-            ribbonDropDownItem11.Image = global::XWriter.Properties.Resources.browser;
+            ribbonDropDownItem11.Image = global::XWord.Properties.Resources.browser;
             ribbonDropDownItem11.Label = "Item0";
-            ribbonDropDownItem12.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            ribbonDropDownItem12.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             ribbonDropDownItem12.Label = "Item1";
             this.galTeamRecentlyView.Items.Add(ribbonDropDownItem11);
             this.galTeamRecentlyView.Items.Add(ribbonDropDownItem12);
@@ -525,9 +525,9 @@
             this.galTeamRecentlyModified.Buttons.Add(this.button15);
             this.galTeamRecentlyModified.Buttons.Add(this.button16);
             this.galTeamRecentlyModified.Enabled = false;
-            ribbonDropDownItem13.Image = global::XWriter.Properties.Resources.browser;
+            ribbonDropDownItem13.Image = global::XWord.Properties.Resources.browser;
             ribbonDropDownItem13.Label = "Item0";
-            ribbonDropDownItem14.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            ribbonDropDownItem14.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             ribbonDropDownItem14.Label = "Item1";
             this.galTeamRecentlyModified.Items.Add(ribbonDropDownItem13);
             this.galTeamRecentlyModified.Items.Add(ribbonDropDownItem14);
@@ -556,9 +556,9 @@
             this.galTeamRecentlyCreated.Buttons.Add(this.button18);
             this.galTeamRecentlyCreated.Buttons.Add(this.button19);
             this.galTeamRecentlyCreated.Enabled = false;
-            ribbonDropDownItem15.Image = global::XWriter.Properties.Resources.browser;
+            ribbonDropDownItem15.Image = global::XWord.Properties.Resources.browser;
             ribbonDropDownItem15.Label = "Item0";
-            ribbonDropDownItem16.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            ribbonDropDownItem16.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             ribbonDropDownItem16.Label = "Item1";
             this.galTeamRecentlyCreated.Items.Add(ribbonDropDownItem15);
             this.galTeamRecentlyCreated.Items.Add(ribbonDropDownItem16);

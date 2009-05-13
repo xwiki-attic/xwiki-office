@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Represents the context of the add-in.

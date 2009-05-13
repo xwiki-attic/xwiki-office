@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using XWiki;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// UI for adding a page or a space.

@@ -6,7 +6,7 @@ using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
 using XWiki;
 
-namespace XWriter.VstoExtensions
+namespace XWord.VstoExtensions
 {
     /// <summary>
     /// Extension for protecting Word content with VSTO

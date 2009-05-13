@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Structure used for writing and retrieving data from Isolated Storage.

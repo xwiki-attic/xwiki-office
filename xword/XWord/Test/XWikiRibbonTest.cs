@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Office.Tools.Ribbon;
 using NUnit.Framework;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Test class for the ribbon.

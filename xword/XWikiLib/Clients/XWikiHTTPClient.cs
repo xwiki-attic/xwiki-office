@@ -110,7 +110,7 @@ namespace XWiki.Clients
                 String targetURL = ServerURL + XWikiURLs.LoginURL;
                 targetURL += "?j_username=" + username + "&j_password=" + password + "&j_rememberme=true&xpage=plain";
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(targetURL);
-                request.UserAgent = "XWriter - .NET Framework Client";
+                request.UserAgent = "XWord - .NET Framework Client";
                 request.Method = "POST";
                 request.AllowAutoRedirect = false;
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();

@@ -14,7 +14,7 @@ using XWiki;
 using XWiki.Clients;
 using System.Diagnostics;
 
-namespace XWriter
+namespace XWord
 {
     public partial class XWikiNavigationPane : UserControl
     {

@@ -1,4 +1,4 @@
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// A task pane used to browse the wiki structure.
@@ -65,7 +65,7 @@ namespace XWriter
             // 
             // cmnuNewPage
             // 
-            this.cmnuNewPage.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit_add;
+            this.cmnuNewPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             this.cmnuNewPage.Name = "cmnuNewPage";
             this.cmnuNewPage.Size = new System.Drawing.Size(273, 22);
             this.cmnuNewPage.Text = "Create new page";
@@ -73,7 +73,7 @@ namespace XWriter
             // 
             // cmnuEditPage
             // 
-            this.cmnuEditPage.Image = global::XWriter.Properties.Resources.Crystal_Clear_action_edit;
+            this.cmnuEditPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit;
             this.cmnuEditPage.Name = "cmnuEditPage";
             this.cmnuEditPage.Size = new System.Drawing.Size(273, 22);
             this.cmnuEditPage.Text = "Edit this page";
@@ -81,7 +81,7 @@ namespace XWriter
             // 
             // cmnuViewInBrowser
             // 
-            this.cmnuViewInBrowser.Image = global::XWriter.Properties.Resources.browser;
+            this.cmnuViewInBrowser.Image = global::XWord.Properties.Resources.browser;
             this.cmnuViewInBrowser.Name = "cmnuViewInBrowser";
             this.cmnuViewInBrowser.Size = new System.Drawing.Size(273, 22);
             this.cmnuViewInBrowser.Text = "View in browser";
@@ -89,7 +89,7 @@ namespace XWriter
             // 
             // cmnuAttachFile
             // 
-            this.cmnuAttachFile.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager2;
+            this.cmnuAttachFile.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager2;
             this.cmnuAttachFile.Name = "cmnuAttachFile";
             this.cmnuAttachFile.Size = new System.Drawing.Size(273, 22);
             this.cmnuAttachFile.Text = "Attach current document to this page";
@@ -97,7 +97,7 @@ namespace XWriter
             // 
             // cmnuDownloadFile
             // 
-            this.cmnuDownloadFile.Image = global::XWriter.Properties.Resources.Nuvola_apps_download_manager1;
+            this.cmnuDownloadFile.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager1;
             this.cmnuDownloadFile.Name = "cmnuDownloadFile";
             this.cmnuDownloadFile.Size = new System.Drawing.Size(273, 22);
             this.cmnuDownloadFile.Text = "Download file";
@@ -105,7 +105,7 @@ namespace XWriter
             // 
             // cmnuDownloadOpenFile
             // 
-            this.cmnuDownloadOpenFile.Image = global::XWriter.Properties.Resources.Crystal_Clear_download_and_open;
+            this.cmnuDownloadOpenFile.Image = global::XWord.Properties.Resources.Crystal_Clear_download_and_open;
             this.cmnuDownloadOpenFile.Name = "cmnuDownloadOpenFile";
             this.cmnuDownloadOpenFile.Size = new System.Drawing.Size(273, 22);
             this.cmnuDownloadOpenFile.Text = "Download and open file";

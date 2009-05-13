@@ -7,7 +7,7 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using XWiki;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Provindes functionality for storing authentication data. 

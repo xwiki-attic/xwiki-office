@@ -1,4 +1,4 @@
-﻿namespace XWriter
+﻿namespace XWord
 {
     partial class AboutXWord
     {
@@ -66,7 +66,7 @@
             // 
             // logoPictureBox
             // 
-            this.logoPictureBox.Image = global::XWriter.Properties.Resources.XWiki;
+            this.logoPictureBox.Image = global::XWord.Properties.Resources.XWiki;
             this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);

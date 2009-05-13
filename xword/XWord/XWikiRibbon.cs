@@ -4,9 +4,9 @@ using System.IO;
 using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
 using VSTO = Microsoft.Office.Tools;
-using XWriter.VstoExtensions;
+using XWord.VstoExtensions;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Provides XWiki specific UI elements using the Office 2007 Ribbon UI.

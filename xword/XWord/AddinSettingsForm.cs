@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using XWiki.Clients;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Provides UI for changing the add-in settings.

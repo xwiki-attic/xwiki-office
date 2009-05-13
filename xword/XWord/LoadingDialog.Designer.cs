@@ -1,4 +1,4 @@
-﻿namespace XWriter
+﻿namespace XWord
 {
     /// <summary>
     /// A dialog that is shown when a long operation is executed or a Word instance restart/swich is required.
@@ -51,7 +51,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::XWriter.Properties.Resources.loading;
+            this.pictureBox1.Image = global::XWord.Properties.Resources.loading;
             this.pictureBox1.Location = new System.Drawing.Point(13, 39);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(224, 19);

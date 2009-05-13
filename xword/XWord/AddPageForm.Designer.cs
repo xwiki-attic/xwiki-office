@@ -1,4 +1,4 @@
-﻿namespace XWriter
+﻿namespace XWord
 {
     partial class AddPageForm
     {

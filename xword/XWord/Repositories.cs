@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using XWiki;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Offers functionality for storing the repository settings to Isolated Storage.

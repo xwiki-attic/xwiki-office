@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Deployment.Application;
 
-namespace XWriter
+namespace XWord
 {
     partial class AboutXWord : Form
     {

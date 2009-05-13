@@ -15,9 +15,9 @@ using XWiki.Office.Word;
 using XWiki.Html;
 using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
-using XWriter.VstoExtensions;
+using XWord.VstoExtensions;
 
-namespace XWriter
+namespace XWord
 {
     /// <summary>
     /// Provides implementations for the common addin actions.

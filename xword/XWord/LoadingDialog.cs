@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace XWriter
+namespace XWord
 {
     public partial class LoadingDialog : Form
     {

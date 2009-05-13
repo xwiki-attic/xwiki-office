@@ -23,7 +23,7 @@
     <ProjectGuid>{2815740E-E05C-4163-8951-F550A27B5668}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <RootNamespace>XWriter</RootNamespace>
+    <RootNamespace>XWord</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ManifestCertificateThumbprint>E62442FE6D3A20F050E565BC4983E6191FE1C94F</ManifestCertificateThumbprint>
@@ -271,12 +271,13 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Repositories.cs" />
     <Compile Include="RepositorySettings.cs" />
@@ -369,7 +370,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Word" HostPackage="{D2B20FF5-A6E5-47E1-90E8-463C6860CB05}" OfficeVersion="12.0" VstxVersion="3.0" ApplicationType="Word" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\12.0\Word\InstallRoot\Path#WINWORD.EXE" DebugInfoCommandLine="/w" AddItemTemplatesGuid="{147FB6A7-F239-4523-AE65-B6A4E49B361F}" />
-        <Host Name="Word" GeneratedCodeNamespace="XWriter" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+        <Host Name="Word" GeneratedCodeNamespace="XWord" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="XWikiAddIn.cs" CanonicalName="AddIn" PublishedHash="86D7C8E36F0143F03A8B174CF83D7FF0210F8800" CanActivate="false" IconIndex="1" Blueprint="XWikiAddIn.Designer.xml" GeneratedCode="XWikiAddIn.Designer.cs" />
         </Host>
         <ProjectClient>
