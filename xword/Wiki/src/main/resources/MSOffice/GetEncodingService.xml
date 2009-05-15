@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-15"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>MSOffice</web>
@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1239491696000</creationDate>
-<date>1239493018000</date>
-<contentUpdateDate>1239493018000</contentUpdateDate>
+<date>1242389244000</date>
+<contentUpdateDate>1242389244000</contentUpdateDate>
 <version>1.1</version>
 <title>GetEncodingsService</title>
 <template></template>

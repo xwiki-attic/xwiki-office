@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform.applications</groupId>
     <artifactId>xwiki-applications</artifactId>
-    <version>17-SNAPSHOT</version>
+    <version>19-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-office-addin-wiki</artifactId>
   <name>XWiki Platform - Microsoft Office Add-ins</name>
