@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
-using System.Configuration;
 using XWiki.Clients;
 
 namespace XWord
@@ -23,6 +19,8 @@ namespace XWord
         bool addinSettingsApplied = true;
         bool loadingDialogFlag = false;
         XWordSettings addinSettings = new XWordSettings();
+        const String connectionDocUrl = "http://xoffice.xwiki.org/xwiki/bin/view/XWord/User_Guide#HConnecttoaXWikiserver";
+
         #region connectivity
         StringCollection connectMethods = Properties.Settings.Default.ConnectMethods;
         Dictionary<String, XWikiClientType> connectDictionary = new Dictionary<string, XWikiClientType>();
@@ -383,6 +381,16 @@ namespace XWord
                 {
                     MessageBox.Show("The selected value is not valid.", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 }
+            }
+        }
+
+        private void linkConnectDoc_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Process p = new Process();
+                p.StartInfo = new ProcessStartInfo(connectionDocUrl);
+                p.Start();
             }
         }
     }

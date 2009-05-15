@@ -39,7 +39,7 @@
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblServerUrl = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linkConnectDoc = new System.Windows.Forms.LinkLabel();
             this.comboProtocol = new System.Windows.Forms.ComboBox();
             this.lblProtocol = new System.Windows.Forms.Label();
             this.tabFileRepository = new System.Windows.Forms.TabPage();
@@ -159,7 +159,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.linkLabel1);
+            this.groupBox1.Controls.Add(this.linkConnectDoc);
             this.groupBox1.Controls.Add(this.comboProtocol);
             this.groupBox1.Controls.Add(this.lblProtocol);
             this.groupBox1.Location = new System.Drawing.Point(8, 6);
@@ -169,15 +169,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
-            // linkLabel1
+            // linkConnectDoc
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(330, 148);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(35, 13);
-            this.linkLabel1.TabIndex = 25;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Why?";
+            this.linkConnectDoc.AutoSize = true;
+            this.linkConnectDoc.Location = new System.Drawing.Point(330, 148);
+            this.linkConnectDoc.Name = "linkConnectDoc";
+            this.linkConnectDoc.Size = new System.Drawing.Size(35, 13);
+            this.linkConnectDoc.TabIndex = 25;
+            this.linkConnectDoc.TabStop = true;
+            this.linkConnectDoc.Text = "Why?";
+            this.linkConnectDoc.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkConnectDoc_LinkClicked);
             // 
             // comboProtocol
             // 
@@ -363,7 +364,7 @@
         private System.Windows.Forms.Button btnAttachmentsRepo;
         private System.Windows.Forms.TextBox txtAttachmentsRepo;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkConnectDoc;
         private System.Windows.Forms.ComboBox comboProtocol;
         private System.Windows.Forms.Label lblProtocol;
 
