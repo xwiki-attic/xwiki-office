@@ -19,9 +19,10 @@ namespace XWord
     /// </summary>
     public partial class AddinSettingsForm : Form
     {
-        XWikiAddIn addin = Globals.XWikiAddIn;
         bool connectionSettingsApplied = true;
-        bool reposSettingsApply = true;
+        bool addinSettingsApplied = true;
+        bool loadingDialogFlag = false;
+        XWordSettings addinSettings = new XWordSettings();
         #region connectivity
         StringCollection connectMethods = Properties.Settings.Default.ConnectMethods;
         Dictionary<String, XWikiClientType> connectDictionary = new Dictionary<string, XWikiClientType>();
@@ -35,11 +36,14 @@ namespace XWord
         }
 
         /// <summary>
-        /// Gets a refferesnce to the Addin instance.
+        /// Gets the instance of the addin.
         /// </summary>
         public XWikiAddIn Addin
         {
-            get { return Globals.XWikiAddIn; }
+            get
+            {
+                return Globals.XWikiAddIn;
+            }
         }
 
         /// <summary>
@@ -94,7 +98,7 @@ namespace XWord
             else if (tabControl.SelectedTab == tabFileRepository)
             {
                 ApplyRepositoriesSettings();
-                reposSettingsApply = true;
+                addinSettingsApplied = true;
             }
         }
 
@@ -117,15 +121,14 @@ namespace XWord
             Addin.Client = XWikiClientFactory.CreateXWikiClient(Addin.ClientType, Addin.serverURL, Addin.username, Addin.password);
             // refreshes the ribbon buttons
             // which allow the user to work with the documents from XWiki server
-            Globals.Ribbons.XWikiRibbon.Refresh(null, null);
-            
-
+            Globals.Ribbons.XWikiRibbon.Refresh(null, null);            
             //TODO if login fails then...
             //AddTaskPanes(); TODO: Sync all taskpanes
             if (Addin.XWikiTaskPane != null)
             {
                 Addin.XWikiTaskPane.RefreshWikiExplorer();
             }
+            
             if (ckRememberMe.Checked)
             {
                 String[] credentials = new String[3];
@@ -138,6 +141,9 @@ namespace XWord
             {
                 loginData.ClearCredentials();
             }
+            //Write the settings to isolated storage. 
+            XWordSettingsHandler.WriteRepositorySettings(addinSettings);
+
             this.Cursor = c;
         }
 
@@ -163,12 +169,9 @@ namespace XWord
             else
             {
                 Addin.DownloadedAttachmentsRepository = Path.GetTempPath();
-            }
-            RepositorySettings settings = new RepositorySettings();
-            settings.PagesRepository = Addin.PagesRepository;
-            settings.DownloadedAttachmentsRepository = Addin.DownloadedAttachmentsRepository;
-            Repositories.WriteRepositorySettings(settings);
-            reposSettingsApply = true;
+            }            
+            XWordSettingsHandler.WriteRepositorySettings(addinSettings);
+            addinSettingsApplied = true;
             Thread.Sleep(500);
             this.Cursor = c;
         }
@@ -191,27 +194,41 @@ namespace XWord
         /// <param name="e">The event parameters.</param>
         private void ConnectionSettingsForm_Load(object sender, EventArgs e)
         {
-            if (addin.serverURL == "" || addin.serverURL == null)
+            loadingDialogFlag = true;
+            if (Addin.serverURL == "" || Addin.serverURL == null)
             {
                 groupBox1.Text = "Test server settings";
             }
             else
             {
                 groupBox1.Text = "Settings";
-                txtServerURL.Text = addin.serverURL;
-                txtUserName.Text = addin.username;
-                txtPassword.Text = addin.password;
+                txtServerURL.Text = Addin.serverURL;
+                txtUserName.Text = Addin.username;
+                txtPassword.Text = Addin.password;
             }
-            txtPagesRepo.Text = addin.PagesRepository;
-            txtAttachmentsRepo.Text = addin.DownloadedAttachmentsRepository;
+            ///
+            addinSettings = new XWordSettings();
+            addinSettings.PagesRepository = Addin.PagesRepository;
+            addinSettings.DownloadedAttachmentsRepository = Addin.DownloadedAttachmentsRepository;
+            addinSettings.ClientType = Addin.ClientType;
+            txtPagesRepo.Text = Addin.PagesRepository;
+            txtAttachmentsRepo.Text = Addin.DownloadedAttachmentsRepository;
             //init protocol settings
             connectDictionary.Add(connectMethods[0], XWikiClientType.XML_RPC);
             connectDictionary.Add(connectMethods[1], XWikiClientType.HTTP_Client);
             comboProtocol.DataSource = connectMethods;
-            comboProtocol.SelectedIndex = 0;
-            
+            switch(Addin.ClientType)
+            {
+                case XWikiClientType.XML_RPC:
+                    comboProtocol.SelectedIndex = 0;
+                    break;
+                case XWikiClientType.HTTP_Client:
+                    comboProtocol.SelectedIndex = 1;
+                    break;
+            }
+            loadingDialogFlag = false;
         }
-
+        
         /// <summary>
         /// Event triggered when a connection setting is changed.
         /// </summary>
@@ -233,7 +250,7 @@ namespace XWord
             {
                 ApplyConnectionSettings();
             }
-            if (!reposSettingsApply)
+            if (!addinSettingsApplied)
             {
                 ApplyRepositoriesSettings();
             }
@@ -347,20 +364,25 @@ namespace XWord
         /// <param name="e">The event paramaters.</param>
         private void anyRepoSettingChanged_TextChanged(object sender, EventArgs e)
         {
-            reposSettingsApply = false;
+            addinSettingsApplied = false;
         }
 
         private void comboProtocol_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String selectedValue = (String)comboProtocol.SelectedValue;
-            if (connectDictionary.Keys.Contains(selectedValue))
+            //If user generated event
+            if (!loadingDialogFlag)
             {
-                Addin.ClientType = connectDictionary[selectedValue];
-                connectionSettingsApplied = false;
-            }
-            else
-            {
-                MessageBox.Show("The selected value is not valid.", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                String selectedValue = (String)comboProtocol.SelectedValue;
+                if (connectDictionary.Keys.Contains(selectedValue))
+                {
+                    addinSettings.ClientType = connectDictionary[selectedValue];
+                    Addin.ClientType = addinSettings.ClientType;
+                    connectionSettingsApplied = false;
+                }
+                else
+                {
+                    MessageBox.Show("The selected value is not valid.", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                }
             }
         }
     }
