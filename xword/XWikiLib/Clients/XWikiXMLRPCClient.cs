@@ -183,11 +183,16 @@ namespace XWiki.Clients
         /// <returns>The result of the operation(Success - true/Failure - false).</returns>
         public bool SavePageHTML(string docName, string content, string syntax)
         {
-            Page page = new Page(docName, content);            
+            Page page = new Page(docName, content);
             try
             {
                 proxy.StorePage(token, page);
                 return true;
+            }
+            catch (XmlRpcFaultException e)
+            {
+                Log.Exception(e);
+                return false;
             }
             catch (XmlRpcException ex)
             {
