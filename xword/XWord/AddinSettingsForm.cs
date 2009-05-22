@@ -244,7 +244,8 @@ namespace XWord
         /// <param name="e">The event parameters.</param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (!connectionSettingsApplied)
+            //If settings changes were made or there is no client instance
+            if (!connectionSettingsApplied || (Addin.Client == null))
             {
                 ApplyConnectionSettings();
             }
