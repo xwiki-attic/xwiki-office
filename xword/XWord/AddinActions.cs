@@ -313,10 +313,29 @@ namespace XWord
         /// <param name="syntax">The wiki syntax of the saved page.</param>
         private void SavePage(String pageName, ref String pageContent, String syntax)
         {
+            //Save user settings for grammar and spelling checking
+            Word.Options wordOptions = addin.Application.Options;
+            bool checkGrammarAsYouType = wordOptions.CheckGrammarAsYouType;
+            bool checkGrammarWithSpelling = wordOptions.CheckGrammarWithSpelling;
+            bool checkSpellingAsYouType = wordOptions.CheckSpellingAsYouType;
+            bool contextualSpeller = wordOptions.ContextualSpeller;
+
             if (!this.Client.LoggedIn)
             {
                 Client.Login(addin.username, addin.password);
             }
+            if (addin.ActiveDocumentContentRange.GrammaticalErrors.Count > 0
+                ||
+                addin.ActiveDocumentContentRange.SpellingErrors.Count > 0
+                )
+            {
+                //Disable grammar and spelling check
+                wordOptions.CheckGrammarAsYouType = false;
+                wordOptions.CheckGrammarWithSpelling = false;
+                wordOptions.CheckSpellingAsYouType = false;
+                wordOptions.ContextualSpeller = false;
+            }
+
             if (!Client.SavePageHTML(pageName, pageContent, syntax))
             {
                 Log.Error("Failed to save page " + pageName + "on server " + addin.serverURL);
@@ -344,6 +363,14 @@ namespace XWord
                     }
                 }
             }
+
+            //Put back user setting for grammar and spelling checks
+            wordOptions.CheckGrammarAsYouType = checkGrammarAsYouType;
+            wordOptions.CheckGrammarWithSpelling = checkGrammarWithSpelling;
+            wordOptions.CheckSpellingAsYouType = checkSpellingAsYouType;
+            wordOptions.ContextualSpeller = contextualSpeller;
+
+
         }
 
         /// <summary>
