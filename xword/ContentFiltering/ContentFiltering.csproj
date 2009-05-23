@@ -65,6 +65,10 @@
       <Project>{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}</Project>
       <Name>Connectivity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XWikiLib\XWikiLib.csproj">
+      <Project>{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}</Project>
+      <Name>XWikiLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -204,7 +204,6 @@ namespace XWord
                 txtUserName.Text = Addin.username;
                 txtPassword.Text = Addin.password;
             }
-            ///
             addinSettings = new XWordSettings();
             addinSettings.PagesRepository = Addin.PagesRepository;
             addinSettings.DownloadedAttachmentsRepository = Addin.DownloadedAttachmentsRepository;

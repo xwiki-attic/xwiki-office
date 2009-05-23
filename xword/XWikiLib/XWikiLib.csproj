@@ -66,6 +66,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="XWiki\Space.cs" />
     <Compile Include="XWiki\WikiStructure.cs" />
     <Compile Include="XWiki\XWikiDocument.cs" />

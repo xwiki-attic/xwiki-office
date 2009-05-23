@@ -312,6 +312,10 @@
     <None Include="Resources\XWiki.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Connectivity\Connectivity.csproj">
+      <Project>{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}</Project>
+      <Name>Connectivity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ContentFiltering\ContentFiltering.csproj">
       <Project>{C41CC724-2CF5-4083-8E56-B5C9F04C1960}</Project>
       <Name>ContentFiltering</Name>
