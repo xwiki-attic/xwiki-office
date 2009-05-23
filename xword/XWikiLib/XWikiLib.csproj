@@ -59,25 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\HTTPResponses.cs" />
-    <Compile Include="Clients\InvalidEncodingNameException.cs" />
-    <Compile Include="Clients\IXWikiClient.cs" />
-    <Compile Include="Clients\XmlRpc\IXWikiProxy.cs" />
-    <Compile Include="Clients\XmlRpc\Model\Attachment.cs" />
-    <Compile Include="Clients\XmlRpc\Model\Comment.cs" />
-    <Compile Include="Clients\XmlRpc\Model\Page.cs" />
-    <Compile Include="Clients\XmlRpc\Model\PageHistorySummary.cs" />
-    <Compile Include="Clients\XmlRpc\Model\PageSummary.cs" />
-    <Compile Include="Clients\XmlRpc\Model\ServerInfo.cs" />
-    <Compile Include="Clients\XmlRpc\Model\Space.cs" />
-    <Compile Include="Clients\XmlRpc\Model\SpaceSummary.cs" />
-    <Compile Include="Clients\XmlRpc\Model\XWikiClass.cs" />
-    <Compile Include="Clients\XmlRpc\Model\XWikiClassSummary.cs" />
-    <Compile Include="Clients\XmlRpc\Model\XWikiObject.cs" />
-    <Compile Include="Clients\XmlRpc\Model\XWikiObjectSummary.cs" />
-    <Compile Include="Clients\XWikiClientFactory.cs" />
-    <Compile Include="Clients\XWikiClientType.cs" />
-    <Compile Include="Clients\XWikiXMLRPCClient.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -87,7 +68,6 @@
     </Compile>
     <Compile Include="XWiki\Space.cs" />
     <Compile Include="XWiki\WikiStructure.cs" />
-    <Compile Include="Clients\XWikiHTTPClient.cs" />
     <Compile Include="XWiki\XWikiDocument.cs" />
     <Compile Include="XWiki\XWikiURLs.cs" />
   </ItemGroup>

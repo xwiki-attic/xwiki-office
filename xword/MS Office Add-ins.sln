@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSetupActions", "Custo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWordTrustManager", "XWordTrustManager\XWordTrustManager.csproj", "{211CDFA1-F21F-42F7-BBCD-305863C7328A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestXWikiLib", "TestXWikiLib\TestXWikiLib.csproj", "{BCF8C79A-A683-4B68-927A-64AD96F37847}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestContentFiltering", "TestXWikiLib\TestContentFiltering.csproj", "{BCF8C79A-A683-4B68-927A-64AD96F37847}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C2FB4C6-633B-4B5F-96EC-18B35EDFFA32}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWikiLib", "XWikiLib\XWikiLib.csproj", "{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentFiltering", "ContentFiltering\ContentFiltering.csproj", "{C41CC724-2CF5-4083-8E56-B5C9F04C1960}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connectivity", "Connectivity\Connectivity.csproj", "{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,12 +47,16 @@ Global
 		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_RulesLocation = 0
 		CodeStyleEnforcer_Active = -1
+		CodeStyleEnforcer_RulesLocation = 0
 	EndGlobalSection
 EndGlobal
