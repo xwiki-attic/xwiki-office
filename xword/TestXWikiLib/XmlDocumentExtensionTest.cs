@@ -6,7 +6,7 @@ using System.Xml;
 using XWiki.Xml;
 using NUnit.Framework;
 
-namespace TestXWikiLib
+namespace TestContentFiltering
 {
     /// <summary>
     /// Test class for XmlDocument extensions.

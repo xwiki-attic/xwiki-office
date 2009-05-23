@@ -38,7 +38,7 @@
     <PublishUrl>publish/</PublishUrl>
     <InstallUrl>http://xoffice.xwiki.org/xwiki/bin/download/Repository/WebHome/XWord1.0SNAPSHOT.zip/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.70</ApplicationVersion>
+    <ApplicationVersion>1.0.0.91</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -312,6 +312,10 @@
     <None Include="Resources\XWiki.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContentFiltering\ContentFiltering.csproj">
+      <Project>{C41CC724-2CF5-4083-8E56-B5C9F04C1960}</Project>
+      <Name>ContentFiltering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XWikiLib\XWikiLib.csproj">
       <Project>{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}</Project>
       <Name>XWikiLib</Name>

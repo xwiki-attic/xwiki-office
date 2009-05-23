@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWord", "XWord\XWord.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XWikiLib", "XWikiLib\XWikiLib.csproj", "{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentFiltering", "ContentFiltering\ContentFiltering.csproj", "{C41CC724-2CF5-4083-8E56-B5C9F04C1960}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,12 +41,16 @@ Global
 		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_Active = -1
 		CodeStyleEnforcer_RulesLocation = 0
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal

@@ -78,22 +78,13 @@
     <Compile Include="Clients\XWikiClientFactory.cs" />
     <Compile Include="Clients\XWikiClientType.cs" />
     <Compile Include="Clients\XWikiXMLRPCClient.cs" />
-    <Compile Include="Html\HtmlUtil.cs" />
     <Compile Include="Logging\Log.cs" />
-    <Compile Include="Office\Word\AbstractConverter.cs" />
-    <Compile Include="Office\Word\BidirectionalConversionStates.cs" />
-    <Compile Include="Office\Word\ConversionManager.cs" />
-    <Compile Include="Office\Word\ConverterActionState.cs" />
-    <Compile Include="Office\Word\ImageInfo.cs" />
-    <Compile Include="Office\Word\LocalToWebHTML.cs" />
-    <Compile Include="Office\Word\WebToLocalHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Xml\XmlDocumentExtension.cs" />
     <Compile Include="XWiki\Space.cs" />
     <Compile Include="XWiki\WikiStructure.cs" />
     <Compile Include="Clients\XWikiHTTPClient.cs" />
