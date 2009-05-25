@@ -786,7 +786,7 @@ namespace XWord
                                 ref missing, ref missing, ref missing, ref missing);
                 document.SaveAs(ref originalFilePath, ref initialDocSaveFormat, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
-                                ref missing, ref missing, ref missing, ref missing);                
+                                ref missing, ref missing, ref missing, ref missing);
             }
             catch (IOException ioex)
             {

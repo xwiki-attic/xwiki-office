@@ -395,12 +395,20 @@ namespace XWord
         /// <param name="Cancel">Reference to a variable stating if the operation should be canceled.
         /// Switch the value to 'true' to cancle the closing.
         /// </param>
-        void Application_DocumentBeforeClose(Microsoft.Office.Interop.Word.Document Doc, ref bool Cancel)
+        void Application_DocumentBeforeClose(Microsoft.Office.Interop.Word.Document doc, ref bool cancel)
         {
-            RemoveTaskPane(Doc);
-            if(EditedPages.ContainsKey(Doc.FullName))
+            string docFullName = doc.FullName;
+            //if is edited wiki page
+            if (editedPages.ContainsKey(docFullName))
             {
-                EditedPages.Remove(Doc.FullName);
+                //Prevent default save dialog from appearing.
+                doc.Saved = true;
+                //TODO: display a custom dialog for saving to the wiki.
+            }
+            RemoveTaskPane(doc);
+            if(EditedPages.ContainsKey(doc.FullName))
+            {
+                EditedPages.Remove(doc.FullName);
             }
         }
 
