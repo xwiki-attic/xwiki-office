@@ -6,6 +6,7 @@ using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
 using VSTO = Microsoft.Office.Tools;
 using XWord.VstoExtensions;
+using XWiki.Logging;
 
 namespace XWord
 {
@@ -119,17 +120,17 @@ namespace XWord
             String page = Globals.XWikiAddIn.AddinStatus.TaskPaneSelectedPage.Get("page");
             if (page == null)
             {
-                MessageBox.Show("You need to select a pege in the wiki explorer first.");
+                UserNotifier.Exclamation("You need to select a pege in the wiki explorer first.");
                 return;
             }
             bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page);
             if (finished)
             {
-                MessageBox.Show("Upload finished.", "XWord");
+                UserNotifier.Message("Upload finished.");
             }
             else
             {
-                MessageBox.Show("Upload failed. Make sure you have selected a page before uploading");
+                UserNotifier.Error("Upload failed. Make sure you have selected a page before uploading");
             }
         }
 
@@ -154,7 +155,7 @@ namespace XWord
             }
             catch(NullReferenceException)
             {
-                MessageBox.Show("You are not currently editing a wiki page", "XWord", MessageBoxButtons.OK ,MessageBoxIcon.Exclamation);
+                UserNotifier.Exclamation("You are not currently editing a wiki page");
             }
         }
 
@@ -184,12 +185,12 @@ namespace XWord
                 if (path != null)
                 {
                     FileInfo attachmentInfo = Addin.AddinActions.DownloadAttachment(page, attachmentName, path);
-                    MessageBox.Show("Download finised.", "XWord");
+                    UserNotifier.Message("Download finised.");
                 }
             }
             else
             {
-                MessageBox.Show("You need to select an attachment in the wiki explorer.", "XWord");
+                UserNotifier.Exclamation("You need to select an attachment in the wiki explorer.");
             }
         }
 
@@ -208,7 +209,7 @@ namespace XWord
             }
             else
             {
-                MessageBox.Show("You need to select an attachment in the wiki explorer.", "XWord");
+                UserNotifier.Exclamation("You need to select an attachment in the wiki explorer.");
             }
         }      
 
@@ -255,7 +256,7 @@ namespace XWord
             }
             else
             {
-                MessageBox.Show("Invalid syntax selected", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                UserNotifier.StopHand("Invalid syntax selected");
             }
         }
 

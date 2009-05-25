@@ -16,6 +16,7 @@ using XWiki.Html;
 using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
 using XWord.VstoExtensions;
+using XWiki.Logging;
 
 namespace XWord
 {
@@ -137,7 +138,7 @@ namespace XWord
             bool operationCompleted = false; ;
             if (addin.Application.ActiveDocument == null)
             {
-                MessageBox.Show("This command is not available because no document is open.", "XWord");
+                UserNotifier.Message("This command is not available because no document is open.");
             }
             try
             {
@@ -221,7 +222,7 @@ namespace XWord
         {
             if(IsOpened(pageFullName))
             {
-                MessageBox.Show("You are already editing this page.", "XWord");
+                UserNotifier.Message("You are already editing this page.");
                 return;
             }
             if (!this.Client.LoggedIn)
@@ -232,7 +233,7 @@ namespace XWord
             {
                 String message = "You cannot edit this page." + Environment.NewLine;
                 message += "This page contains scrips that provide functionality to the wiki.";
-                MessageBox.Show(message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                UserNotifier.StopHand(message);
                 return;
             }
             LoadingDialog loadingDialog = new LoadingDialog("Opening page...");
@@ -301,7 +302,7 @@ namespace XWord
             }
             catch (IOException ex)
             {
-                MessageBox.Show(ex.Message);
+               UserNotifier.Error(ex.Message);
             }            
         }
 
@@ -339,7 +340,7 @@ namespace XWord
             if (!Client.SavePageHTML(pageName, pageContent, syntax))
             {
                 Log.Error("Failed to save page " + pageName + "on server " + addin.serverURL);
-                MessageBox.Show("There was an error on the server when trying to save the page");
+                UserNotifier.Error("There was an error on the server when trying to save the page");
             }
             else
             {
@@ -401,7 +402,7 @@ namespace XWord
         {
             if (addin.currentPageFullName == "" || addin.currentPageFullName == null)
             {
-                MessageBox.Show("You are not currently editing a wiki page", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                UserNotifier.Exclamation("You are not currently editing a wiki page") ;
                 return;
             }
             bool continueWithSaving = ShowSwitchSyntaxDialog();
@@ -439,14 +440,12 @@ namespace XWord
                 (addin.AddinStatus.Syntax.ToLower().IndexOf("xhtml") < 0))
             {
                 DialogResult dr;
-                string infoMessage, caption;
+                string infoMessage;
                 infoMessage = "This page contains elements that can not properly be saved inXWiki 2.0 syntax.";
                 infoMessage += Environment.NewLine;
                 infoMessage += "Would you like to switch to XHTML syntax?";
-                caption = "Feature Not Yet Implemented";
-            
-                dr = System.Windows.Forms.MessageBox.Show(infoMessage, caption, MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+                dr = UserNotifier.YesNoCancelQuestion(infoMessage);
                 
                 if (dr == DialogResult.Yes)
                 {
@@ -475,7 +474,7 @@ namespace XWord
                 String tempExportFileName = currentFileName + "_TempExport.html";
                 if (!ShadowCopyDocument(addin.ActiveDocumentInstance, tempExportFileName, addin.SaveFormat))
                 {
-                    MessageBox.Show("There was an error when trying to save the page.", "XWord");
+                    UserNotifier.Error("There was an error when trying to save the page.");
                     return;
                 }
                 contentFilePath = tempExportFileName;
@@ -522,7 +521,7 @@ namespace XWord
                 string message = "An internal Word error appeared when trying to save your file.";
                 message += Environment.NewLine + ex.Message;
                 Log.Exception(ex);
-                MessageBox.Show(message, "XWord");
+                UserNotifier.Error(message);
             }
         }
 
@@ -637,7 +636,7 @@ namespace XWord
             }
             catch (IOException ex)
             {
-                MessageBox.Show(ex.Message);
+                UserNotifier.Error(ex.Message);
             }
         }
 
@@ -680,19 +679,19 @@ namespace XWord
             if (content.Contains(HTTPResponses.NO_PROGRAMMING_RIGHTS))
             {
                 Log.Error("Server " + addin.serverURL + " has no programming rights on getPageservice");
-                MessageBox.Show("There was an error on the server. The pages in MSOffice space don't have programming rights");
+                UserNotifier.Error("There was an error on the server. The pages in MSOffice space don't have programming rights");
                 hasErrors = true;
             }
             else if(content.Contains(HTTPResponses.WRONG_REQUEST))
             {
                 Log.Error("Server " + addin.serverURL + " wrong request");
-                MessageBox.Show("Error: Wrong request");
+                UserNotifier.Error("Server error: Wrong request");
                 hasErrors = true;
             }
             else if(content.Contains(HTTPResponses.NO_EDIT_RIGHTS))
             {
                 Log.Information("User tried to edit a page on " + addin.serverURL + " whithout edit rights");
-                MessageBox.Show("You dont have the right to edit this page");
+                UserNotifier.Error("You dont have the right to edit this page");
                 hasErrors = true;
             }
             else if(content.Contains(HTTPResponses.NO_GROOVY_RIGHTS))
@@ -700,7 +699,7 @@ namespace XWord
                 Log.Error("Server " + addin.serverURL + " error on parsing groovy - no groovy rights");
                 String message = "There was an error on the server." + Environment.NewLine;
                 message +=  "Please contact your server adminitrator. Error on executing groovy page in MSOffice space";
-                MessageBox.Show(message);
+                UserNotifier.Error(message);
                 hasErrors = true;
             }
             else if(content.Contains(HTTPResponses.INSUFFICIENT_MEMMORY))
@@ -708,7 +707,7 @@ namespace XWord
                 Log.Error("Server " + addin.serverURL + " reported OutOfMemmoryException");
                 String message = "There was an error on the server." + Environment.NewLine;
                 message += "The server has insufficient memmory to execute the current tasks.";
-                MessageBox.Show(message);
+                UserNotifier.Error(message);
                 hasErrors = true;
             }
             else if(content.Contains(HTTPResponses.VELOCITY_PARSER_ERROR))
@@ -716,7 +715,7 @@ namespace XWord
                 Log.Error("Server " + addin.serverURL + " error when parsing page. ");
                 String message = "There was an error on the server" + Environment.NewLine;
                 message += "'Error while parsing velocity page'";
-                MessageBox.Show(message);
+                UserNotifier.Error(message);
                 hasErrors = true;
             }
             return hasErrors;
@@ -791,7 +790,7 @@ namespace XWord
             catch (IOException ioex)
             {
                 Log.Exception(ioex);
-                MessageBox.Show(ioex.Message);
+                UserNotifier.Error(ioex.Message);
                 return false;
             }
             

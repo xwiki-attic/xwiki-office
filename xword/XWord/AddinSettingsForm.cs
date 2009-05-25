@@ -7,6 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
 using XWiki.Clients;
+using XWiki.Logging;
 
 namespace XWord
 {
@@ -337,7 +338,7 @@ namespace XWord
             bool isValid = ValidatePath(txtPagesRepo.Text);
             if (!isValid)
             {
-                MessageBox.Show("The path you provided is not valid. Please select a valid path");
+                UserNotifier.Error("The path you provided is not valid. Please select a valid path");
             }
         }
 
@@ -351,7 +352,7 @@ namespace XWord
             bool isValid = ValidatePath(txtAttachmentsRepo.Text);
             if (!isValid)
             {
-                MessageBox.Show("The path you provided is not valid. Please select a valid path");
+                UserNotifier.Error("The path you provided is not valid. Please select a valid path");
             }
         }
 
@@ -379,7 +380,7 @@ namespace XWord
                 }
                 else
                 {
-                    MessageBox.Show("The selected value is not valid.", "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    UserNotifier.StopHand("The selected value is not valid.");
                 }
             }
         }

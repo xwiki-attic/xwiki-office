@@ -35,6 +35,7 @@ using Security = System.Security;
 using XWord.VstoExtensions;
 using XWiki.Clients;
 using XWiki;
+using XWiki.Logging;
 
 namespace XWord
 {
@@ -346,7 +347,7 @@ namespace XWord
                 }
                 else
                 {
-                    MessageBox.Show(ex.Message);
+                    UserNotifier.Error(ex.Message);
                 }
             }
         }
@@ -493,7 +494,7 @@ namespace XWord
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                UserNotifier.Error(ex.Message);
             }
         }
 

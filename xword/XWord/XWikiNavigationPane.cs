@@ -13,6 +13,7 @@ using Word = Microsoft.Office.Interop.Word;
 using XWiki;
 using XWiki.Clients;
 using System.Diagnostics;
+using XWiki.Logging;
 
 namespace XWord
 {
@@ -383,7 +384,7 @@ namespace XWord
                 }
                 else
                 {
-                    MessageBox.Show("Download finised.", "XWord");
+                    UserNotifier.Message("Download finised.");
                 }
             }
         }
@@ -400,7 +401,7 @@ namespace XWord
             bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page);
             if (finished)
             {
-                MessageBox.Show("Upload finished.", "XWord");
+                UserNotifier.Message("Upload finished.");
             }
         }
 
@@ -508,7 +509,7 @@ namespace XWord
             }
             catch (InvalidOperationException)
             {
-                MessageBox.Show("This operation is already in progress");
+                UserNotifier.Error("This operation is already in progress");
             }
         }
 
@@ -532,21 +533,21 @@ namespace XWord
                     }
                     catch (Win32Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        UserNotifier.Error(ex.Message);
                     }
                     catch (WebException webex)
                     {
-                        MessageBox.Show(webex.Message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        UserNotifier.Error(webex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No page is selected");
+                    UserNotifier.Exclamation("No page is selected");
                 }
             }
             else
             {
-                MessageBox.Show("Please select a page in the Wiki Explorer first.");
+                UserNotifier.Exclamation("Please select a page in the Wiki Explorer first.");
             }
         }
         
@@ -622,7 +623,7 @@ namespace XWord
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                UserNotifier.Error(ex.Message);
                 Log.Exception(ex);
             }
         }
@@ -724,7 +725,7 @@ namespace XWord
                     treeView.Nodes.Clear();
                     loadingWikiData = false;
                     Log.Exception(ex);
-                    MessageBox.Show(ex.Message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UserNotifier.Error(ex.Message);
                 }
             }
             backgroundWorker.ReportProgress(100, e.Argument);

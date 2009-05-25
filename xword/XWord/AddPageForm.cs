@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using XWiki;
+using XWiki.Logging;
 
 namespace XWord
 {
@@ -162,7 +163,7 @@ namespace XWord
                 catch (COMException) { }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UserNotifier.Error(ex.Message);
                 }
             }
         }
@@ -215,7 +216,7 @@ namespace XWord
             }
             else
             {
-                MessageBox.Show(err, "XWord", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                UserNotifier.StopHand(err);
             }
             return isValid;
         }
