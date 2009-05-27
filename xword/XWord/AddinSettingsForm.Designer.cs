@@ -329,6 +329,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "XWord - Settings";
             this.Load += new System.EventHandler(this.ConnectionSettingsForm_Load);
+            this.Shown += new System.EventHandler(this.AddinSettingsForm_Shown);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddinSettingsForm_FormClosed);
             this.tabControl.ResumeLayout(false);
             this.tabConnection.ResumeLayout(false);
             this.tabConnection.PerformLayout();

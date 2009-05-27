@@ -138,8 +138,6 @@ namespace XWord
         public XWikiNavigationPane(XWikiAddIn addin)
         {
             InitializeComponent();
-            Client = XWikiClientFactory.CreateXWikiClient(Addin.ClientType, Addin.serverURL, Addin.username, Addin.password);
-            //Client.Credentials = nc;
             pictureBox.Visible = false;
             loadingWikiData = false;
         }
@@ -707,11 +705,14 @@ namespace XWord
         {
             try
             {
-                LoadWikiStructure();
-                Addin.ProtectedPages = GetProtectedPages();
-                //The pages will be displayed, and the user will be prompted
-                //when trying to edit a protected page.
-                //AddinActions.HideProtectedPages(wiki, addin.ProtectedPages);
+                if (Client.LoggedIn)
+                {
+                    LoadWikiStructure();
+                    Addin.ProtectedPages = GetProtectedPages();
+                    //The pages will be displayed, and the user will be prompted
+                    //when trying to edit a protected page.
+                    //AddinActions.HideProtectedPages(wiki, addin.ProtectedPages);
+                }
             }
             catch (Exception ex)
             {
@@ -785,6 +786,33 @@ namespace XWord
                     pane.BuildTree();
                 }
             }
+        }
+
+        /// <summary>
+        /// Deletes all nodes from the treview.
+        /// </summary>
+        public void ClearNodes()
+        {
+            treeView.Nodes.Clear();
+        }
+
+        /// <summary>
+        /// Reloads data from the server and syncs all taskpanes
+        /// </summary>
+        public static void ReloadDataAndSyncAll()
+        {
+            foreach (Tools.CustomTaskPane ctp in Globals.XWikiAddIn.XWikiCustomTaskPanes)
+            {
+                String tag = (String)ctp.Control.Tag;
+                if (tag.Contains(XWIKI_EXPLORER_TAG))
+                {
+                    XWikiNavigationPane pane = (XWikiNavigationPane)ctp.Control;
+                    pane.ClearNodes();
+                    pane.RefreshWikiExplorer();
+                    break;
+                }
+            }
+            SynchTaskPanes();
         }
     }
 }

@@ -16,6 +16,10 @@ namespace XWord
     /// </summary>
     public partial class AddinSettingsForm : Form
     {
+        /// <summary>
+        /// Specifies if at least an instance of the form is visible.
+        /// </summary>
+        public static bool IsShown = false;
         bool connectionSettingsApplied = true;
         bool addinSettingsApplied = true;
         bool loadingDialogFlag = false;
@@ -117,16 +121,7 @@ namespace XWord
             Addin.username = UserName;
             Addin.password = Password;
             LoginData loginData = new LoginData();
-            Addin.Client = XWikiClientFactory.CreateXWikiClient(Addin.ClientType, Addin.serverURL, Addin.username, Addin.password);
-            // refreshes the ribbon buttons
-            // which allow the user to work with the documents from XWiki server
-            Globals.Ribbons.XWikiRibbon.Refresh(null, null);            
-            //TODO if login fails then...
-            //AddTaskPanes(); TODO: Sync all taskpanes
-            if (Addin.XWikiTaskPane != null)
-            {
-                Addin.XWikiTaskPane.RefreshWikiExplorer();
-            }
+            Addin.Client = XWikiClientFactory.CreateXWikiClient(Addin.ClientType, Addin.serverURL, Addin.username, Addin.password);            
             
             if (ckRememberMe.Checked)
             {
@@ -253,7 +248,7 @@ namespace XWord
             {
                 ApplyRepositoriesSettings();
             }
-            this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.OK;            
             this.Close();
         }
 
@@ -393,6 +388,16 @@ namespace XWord
                 p.StartInfo = new ProcessStartInfo(connectionDocUrl);
                 p.Start();
             }
+        }
+
+        private void AddinSettingsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            IsShown = false;
+        }
+
+        private void AddinSettingsForm_Shown(object sender, EventArgs e)
+        {
+            IsShown = true;
         }
     }
 }

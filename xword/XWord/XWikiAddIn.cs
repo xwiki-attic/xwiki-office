@@ -116,9 +116,29 @@ namespace XWord
 
         // A delegate type for hooking up Client instance change notifications.
         public delegate void ClientInstanceChangedHandler(object sender, EventArgs e);
+        //Event triggered when the client instance is changed.
         public event ClientInstanceChangedHandler ClientInstanceChanged;
 
-        #endregion
+        /// <summary>
+        /// Delegate for handling successful logins.
+        /// </summary>
+        public delegate void LoginSuccessfulHandler();
+        /// <summary>
+        /// Envent triggered when a successful login is made.
+        /// </summary>
+        public event LoginSuccessfulHandler LoginSuccessul;
+
+        /// <summary>
+        /// Delegate for handling failed logins
+        /// </summary>
+        public delegate void LoginFailedHandler();
+        /// <summary>
+        /// Event triggered when a failed login is made.
+        /// </summary>
+        public event LoginFailedHandler LoginFailed;  
+
+
+        #endregion//Delegates&Events
 
 
         /// <summary>
@@ -556,22 +576,73 @@ namespace XWord
             }            
             timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
             timer.Start();
+
+            InitializeEventsHandlers();
+
             //Authentication settings
             if (!AutoLogin())
             {
-                DialogResult result;
-                result = new AddinSettingsForm().ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
-                    // refreshes the ribbon buttons
-                    // which allow the user to work with the documents from XWiki server
-                    Globals.Ribbons.XWikiRibbon.Refresh(null,null);
-                    AddTaskPanes();
-                }
+                ShowConnectToServerUI();
             }
             addinActions = new AddinActions(this);
             Log.Success("XWord started");
+        }
+
+        private void InitializeEventsHandlers()
+        {
+            this.ClientInstanceChanged += new ClientInstanceChangedHandler(XWikiAddIn_ClientInstanceChanged);
+            this.LoginFailed += new LoginFailedHandler(XWikiAddIn_LoginFailed);
+            this.LoginSuccessul += new LoginSuccessfulHandler(XWikiAddIn_LoginSuccessul);
+        }
+
+        void XWikiAddIn_LoginSuccessul()
+        {
+            // refreshes the ribbon buttons
+            // which allow the user to work with the documents from XWiki server
+            Globals.Ribbons.XWikiRibbon.Refresh(null, null);
+            XWikiNavigationPane.ReloadDataAndSyncAll();
+            Log.Success("Logged in  to " + serverURL);
+        }
+
+        void XWikiAddIn_LoginFailed()
+        {
+            String authMessage = "Login failed!" + Environment.NewLine;
+            authMessage += "Unable to login, please check your username & password." + Environment.NewLine;
+            authMessage += "Hint: make sure you are using correct letter case: username and password are case sensitive.";
+            UserNotifier.StopHand(authMessage);
+            Log.Error("Login to server " + serverURL + " failed");
+        }
+
+        private void ShowConnectToServerUI()
+        {
+            DialogResult result;
+            if (AddinSettingsForm.IsShown == false)
+            {
+                result = new AddinSettingsForm().ShowDialog();
+                if (result == DialogResult.Cancel)
+                {
+                    //LoginCanceled
+                    RemoveAllTaskPanes();
+                }
+            }            
+        }
+
+        void XWikiAddIn_ClientInstanceChanged(object sender, EventArgs e)
+        {            
+            if (Client != null)
+            {
+                if (Client.LoggedIn)
+                {
+                    //notify successfull login
+                    LoginSuccessul();
+                }
+                else
+                {
+                    //notify failed login
+                    LoginFailed();
+                }
+            }
+            //else toggle addinn
         }
 
         /// <summary>
@@ -616,12 +687,23 @@ namespace XWord
                 username = credentials[1];
                 password = credentials[2];
                 client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
-                // refreshes the ribbon buttons
-                // which allow the user to work with the documents from XWiki server
-                Globals.Ribbons.XWikiRibbon.Refresh(null, null);
-                AddTaskPanes();
+                if (client.LoggedIn)
+                {
+                    // refreshes the ribbon buttons
+                    // which allow the user to work with the documents from XWiki server
+                    Globals.Ribbons.XWikiRibbon.Refresh(null, null);
+                    AddTaskPanes();
+                }
             }
             return canAutoLogin;
+        }
+
+        /// <summary>
+        /// Reloads the wiki data from the server and refreshes the taskpanes
+        /// </summary>
+        public void ReloadTaskPaneData()
+        {
+
         }
 
         #region VSTO generated code
