@@ -51,7 +51,7 @@ namespace XWord
         /// <summary>
         /// The tag for WikiExplorer
         /// </summary>
-        internal const String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";        
+        public static String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";        
 
         private bool loadingWikiData;
         
@@ -151,14 +151,7 @@ namespace XWord
         {
             treeView.ImageList = iconList;
             treeView.SelectedImageIndex = SELECTED_NODE_IMAGE_INDEX;
-            if (Addin.wiki == null)
-            {
-                this.RefreshWikiExplorer();
-            }
-            else
-            {
-                this.BuildTree();
-            }
+            this.BuildTree();
         }
 
         /// <summary>

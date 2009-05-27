@@ -465,7 +465,7 @@ namespace XWord
             if (this.Application.Documents.Count > 0)
             {
                 foreach (Word.Document doc in this.Application.Documents)
-                {
+                {                    
                     AddTaskPane(doc);
                 }
             }
@@ -597,8 +597,12 @@ namespace XWord
 
         void XWikiAddIn_LoginSuccessul()
         {
-            // refreshes the ribbon buttons
-            // which allow the user to work with the documents from XWiki server
+
+            if (!HasVisibleWikiExplorer())
+            {
+                AddTaskPanes();
+            }
+            // refreshes the ribbon buttons which allow the user to work with the documents from XWiki server
             Globals.Ribbons.XWikiRibbon.Refresh(null, null);
             XWikiNavigationPane.ReloadDataAndSyncAll();
             Log.Success("Logged in  to " + serverURL);
@@ -608,22 +612,18 @@ namespace XWord
         {
             String authMessage = "Login failed!" + Environment.NewLine;
             authMessage += "Unable to login, please check your username & password." + Environment.NewLine;
-            authMessage += "Hint: make sure you are using correct letter case: username and password are case sensitive.";
+            authMessage += "Hint: make sure you are using correct letter case. Username and password are case sensitive.";
             UserNotifier.StopHand(authMessage);
             Log.Error("Login to server " + serverURL + " failed");
+            //Remove TaskPanes
+            RemoveAllTaskPanes();
         }
 
         private void ShowConnectToServerUI()
         {
-            DialogResult result;
             if (AddinSettingsForm.IsShown == false)
             {
-                result = new AddinSettingsForm().ShowDialog();
-                if (result == DialogResult.Cancel)
-                {
-                    //LoginCanceled
-                    RemoveAllTaskPanes();
-                }
+                new AddinSettingsForm().ShowDialog();
             }            
         }
 
@@ -686,26 +686,27 @@ namespace XWord
                 serverURL = credentials[0];
                 username = credentials[1];
                 password = credentials[2];
-                client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
-                if (client.LoggedIn)
-                {
-                    // refreshes the ribbon buttons
-                    // which allow the user to work with the documents from XWiki server
-                    Globals.Ribbons.XWikiRibbon.Refresh(null, null);
-                    AddTaskPanes();
-                }
+                Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
             }
             return canAutoLogin;
         }
 
         /// <summary>
-        /// Reloads the wiki data from the server and refreshes the taskpanes
+        /// Specifies if the addin has WikiEx
         /// </summary>
-        public void ReloadTaskPaneData()
+        /// <returns></returns>
+        public bool HasVisibleWikiExplorer()
         {
-
+            foreach (Tools.CustomTaskPane ctp in Globals.XWikiAddIn.XWikiCustomTaskPanes)
+            {
+                String tag = (String)ctp.Control.Tag;
+                if (tag.Contains(XWikiNavigationPane.XWIKI_EXPLORER_TAG))
+                {
+                    return true;    
+                }
+            }
+            return false;
         }
-
         #region VSTO generated code
 
         /// <summary>
