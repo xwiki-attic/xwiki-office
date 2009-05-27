@@ -51,7 +51,8 @@ namespace XWord
         /// <summary>
         /// The tag for WikiExplorer
         /// </summary>
-        public static String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";        
+        public static String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";
+        public static String TASK_PANE_TITLE = " Wiki Explorer";
 
         private bool loadingWikiData;
         

@@ -452,7 +452,8 @@ namespace XWord
         private void AddTaskPane(Word.Document doc)
         {
             XWikiNavigationPane paneControl = new XWikiNavigationPane(this);
-            Tools.CustomTaskPane ctp = this.CustomTaskPanes.Add(paneControl, "XWiki Navigation Pane", doc.ActiveWindow);
+            Tools.CustomTaskPane ctp = this.CustomTaskPanes.Add(paneControl, XWikiNavigationPane.TASK_PANE_TITLE,
+                                                                doc.ActiveWindow);
             this.XWikiTaskPane = paneControl;
             ctp.Visible = true;            
         }
@@ -484,12 +485,11 @@ namespace XWord
             {
                 ctp = this.CustomTaskPanes[i - 1];
                 ctpWindow = (Word.Window)ctp.Window;
-                //TO DO: find a save method to identify the task panes.
-                //Possible solutions:
-                //1) use attributes;
-                //2) implement an interface or extend a base class for future task panes.
-                if (ctp.Title == "XWiki Navigation Pane" && ctpWindow == doc.ActiveWindow)
+                String tag = (String)ctp.Control.Tag;
+                if (tag.Contains(XWikiNavigationPane.XWIKI_EXPLORER_TAG) && ctpWindow == doc.ActiveWindow)
+                {
                     this.CustomTaskPanes.Remove(ctp);
+                }
             }
         }
 
@@ -506,9 +506,11 @@ namespace XWord
                     for (int i = this.CustomTaskPanes.Count; i > 0; i--)
                     {
                         Tools.CustomTaskPane ctp = this.CustomTaskPanes[i - 1];
-                        // <see cref="RemoveTaskPane"/>
-                        if (ctp.Title == "XWiki Navigation Pane")
+                        String tag = (String)ctp.Control.Tag;
+                        if (tag.Contains(XWikiNavigationPane.XWIKI_EXPLORER_TAG))
+                        {
                             this.CustomTaskPanes.Remove(ctp);
+                        }
                     }
                 }
             }
