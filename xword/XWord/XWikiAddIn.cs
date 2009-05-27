@@ -534,19 +534,14 @@ namespace XWord
         }
 
         /// <summary>
-        /// Toggles(Removes and Creates) the taskpanes.
-        /// <remarks>All functionality in constructors and initialization methods will be called
-        /// each time you toggle the taskpane.
-        /// </remarks>
-        /// <todo>Replace this with a visual change, not a instance change.
-        /// </todo>
+        /// Hides/Shows the Wiki Explorer taskpanes.
         /// </summary>
         public void ToggleTaskPanes()
         {
             if (bShowTaskPanes)
-                RemoveAllTaskPanes();
+                HideTaskPanes();
             else
-                AddTaskPanes();
+                ShowTaskPanes();
             bShowTaskPanes = !(bShowTaskPanes);
         }
 
@@ -709,6 +704,39 @@ namespace XWord
             }
             return false;
         }
+
+        /// <summary>
+        /// Hides all WikiExplorers in all documents
+        /// </summary>
+        /// <param name="visible">True - makes the taskpane visible. False - Hides the taskpane.</param>
+        private void ShowTaskPanes(bool visible)
+        {
+            foreach (Tools.CustomTaskPane ctp in Globals.XWikiAddIn.XWikiCustomTaskPanes)
+            {
+                String tag = (String)ctp.Control.Tag;
+                if (tag.Contains(XWikiNavigationPane.XWIKI_EXPLORER_TAG))
+                {
+                    ctp.Visible = visible;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Shows all WikiExplorer taskpanes in the addin.
+        /// </summary>
+        public void ShowTaskPanes()
+        {
+            ShowTaskPanes(true);
+        }
+
+        /// <summary>
+        /// Hides all WikiExploer taskpanes in the addin.
+        /// </summary>
+        public void HideTaskPanes()
+        {
+            ShowTaskPanes(false);
+        }
+
         #region VSTO generated code
 
         /// <summary>
