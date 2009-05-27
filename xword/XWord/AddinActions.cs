@@ -405,11 +405,7 @@ namespace XWord
                 UserNotifier.Exclamation("You are not currently editing a wiki page") ;
                 return;
             }
-            bool continueWithSaving = ShowSwitchSyntaxDialog();
-            if (!continueWithSaving)
-            {
-                return;
-            }
+            
             LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             SaveToXwiki();
@@ -425,39 +421,6 @@ namespace XWord
             }
         }
 
-        /// <summary>
-        /// If current syntax is XWiki 2.0 and the page contains table(s), promt the user
-        /// to switch to XHTML syntax with an Yes/No/Cancel message box.
-        /// </summary>
-        /// <returns>FALSE if the user presses 'Cancel', meaning the saving should not continue. TRUE in other cases.</returns>
-        private bool ShowSwitchSyntaxDialog()
-        {
-            if (addin.AddinStatus.Syntax == null)
-            {
-                addin.AddinStatus.Syntax = addin.DefaultSyntax;
-            }
-            if ((addin.ActiveDocumentInstance.Tables.Count>0) && 
-                (addin.AddinStatus.Syntax.ToLower().IndexOf("xhtml") < 0))
-            {
-                DialogResult dr;
-                string infoMessage;
-                infoMessage = "This page contains elements that can not properly be saved inXWiki 2.0 syntax.";
-                infoMessage += Environment.NewLine;
-                infoMessage += "Would you like to switch to XHTML syntax?";
-
-                dr = UserNotifier.YesNoCancelQuestion(infoMessage);
-                
-                if (dr == DialogResult.Yes)
-                {
-                    addin.AddinStatus.Syntax = "XHTML";
-                    Globals.Ribbons.XWikiRibbon.SwitchSyntax("XHTML");
-                }
-                if (dr == DialogResult.Cancel)
-                    return false;
-
-            }
-            return true;
-        }
 
         /// <summary>
         /// Saves the currently edited page or document to the server.
