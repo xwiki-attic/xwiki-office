@@ -183,6 +183,7 @@ namespace XWord
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(204, 496);
             this.treeView.TabIndex = 3;
+            this.treeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeExpand);
             this.treeView.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView.Leave += new System.EventHandler(this.treeView1_Leave);

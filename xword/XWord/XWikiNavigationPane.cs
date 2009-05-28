@@ -52,7 +52,13 @@ namespace XWord
         /// The tag for WikiExplorer
         /// </summary>
         public static String XWIKI_EXPLORER_TAG = "WIKI_EXPLORER";
+
+        /// <summary>
+        /// The title of the Wiki Explorer taskpanes.
+        /// </summary>
         public static String TASK_PANE_TITLE = " Wiki Explorer";
+
+        private const String EMPTY_NODE_TAG = "EMPTY";
 
         private bool loadingWikiData;
         
@@ -213,6 +219,12 @@ namespace XWord
                                 node.ForeColor = Color.BlueViolet;
                             }
                         }
+                    }
+                    if (space.documents.Count == 0)
+                    {
+                        //Add a empty child node to force the tree to display a + on the parent node
+                        TreeNode discardNode = node.Nodes.Add("Empty");
+                        discardNode.Tag = EMPTY_NODE_TAG;
                     }
                 }
             }
@@ -842,6 +854,24 @@ namespace XWord
                 }
             }
             SynchTaskPanes();
+        }
+
+        private void treeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            //remove empty child nodes.
+            foreach (TreeNode node in e.Node.Nodes)
+            {
+                String tag = (String)node.Tag;
+                if (tag == EMPTY_NODE_TAG)
+                {
+                    node.Remove();
+                }
+            }
+            //If has no child noded connect to the server
+            if (e.Node.Level == TREE_SPACE_LEVEL && (e.Node.Nodes.Count == 0))
+            {
+                ShowPages(e.Node);
+            }
         }
     }
 }
