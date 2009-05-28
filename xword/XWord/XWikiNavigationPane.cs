@@ -190,6 +190,7 @@ namespace XWord
                 foreach (Space space in Wiki.spaces)
                 {
                     TreeNode node = treeView.Nodes.Add(space.name);
+                    node.Name = space.name;
                     node.ImageIndex = TREE_SPACE_LEVEL;
                     //mark unpublished spaces   
                    
@@ -227,28 +228,30 @@ namespace XWord
         {
             if (treeView.SelectedNode != null)
             {
-                if (treeView.SelectedNode.Parent != null)
+                TreeNode node = treeView.SelectedNode;
+                //If double click on a space name -> show pages
+                if (node.Level == TREE_SPACE_LEVEL)
                 {
-                    TreeNode node = treeView.SelectedNode;
-                    //If double click on a page name -> show attachments
-                    if (node.Level == TREE_PAGE_LEVEL)
+                    ShowPages(node);
+                }
+                //If double click on a page name -> show attachments
+                if (node.Level == TREE_PAGE_LEVEL)
+                {
+                    //getPage(node.Name);
+                    Globals.Ribbons.XWikiRibbon.uploadAttToPage.Enabled = true;
+                    ShowAttachments(node);
+                }
+                //If double click on a attachment name -> Download and open the file
+                else if (node.Level == TREE_ATTACHMENT_LEVEL && node.Parent != null)
+                {
+                    String pageName = node.Parent.Name;
+                    String attachmentname = node.Name;
+                    String path = AddinActions.SaveFileDialog(attachmentname);
+                    if (path != null)
                     {
-                        //getPage(node.Name);
-                        Globals.Ribbons.XWikiRibbon.uploadAttToPage.Enabled = true;
-                        ShowAttachments(node);
-                    }
-                    //If double click on a attachment name -> Download and open the file
-                    else if (node.Level == TREE_ATTACHMENT_LEVEL)
-                    {
-                        String pageName = node.Parent.Name;
-                        String attachmentname = node.Name;
-                        String path = AddinActions.SaveFileDialog(attachmentname);
-                        if (path != null)
-                        {
-                            FileInfo attachmentInfo = AddinActions.DownloadAttachment(pageName, attachmentname, path);
-                            AddinActions.StartProcess(attachmentInfo.FullName);
-                            Globals.Ribbons.XWikiRibbon.uploadAttToPage.Enabled = false;
-                        }                        
+                        FileInfo attachmentInfo = AddinActions.DownloadAttachment(pageName, attachmentname, path);
+                        AddinActions.StartProcess(attachmentInfo.FullName);
+                        Globals.Ribbons.XWikiRibbon.uploadAttToPage.Enabled = false;
                     }
                 }
             }
@@ -279,7 +282,34 @@ namespace XWord
                     node.ExpandAll();
                 }
             }
-        }         
+        }
+
+        /// <summary>
+        /// Connects to a XWiki server and retrieves the pages list to for a space.
+        /// </summary>
+        /// <param name="node">The node of a tree control</param>
+        public void ShowPages(TreeNode node)
+        {
+            if (node.Level == TREE_SPACE_LEVEL)
+            {
+                List<String> pages = Client.GetPagesNames(node.Name);
+                node.Nodes.Clear();
+                node.ImageIndex = TREE_SPACE_LEVEL;
+                pages.Sort();
+                foreach (String pageName in pages)
+                {
+                    String pageFullName = node.Name + "." + pageName;
+                    TreeNode childNode = node.Nodes.Add(pageName);
+                    childNode.Name = pageFullName;
+                    childNode.Tag = TREE_PAGE_TAG;
+                    childNode.ImageIndex = TREE_PAGE_LEVEL;
+                }
+                if (!node.IsExpanded)
+                {                    
+                    node.ExpandAll();
+                }
+            }
+        }
 
         /// <summary>
         /// Event triggered when the Wiki Explorer loses the focus.
@@ -628,11 +658,16 @@ namespace XWord
         {
             WikiStructure wikiStructure = new WikiStructure();
             List<String> spacesNames = Client.GetSpacesNames();
+            spacesNames.Sort();
             wikiStructure.AddSpaces(spacesNames);
-            foreach (String spaceName in spacesNames)
+            //TODO: Implement user option
+            if (false)
             {
-                List<String> pagesNames = Client.GetPagesNames(spaceName);
-                wikiStructure[spaceName].AddDocuments(pagesNames);
+                foreach (String spaceName in spacesNames)
+                {
+                    List<String> pagesNames = Client.GetPagesNames(spaceName);
+                    wikiStructure[spaceName].AddDocuments(pagesNames);
+                }
             }
             //TODO: Add opt-in prefetch
             return wikiStructure;

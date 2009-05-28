@@ -218,7 +218,7 @@ namespace XWord
             TreeNode node = Addin.XWikiTaskPane.treeView.SelectedNode;
             if (node != null)
             {
-                node.ExpandAll();
+                Addin.XWikiTaskPane.ShowPages(node);
             }
         }
 
