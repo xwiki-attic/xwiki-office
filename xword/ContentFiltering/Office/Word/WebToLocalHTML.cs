@@ -10,6 +10,7 @@ using System.Xml.XPath;
 using XWiki.Clients;
 using XWiki.Html;
 using XWiki.Xml;
+using System.Collections;
 
 namespace XWiki.Office.Word
 {
@@ -109,8 +110,56 @@ namespace XWiki.Office.Word
                 return "Sorry, a problem appeared when loading the page";
             }
             AdaptMacros(ref xmlDoc);
-            AdaptImages(ref xmlDoc);            
+            AdaptImages(ref xmlDoc);
+            AdaptLists(ref xmlDoc);
             return xmlDoc.GetIndentedXml();
+        }
+
+        /// <summary>
+        /// Adapts the HTML lists to lists known by MS Word, because Word doesn't like
+        /// 'ul' inside 'li' elements with innerText.
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        private void AdaptLists(ref XmlDocument xmlDoc)
+        {
+            Dictionary<XmlNode, List<XmlNode>> itemsToMoveUp = new Dictionary<XmlNode, List<XmlNode>>();
+            XmlNodeList listItems = xmlDoc.GetElementsByTagName("li");
+
+            //itentify <li> elements with <ul> children
+            foreach (XmlNode node in listItems)
+            {
+                XmlNodeList children=node.ChildNodes;
+                //only nodes with both text and other xml elements
+                if ((""+node.Value).Length < 1)
+                {
+                    continue;
+                }
+
+                foreach (XmlNode child in children)
+                {
+                    if (child.Name.ToLower().Trim() == "ul" || child.Name.ToLower().Trim() == "ol")
+                    {
+                        List<XmlNode> value=new List<XmlNode>();
+
+                        if (itemsToMoveUp.ContainsKey(node))
+                        {
+                            value = itemsToMoveUp[node];
+                        }
+                        value.Add(child);
+                        itemsToMoveUp.Add(node,value);
+                    }
+                }
+            }
+
+            //move <ul> elements one level up if they are inside <li> elements with no innerText
+            foreach (XmlNode node in itemsToMoveUp.Keys)
+            {
+                foreach(XmlNode child in itemsToMoveUp[node])
+                {
+                    XmlNode n=node.RemoveChild(child);
+                    node.ParentNode.InsertAfter(n,node);
+                }
+            }
         }
 
         /// <summary>
@@ -229,7 +278,6 @@ namespace XWiki.Office.Word
             element.Attributes.Append(id);
             return element;
         }
-
         /// <summary>
         /// Adapts the html source returned by the XWiki server and makes it usable by Word using a local html file.
         /// </summary>
@@ -279,14 +327,7 @@ namespace XWiki.Office.Word
             }
         }
 
-        /// <summary>
-        /// Adapts lthe lists from the XWiki server to a format used by Word.
-        /// </summary>
-        /// <param name="xmlDoc"></param>
-        private void AdaptLists(ref XmlDocument xmlDoc)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         /// <summary>
         /// Downloads the image from the server and saves it to a local file.

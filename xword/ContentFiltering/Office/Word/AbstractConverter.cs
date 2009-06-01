@@ -6,7 +6,7 @@ using XWiki.Html;
 
 namespace XWiki.Office.Word
 {
-    class AbstractConverter
+    public class AbstractConverter
     {
         protected string DOCTYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" + Environment.NewLine +
                                         "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + Environment.NewLine;
