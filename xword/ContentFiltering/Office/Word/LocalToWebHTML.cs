@@ -49,6 +49,7 @@ namespace XWiki.Office.Word
             content = content.Replace("&nbsp;", " ");
             xmlDoc.LoadXml(content);
             ClearStyles(ref xmlDoc);
+            RemoveGrammarAndSpellingErrorAttributes(ref xmlDoc);
             AdaptImages(ref xmlDoc);            
             AdaptLists(ref xmlDoc);
             AdaptMacros(ref xmlDoc);
@@ -56,6 +57,31 @@ namespace XWiki.Office.Word
             StringBuilder sb = new StringBuilder(xmlDoc.GetIndentedXml());
             sb.Replace(" xmlns=\"\"","");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Removes 'gramE' and 'spellE' span attributes from text marked as 
+        /// containing grammar or spelling errors.
+        /// </summary>
+        /// <param name="xmlDoc">A refrence to the xml document.</param>
+        private void RemoveGrammarAndSpellingErrorAttributes(ref XmlDocument xmlDoc)
+        {
+            XmlNodeList nodes = xmlDoc.GetElementsByTagName("span");
+            foreach (XmlNode node in nodes)
+            {
+                XmlAttribute classAttribute = node.Attributes["class"];
+                if (classAttribute == null)
+                {
+                    continue;
+                }
+
+                if (classAttribute.Value.ToLower().Trim().IndexOf("grame") >= 0
+                    ||
+                    classAttribute.Value.ToLower().Trim().IndexOf("spelle") >= 0)                   
+                {
+                    node.Attributes.Remove(classAttribute);
+                }
+            }
         }
 
         /// <summary>

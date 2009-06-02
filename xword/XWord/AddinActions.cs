@@ -44,6 +44,14 @@ namespace XWord
 
         String newPageText = "Hi! This is your new page. Please put your content here and then share it with others by saving it on the wiki.";
 
+
+        Word.Options wordOptions;
+        bool checkGrammarAsYouType = false;
+        bool checkGrammarWithSpelling = false;
+        bool checkSpellingAsYouType = false;
+        bool contextualSpeller = false;
+        
+
         /// <summary>
         /// Generic webclient used for conneting to xwiki.
         /// </summary>        
@@ -307,6 +315,41 @@ namespace XWord
         }
 
         /// <summary>
+        /// Save user settings for grammar and spelling checking.
+        /// </summary>
+        private void SaveGrammarAndSpellingSettings()
+        {
+            wordOptions = addin.Application.Options;
+            checkGrammarAsYouType = wordOptions.CheckGrammarAsYouType;
+            checkGrammarWithSpelling = wordOptions.CheckGrammarWithSpelling;
+            checkSpellingAsYouType = wordOptions.CheckSpellingAsYouType;
+            contextualSpeller = wordOptions.ContextualSpeller;
+
+        }
+
+        /// <summary>
+        /// Disable grammar and spelling checking.
+        /// </summary>
+        private void DisableGrammarAndSpellingChecking()
+        {
+            wordOptions.CheckGrammarAsYouType = false;
+            wordOptions.CheckGrammarWithSpelling = false;
+            wordOptions.CheckSpellingAsYouType = false;
+            wordOptions.ContextualSpeller = false;
+        }
+
+        /// <summary>
+        /// Restore user settings for grammar and spelling checking.
+        /// </summary>
+        private void RestoreGrammarAndSpellingSettings()
+        {
+            wordOptions.CheckGrammarAsYouType = checkGrammarAsYouType;
+            wordOptions.CheckGrammarWithSpelling = checkGrammarWithSpelling;
+            wordOptions.CheckSpellingAsYouType = checkSpellingAsYouType;
+            wordOptions.ContextualSpeller = contextualSpeller;
+        }
+
+        /// <summary>
         /// Saves the page to the wiki. Shows a message box with an error if the operation fails.
         /// </summary>
         /// <param name="pageName">The full name of the wiki page.</param>
@@ -314,28 +357,14 @@ namespace XWord
         /// <param name="syntax">The wiki syntax of the saved page.</param>
         private void SavePage(String pageName, ref String pageContent, String syntax)
         {
-            //Save user settings for grammar and spelling checking
-            Word.Options wordOptions = addin.Application.Options;
-            bool checkGrammarAsYouType = wordOptions.CheckGrammarAsYouType;
-            bool checkGrammarWithSpelling = wordOptions.CheckGrammarWithSpelling;
-            bool checkSpellingAsYouType = wordOptions.CheckSpellingAsYouType;
-            bool contextualSpeller = wordOptions.ContextualSpeller;
+            SaveGrammarAndSpellingSettings();
+            DisableGrammarAndSpellingChecking();
 
             if (!this.Client.LoggedIn)
             {
                 Client.Login(addin.username, addin.password);
             }
-            if (addin.ActiveDocumentContentRange.GrammaticalErrors.Count > 0
-                ||
-                addin.ActiveDocumentContentRange.SpellingErrors.Count > 0
-                )
-            {
-                //Disable grammar and spelling check
-                wordOptions.CheckGrammarAsYouType = false;
-                wordOptions.CheckGrammarWithSpelling = false;
-                wordOptions.CheckSpellingAsYouType = false;
-                wordOptions.ContextualSpeller = false;
-            }
+
 
             if (!Client.SavePageHTML(pageName, pageContent, syntax))
             {
@@ -365,13 +394,7 @@ namespace XWord
                 }
             }
 
-            //Put back user setting for grammar and spelling checks
-            wordOptions.CheckGrammarAsYouType = checkGrammarAsYouType;
-            wordOptions.CheckGrammarWithSpelling = checkGrammarWithSpelling;
-            wordOptions.CheckSpellingAsYouType = checkSpellingAsYouType;
-            wordOptions.ContextualSpeller = contextualSpeller;
-
-
+            RestoreGrammarAndSpellingSettings();
         }
 
         /// <summary>
