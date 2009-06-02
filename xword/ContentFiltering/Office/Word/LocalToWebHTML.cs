@@ -49,7 +49,7 @@ namespace XWiki.Office.Word
             content = content.Replace("&nbsp;", " ");
             xmlDoc.LoadXml(content);
             ClearStyles(ref xmlDoc);
-            RemoveGrammarAndSpellingErrorAttributes(ref xmlDoc);
+            FilterGrammarAndSpellingErrors(ref xmlDoc);
             AdaptImages(ref xmlDoc);            
             AdaptLists(ref xmlDoc);
             AdaptMacros(ref xmlDoc);
@@ -60,26 +60,51 @@ namespace XWiki.Office.Word
         }
 
         /// <summary>
-        /// Removes 'gramE' and 'spellE' span attributes from text marked as 
-        /// containing grammar or spelling errors.
+        /// Removes 'class' attribute from text marked as  containing grammar or spelling errors.
+        /// (when values are 'gramE' or 'spellE'). Removes 'lang' attribute. Adds a space character
+        /// (' ') to the affected text, to make sure words marked as errors are separated.
         /// </summary>
         /// <param name="xmlDoc">A refrence to the xml document.</param>
-        private void RemoveGrammarAndSpellingErrorAttributes(ref XmlDocument xmlDoc)
+        private void FilterGrammarAndSpellingErrors(ref XmlDocument xmlDoc)
         {
             XmlNodeList nodes = xmlDoc.GetElementsByTagName("span");
+            bool insertASpace = false;
+            XmlNode tempNode = null;
             foreach (XmlNode node in nodes)
             {
+                insertASpace = false;
                 XmlAttribute classAttribute = node.Attributes["class"];
-                if (classAttribute == null)
+                if (classAttribute != null)
                 {
-                    continue;
+                    if (classAttribute.Value.ToLower().Trim().IndexOf("grame") >= 0
+                        ||
+                        classAttribute.Value.ToLower().Trim().IndexOf("spelle") >= 0)                   
+                    {
+                        node.Attributes.Remove(classAttribute);
+                        insertASpace = true;
+                    }
+                }
+                XmlAttribute langAttribute = node.Attributes["lang"];
+                if (langAttribute != null)
+                {
+                    node.Attributes.Remove(langAttribute);
+                    insertASpace = true;
                 }
 
-                if (classAttribute.Value.ToLower().Trim().IndexOf("grame") >= 0
-                    ||
-                    classAttribute.Value.ToLower().Trim().IndexOf("spelle") >= 0)                   
+                if (insertASpace)
                 {
-                    node.Attributes.Remove(classAttribute);
+                    if (node.NodeType == XmlNodeType.Element)
+                    {
+                        tempNode = node.ChildNodes[0];
+                    }
+                    else
+                    {
+                        tempNode = node;
+                    }
+                    if (tempNode.Value != null)
+                    {
+                        tempNode.Value += " ";
+                    }
                 }
             }
         }
