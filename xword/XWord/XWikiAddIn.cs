@@ -403,24 +403,29 @@ namespace XWord
             lastActiveDocument = ActiveDocumentInstance;
             lastActiveDocumentFullName = ActiveDocumentFullName;
             activeDocumentContent = ActiveDocumentContentRange;
-            if (editedPages.ContainsKey(lastActiveDocumentFullName))
+            //if current document is a wiki page.
+            if (EditedPages.ContainsKey(lastActiveDocumentFullName))
             {
-                currentPageFullName = editedPages[lastActiveDocumentFullName];
+                currentPageFullName = EditedPages[lastActiveDocumentFullName];
+            }
+            else
+            {
+                currentPageFullName = null;
             }
         }
 
         /// <summary>
         /// Event triggered before closing a document.
         /// </summary>
-        /// <param name="Doc">The instance of the document.</param>
-        /// <param name="Cancel">Reference to a variable stating if the operation should be canceled.
+        /// <param name="doc">The instance of the document.</param>
+        /// <param name="cancel">Reference to a variable stating if the operation should be canceled.
         /// Switch the value to 'true' to cancle the closing.
         /// </param>
         void Application_DocumentBeforeClose(Microsoft.Office.Interop.Word.Document doc, ref bool cancel)
         {
             string docFullName = doc.FullName;
             //if is edited wiki page
-            if (editedPages.ContainsKey(docFullName))
+            if (EditedPages.ContainsKey(docFullName))
             {
                 //Prevent default save dialog from appearing.
                 doc.Saved = true;

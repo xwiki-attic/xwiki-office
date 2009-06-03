@@ -297,12 +297,14 @@ namespace XWord
                 byte[] buffer = UTF8Encoding.UTF8.GetBytes(pageContent.ToString());
                 stream.Write(buffer, 0, buffer.Length);
                 stream.Close();
-                
-                addin.currentPageFullName = pageFullName;
 
+                #region OpenLocalDocument
+                //Register new local filename as a wiki page.
+                addin.EditedPages.Add(localFileName, pageFullName);
+                addin.currentPageFullName = pageFullName;
                 //Open the file with Word
                 Word.Document doc =  OpenHTMLDocument(localFileName);
-                addin.EditedPages.Add(localFileName, pageFullName);
+                #endregion//Open local document
 
                 //Mark just-opened document as saved. This prevents a silly confirmation box that
                 //warns about unsaved changes when closing an unchanged document.

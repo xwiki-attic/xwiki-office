@@ -5,8 +5,10 @@ using System.IO;
 using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
 using VSTO = Microsoft.Office.Tools;
+
 using XWord.VstoExtensions;
 using XWiki.Logging;
+using XWiki;
 
 namespace XWord
 {
@@ -145,16 +147,16 @@ namespace XWord
             {
                 if (Addin.currentPageFullName == "" || Addin.currentPageFullName == null)
                 {
-                    new AddPageForm(ref Addin.wiki, false, true).Show();
-                    
+                    new AddPageForm(ref Addin.wiki, false, true).Show();                    
                 }
                 else
                 {
                     Addin.AddinActions.SaveToServer();
                 }
             }
-            catch(NullReferenceException)
+            catch(NullReferenceException ex)
             {
+                Log.Exception(ex);
                 UserNotifier.Exclamation("You are not currently editing a wiki page");
             }
         }
