@@ -512,7 +512,7 @@ namespace XWord
             {
                 String spaceName = treeView.SelectedNode.Text;
                 WikiStructure wiki = Wiki;
-                new AddPageForm(ref wiki, spaceName).Show();
+                new AddPageForm(ref wiki, spaceName).ShowDialog();
             }
         }
 
@@ -611,7 +611,7 @@ namespace XWord
         /// </summary>
         private void btnAddSpace_Click(object sender, EventArgs e)
         {
-            new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false).Show();
+            new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false).ShowDialog();
         }
 
         /// <summary>
