@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f626e5a1fcb2ffa, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\.NET Dependencies\TidyNet.dll</HintPath>
+      <HintPath>..\dependencies\TidyNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
