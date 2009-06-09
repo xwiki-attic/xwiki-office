@@ -133,11 +133,26 @@ namespace XWiki.Office.Word
             }
             expression = navigator.Compile("//td[@valign]");
             XmlNodeList nodes = xmlDoc.GetElementsByTagName("td");
+            XmlAttribute colspanAttribute, rowspanAttribute;
             foreach (XmlNode node in nodes)
             {
                 //XmlAttribute valign = node.Attributes["valign"];
                 //node.Attributes.Remove(valign);
+                
+                //get colspan and rowspan values
+                colspanAttribute = node.Attributes["colspan"];
+                rowspanAttribute = node.Attributes["rowspan"];
+                //remove all valid and invalid attributes
                 node.Attributes.RemoveAll();
+                //put back the colspan and rowspan attributes
+                if (colspanAttribute != null)
+                {
+                    node.Attributes.Append(colspanAttribute);
+                }
+                if (rowspanAttribute != null)
+                {
+                    node.Attributes.Append(rowspanAttribute);
+                }
             }
         }
 
