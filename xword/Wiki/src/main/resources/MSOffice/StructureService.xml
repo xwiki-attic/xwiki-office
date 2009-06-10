@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>MSOffice</web>
+<name>StructureService</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1232373189000</creationDate>
+<date>1242389411000</date>
+<contentUpdateDate>1242389411000</contentUpdateDate>
+<version>1.1</version>
+<title>StructureService</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
+<content>#if($context.hasProgrammingRights())
+	#set($requestOK = false)
+	##Gets a serialized wiki structure
+	##TODO: (optional parameter) retrieve attachmets list for each page
+	#if($request.output == "wiki-serialized")
+		&lt;?xml version="1.0"?&gt;
+		&lt;WikiStructure xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+		  &lt;spaces&gt;
+		  #foreach($space in $xwiki.getSpaces())
+		    &lt;Space name="$space" hidden="false"&gt;
+		      &lt;documents&gt;
+		      #foreach($page in $xwiki.getSpaceDocsName("$space"))
+		        &lt;XWikiDocument name="$page" space="$space" /&gt;        
+		      #end
+		      &lt;/documents&gt;
+		    &lt;/Space&gt;  
+		  #end
+		  &lt;/spaces&gt;
+		&lt;/WikiStructure&gt;
+		#set($requestOK = true)
+	#end
+	
+	##Gets a list with the spaces in the current wiki instance. Each space name is on a new line.
+	#if($request.output.equals("getSpaces"))
+		#foreach($space in $xwiki.getSpaces())
+			$space,
+		#end
+		#set($requestOK = true)
+	#end
+	
+	##Gets a list with the pages in a space. Each page name is on a new line.
+	#if($request.output.equals("getPages") &amp;&amp; $request.space)
+		#foreach($page in $xwiki.getSpaceDocsName("$request.space"))
+			$page,
+		#end
+		#set($requestOK = true)
+	#end
+	
+	##Gets a list with the attachments in a wiki page. Each file name is on a new line.
+	#if($request.output.equals("getAttachments") &amp;&amp; $request.page)
+		#set($doc = $xwiki.getDocument("$request.page"))
+		#foreach($attachment in $doc.getAttachmentList())
+			$attachment.getFilename(),
+		#end
+		#set($requestOK = true)
+	#end
+	
+	#if($requestOK == false)
+		$msg.get("RESPONSE 100  - Error! Wrong request.")
+	#end
+#else
+	
+#end
+</content></xwikidoc>

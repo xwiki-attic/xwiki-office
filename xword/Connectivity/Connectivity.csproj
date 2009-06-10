@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XWiki</RootNamespace>
+    <AssemblyName>Connectivity</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clients\HTTPResponses.cs" />
+    <Compile Include="Clients\InvalidEncodingNameException.cs" />
+    <Compile Include="Clients\IXWikiClient.cs" />
+    <Compile Include="Clients\XmlRpc\IXWikiProxy.cs" />
+    <Compile Include="Clients\XmlRpc\Model\Attachment.cs" />
+    <Compile Include="Clients\XmlRpc\Model\Comment.cs" />
+    <Compile Include="Clients\XmlRpc\Model\Page.cs" />
+    <Compile Include="Clients\XmlRpc\Model\PageHistorySummary.cs" />
+    <Compile Include="Clients\XmlRpc\Model\PageSummary.cs" />
+    <Compile Include="Clients\XmlRpc\Model\ServerInfo.cs" />
+    <Compile Include="Clients\XmlRpc\Model\Space.cs" />
+    <Compile Include="Clients\XmlRpc\Model\SpaceSummary.cs" />
+    <Compile Include="Clients\XmlRpc\Model\XWikiClass.cs" />
+    <Compile Include="Clients\XmlRpc\Model\XWikiClassSummary.cs" />
+    <Compile Include="Clients\XmlRpc\Model\XWikiObject.cs" />
+    <Compile Include="Clients\XmlRpc\Model\XWikiObjectSummary.cs" />
+    <Compile Include="Clients\XWikiClientFactory.cs" />
+    <Compile Include="Clients\XWikiClientType.cs" />
+    <Compile Include="Clients\XWikiHTTPClient.cs" />
+    <Compile Include="Clients\XWikiXMLRPCClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XWikiLib\XWikiLib.csproj">
+      <Project>{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}</Project>
+      <Name>XWikiLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

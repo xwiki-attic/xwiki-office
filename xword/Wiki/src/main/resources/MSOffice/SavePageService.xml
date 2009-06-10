@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>MSOffice</web>
+<name>SavePageService</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1232373145000</creationDate>
+<date>1242389420000</date>
+<contentUpdateDate>1242389420000</contentUpdateDate>
+<version>1.1</version>
+<title>SavePageService</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
+<content>#if($context.hasProgrammingRights())
+	#if($request.pagename)
+	 #set($tdoc = $xwiki.getDocument("$request.pagename"))
+	 #if($request.syntax == "XWiki 2.0")
+	  #set($discard = $tdoc.getDocument().setSyntaxId("xwiki/2.0"))
+	  #set($convertgroovy = $xwiki.parseGroovyFromPage("MSOffice.ConvertPageGroovy"))
+		#if($convertgroovy =="groovy_missingrights")
+		 $msg.get("RESPONSE 103 - groovy_missingrights"))
+		#else
+		 #set($wikiContent = $convertgroovy.fromHTML($request.pagecontent))
+	        #end
+	 #elseif($request.syntax == "XHTML")
+	   ## #set($discard = $tdoc.getDocument().setSyntaxId("xhtml/1.0"))
+	   #set($discard = $tdoc.getDocument().setSyntaxId("xwiki/1.0"))
+	   #set($wikiContent = $request.pagecontent)
+	 #end
+	  
+	  {pre}#set($discard = $tdoc.setContent("$wikiContent")){/pre}
+	  #set($discard = $tdoc.save())
+	  $msg.get("RESPONSE 0 - SAVE-OK");
+	#end
+#else
+	$msg.get("RESPONSE 101 - The page does not have programming rights")
+#end</content>
+</xwikidoc>

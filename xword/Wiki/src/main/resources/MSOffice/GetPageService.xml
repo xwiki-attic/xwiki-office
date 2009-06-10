@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>MSOffice</web>
+<name>GetPageService</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1232373106000</creationDate>
+<date>1242389434000</date>
+<contentUpdateDate>1242389434000</contentUpdateDate>
+<version>1.1</version>
+<title>GetPageService</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
+<content>#set($requestOK = false)
+##Gets the rendered content of the page
+#if($request.pagename &amp;&amp; $request.action == "getRenderedContent")
+  #if($xwiki.hasAccessLevel("edit","$request.pagename"))
+    #set($doc = $xwiki.getDocument("$request.pagename"))
+    $doc.getRenderedContent()
+    #set($requestOK = true)
+  #else
+    $msg.get("RESPONSE 102 - You don't have edit right on this page.")
+  #end
+#end
+#if($request.pagename &amp;&amp; $request.action == "getDocURL" &amp;&amp; $request.xwikiAction)
+  $xwiki.getURL("$request.pagename","$request.xwikiAction")
+  #set($requestOK = true)
+#end
+#if($requestOK == false)
+  $msg.get("RESPONSE 100  - Error! Wrong request.")
+#end
+</content></xwikidoc>
