@@ -9,6 +9,7 @@ namespace ContentFiltering.Office.Word.Filters
     public class GrammarAndSpellingErrorsFilter:IDOMFilter
     {
         private ConversionManager manager;
+
         public GrammarAndSpellingErrorsFilter(ConversionManager manager)
         {
             this.manager = manager;

@@ -35,7 +35,7 @@ namespace ContentFiltering.Office.Word.Filters
             xIterator = navigator.Select(expression);
             foreach (XPathNavigator nav in xIterator)
             {
-                if (nav.Value == "MsoNormal" || nav.Value == "MsoNormalTable" || nav.Value == "MsoTableGrid")
+                if (nav.Value == "MsoNormal" || nav.Value == "MsoNormalTable" || nav.Value == "MsoTableGrid"||nav.Value=="MsoNoSpacing")
                 {
                     nav.DeleteSelf();
                 }

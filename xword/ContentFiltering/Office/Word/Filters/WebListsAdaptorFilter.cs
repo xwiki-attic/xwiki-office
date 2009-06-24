@@ -20,7 +20,7 @@ namespace ContentFiltering.Office.Word.Filters
 
         /// <summary>
         /// Adapts the HTML lists to lists known by MS Word, because Word doesn't like
-        /// 'ul' inside 'li' elements with innerText.
+        /// 'ul' and 'ol' inside 'li' elements with innerText.
         /// </summary>
         /// <param name="xmlDoc">A reference to an xml document.</param>
         public void Filter(ref XmlDocument xmlDoc)
@@ -28,7 +28,7 @@ namespace ContentFiltering.Office.Word.Filters
             Dictionary<XmlNode, List<XmlNode>> itemsToMoveUp = new Dictionary<XmlNode, List<XmlNode>>();
             XmlNodeList listItems = xmlDoc.GetElementsByTagName("li");
 
-            //itentify <li> elements with <ul> children
+            //itentify <li> elements with <ul> or <ol> children
             foreach (XmlNode node in listItems)
             {
                 XmlNodeList children = node.ChildNodes;
