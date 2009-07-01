@@ -12,6 +12,7 @@ using XWiki.Html;
 using XWiki.Xml;
 using System.Collections;
 using ContentFiltering.Office.Word.Filters;
+using ContentFiltering.Office.Word.Cleaners;
 
 namespace XWiki.Office.Word
 {
@@ -92,14 +93,13 @@ namespace XWiki.Office.Word
         public String AdaptSource(String content)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            content = htmlUtil.RemoveOfficeNameSpacesTags(content);
-            //String namespaces = htmlUtil.GetXmlNamespaceDefinitions(content);
-            content = htmlUtil.CleanHTML(content, false);
-            content = htmlUtil.ReplaceXmlNamespaceDefinitions(content, HTML_OPENING_TAG);
-            content = content.Replace("<o:p></o:p>", "<br />");
-            content = content.Replace("<p>&nbsp;</p>", "<br />");
-            content = content.Replace(">&nbsp;<", "><");
-            content = content.Replace("&nbsp;", " ");
+            content = new OfficeNameSpacesTagsRemover().Clean(content);
+            
+            content = new TidyHTMLCleaner(false).Clean(content);
+            content = new XmlNamespaceDefinitionsReplacer(HTML_OPENING_TAG).Clean(content);
+            content = new EmptyParagraphsCleaner().Clean(content);
+            content = new NbspBetweenTagsRemover().Clean(content);
+            content = new NbspReplacer().Clean(content);
             //content = content.Insert(0, DOCTYPE);
             try
             {
@@ -111,6 +111,7 @@ namespace XWiki.Office.Word
                 return "Sorry, a problem appeared when loading the page";
             }
             
+
             List<IDOMFilter> webToLocalFilters = new List<IDOMFilter>()
             {
                 new WebMacrosAdaptorFilter(manager),

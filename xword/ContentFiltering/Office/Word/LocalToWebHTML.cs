@@ -9,6 +9,7 @@ using XWiki.Xml;
 using System.Collections;
 using ContentFiltering.Office.Word;
 using ContentFiltering.Office.Word.Filters;
+using ContentFiltering.Office.Word.Cleaners;
 
 namespace XWiki.Office.Word
 {
@@ -29,26 +30,24 @@ namespace XWiki.Office.Word
         {
             XmlDocument xmlDoc = new XmlDocument();
             //xmlDoc.XmlResolver = null;
-            String uncleanedContent = htmlUtil.CorrectAttributes(content);
-            uncleanedContent = htmlUtil.CorrectTagsClosing(uncleanedContent, "img");
-            uncleanedContent = htmlUtil.CorrectTagsClosing(uncleanedContent, "br");
-            content = htmlUtil.CleanHTML(uncleanedContent, true);
+
+            String uncleanedContent = new CorrectAttributesCleaner().Clean(content);
+            uncleanedContent = new CorrectTagsClosingCleaner("img").Clean(uncleanedContent);
+            uncleanedContent = new CorrectTagsClosingCleaner("br").Clean(uncleanedContent);
+            content = new TidyHTMLCleaner(true).Clean(uncleanedContent);
+
             if (content.Length == 0)
             {
                 content = uncleanedContent;
             }
-            //content = htmlUtil.RemoveOfficeNameSpacesTags(content);
-            //content = htmlUtil.ReplaceBody(content, "<body>");
-            content = htmlUtil.ReplaceXmlNamespaceDefinitions(content, HTML_OPENING_TAG);
-            content = content.Replace('·','o');
-            content = content.Replace('§', 'o');//"·"; "o"; "§";
-            //Removing &nbsp; from Word and Tidy output
-            content = content.Replace("<o:p></o:p>", "<br />");
-            content = content.Replace("<p>&nbsp;</p>", "<br />");
-            content = content.Replace(">&nbsp;<", "><");
-            content = content.Replace("<o:p>", "");
-            content = content.Replace("</o:p>", "");
-            content = content.Replace("&nbsp;", " ");
+            
+            content = new XmlNamespaceDefinitionsReplacer(HTML_OPENING_TAG).Clean(content);
+            content = new ListCharsCleaner().Clean(content);
+            content = new EmptyParagraphsCleaner().Clean(content);
+            content = new NbspBetweenTagsRemover().Clean(content);
+            content = new OfficeNameSpacesTagsRemover().Clean(content);
+            content = new NbspReplacer().Clean(content);
+
             xmlDoc.LoadXml(content);
 
             List<IDOMFilter> contentFilters = new List<IDOMFilter>()

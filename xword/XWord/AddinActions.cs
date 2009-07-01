@@ -17,6 +17,7 @@ using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
 using XWord.VstoExtensions;
 using XWiki.Logging;
+using ContentFiltering.Office.Word.Cleaners;
 
 namespace XWord
 {
@@ -32,7 +33,7 @@ namespace XWord
         HtmlUtil htmlUtil = new HtmlUtil();
         //A dictionary, storing the converter instances for each opened page.
         Dictionary<String, ConversionManager> pageConverters = new Dictionary<string, ConversionManager>();
-        
+
         private const string DOWNLOAD_FOLDER = "XWord"; //"MyDocuments\XWord"
         private string TEMP_UPLOAD_FILES_FOLDER = Environment.SpecialFolder.ApplicationData.ToString() + @"\XWordTempData\UploadedFiles";
         private string TEMP_FILES_FOLDER = Environment.SpecialFolder.ApplicationData.ToString() + @"\XWordTempData\Pages";
@@ -50,7 +51,7 @@ namespace XWord
         bool checkGrammarWithSpelling = false;
         bool checkSpellingAsYouType = false;
         bool contextualSpeller = false;
-        
+
 
         /// <summary>
         /// Generic webclient used for conneting to xwiki.
@@ -124,7 +125,7 @@ namespace XWord
             {
                 return false;
             }
-           
+
         }
 
         /// <summary>
@@ -228,7 +229,7 @@ namespace XWord
         /// <param name="pageFullName">The full name of the wiki page that is being opened for editing.</param>
         public void EditPage(String pageFullName)
         {
-            if(IsOpened(pageFullName))
+            if (IsOpened(pageFullName))
             {
                 UserNotifier.Message("You are already editing this page.");
                 return;
@@ -237,7 +238,7 @@ namespace XWord
             {
                 Client.Login(addin.username, addin.password);
             }
-            if(IsProtectedPage(pageFullName, addin.ProtectedPages))
+            if (IsProtectedPage(pageFullName, addin.ProtectedPages))
             {
                 String message = "You cannot edit this page." + Environment.NewLine;
                 message += "This page contains scrips that provide functionality to the wiki.";
@@ -266,10 +267,10 @@ namespace XWord
                 String pageFullName = (String)_pageFullName;
                 //Read from server
                 String content = Client.GetRenderedPageContent(pageFullName);
-                
+
                 String localFileName = pageFullName.Replace(".", "-");
                 String folder = addin.PagesRepository + "TempPages";
-                ConvertToNormalFolder(folder);               
+                ConvertToNormalFolder(folder);
                 //content = new WebToLocalHTML(addin.serverURL, folder, localFileName).AdaptSource(content);
                 ConversionManager pageConverter;
                 if (pageConverters.ContainsKey(pageFullName))
@@ -303,7 +304,7 @@ namespace XWord
                 addin.EditedPages.Add(localFileName, pageFullName);
                 addin.currentPageFullName = pageFullName;
                 //Open the file with Word
-                Word.Document doc =  OpenHTMLDocument(localFileName);
+                Word.Document doc = OpenHTMLDocument(localFileName);
                 #endregion//Open local document
 
                 //Mark just-opened document as saved. This prevents a silly confirmation box that
@@ -312,8 +313,8 @@ namespace XWord
             }
             catch (IOException ex)
             {
-               UserNotifier.Error(ex.Message);
-            }            
+                UserNotifier.Error(ex.Message);
+            }
         }
 
         /// <summary>
@@ -427,10 +428,10 @@ namespace XWord
         {
             if (addin.currentPageFullName == "" || addin.currentPageFullName == null)
             {
-                UserNotifier.Exclamation("You are not currently editing a wiki page") ;
+                UserNotifier.Exclamation("You are not currently editing a wiki page");
                 return;
             }
-            
+
             LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             SaveToXwiki();
@@ -471,12 +472,10 @@ namespace XWord
                 sr.Close();
                 File.Delete(contentFilePath);
                 String cleanHTML = "";
-                cleanHTML = htmlUtil.RemoveSpecificTagContent(fileContent, "<!--", "-->");
-                cleanHTML = htmlUtil.RemoveSpecificTagContent(cleanHTML, "<![", "]>");
-                //cleanHTML = htmlUtil.RemoveSpecificTagContent(cleanHTML, "<meta", ">");
-                cleanHTML = htmlUtil.RemoveSpecificTagContent(cleanHTML, "<head>", "</head>");
-                //cleanHTML = htmlUtil.CleanHTML(cleanHTML, true);
-                //cleanHTML = htmlUtil.GetBodyContent(cleanHTML);
+
+                cleanHTML = new CommentsRemover().Clean(fileContent);
+                cleanHTML = new HeadSectionRemover().Clean(cleanHTML);
+
                 ConversionManager pageConverter;
                 if (pageConverters.ContainsKey(addin.currentPageFullName))
                 {
@@ -488,7 +487,8 @@ namespace XWord
                                                           addin.currentPageFullName, Path.GetFileName(contentFilePath), addin.Client);
                 }
                 cleanHTML = pageConverter.ConvertFromWordToWeb(cleanHTML);
-                cleanHTML = htmlUtil.GetBodyContent(cleanHTML);
+                cleanHTML = new BodyContentExtractor().Clean(cleanHTML);
+
                 //openHTMLDocument(addin.currentLocalFilePath);
                 if (addin.AddinStatus.Syntax == null)
                 {
@@ -589,7 +589,7 @@ namespace XWord
 
                 //If it's a new space, add it to the wiki structure and mark it as unpublished
                 List<Space> spaces = Globals.XWikiAddIn.wiki.spaces;
-                Space space=null;
+                Space space = null;
                 foreach (Space sp in spaces)
                 {
                     if (sp.name == spaceName)
@@ -607,7 +607,7 @@ namespace XWord
                     }
                 }
 
-                if (space==null)
+                if (space == null)
                 {
                     space = new Space();
                     space.name = spaceName;
@@ -620,7 +620,7 @@ namespace XWord
                     xwdoc.published = false;
                     xwdoc.space = spaceName;
                     space.documents.Add(xwdoc);
-                }                
+                }
             }
             catch (IOException ex)
             {
@@ -670,27 +670,27 @@ namespace XWord
                 UserNotifier.Error("There was an error on the server. The pages in MSOffice space don't have programming rights");
                 hasErrors = true;
             }
-            else if(content.Contains(HTTPResponses.WRONG_REQUEST))
+            else if (content.Contains(HTTPResponses.WRONG_REQUEST))
             {
                 Log.Error("Server " + addin.serverURL + " wrong request");
                 UserNotifier.Error("Server error: Wrong request");
                 hasErrors = true;
             }
-            else if(content.Contains(HTTPResponses.NO_EDIT_RIGHTS))
+            else if (content.Contains(HTTPResponses.NO_EDIT_RIGHTS))
             {
                 Log.Information("User tried to edit a page on " + addin.serverURL + " whithout edit rights");
                 UserNotifier.Error("You dont have the right to edit this page");
                 hasErrors = true;
             }
-            else if(content.Contains(HTTPResponses.NO_GROOVY_RIGHTS))
+            else if (content.Contains(HTTPResponses.NO_GROOVY_RIGHTS))
             {
                 Log.Error("Server " + addin.serverURL + " error on parsing groovy - no groovy rights");
                 String message = "There was an error on the server." + Environment.NewLine;
-                message +=  "Please contact your server adminitrator. Error on executing groovy page in MSOffice space";
+                message += "Please contact your server adminitrator. Error on executing groovy page in MSOffice space";
                 UserNotifier.Error(message);
                 hasErrors = true;
             }
-            else if(content.Contains(HTTPResponses.INSUFFICIENT_MEMMORY))
+            else if (content.Contains(HTTPResponses.INSUFFICIENT_MEMMORY))
             {
                 Log.Error("Server " + addin.serverURL + " reported OutOfMemmoryException");
                 String message = "There was an error on the server." + Environment.NewLine;
@@ -698,7 +698,7 @@ namespace XWord
                 UserNotifier.Error(message);
                 hasErrors = true;
             }
-            else if(content.Contains(HTTPResponses.VELOCITY_PARSER_ERROR))
+            else if (content.Contains(HTTPResponses.VELOCITY_PARSER_ERROR))
             {
                 Log.Error("Server " + addin.serverURL + " error when parsing page. ");
                 String message = "There was an error on the server" + Environment.NewLine;
@@ -721,7 +721,7 @@ namespace XWord
                 foreach (String wildcard in wildcards)
                 {
                     String docFullName = doc.space + "." + doc.name;
-                    if(UtilityClass.IsWildcardMatch(wildcard, docFullName, true))
+                    if (UtilityClass.IsWildcardMatch(wildcard, docFullName, true))
                     {
                         wiki.RemoveXWikiDocument(doc);
                         break;
@@ -781,7 +781,7 @@ namespace XWord
                 UserNotifier.Error(ioex.Message);
                 return false;
             }
-            
+
             return true;
         }
     }
