@@ -68,10 +68,12 @@
     <Compile Include="Office\Word\Cleaners\EmptyParagraphsCleaner.cs" />
     <Compile Include="Office\Word\Cleaners\HeadSectionRemover.cs" />
     <Compile Include="Office\Word\Cleaners\ListCharsCleaner.cs" />
+    <Compile Include="Office\Word\Cleaners\LocalToWebHTMLCleaner.cs" />
     <Compile Include="Office\Word\Cleaners\NbspBetweenTagsRemover.cs" />
     <Compile Include="Office\Word\Cleaners\NbspReplacer.cs" />
     <Compile Include="Office\Word\Cleaners\OfficeNameSpacesTagsRemover.cs" />
     <Compile Include="Office\Word\Cleaners\TidyHTMLCleaner.cs" />
+    <Compile Include="Office\Word\Cleaners\WebToLocalHTMLCleaner.cs" />
     <Compile Include="Office\Word\Cleaners\XmlNamespaceDefinitionsReplacer.cs" />
     <Compile Include="Office\Word\ConversionManager.cs" />
     <Compile Include="Office\Word\ConverterActionState.cs" />
@@ -98,9 +100,11 @@
     <Compile Include="Test\Office\Word\Cleaners\EmptyParagraphsCleanerTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\HeadSectionRemoverTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\ListCharsCleanerTest.cs" />
+    <Compile Include="Test\Office\Word\Cleaners\LocalToWebHTMLCleanerTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\NbspBetweenTagsRemoverTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\NbspReplacerTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\OfficeNameSpacesTagsRemoverTest.cs" />
+    <Compile Include="Test\Office\Word\Cleaners\WebToLocalHTMLCleanerTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\XmlNamespaceDefinitionsReplacerTest.cs" />
     <Compile Include="Test\Office\Word\Filters\GrammarAndSpellingErrorsFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\LocalImageAdaptorFilterTest.cs" />
@@ -124,6 +128,11 @@
       <Project>{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}</Project>
       <Name>XWikiLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test\Office\Word\Cleaners\TestsResources\PreDomFiltersTestPage.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

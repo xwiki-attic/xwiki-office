@@ -31,22 +31,7 @@ namespace XWiki.Office.Word
             XmlDocument xmlDoc = new XmlDocument();
             //xmlDoc.XmlResolver = null;
 
-            String uncleanedContent = new CorrectAttributesCleaner().Clean(content);
-            uncleanedContent = new CorrectTagsClosingCleaner("img").Clean(uncleanedContent);
-            uncleanedContent = new CorrectTagsClosingCleaner("br").Clean(uncleanedContent);
-            content = new TidyHTMLCleaner(true).Clean(uncleanedContent);
-
-            if (content.Length == 0)
-            {
-                content = uncleanedContent;
-            }
-            
-            content = new XmlNamespaceDefinitionsReplacer(HTML_OPENING_TAG).Clean(content);
-            content = new ListCharsCleaner().Clean(content);
-            content = new EmptyParagraphsCleaner().Clean(content);
-            content = new NbspBetweenTagsRemover().Clean(content);
-            content = new OfficeNameSpacesTagsRemover().Clean(content);
-            content = new NbspReplacer().Clean(content);
+            content = new LocalToWebHTMLCleaner(HTML_OPENING_TAG).Clean(content);
 
             xmlDoc.LoadXml(content);
 

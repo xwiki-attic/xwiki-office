@@ -93,13 +93,8 @@ namespace XWiki.Office.Word
         public String AdaptSource(String content)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            content = new OfficeNameSpacesTagsRemover().Clean(content);
-            
-            content = new TidyHTMLCleaner(false).Clean(content);
-            content = new XmlNamespaceDefinitionsReplacer(HTML_OPENING_TAG).Clean(content);
-            content = new EmptyParagraphsCleaner().Clean(content);
-            content = new NbspBetweenTagsRemover().Clean(content);
-            content = new NbspReplacer().Clean(content);
+            content = new WebToLocalHTMLCleaner(HTML_OPENING_TAG).Clean(content);
+
             //content = content.Insert(0, DOCTYPE);
             try
             {
