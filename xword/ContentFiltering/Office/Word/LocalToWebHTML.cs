@@ -37,6 +37,7 @@ namespace XWiki.Office.Word
 
             List<IDOMFilter> contentFilters = new List<IDOMFilter>()
             {
+                new LocalToWebStyleFilter(manager),
                 new StyleRemoverFilter(manager),
                 new GrammarAndSpellingErrorsFilter(manager),
                 new LocalImageAdaptorFilter(manager),

@@ -81,6 +81,7 @@
     <Compile Include="Office\Word\Filters\IDOMFilter.cs" />
     <Compile Include="Office\Word\Cleaners\IHTMLCleaner.cs" />
     <Compile Include="Office\Word\Filters\LocalImageAdaptorFilter.cs" />
+    <Compile Include="Office\Word\Filters\LocalToWebStyleFilter.cs" />
     <Compile Include="Office\Word\Filters\WebImageAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\WebListsAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\WebMacrosAdaptorFilter.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Test\Office\Word\Filters\GrammarAndSpellingErrorsFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\LocalImageAdaptorFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\LocalMacrosAdaptorFilterTest.cs" />
+    <Compile Include="Test\Office\Word\Filters\LocalToWebStyleFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\OfficeAttributesRemoverFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\StyleRemoverFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\WebImageAdaptorFilterTest.cs" />
