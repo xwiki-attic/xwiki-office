@@ -156,7 +156,6 @@ namespace ContentFiltering.Test.Office.Word.Filters
             string[] groups = cssContent.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (groups.Length == 2)
             {
-                Console.WriteLine("Counting..");
                 foundOptimizedCSS = (CountCSSClasses(groups[0]) == 2) && (CountCSSClasses(groups[1]) == 2);
             }
             return foundOptimizedCSS;

@@ -97,6 +97,12 @@ namespace ContentFiltering.Office.Word.Filters
             }
         }
 
+        /// <summary>
+        /// Extracts inline style from an <code>XmlNode</code> to a CSS class.
+        /// Adds new CSS class to 'class' property of the node.
+        /// </summary>
+        /// <param name="node">A reference to the node to be filtered.</param>
+        /// <param name="xmlDoc">A reference to the document containing the node.</param>
         private void ExtractStyle(ref XmlNode node, ref XmlDocument xmlDoc)
         {
             if (node.Attributes.Count > 0)
@@ -162,10 +168,68 @@ namespace ContentFiltering.Office.Word.Filters
             return acceptedProperties.ToString();
         }
 
-        
+        /// <summary>
+        /// Groups CSS classes with the same properties to minify the generated CSS content.
+        /// </summary>
         private void OptimizeCssClasses()
         {
-            //TODO: XOFFICE-126
+            string cssPropsStr;
+            string[] cssProperties;
+            string[] separator = new string[1] { ";" };
+            List<string> cssPropsList = new List<string>();
+
+            //sort css properties from each class in alphabetic order
+            ICollection cssClassesKeys = cssClasses.Keys;
+
+            //need an extra list in order to alter cssClassesKeys
+            //(can not alter elements while iterate the collection)
+            List<string> xofficeCssClasses = new List<string>();
+            foreach (string key in cssClassesKeys)
+            {
+                xofficeCssClasses.Add(key);
+            }
+
+            foreach (string key in xofficeCssClasses)
+            {
+                cssPropsStr = ((string)cssClasses[key]).Replace('{', ' ').Replace('}', ' ').Trim();
+                cssProperties = cssPropsStr.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                cssPropsList.Clear();
+                foreach (string property in cssProperties)
+                {
+                    cssPropsList.Add(property.Trim() + ";");
+                }
+                cssPropsList.Sort();
+                cssPropsStr = "{";
+                foreach (string property in cssPropsList)
+                {
+                    cssPropsStr += property;
+                }
+                cssPropsStr += "}";
+                cssClasses[key] = cssPropsStr;
+            }
+
+            //compare CSS classes and group redundant ones
+            //using an inverted hash of the cssClasses
+            Hashtable invertedHash = new Hashtable(cssClasses.Count);
+            foreach (string key in cssClasses.Keys)
+            {
+                string val = (string)cssClasses[key];
+                string cssClass = "";
+                if (invertedHash.ContainsKey(val))
+                {
+                    cssClass = (string)invertedHash[val];
+                    cssClass += ", ";
+                }
+                cssClass += key;
+                invertedHash[val] = cssClass;
+            }
+            cssClasses.Clear();
+            foreach (string properties in invertedHash.Keys)
+            {
+                string groupedClasses = (string)invertedHash[properties];
+                string props = properties.Replace('{', ' ').Replace('}', ' ').Trim();
+                cssClasses.Add(groupedClasses, props);
+            }
         }
 
         private void InsertCssClassesInHeader(ref XmlNode headNode, ref XmlDocument xmlDoc)
