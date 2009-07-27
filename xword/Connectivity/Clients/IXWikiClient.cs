@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using XWiki;
+using XWiki.XmlRpc;
 
 namespace XWiki.Clients
 {
@@ -137,6 +138,16 @@ namespace XWiki.Clients
         /// <param name="fieldsValues">Pair that contains the field name and it's value</param>
         /// <returns>Index number of the object</returns>
         int AddObject(String docName, String className, NameValueCollection fieldsValues);
+
+        /// <summary>
+        /// Gets an object from a page.
+        /// </summary>
+        /// <param name="pageId">Page name - SpaceName.PageName.</param>
+        /// <param name="className">XWiki class name.</param>
+        /// <param name="id">Index number of the object.</param>
+        /// <returns>An XWikiObject of type 'className' from the specified page.</returns>
+        XWikiObject GetObject(String pageId, String className, int id);
+
 
         /// <summary>
         /// Gets the binary data of the attached file.

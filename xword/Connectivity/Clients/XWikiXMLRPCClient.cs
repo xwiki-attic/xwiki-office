@@ -235,10 +235,35 @@ namespace XWiki.Clients
         /// <param name="ClassName">The class name of the XWiki object.</param>
         /// <param name="fieldsValues">The values of the object's properties.</param>
         /// <returns>The index/id of the added object.</returns>
-        public int AddObject(string docName, string ClassName, System.Collections.Specialized.NameValueCollection fieldsValues)
+        public int AddObject(string docName, string className, System.Collections.Specialized.NameValueCollection fieldsValues)
         {
-            throw new NotImplementedException();
+            XmlRpcStruct objectDictionary = new XmlRpcStruct();
+            foreach (string key in fieldsValues.Keys)
+            {
+                objectDictionary.Add(key, fieldsValues[key]);
+            }
+            XWikiObject obj = new XWikiObject();
+            obj.className = className;
+            obj.objectDictionary = objectDictionary;
+            obj.pageId = docName;
+            obj.guid = string.Empty;
+            obj.prettyName = fieldsValues["name"];
+            obj = proxy.StoreObject(token, obj);
+            return obj.id;
         }
+
+        /// <summary>
+        /// Gets an object from a page.
+        /// </summary>
+        /// <param name="pageId">Page name - SpaceName.PageName.</param>
+        /// <param name="className">XWiki class name.</param>
+        /// <param name="id">Index number of the object.</param>
+        /// <returns>An XWikiObject of type 'className' from the specified page.</returns>
+        public XWikiObject GetObject(String pageId, String className, int id)
+        {
+            return proxy.GetObject(token, pageId, className, id);
+        }
+
 
         /// <summary>
         /// Gets the names of the attached files of a wiki page.

@@ -5,6 +5,7 @@ using Text = System.Text;
 using System.Net;
 using System.Collections;
 using System.IO;
+using XWiki.XmlRpc;
 
 
 namespace XWiki.Clients
@@ -479,9 +480,23 @@ namespace XWiki.Clients
         /// <param name="ClassName">The xwiki class name of the object.</param>
         /// <param name="fieldsValues">The values of the object's fields.</param>
         /// <returns>The index of the inserted object.</returns>
+        /// <exception cref="System.NotImplementedException">Thrown every time. Method is not implemented for XWikiHTTPClient.</exception>
         public int AddObject(string docName, string ClassName, System.Collections.Specialized.NameValueCollection fieldsValues)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Operation not implemented for Velocity Services. Please use XML-RPC connectivity option!");
+        }
+
+        /// <summary>
+        /// Gets an object from a page.
+        /// </summary>
+        /// <param name="pageId">Page name - SpaceName.PageName.</param>
+        /// <param name="className">XWiki class name.</param>
+        /// <param name="id">Index number of the object.</param>
+        /// <returns>An XWikiObject of type 'className' from the specified page.</returns>
+        /// <exception cref="System.NotImplementedException">Thrown every time. Method is not implemented for XWikiHTTPClient.</exception>
+        public XWikiObject GetObject(String pageId, String className, int id)
+        {
+            throw new NotImplementedException("Operation not implemented for Velocity Services. Please use XML-RPC connectivity option!");
         }
 
         /// <summary>
