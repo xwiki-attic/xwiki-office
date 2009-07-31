@@ -500,6 +500,29 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Removes an object from a page.
+        /// </summary>
+        /// <param name="pageId">Full page name - SpaceName.PageName.</param>
+        /// <param name="className">XWiki class name.</param>
+        /// <param name="id">Index number of the object.</param>
+        /// <exception cref="System.NotImplementedException">Thrown every time. Method is not implemented for XWikiHTTPClient.</exception>
+        public void RemoveObject(String pageId, String className, int id)
+        {
+            throw new NotImplementedException("Operation not implemented for Velocity Services. Please use XML-RPC connectivity option!");
+        }
+
+        /// <summary>
+        /// Gets the objects from a page.
+        /// </summary>
+        /// <param name="pageId">Full page name - SpanceName.PageName</param>
+        /// <returns>An array of <code>XWikiObjectSummary</code> - summary data for object in the given page.</returns>
+        /// <exception cref="System.NotImplementedException">Thrown every time. Method is not implemented for XWikiHTTPClient.</exception>
+        public XWikiObjectSummary[] GetObjects(String pageId)
+        {
+            throw new NotImplementedException("Operation not implemented for Velocity Services. Please use XML-RPC connectivity option!");
+        }
+
+        /// <summary>
         /// Gets a list with the attachmets' names of the specified page.
         /// </summary>
         /// <param name="docFullName">THe full name of the wiki page.</param>

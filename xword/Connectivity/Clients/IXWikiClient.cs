@@ -148,6 +148,21 @@ namespace XWiki.Clients
         /// <returns>An XWikiObject of type 'className' from the specified page.</returns>
         XWikiObject GetObject(String pageId, String className, int id);
 
+        /// <summary>
+        /// Gets the objects from a page.
+        /// </summary>
+        /// <param name="pageId">Full page name - SpanceName.PageName</param>
+        /// <returns>An array of <code>XWikiObjectSummary</code> - summary data for object in the given page.</returns>
+        XWikiObjectSummary[] GetObjects(String pageId);
+
+        /// <summary>
+        /// Removes an object from a page.
+        /// </summary>
+        /// <param name="pageId">Full page name - SpaceName.PageName.</param>
+        /// <param name="className">XWiki class name.</param>
+        /// <param name="id">Index number of the object.</param>
+        void RemoveObject(String pageId, String className, int id);
+
 
         /// <summary>
         /// Gets the binary data of the attached file.
