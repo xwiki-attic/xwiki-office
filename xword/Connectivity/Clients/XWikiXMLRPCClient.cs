@@ -264,6 +264,28 @@ namespace XWiki.Clients
             return proxy.GetObject(token, pageId, className, id);
         }
 
+        /// <summary>
+        /// Gets the objects from a page.
+        /// </summary>
+        /// <param name="pageId">Full page name - SpanceName.PageName</param>
+        /// <returns>An array of <code>XWikiObjectSummary</code> - summary data for object in the given page.</returns>
+        public XWikiObjectSummary[] GetObjects(String pageId)
+        {
+            return proxy.GetObjects(token, pageId);
+        }
+
+
+        /// <summary>
+        /// Removes an object from a page.
+        /// </summary>
+        /// <param name="pageId">Full page name - SpaceName.PageName.</param>
+        /// <param name="className">XWiki class name.</param>
+        /// <param name="id">Index number of the object.</param>
+        public void RemoveObject(String pageId, String className, int id)
+        {
+            proxy.RemoveObject(token, pageId, className, id);
+        }
+
 
         /// <summary>
         /// Gets the names of the attached files of a wiki page.
