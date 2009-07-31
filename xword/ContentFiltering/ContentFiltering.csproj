@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dependencies\nunit.framework.dll</HintPath>
@@ -93,6 +97,7 @@
     <Compile Include="Office\Word\Filters\StyleRemoverFilter.cs" />
     <Compile Include="Office\Word\WebToLocalHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StyleSheetExtensions\SSXManager.cs" />
     <Compile Include="Test\Office\Word\Cleaners\BodyContentExtractorTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\CommentsRemoverTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\CorrectAttributesCleanerTest.cs" />
