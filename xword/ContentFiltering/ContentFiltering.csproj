@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Html\CSSUtil.cs" />
     <Compile Include="Html\HtmlUtil.cs" />
     <Compile Include="Office\Word\AbstractConverter.cs" />
     <Compile Include="Office\Word\BidirectionalConversionStates.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Office\Word\WebToLocalHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StyleSheetExtensions\SSXManager.cs" />
+    <Compile Include="Test\Html\CSSUtilTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\BodyContentExtractorTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\CommentsRemoverTest.cs" />
     <Compile Include="Test\Office\Word\Cleaners\CorrectAttributesCleanerTest.cs" />
