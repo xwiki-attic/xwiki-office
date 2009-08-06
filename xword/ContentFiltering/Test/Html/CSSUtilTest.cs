@@ -230,5 +230,82 @@ namespace ContentFiltering.Test.Html
 
         }
 
+
+        /// <summary>
+        /// Test for ConvertInlineStylesToCssClasses method.
+        /// </summary>
+        [Test]
+        public void TestConvertInlineStylesToCssClasses()
+        {
+            initialXmlDoc = new XmlDocument();
+            expectedXmlDoc = new XmlDocument();
+
+            initialHTML = "<html><head><title>TITLE</title></head>"
+                + "<body>"
+                + "<div style=\"border:1px red solid;padding:3px;margin:3px;\">"
+                + "<p style=\"font-family:sans-serif;\">Text 1</p>"
+                + "<p style=\"font-family:sans-serif;\">Text 2</p>"
+                + "<p style=\"font-family:sans-serif;\">"
+                + "Text 3"
+                + "<span style=\"color:orange;\">Text 4</span>"
+                + "<span style=\"color:black;\">Text 5</span>"
+                + "</p>"
+                + "</div>"
+                + "</body></html>";
+
+            initialXmlDoc.LoadXml(initialHTML);
+
+
+            expectedHTML="<html><head><title>TITLE</title></head>"
+                + "<body>"
+                + "<div class=\"xoffice0\">"
+                + "<p class=\"xoffice1\">Text 1</p>"
+                + "<p class=\"xoffice2\">Text 2</p>"
+                + "<p class=\"xoffice3\">"
+                + "Text 3"
+                + "<span class=\"xoffice4\">Text 4</span>"
+                + "<span class=\"xoffice5\">Text 5</span>"
+                + "</p>"
+                + "</div>"
+                + "</body></html>";
+
+            expectedXmlDoc.LoadXml(expectedHTML);
+
+            int counter = 0;
+            Hashtable cssClasses = new Hashtable();
+            XmlNode node = initialXmlDoc.GetElementsByTagName("div")[0];
+
+            CSSUtil.ConvertInlineStylesToCssClasses(node, ref initialXmlDoc, ref counter, ref cssClasses);
+
+            string[] properties =
+            {
+                "border:1px red solid;padding:3px;margin:3px;",
+                "font-family:sans-serif;",
+                "color:orange;",
+                "color:black;"
+            };
+
+            //after conversion we should get the expected document
+            Assert.IsTrue(XmlDocComparator.AreIdentical(expectedXmlDoc, initialXmlDoc));
+
+            //6 key/value pairs in cssClasses hashtable
+            Assert.IsTrue(cssClasses.Count == 6);
+
+            //6 CSS classes from .xoffice0 to .xoffice5
+            for (int i = 0; i < 6; i++)
+            {
+                
+                Assert.IsTrue(cssClasses.ContainsKey(".xoffice" + i));
+            }
+
+            //all the properties extracted from inline styles should be found in the cssClasses hashtable
+            foreach (string cssProp in properties)
+            {
+                Assert.IsTrue(cssClasses.ContainsValue(cssProp));
+            }
+
+        }
+    
+    
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace ContentFiltering.Html
 {
@@ -171,5 +172,154 @@ namespace ContentFiltering.Html
 
             return optimizedCSSSelectors;
         }
+
+
+        /// <summary>
+        /// Extracts inline styles and replaces them with CSS classes.
+        /// </summary>
+        /// <param name="xnode">Node to filter</param>
+        /// <param name="xmlDoc">A reference to the XmlDocument.</param>
+        /// <returns>Filtered node: 'class' attribute instead of 'style'.</returns>
+        public static XmlNode ConvertInlineStylesToCssClasses(XmlNode xnode, ref XmlDocument xmlDoc, ref int counter, ref Hashtable cssClasses)
+        {
+            XmlNode node = xnode;
+            if (node.ChildNodes.Count > 0)
+            {
+                RemoveXOfficeCSSClasses(ref node);
+                ExtractStyle(ref node, ref xmlDoc, ref counter, ref cssClasses);
+                for (int i = 0; i < node.ChildNodes.Count; i++)
+                {
+                    XmlNode childNode = node.ChildNodes[i];
+                    childNode = ConvertInlineStylesToCssClasses(childNode, ref xmlDoc, ref counter, ref cssClasses);
+                }
+            }
+            return node;
+        }
+
+
+        /// <summary>
+        /// Extracts inline style from an <code>XmlNode</code> to a CSS class.
+        /// Adds new CSS class to 'class' property of the node.
+        /// </summary>
+        /// <param name="node">A reference to the node to be filtered.</param>
+        /// <param name="xmlDoc">A reference to the document containing the node.</param>
+        private static void ExtractStyle(ref XmlNode node, ref XmlDocument xmlDoc, ref int counter, ref Hashtable cssClasses)
+        {
+            if (node.Attributes.Count > 0)
+            {
+                if (node.Attributes["style"] != null)
+                {
+                    if (node.ChildNodes.Count > 0 && ("" + node.Attributes["style"].Value).Length > 0)
+                    {
+                        string className = "xoffice" + counter;
+                        string classValue = CSSUtil.CleanCSSProperties(node.Attributes["style"].Value);
+                        if (classValue.Length > 0)
+                        {
+
+                            cssClasses.Add("." + className, classValue);
+                            node.Attributes.Remove(node.Attributes["style"]);
+                            XmlAttribute classAttribute = node.Attributes["class"];
+                            if (classAttribute == null)
+                            {
+                                classAttribute = xmlDoc.CreateAttribute("class");
+                            }
+                            else
+                            {
+                                classAttribute.Value += " ";
+                            }
+                            classAttribute.Value += className;
+                            node.Attributes.Remove(node.Attributes["class"]);
+                            node.Attributes.Append(classAttribute);
+                            counter++;
+
+                        }
+                    }
+                    else
+                    {
+                        //An empty node, so delete it's attributes 
+                        //This way the node could be safely removed by other DOM filters
+                        node.Attributes.RemoveAll();
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Removes previous XOffice CSS classes from an XmlNode.
+        /// </summary>
+        /// <param name="node">A reference to the XmlNode.</param>
+        private static void RemoveXOfficeCSSClasses(ref XmlNode node)
+        {
+            XmlAttribute classAttribute = node.Attributes["class"];
+            if (classAttribute != null)
+            {
+                if (classAttribute.Value.IndexOf("xoffice") >= 0)
+                {
+                    classAttribute.Value = Regex.Replace(classAttribute.Value, "xoffice[0-9]+", "", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                }
+                node.Attributes.Remove(node.Attributes["class"]);
+                if (("" + classAttribute.Value).Length > 0)
+                {
+                    node.Attributes.Append(classAttribute);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Cleans CSS properties by allowing only valid properties.
+        /// </summary>
+        /// <param name="style">Initial properties.</param>
+        /// <returns>Cleaned properties.</returns>
+        private static string CleanCSSProperties(string style)
+        {
+            StringBuilder acceptedProperties = new StringBuilder();
+
+            string[] separator = new string[1];
+            separator[0] = ";";
+            string[] props = style.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string property in props)
+            {
+                string propName = property.Substring(0, property.IndexOf(':'));
+                if (validCSSProperties.Contains(propName.ToLower().Trim()))
+                {
+                    acceptedProperties.Append(property);
+                    acceptedProperties.Append(";");
+                }
+            }
+            return acceptedProperties.ToString();
+        }
+
+
+        /// <summary>
+        /// Common valid CSS properties.
+        /// </summary>
+        private static readonly List<string> validCSSProperties = new List<string>()
+        {
+            "accelerator", "azimuth", "background", "background-attachment", "background-color", "background-image", 
+            "background-position", "background-position-x", "background-position-y", "background-repeat", "behavior", "border", 
+            "border-bottom", "border-bottom-color", "border-bottom-style", "border-bottom-width", "border-collapse", "border-color", 
+            "border-left", "border-left-color", "border-left-style", "border-left-width", "border-right", "border-right-color", 
+            "border-right-style", "border-right-width", "border-spacing", "border-style", "border-top", "border-top-color", 
+            "border-top-style", "border-top-width", "border-width", "bottom", "caption-side", "clear", 
+            "clip", "color", "content", "counter-increment", "counter-reset", "cue", 
+            "cue-after", "cue-before", "cursor", "direction", "display", "elevation", 
+            "empty-cells", "filter", "float", "font", "font-family", "font-size", 
+            "font-size-adjust", "font-stretch", "font-style", "font-variant", "font-weight", "height", 
+            "ime-mode", "include-source", "layer-background-color", "layer-background-image", "layout-flow", "layout-grid", 
+            "layout-grid-char", "layout-grid-char-spacing", "layout-grid-line", "layout-grid-mode", "layout-grid-type", "left", 
+            "letter-spacing", "line-break", "line-height", "list-style", "list-style-image", "list-style-position", 
+            "list-style-type", "margin", "margin-bottom", "margin-left", "margin-right", "margin-top", 
+            "marker-offset", "marks", "max-height", "max-width", "min-height", "min-width", 
+            "orphans", "outline", "outline-color", "outline-style", "outline-width", "overflow", 
+            "overflow-X", "overflow-Y", "padding", "padding-bottom", "padding-left", "padding-right", 
+            "padding-top", "page", "page-break-after", "page-break-before", "page-break-inside", "pause", 
+            "pause-after", "pause-before", "pitch", "pitch-range", "play-during", "position", 
+            "size", "table-layout", "text-align", "text-decoration", "text-indent", "text-transform", 
+            "text-shadow", "top", "vertical-align", "visibility", "white-space", "width", 
+            "word-break", "word-spacing", "z-index"
+        };
+    
     }
 }
