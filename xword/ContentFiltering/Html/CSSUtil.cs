@@ -59,10 +59,8 @@ namespace ContentFiltering.Html
                         styleAttribute.Value += identifiedCSSClassesAndIDs[cssIdName];
                     }
                 }
-
             }
         }
-
 
         /// <summary>
         /// Extracts the CSS classes and ids from the 'style' nodes.
@@ -106,6 +104,72 @@ namespace ContentFiltering.Html
         }
 
 
+        /// <summary>
+        /// Groups CSS selectors (CSS classes and ids) with the same properties to minify the generated CSS content.
+        /// </summary>
+        public static Hashtable GroupCSSSelectors(Hashtable existingCSSSelectors)
+        {
+            Hashtable optimizedCSSSelectors = existingCSSSelectors;
 
+            string cssPropsStr;
+            string[] cssProperties;
+            string[] separator = new string[1] { ";" };
+            List<string> cssPropsList = new List<string>();
+
+            //sort css properties from each selector in alphabetic order
+            ICollection cssClassesKeys = optimizedCSSSelectors.Keys;
+
+            //need an extra list in order to alter cssClassesKeys
+            //(can not alter elements while iterate the collection)
+            List<string> xofficeCssClasses = new List<string>();
+            foreach (string key in cssClassesKeys)
+            {
+                xofficeCssClasses.Add(key);
+            }
+
+            foreach (string key in xofficeCssClasses)
+            {
+                cssPropsStr = ((string)optimizedCSSSelectors[key]).Replace('{', ' ').Replace('}', ' ').Trim();
+                cssProperties = cssPropsStr.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                cssPropsList.Clear();
+                foreach (string property in cssProperties)
+                {
+                    cssPropsList.Add(property.Trim() + ";");
+                }
+                cssPropsList.Sort();
+                cssPropsStr = "{";
+                foreach (string property in cssPropsList)
+                {
+                    cssPropsStr += property;
+                }
+                cssPropsStr += "}";
+                optimizedCSSSelectors[key] = cssPropsStr;
+            }
+
+            //compare CSS selectors and group redundant ones
+            //using an inverted hash of the optimizedCSSSelectors
+            Hashtable invertedHash = new Hashtable(optimizedCSSSelectors.Count);
+            foreach (string key in optimizedCSSSelectors.Keys)
+            {
+                string val = (string)optimizedCSSSelectors[key];
+                string cssClass = "";
+                if (invertedHash.ContainsKey(val))
+                {
+                    cssClass = (string)invertedHash[val];
+                    cssClass += ", ";
+                }
+                cssClass += key;
+                invertedHash[val] = cssClass;
+            }
+            optimizedCSSSelectors.Clear();
+            foreach (string properties in invertedHash.Keys)
+            {
+                string groupedClasses = (string)invertedHash[properties];
+                string props = properties.Replace('{', ' ').Replace('}', ' ').Trim();
+                optimizedCSSSelectors.Add(groupedClasses, props);
+            }
+
+            return optimizedCSSSelectors;
+        }
     }
 }

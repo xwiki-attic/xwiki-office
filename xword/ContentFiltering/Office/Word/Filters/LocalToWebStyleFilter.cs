@@ -6,6 +6,7 @@ using XWiki.Office.Word;
 using System.Xml;
 using System.Collections;
 using System.Text.RegularExpressions;
+using ContentFiltering.Html;
 
 namespace ContentFiltering.Office.Word.Filters
 {
@@ -17,7 +18,7 @@ namespace ContentFiltering.Office.Word.Filters
         private int counter = 0;
         private Hashtable cssClasses;
         private ConversionManager manager;
-        
+
         public LocalToWebStyleFilter(ConversionManager manager)
         {
             this.manager = manager;
@@ -28,7 +29,7 @@ namespace ContentFiltering.Office.Word.Filters
         #region IDOMFilter Members
 
         /// <summary>
-        /// Extracts the CSS inline styles, optimizes CSS and adds CSS classes in the head section for current page
+        /// Extracts the inline styles, optimizes CSS and adds CSS classes in the head section for current page
         /// </summary>
         /// <param name="xmlDoc">A reference to a XmlDocument instance.</param>
         public void Filter(ref System.Xml.XmlDocument xmlDoc)
@@ -40,19 +41,24 @@ namespace ContentFiltering.Office.Word.Filters
                 head = xmlDoc.CreateNode(XmlNodeType.Element, "head", xmlDoc.NamespaceURI);
                 body.ParentNode.InsertBefore(head, body);
             }
-            ConvertCSSClassesToInlineStyles(ref head, ref body, ref xmlDoc);
+
+            //step1: inline CSS for existing CSS classes and ids, for better manipulation at step2 and step3
+            CSSUtil.InlineCSS(ref xmlDoc);
+
+            //step2: convert all inlined CSS to CSS classes 
+            //(including, but not limited to, those generated at step1)
             body = ConvertInlineStylesToCssClasses(body, ref xmlDoc);
-            OptimizeCssClasses();
+
+            //step3: optimize CSS by grouping selectors with the same properties
+            cssClasses = CSSUtil.GroupCSSSelectors(cssClasses);
+
             InsertCssClassesInHeader(ref head, ref xmlDoc);
         }
 
         #endregion IDOMFilter Members
 
 
-        private void ConvertCSSClassesToInlineStyles(ref XmlNode head, ref XmlNode body, ref XmlDocument xmlDoc)
-        {
-            //TODO: XOFFICE-125
-        }
+
 
         /// <summary>
         /// Extracts inline styles and replaces them with CSS classes.
@@ -168,69 +174,7 @@ namespace ContentFiltering.Office.Word.Filters
             return acceptedProperties.ToString();
         }
 
-        /// <summary>
-        /// Groups CSS classes with the same properties to minify the generated CSS content.
-        /// </summary>
-        private void OptimizeCssClasses()
-        {
-            string cssPropsStr;
-            string[] cssProperties;
-            string[] separator = new string[1] { ";" };
-            List<string> cssPropsList = new List<string>();
 
-            //sort css properties from each class in alphabetic order
-            ICollection cssClassesKeys = cssClasses.Keys;
-
-            //need an extra list in order to alter cssClassesKeys
-            //(can not alter elements while iterate the collection)
-            List<string> xofficeCssClasses = new List<string>();
-            foreach (string key in cssClassesKeys)
-            {
-                xofficeCssClasses.Add(key);
-            }
-
-            foreach (string key in xofficeCssClasses)
-            {
-                cssPropsStr = ((string)cssClasses[key]).Replace('{', ' ').Replace('}', ' ').Trim();
-                cssProperties = cssPropsStr.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-                cssPropsList.Clear();
-                foreach (string property in cssProperties)
-                {
-                    cssPropsList.Add(property.Trim() + ";");
-                }
-                cssPropsList.Sort();
-                cssPropsStr = "{";
-                foreach (string property in cssPropsList)
-                {
-                    cssPropsStr += property;
-                }
-                cssPropsStr += "}";
-                cssClasses[key] = cssPropsStr;
-            }
-
-            //compare CSS classes and group redundant ones
-            //using an inverted hash of the cssClasses
-            Hashtable invertedHash = new Hashtable(cssClasses.Count);
-            foreach (string key in cssClasses.Keys)
-            {
-                string val = (string)cssClasses[key];
-                string cssClass = "";
-                if (invertedHash.ContainsKey(val))
-                {
-                    cssClass = (string)invertedHash[val];
-                    cssClass += ", ";
-                }
-                cssClass += key;
-                invertedHash[val] = cssClass;
-            }
-            cssClasses.Clear();
-            foreach (string properties in invertedHash.Keys)
-            {
-                string groupedClasses = (string)invertedHash[properties];
-                string props = properties.Replace('{', ' ').Replace('}', ' ').Trim();
-                cssClasses.Add(groupedClasses, props);
-            }
-        }
 
         private void InsertCssClassesInHeader(ref XmlNode headNode, ref XmlDocument xmlDoc)
         {

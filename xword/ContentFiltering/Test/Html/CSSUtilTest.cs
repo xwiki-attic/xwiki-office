@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System.Xml;
 using ContentFiltering.Html;
 using ContentFiltering.Test.Util;
+using System.Collections;
 
 namespace ContentFiltering.Test.Html
 {
@@ -102,7 +103,7 @@ namespace ContentFiltering.Test.Html
             long stopTicks = DateTime.Now.Ticks;
 
             //inline operation duration, in miliseconds
-            double inlineTimeMS = (1.0*stopTicks - startTicks) / 10000;
+            double inlineTimeMS = (1.0 * stopTicks - startTicks) / 10000;
 
 
             //inline operation should take less than 500 miliseconds
@@ -169,6 +170,65 @@ namespace ContentFiltering.Test.Html
                 sb.Append("<p id=\"cssID").Append(i).Append("\">Text with CSS ID ").Append(i).Append("</p>");
             }
             return sb.ToString();
-        }        
+        }
+
+        /// <summary>
+        /// Tests the GroupCSSSelectors method.
+        /// </summary>
+        [Test]
+        public void TestGroupCSSSelectors()
+        {
+            Hashtable initialCSSClasses = new Hashtable();
+            Hashtable optimizedCSSClasses = new Hashtable();
+
+            //same initial CSS properties
+            string props1 = "font-family:sans-serif;font-size:100%;color:red;";
+            string props2 = "color:red;font-size:100%;font-family:sans-serif;";
+
+            //the expected properties (ordered alphabetically)
+            string expectedProp = "color:red;font-family:sans-serif;font-size:100%";
+
+            //initial CSS selectors
+            string[] classes1 = { ".xoffice0", ".xoffice1", ".xoffice2", "textarea" };
+            string[] classes2 = { ".xoffice3", ".xoffice4", ".myCssClass", "#one", "p#two" };
+
+            for (int i = 0; i < classes1.Length; i++)
+            {
+                initialCSSClasses.Add(classes1[i], props1);
+            }
+
+            for (int i = 0; i < classes2.Length; i++)
+            {
+                initialCSSClasses.Add(classes2[i], props2);
+            }
+
+
+            optimizedCSSClasses = CSSUtil.GroupCSSSelectors(initialCSSClasses);
+
+            ICollection optimizedKeys = optimizedCSSClasses.Keys;
+
+            //all the selectors should be grouped
+            Assert.IsTrue(optimizedKeys.Count == 1);
+
+            foreach (string key in optimizedKeys)
+            {
+                string val = optimizedCSSClasses[key].ToString();
+
+                //in the new key there must be all initial CSS selectors
+                foreach (string cssClass in classes1)
+                {
+                    Assert.IsTrue(key.IndexOf(cssClass) >= 0);
+                }
+                foreach (string cssClass in classes2)
+                {
+                    Assert.IsTrue(key.IndexOf(cssClass) >= 0);
+                }
+
+                //expected properties are the same, but ordered alphabetically
+                Assert.IsTrue(val.IndexOf(expectedProp) >= 0);
+            }
+
+        }
+
     }
 }
