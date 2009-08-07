@@ -111,7 +111,8 @@ namespace XWiki.Office.Word
             {
                 new WebMacrosAdaptorFilter(manager),
                 new WebImageAdaptorFilter(manager),
-                new WebListsAdaptorFilter(manager)
+                new WebListsAdaptorFilter(manager),
+                new WebToLocalStyleFilter(manager)
             };
 
             foreach (IDOMFilter webToLocalFilter in webToLocalFilters)

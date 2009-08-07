@@ -90,6 +90,7 @@
     <Compile Include="Office\Word\Filters\WebImageAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\WebListsAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\WebMacrosAdaptorFilter.cs" />
+    <Compile Include="Office\Word\Filters\WebToLocalStyleFilter.cs" />
     <Compile Include="Office\Word\ImageInfo.cs" />
     <Compile Include="Office\Word\Filters\LocalListsAdaptorFilter.cs" />
     <Compile Include="Office\Word\LocalToWebHTML.cs" />

@@ -87,17 +87,35 @@ namespace ContentFiltering.Html
                         continue;
                     }
                     properties = cssClass.Substring(firstBrace + 1).Replace('"', '\'');
+
+                    //clean whitespaces (spaces, tabs, new lines) from CSS properites
+                    Regex whiteSpaceRegex = new Regex("\\s+", RegexOptions.Singleline | RegexOptions.Multiline);
+                    properties = whiteSpaceRegex.Replace(properties, "");
+
                     char[] comma = { ',' };
                     string[] cssNames = cssClass.Substring(0, firstBrace).Split(comma);
                     foreach (string className in cssNames)
                     {
-                        //do not include the dot in the CSS class name or the pound in CSS id
-                        classesNames.Add(className.Trim().Substring(1));
+                        string cname=className.Trim();
+                        //only if it's a CSS class name or CSS id, and does not have pseudoselectors
+                        if ((cname.IndexOf('.') == 0 || cname.IndexOf('#') == 0) && cname.IndexOf(':')<0)
+                        {
+                            //do not include the dot in the CSS class name or the pound in CSS id
+                            classesNames.Add(cname.Substring(1));
+                        }
                     }
 
                     foreach (string identifiedClassName in classesNames)
                     {
-                        identifiedCSSClassesAndIDs.Add(identifiedClassName, properties);
+                        string currentProperties = "";
+                        if (identifiedCSSClassesAndIDs.Contains(identifiedClassName))
+                        {
+                            currentProperties = identifiedCSSClassesAndIDs[identifiedClassName].ToString();
+                        }
+                        
+                        currentProperties += properties;
+                        identifiedCSSClassesAndIDs.Remove(identifiedClassName);
+                        identifiedCSSClassesAndIDs.Add(identifiedClassName, currentProperties);
                     }
                 }
             }
