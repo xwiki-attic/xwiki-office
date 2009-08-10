@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using ContentFiltering.Office.Word.Cleaners;
+using System.Xml;
 
 namespace ContentFiltering.Test.Office.Word.Cleaners
 {
@@ -42,6 +43,7 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
         [Test]
         public void TestCleaner()
         {
+            bool canLoadXML = false;
             IHTMLCleaner tagClosingCleaner1 = new CorrectTagsClosingCleaner("img");
             initialHTML1 = tagClosingCleaner1.Clean(initialHTML1);
 
@@ -50,6 +52,19 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
             
             Assert.AreEqual(initialHTML1, expectedHTML1);
             Assert.AreEqual(initialHTML2, expectedHTML2);
+
+            try
+            {
+                new XmlDocument().LoadXml(initialHTML1);
+                new XmlDocument().LoadXml(initialHTML2);
+                canLoadXML = true;
+            }
+            catch
+            {
+                canLoadXML = false;
+            }
+
+            Assert.IsTrue(canLoadXML);
         }
     }
 }

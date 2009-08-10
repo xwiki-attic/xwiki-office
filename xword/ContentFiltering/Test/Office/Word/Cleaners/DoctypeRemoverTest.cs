@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using ContentFiltering.Office.Word.Cleaners;
+using System.Xml;
 
 namespace ContentFiltering.Test.Office.Word.Cleaners
 {
@@ -41,9 +42,20 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
         [Test]
         public void TestCleaner()
         {
+            bool canLoadXML = false;
             IHTMLCleaner doctypeRemover = new DoctypeRemover();
             initialHTML = doctypeRemover.Clean(initialHTML);
             Assert.AreEqual(initialHTML, expectedHTML);
+            try
+            {
+                new XmlDocument().LoadXml(initialHTML);
+                canLoadXML = true;
+            }
+            catch
+            {
+                canLoadXML = false;
+            }
+            Assert.IsTrue(canLoadXML);
         }
     }
 }
