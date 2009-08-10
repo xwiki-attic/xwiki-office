@@ -124,6 +124,7 @@
     <Compile Include="Test\Office\Word\Filters\WebImageAdaptorFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\WebListsAdaptorFilterTest.cs" />
     <Compile Include="Test\Office\Word\Filters\WebMacrosAdaptorFilterTest.cs" />
+    <Compile Include="Test\Office\Word\Filters\WebToLocalStyleFilterTest.cs" />
     <Compile Include="Test\Util\ConversionManagerUtil.cs" />
     <Compile Include="Test\Util\XmlDocComparator.cs" />
     <Compile Include="Test\Util\XWikiClientUtil.cs" />
