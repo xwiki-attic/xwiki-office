@@ -29,7 +29,7 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            initialHTML = "<html><head><title>Title</title><link rel=\"stylesheet\" href=\"style.css\"/></head>"
+            initialHTML = "<html><head xmlns=\"\"><title>Title</title><link rel=\"stylesheet\" href=\"style.css\"/></head>"
                 + "<body><p>Content</p></body></html>";
 
             expectedHTML = "<html><body><p>Content</p></body></html>";
