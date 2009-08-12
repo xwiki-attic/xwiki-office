@@ -29,7 +29,7 @@ namespace ContentFiltering.Office.Word.Cleaners
         /// <returns>The HTML source without the head section.</returns>
         public string Clean(string htmlSource)
         {
-            return htmlUtil.RemoveSpecificTagContent(htmlSource, "<head>", "</head>");
+            return htmlUtil.RemoveSpecificTagContent(htmlSource, "<head", "</head>");
         }
 
         #endregion IHTMLCleaner Members
