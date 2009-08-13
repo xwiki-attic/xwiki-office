@@ -358,8 +358,10 @@ namespace XWord
         /// <param name="pageName">The full name of the wiki page.</param>
         /// <param name="pageContent">The contant to be saved.</param>
         /// <param name="syntax">The wiki syntax of the saved page.</param>
-        private void SavePage(String pageName, ref String pageContent, String syntax)
+        /// <returns>TRUE if the page was saved successfully.</returns>
+        private bool SavePage(String pageName, ref String pageContent, String syntax)
         {
+            bool saveSucceeded = false;
             SaveGrammarAndSpellingSettings();
             DisableGrammarAndSpellingChecking();
 
@@ -373,9 +375,11 @@ namespace XWord
             {
                 Log.Error("Failed to save page " + pageName + "on server " + addin.serverURL);
                 UserNotifier.Error("There was an error on the server when trying to save the page");
+                saveSucceeded = false;
             }
             else
             {
+                saveSucceeded = true;
                 //mark the page from wiki structure as published
                 bool markedDone = false;
                 foreach (Space sp in addin.wiki.spaces)
@@ -398,6 +402,8 @@ namespace XWord
             }
 
             RestoreGrammarAndSpellingSettings();
+
+            return saveSucceeded;
         }
 
         /// <summary>
