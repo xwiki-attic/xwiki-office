@@ -45,11 +45,15 @@ namespace ContentFiltering.Test.Html
         }
 
         /// <summary>
-        /// Tests the InlineCSS method.
+        /// Tests the InlineCSS method. All the CSS classes and ids should be inlined.
+        /// The style node should be removed. Class attributes should be removed.
         /// </summary>
         [Test]
-        public void TestInlineCSS()
+        public void TestInlineCSSNoStyleNodes()
         {
+            initialXmlDoc = new XmlDocument();
+            expectedXmlDoc = new XmlDocument();
+
             initialHTML = "<html><head><title>TITLE</title>"
                 + "<style type=\"text/css\">"
                 + Environment.NewLine
@@ -63,15 +67,96 @@ namespace ContentFiltering.Test.Html
                 + "</body></html>";
 
             expectedHTML = "<html><head><title>TITLE</title>"
-                + "<style type=\"text/css\">"
-                + Environment.NewLine
-                + ".oneClass {font-family:sans-serif;font-size:90%;}"
-                + "#oneId {color:red;}"
-                + Environment.NewLine
-                + "</style></head><body><h1>HEADER 1</h1>"
-                + "<p class=\"oneClass\" style=\"font-family:sans-serif;font-size:90%;\">Text 1</p>"
+                + "</head><body><h1>HEADER 1</h1>"
+                + "<p style=\"font-family:sans-serif;font-size:90%;\">Text 1</p>"
                 + "<p><span id=\"oneId\" style=\"color:red;\">Text 2</span></p>"
-                + "<p>Text 3 <span class=\"oneClass\" id=\"oneId\" style=\"font-family:sans-serif;font-size:90%;color:red;\">Text 4</span> Text 5</p>"
+                + "<p>Text 3 <span id=\"oneId\" style=\"font-family:sans-serif;font-size:90%;color:red;\">Text 4</span> Text 5</p>"
+                + "</body></html>";
+
+            initialXmlDoc.LoadXml(initialHTML);
+            expectedXmlDoc.LoadXml(expectedHTML);
+
+            CSSUtil.InlineCSS(ref initialXmlDoc);
+            Assert.IsTrue(XmlDocComparator.AreIdentical(initialXmlDoc, expectedXmlDoc));
+        }
+
+        /// <summary>
+        /// Tests the InlineCSS method. Some CSS classes and ids should be inlined.
+        /// Onle one style node should remain with CSS that couldn't be inlined.
+        /// Class attributes should be removed for the nodes where CSS was inlined.
+        /// </summary>
+        [Test]
+        public void TestInlineCSSOneStyleNode()
+        {
+            initialXmlDoc = new XmlDocument();
+            expectedXmlDoc = new XmlDocument();
+
+            initialHTML = "<html><head><title>TITLE</title>"
+                + "<style>"
+                + "p,div, span {font-family:sans-serif;}"
+                + ".normal {font-family:sans-serif;}"
+                + "</style>"
+                + "<style>"
+                + ".code {font-family:monospace;}"
+                + "#errmsg {color:red;}"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<p class=\"normal\">Normal text</p>"
+                + "<p class=\"code\">return 0;</p>"
+                + "<p><span class=\"code\" id=\"errmsg\">Error message</span></p>"
+                + "</body></html>";
+
+            expectedHTML = "<html><head><title>TITLE</title>"
+                + "<style>"
+                + "p,div, span {font-family:sans-serif;}"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<p style=\"font-family:sans-serif;\">Normal text</p>"
+                + "<p style=\"font-family:monospace;\">return 0;</p>"
+                + "<p><span id=\"errmsg\" style=\"font-family:monospace;color:red;\">Error message</span></p>"
+                + "</body></html>";
+
+            initialXmlDoc.LoadXml(initialHTML);
+            expectedXmlDoc.LoadXml(expectedHTML);
+
+            CSSUtil.InlineCSS(ref initialXmlDoc);
+
+            Assert.IsTrue(XmlDocComparator.AreIdentical(initialXmlDoc, expectedXmlDoc));
+        }
+
+        /// <summary>
+        /// Tests the InlineCSS method. Several properties for a CSS class are specified
+        /// in different rules. Some selectors are grouped. The style for the CSS class
+        /// should be inlined.
+        /// </summary>
+        [Test]
+        public void TestInlineCSSMoreRules()
+        {
+            initialXmlDoc = new XmlDocument();
+            expectedXmlDoc = new XmlDocument();
+
+            initialHTML = "<html><head><title>TITLE</title>"
+                + "<style>"
+                + ".aClass {font-family:sans-serif;}"
+                + "p {font-size:100%;}"
+                + ".aClass {color:#2020FF;}"
+                + "p, .aClass {padding:3px;}"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<p class=\"aClass\">Some text</p>"
+                + "</body></html>";
+
+            expectedHTML = "<html><head><title>TITLE</title>"
+                + "<style>"
+                + "p {font-size:100%;}"
+                + "p, .aClass {padding:3px;}"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<p style=\"font-family:sans-serif;color:#2020FF;padding:3px;\">Some text</p>"
                 + "</body></html>";
 
             initialXmlDoc.LoadXml(initialHTML);
@@ -256,7 +341,7 @@ namespace ContentFiltering.Test.Html
             initialXmlDoc.LoadXml(initialHTML);
 
 
-            expectedHTML="<html><head><title>TITLE</title></head>"
+            expectedHTML = "<html><head><title>TITLE</title></head>"
                 + "<body>"
                 + "<div class=\"xoffice0\">"
                 + "<p class=\"xoffice1\">Text 1</p>"
@@ -294,7 +379,7 @@ namespace ContentFiltering.Test.Html
             //6 CSS classes from .xoffice0 to .xoffice5
             for (int i = 0; i < 6; i++)
             {
-                
+
                 Assert.IsTrue(cssClasses.ContainsKey(".xoffice" + i));
             }
 
@@ -305,7 +390,7 @@ namespace ContentFiltering.Test.Html
             }
 
         }
-    
-    
+
+
     }
 }

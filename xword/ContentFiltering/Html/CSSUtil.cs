@@ -19,7 +19,6 @@ namespace ContentFiltering.Html
         /// <param name="xmlDoc">A reference to an <code>XmlDocument</code>.</param>
         public static void InlineCSS(ref XmlDocument xmlDoc)
         {
-
             XmlNodeList allElements = xmlDoc.GetElementsByTagName("*");
             Hashtable identifiedCSSClassesAndIDs = ExtractCSSClassesAndIDs(ref xmlDoc);
 
@@ -55,7 +54,6 @@ namespace ContentFiltering.Html
                             }
                         }
                     }
-
                 }
 
                 if (idAttribute != null)
@@ -86,6 +84,9 @@ namespace ContentFiltering.Html
         {
             XmlNodeList styleNodes = xmlDoc.GetElementsByTagName("style");
             StringBuilder preservedCSS = new StringBuilder();
+
+            //a list of unique CSS rules
+            List<string> cssRules = new List<string>();
 
             //extract CSS classes and ids
             Hashtable identifiedCSSClassesAndIDs = new Hashtable();
@@ -125,7 +126,12 @@ namespace ContentFiltering.Html
                         }
                         else //since we can not handle that CSS, preserve it
                         {
-                            preservedCSS.Append(cssClass).Append("}").Append(Environment.NewLine);
+                            string rule=cssClass+"}";
+                            if (!cssRules.Contains(rule))
+                            {
+                                cssRules.Add(rule);
+                                preservedCSS.Append(rule).Append(Environment.NewLine);
+                            }
                         }
                     }
 
@@ -164,7 +170,6 @@ namespace ContentFiltering.Html
 
             return identifiedCSSClassesAndIDs;
         }
-
 
         /// <summary>
         /// Groups CSS selectors (CSS classes and ids) with the same properties to minify the generated CSS content.
@@ -234,7 +239,6 @@ namespace ContentFiltering.Html
             return optimizedCSSSelectors;
         }
 
-
         /// <summary>
         /// Extracts inline styles and replaces them with CSS classes.
         /// </summary>
@@ -256,7 +260,6 @@ namespace ContentFiltering.Html
             }
             return node;
         }
-
 
         /// <summary>
         /// Extracts inline style from an <code>XmlNode</code> to a CSS class.
@@ -305,7 +308,6 @@ namespace ContentFiltering.Html
             }
         }
 
-
         /// <summary>
         /// Removes previous XOffice CSS classes from an XmlNode.
         /// </summary>
@@ -326,7 +328,6 @@ namespace ContentFiltering.Html
                 }
             }
         }
-
 
         /// <summary>
         /// Cleans CSS properties by allowing only valid properties.
@@ -351,7 +352,6 @@ namespace ContentFiltering.Html
             }
             return acceptedProperties.ToString();
         }
-
 
         /// <summary>
         /// Common valid CSS properties.
@@ -381,6 +381,5 @@ namespace ContentFiltering.Html
             "text-shadow", "top", "vertical-align", "visibility", "white-space", "width", 
             "word-break", "word-spacing", "z-index"
         };
-
     }
 }
