@@ -19,9 +19,9 @@ namespace ContentFiltering.Html
         /// <param name="xmlDoc">A reference to an <code>XmlDocument</code>.</param>
         public static void InlineCSS(ref XmlDocument xmlDoc)
         {
-            XmlNodeList styleNodes = xmlDoc.GetElementsByTagName("style");
+
             XmlNodeList allElements = xmlDoc.GetElementsByTagName("*");
-            Hashtable identifiedCSSClassesAndIDs = ExtractCSSClassesAndIDs(styleNodes);
+            Hashtable identifiedCSSClassesAndIDs = ExtractCSSClassesAndIDs(ref xmlDoc);
 
             foreach (XmlNode element in allElements)
             {
@@ -30,19 +30,32 @@ namespace ContentFiltering.Html
 
                 if (classAttribute != null)
                 {
-                    string cssClassName = classAttribute.Value;
+                    char[] whiteSpace = { ' ' };
+                    string[] cssClassNames = ("" + classAttribute.Value).Split(whiteSpace, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (identifiedCSSClassesAndIDs.ContainsKey(cssClassName))
+                    foreach (string cssClassName in cssClassNames)
                     {
-                        XmlAttribute styleAttribute = null;
-                        styleAttribute = element.Attributes["style"];
-                        if (styleAttribute == null)
+                        if (identifiedCSSClassesAndIDs.ContainsKey(cssClassName))
                         {
-                            styleAttribute = element.Attributes.Append(xmlDoc.CreateAttribute("style"));
-                            styleAttribute.Value = "";
+                            XmlAttribute styleAttribute = null;
+                            styleAttribute = element.Attributes["style"];
+                            if (styleAttribute == null)
+                            {
+                                styleAttribute = element.Attributes.Append(xmlDoc.CreateAttribute("style"));
+                                styleAttribute.Value = "";
+                            }
+                            styleAttribute.Value += identifiedCSSClassesAndIDs[cssClassName];
+
+                            //remove inlined CSS class
+                            classAttribute.Value = classAttribute.Value.Replace(cssClassName, "").Trim();
+
+                            if (classAttribute.Value.Length < 1)
+                            {
+                                element.Attributes.Remove(classAttribute);
+                            }
                         }
-                        styleAttribute.Value += identifiedCSSClassesAndIDs[cssClassName];
                     }
+
                 }
 
                 if (idAttribute != null)
@@ -64,12 +77,17 @@ namespace ContentFiltering.Html
         }
 
         /// <summary>
-        /// Extracts the CSS classes and ids from the 'style' nodes.
+        /// Extracts and removes the CSS classes and ids from the 'style' nodes.
+        /// Deletes all the style nodes and creates a new one with unparsed CSS.
         /// </summary>
-        /// <param name="styleNodes">A list of style nodes from the document.</param>
+        /// <param name="xmlDoc">A reference to an <code>XmlDocument</code>.</param>
         /// <returns>A hashtable with CSS classes names (and CSS ids names) and their properties.</returns>
-        private static Hashtable ExtractCSSClassesAndIDs(XmlNodeList styleNodes)
+        private static Hashtable ExtractCSSClassesAndIDs(ref XmlDocument xmlDoc)
         {
+            XmlNodeList styleNodes = xmlDoc.GetElementsByTagName("style");
+            StringBuilder preservedCSS = new StringBuilder();
+
+            //extract CSS classes and ids
             Hashtable identifiedCSSClassesAndIDs = new Hashtable();
             foreach (XmlNode styleNode in styleNodes)
             {
@@ -90,18 +108,24 @@ namespace ContentFiltering.Html
 
                     //clean whitespaces (spaces, tabs, new lines) from CSS properites
                     Regex whiteSpaceRegex = new Regex("\\s+", RegexOptions.Singleline | RegexOptions.Multiline);
-                    properties = whiteSpaceRegex.Replace(properties, "");
+                    properties = whiteSpaceRegex.Replace(properties, " ");
 
                     char[] comma = { ',' };
                     string[] cssNames = cssClass.Substring(0, firstBrace).Split(comma);
                     foreach (string className in cssNames)
                     {
-                        string cname=className.Trim();
-                        //only if it's a CSS class name or CSS id, and does not have pseudoselectors
-                        if ((cname.IndexOf('.') == 0 || cname.IndexOf('#') == 0) && cname.IndexOf(':')<0)
+                        string cname = className.Trim();
+                        //only if it's a CSS class name or CSS id
+                        //and it's not cascaded CSS
+                        //and does not have pseudoselectors
+                        if ((cname.IndexOf('.') == 0 || cname.IndexOf('#') == 0) && cname.IndexOf(':') < 0 && cname.IndexOf(' ') < 0)
                         {
                             //do not include the dot in the CSS class name or the pound in CSS id
                             classesNames.Add(cname.Substring(1));
+                        }
+                        else //since we can not handle that CSS, preserve it
+                        {
+                            preservedCSS.Append(cssClass).Append("}").Append(Environment.NewLine);
                         }
                     }
 
@@ -112,13 +136,32 @@ namespace ContentFiltering.Html
                         {
                             currentProperties = identifiedCSSClassesAndIDs[identifiedClassName].ToString();
                         }
-                        
+
                         currentProperties += properties;
                         identifiedCSSClassesAndIDs.Remove(identifiedClassName);
                         identifiedCSSClassesAndIDs.Add(identifiedClassName, currentProperties);
                     }
                 }
             }
+            //remove style nodes
+            List<XmlNode> styleNodesToRemove = new List<XmlNode>();
+            foreach (XmlNode styleNode in styleNodes)
+            {
+                styleNodesToRemove.Add(styleNode);
+            }
+            foreach (XmlNode styleNodeToRemove in styleNodesToRemove)
+            {
+                styleNodeToRemove.ParentNode.RemoveChild(styleNodeToRemove);
+            }
+
+            //only one style node, with the preserved CSS
+            if (preservedCSS.ToString().Length > 0)
+            {
+                XmlNode remainingStyleNode = xmlDoc.CreateElement("style");
+                remainingStyleNode.InnerText = preservedCSS.ToString().Trim();
+                xmlDoc.GetElementsByTagName("head")[0].AppendChild(remainingStyleNode);
+            }
+
             return identifiedCSSClassesAndIDs;
         }
 
@@ -338,6 +381,6 @@ namespace ContentFiltering.Html
             "text-shadow", "top", "vertical-align", "visibility", "white-space", "width", 
             "word-break", "word-spacing", "z-index"
         };
-    
+
     }
 }

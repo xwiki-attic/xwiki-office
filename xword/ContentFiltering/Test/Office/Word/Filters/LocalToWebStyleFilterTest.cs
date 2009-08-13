@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using System.Xml;
 using ContentFiltering.Test.Util;
@@ -20,6 +19,7 @@ namespace ContentFiltering.Test.Office.Word.Filters
         private string initialHTML;
         private string expectedHTML;
         private XmlDocument initialXmlDoc;
+        private XmlDocument expectedXmlDoc;
 
         /// <summary>
         /// Default constructor.
@@ -30,6 +30,7 @@ namespace ContentFiltering.Test.Office.Word.Filters
             initialHTML = "";
             expectedHTML = "";
             initialXmlDoc = new XmlDocument();
+            expectedXmlDoc = new XmlDocument();
         }
 
         /// <summary>
@@ -38,32 +39,50 @@ namespace ContentFiltering.Test.Office.Word.Filters
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            initialHTML = "<html><head><style>.xoffice0 {font-family:monospace;}</style></head>"
-                + "<body><p style=\"font-family:Verdana,sans-serif;font-size:10pt;\">Some content</p>"
-                + "<p class=\"xoffice0\">some code</p>"
-                + "<p style=\"font-family:Verdana,sans-serif;font-size:10pt;\">More content</p>"
-                + "<p class=\"xoffice0\">more code</p>"
-                + "</body></html>";
-
-            expectedHTML = "<html><head><style>"
-                + " .xoffice0, .xoffice2 {font-family:Verdana,sans-serif;font-size:10pt;} "
-                + " .xoffice1 .xoffice3 {font-family:monospace;}"
-                + " </style></head>"
+            initialHTML = "<html><head>"
+                + "<style>"
+                + "p {color:black;}"
+                + "table.normalTable {border:1px silver solid;}"
+                + "input[type=text] {background-color:cyan;}"
+                + ".xoffice0 {font-family:monospace;}"
+                + "</style>"
+                + "<style>"
+                + ".redcode {color:red;}"
+                + "</style></head>"
                 + "<body>"
-                + "<p class=\"xoffice0\">Some content</p>"
+                + "<p style=\"font-family:Verdana,sans-serif;font-size:100%;\">Verdana content</p>"
+                + "<p class=\"xoffice0\">some code</p>"
+                + "<p style=\"font-family:Verdana,sans-serif;font-size:100%;\">More verdana content</p>"
+                + "<p class=\"xoffice0\">more code</p>"
+                + " <p class=\"xoffice0 redcode\">errors text</p>"
+                + "</body></html>";
+            initialXmlDoc.LoadXml(initialHTML);
+
+            expectedHTML = "<html><head>"
+                + "<style>"
+                + "p {color:black;}"
+                + "table.normalTable {border:1px silver solid;}"
+                + "input[type=text] {background-color:cyan;}"
+                + ".xoffice0, .xoffice2{font-family:Verdana,sans-serif;font-size:100%;}"
+                + ".xoffice1, .xoffice3{font-family:monospace;}"
+                + ".xoffice4{color:red;font-family:monospace;}"
+                + "</style></head>"
+                + "<body>"
+                + "<p class=\"xoffice0\">Verdana content</p>"
                 + "<p class=\"xoffice1\">some code</p>"
-                + "<p class=\"xoffice2\">More content</p>"
+                + "<p class=\"xoffice2\">More verdana content</p>"
                 + "<p class=\"xoffice3\">more code</p>"
+                + "<p class=\"xoffice4\">errors text</p>"
                 + "</body></html>";
 
-            initialXmlDoc.LoadXml(initialHTML);
+            expectedXmlDoc.LoadXml(expectedHTML);
         }
 
         /// <summary>
         /// Tests the LocalToWebStyle filter:
-        ///  - No inline styles.
-        ///  - Only 'xoffice[0-9]+' CSS classes.
-        ///  - Exactly 4 'xoffice[0-9]+' CSS classes, grouped in 2 parts (optimized).
+        ///  Only one 'style' node;
+        ///  No inline styles;
+        ///  Only 'xoffice[0-9]+' CSS classes.
         /// </summary>
         [Test]
         public void TestLocalToWebStyleFilter()
@@ -72,6 +91,9 @@ namespace ContentFiltering.Test.Office.Word.Filters
             bool foundNonXOfficeClasses = false;
 
             new LocalToWebStyleFilter(manager).Filter(ref initialXmlDoc);
+
+            initialXmlDoc.Normalize();
+            expectedXmlDoc.Normalize();
 
             XmlNodeList allNodes = initialXmlDoc.GetElementsByTagName("*");
 
@@ -101,16 +123,30 @@ namespace ContentFiltering.Test.Office.Word.Filters
                 }
             }
 
-            XmlNode styleNode = initialXmlDoc.GetElementsByTagName("style")[0];
-            string cssContent = ExtractStyleContent(styleNode);
-
             Assert.IsFalse(foundInlineStyles);
             Assert.IsFalse(foundNonXOfficeClasses);
+
+            XmlNodeList totalStyleNodes = initialXmlDoc.GetElementsByTagName("style");
+            Assert.IsNotNull(totalStyleNodes);
+            Assert.IsTrue(totalStyleNodes.Count == 1);
+
+            XmlNode styleNode = initialXmlDoc.GetElementsByTagName("style")[0];
             Assert.IsNotNull(styleNode);
-            Assert.IsTrue(CountCSSClasses(cssContent) == 4);
-            Assert.IsTrue(OptimizedCSSClasses(cssContent));
+
+            string cssContent = ExtractStyleContent(styleNode);
+
+            int cssClassesCount = CountCSSClasses(cssContent);
+
+            Assert.IsTrue(cssClassesCount == 5);
+            //Assert.IsTrue(OptimizedCSSClasses(cssContent));
+            Assert.IsTrue(XmlDocComparator.AreIdentical(initialXmlDoc, expectedXmlDoc));
         }
 
+        /// <summary>
+        /// Extracts the CSS content from a style node.
+        /// </summary>
+        /// <param name="styleNode">A style <code>XmlNode</code>.</param>
+        /// <returns>The string representing the CSS content.</returns>
         private string ExtractStyleContent(XmlNode styleNode)
         {
             string cssContent = "";
@@ -125,27 +161,30 @@ namespace ContentFiltering.Test.Office.Word.Filters
         }
 
         /// <summary>
-        /// Counts the CSS classes from a CSS content.
+        /// Counts the 'xoffice' CSS classes from a CSS content.
         /// </summary>
         /// <param name="cssContent">The CSS content.</param>
-        /// <returns>Number of CSS classes found.</returns>
+        /// <returns>Number of 'xoffice' CSS classes found.</returns>
         private int CountCSSClasses(string cssContent)
         {
             int count = 0;
             int startIndex = 0;
-            while (startIndex != -1)
+            do
             {
-                while (startIndex >= 0)
+                startIndex = cssContent.IndexOf(".xoffice", startIndex);
+                //if found, search from the next position
+                if (startIndex >= 0)
                 {
-                    startIndex = cssContent.IndexOf(".xoffice", startIndex);
+                    startIndex++;
                     count++;
                 }
-            }
+
+            } while (startIndex >= 0);
             return count;
         }
 
         /// <summary>
-        /// Verifies the CSS content four classes grouped in 2 parts.
+        /// Verifies the CSS content has five classes grouped in 3 parts.
         /// </summary>
         /// <param name="cssContent">The CSS content.</param>
         /// <returns>TRUE if CSS seems to be optimized.</returns>
@@ -154,9 +193,9 @@ namespace ContentFiltering.Test.Office.Word.Filters
             bool foundOptimizedCSS = false;
             char[] separator = new char[] { '}' };
             string[] groups = cssContent.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            if (groups.Length == 2)
+            if (groups.Length == 3)
             {
-                foundOptimizedCSS = (CountCSSClasses(groups[0]) == 2) && (CountCSSClasses(groups[1]) == 2);
+                foundOptimizedCSS = (CountCSSClasses(groups[0]) + CountCSSClasses(groups[1]) + CountCSSClasses(groups[2])) == 5;
             }
             return foundOptimizedCSS;
         }

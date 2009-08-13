@@ -129,7 +129,7 @@ namespace ContentFiltering.StyleSheetExtensions
         /// <summary>
         /// Adds to server SSX objects for the current page.
         /// </summary>
-        public void AddStyleSheetExtensions()
+        public void UploadStyleSheetExtensions()
         {
             IXWikiClient client = pageConverter.XWikiClient;
             int i = 0;

@@ -51,19 +51,11 @@ namespace ContentFiltering.Test.Office.Word.Filters
                 + "</html>";
 
 
-            expectedHTML = "<html><head><title>TITLE</title>"
-
-                //the 'style' node should be inserted in the head section
-                + "<style>"
-
-                //the CSS from SSX objects should be inserted in the style node
-                + XWikiClientTestUtil.CSS_CONTENT_XOFFICE0
-                + XWikiClientTestUtil.CSS_CONTENT_ID1
-                + "</style></head>"
+            expectedHTML = "<html><head><title>TITLE</title></head>"
                 + "<body>"
-
-                //the CSS should be inlined
-                + "<p class=\"xoffice0\" style=\"" + XWikiClientTestUtil.CSS_PROPERTIES_XOFFICE0 + "\">Text0</p>"
+                
+                //the CSS should be inlined, the classes for inlined CSS should be removed
+                + "<p style=\"" + XWikiClientTestUtil.CSS_PROPERTIES_XOFFICE0 + "\">Text0</p>"
                 + "<p><span id=\"id1\" style=\"" + XWikiClientTestUtil.CSS_PROPERTIES_ID1 + "\">Text1</span></p>"
 
                 + "</body>"

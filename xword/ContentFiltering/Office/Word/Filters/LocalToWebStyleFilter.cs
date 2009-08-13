@@ -45,7 +45,7 @@ namespace ContentFiltering.Office.Word.Filters
             //step1: inline CSS for existing CSS classes and ids, for better manipulation at step2 and step3
             CSSUtil.InlineCSS(ref xmlDoc);
 
-            //step2: convert all inlined CSS to CSS classes 
+            //step2: convert all inlined style to CSS classes 
             //(including, but not limited to, those generated at step1)
             body = CSSUtil.ConvertInlineStylesToCssClasses(body, ref xmlDoc, ref counter, ref cssClasses);
 
@@ -66,7 +66,17 @@ namespace ContentFiltering.Office.Word.Filters
         /// <param name="xmlDoc">A reference to the <code>XmlDocument</code>.</param>
         private void InsertCssClassesInHeader(ref XmlNode headNode, ref XmlDocument xmlDoc)
         {
-            XmlNode styleNode = xmlDoc.CreateNode(XmlNodeType.Element, "style", xmlDoc.NamespaceURI);
+
+            XmlNode styleNode = null;
+            if (xmlDoc.GetElementsByTagName("style") != null)
+            {
+                styleNode = xmlDoc.GetElementsByTagName("style")[0];
+            }
+            if (styleNode == null)
+            {
+                styleNode = xmlDoc.CreateNode(XmlNodeType.Element, "style", xmlDoc.NamespaceURI);
+                headNode.AppendChild(styleNode);
+            }
 
             string value = "";
 

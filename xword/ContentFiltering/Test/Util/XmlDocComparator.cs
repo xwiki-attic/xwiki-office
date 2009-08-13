@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace ContentFiltering.Test.Util
 {
@@ -14,12 +15,16 @@ namespace ContentFiltering.Test.Util
         /// Returns TRUE if the xml dcouments have the same nodes, in the same position with the exact attributes.
         /// </summary>
         /// <returns>True if the xml dcouments have the same nodes, in the same position with the exact attributes.</returns>
-        public static bool AreIdentical(XmlDocument xmlDoc1,XmlDocument xmlDoc2)
+        public static bool AreIdentical(XmlDocument xmlDoc1, XmlDocument xmlDoc2)
         {
+            //normalize the documents to avoid adjacent XmlText nodes.
+            xmlDoc1.Normalize();
+            xmlDoc2.Normalize();
+
             XmlNodeList nodeList1 = xmlDoc1.ChildNodes;
             XmlNodeList nodeList2 = xmlDoc2.ChildNodes;
             bool same = true;
-            
+
             if (nodeList1.Count != nodeList2.Count)
             {
                 return false;
@@ -37,7 +42,7 @@ namespace ContentFiltering.Test.Util
         private static bool CompareNodes(XmlNode node1, XmlNode node2)
         {
             //compare properties
-            if (node1.Attributes == null||node2.Attributes==null)
+            if (node1.Attributes == null || node2.Attributes == null)
             {
                 bool nullAttributes = (node1.Attributes == null && node2.Attributes == null);
                 if (!nullAttributes)
@@ -73,7 +78,17 @@ namespace ContentFiltering.Test.Util
                 return false;
             }
 
-            if ((""+node1.Value).Trim() != (""+node2.Value).Trim())
+            //the content may have extra spaces or new lines
+
+            string value1 = ("" + node1.Value).Trim().Replace(Environment.NewLine, "");
+            string value2 = ("" + node2.Value).Trim().Replace(Environment.NewLine, "");
+
+            //replace consecutive whitespaces with one space
+            Regex whiteSpaces = new Regex("\\s+", RegexOptions.Singleline | RegexOptions.Multiline);
+            value1 = whiteSpaces.Replace(value1, " ");
+            value2 = whiteSpaces.Replace(value2, " ");
+
+            if (value1 != value2)
             {
                 Console.WriteLine("Nodes value: " + node1.Value + "!=" + node2.Value);
                 return false;
