@@ -47,6 +47,7 @@ namespace ContentFiltering.StyleSheetExtensions
             dictionary.Add("name", "XOfficeStyle");
             dictionary.Add("use", "onDemand");
             dictionary.Add("parse", "0");
+            dictionary.Add("cache", "long");
 
             XWikiObject ssxObject = new XWikiObject();
             ssxObject.className = SSX_CLASS_NAME;
@@ -141,6 +142,7 @@ namespace ContentFiltering.StyleSheetExtensions
                 fieldsValues.Add("name", ssxObject.objectDictionary["name"].ToString());
                 fieldsValues.Add("use", ssxObject.objectDictionary["use"].ToString());
                 fieldsValues.Add("parse", ssxObject.objectDictionary["parse"].ToString());
+                fieldsValues.Add("cache", ssxObject.objectDictionary["cache"].ToString());
 
                 //remove existing XOffice style sheet extensions for current page
                 List<XWikiObject> existingSSXObjects = RetrieveStyleSheetExtensions();
