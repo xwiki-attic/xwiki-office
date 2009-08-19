@@ -54,6 +54,7 @@
       <DependentUpon>AddPageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIActionsManagement\IActionsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddPageForm.resx">
