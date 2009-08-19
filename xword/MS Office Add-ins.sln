@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentFiltering", "Content
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connectivity", "Connectivity\Connectivity.csproj", "{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UICommons", "UICommons\UICommons.csproj", "{98023373-94C4-477D-A746-85457393CAB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,12 +53,16 @@ Global
 		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98023373-94C4-477D-A746-85457393CAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98023373-94C4-477D-A746-85457393CAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98023373-94C4-477D-A746-85457393CAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98023373-94C4-477D-A746-85457393CAB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_Active = -1
 		CodeStyleEnforcer_RulesLocation = 0
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal
