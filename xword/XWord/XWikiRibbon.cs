@@ -138,7 +138,7 @@ namespace XWord
 
         private void btnNewPage_Click(object sender, RibbonControlEventArgs e)
         {
-            new AddPageForm(ref Globals.XWikiAddIn.wiki).ShowDialog();
+            new AddPageFormManager().NewAddPageForm(ref Globals.XWikiAddIn.wiki).ShowDialog();
         }
 
         private void btnSavePage_Click(object sender, RibbonControlEventArgs e)
@@ -147,7 +147,7 @@ namespace XWord
             {
                 if (Addin.currentPageFullName == "" || Addin.currentPageFullName == null)
                 {
-                    new AddPageForm(ref Addin.wiki, false, true).ShowDialog();                    
+                    new AddPageFormManager().NewAddPageForm(ref Addin.wiki, false, true).ShowDialog();
                 }
                 else
                 {
@@ -167,13 +167,13 @@ namespace XWord
             if (treeView.SelectedNode != null)
             {
                 String spaceName = treeView.SelectedNode.Text;
-                new AddPageForm(ref Globals.XWikiAddIn.wiki, spaceName).ShowDialog();
+                new AddPageFormManager().NewAddPageForm(ref Globals.XWikiAddIn.wiki, spaceName).ShowDialog();
             }
             else
             {
                 //see XOFFICE-20
                 //MessageBox.Show("You need to select a space in the wiki explorer.","XWord");
-                new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false).ShowDialog();
+                new AddPageFormManager().NewAddPageForm(ref Globals.XWikiAddIn.wiki, true, false).ShowDialog();
             }
         }
 
