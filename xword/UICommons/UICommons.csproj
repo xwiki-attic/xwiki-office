@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIActionsManagement\IActionsManager.cs" />
+    <Compile Include="UIActionsManagement\AbstractAddPageFormActionsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddPageForm.resx">
