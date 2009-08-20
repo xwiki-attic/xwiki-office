@@ -564,9 +564,9 @@ namespace XWord
             this.AddinStatus.Syntax = this.DefaultSyntax;
             timer = new System.Timers.Timer(TIMER_INTERVAL);
             //Repositories and temporary files settings
-            if (XWordSettingsHandler.HasSettings())
+            if (XOfficeCommonSettingsHandler.HasSettings())
             {
-                XWordSettings addinSettings = XWordSettingsHandler.GetSettings();
+                XOfficeCommonSettings addinSettings = XOfficeCommonSettingsHandler.GetSettings();
                 this.DownloadedAttachmentsRepository = addinSettings.DownloadedAttachmentsRepository;
                 this.PagesRepository = addinSettings.PagesRepository;
                 this.clientType = addinSettings.ClientType;

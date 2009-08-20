@@ -266,8 +266,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="XWordSettingsHandler.cs" />
-    <Compile Include="XWordSettings.cs" />
     <Compile Include="Test\XWikiRibbonTest.cs" />
     <Compile Include="Util\UtilityClass.cs" />
     <Compile Include="Vsto Extensions\ContentProtectionExtension.cs" />

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using XWiki.Clients;
 using XWiki.Logging;
+using XWiki;
 
 namespace XWord
 {
@@ -23,7 +24,7 @@ namespace XWord
         bool connectionSettingsApplied = true;
         bool addinSettingsApplied = true;
         bool loadingDialogFlag = false;
-        XWordSettings addinSettings = new XWordSettings();
+        XOfficeCommonSettings addinSettings = new XOfficeCommonSettings();
         const String connectionDocUrl = "http://xoffice.xwiki.org/xwiki/bin/view/XWord/User_Guide#HConnecttoaXWikiserver";
 
         #region connectivity
@@ -136,7 +137,7 @@ namespace XWord
                 loginData.ClearCredentials();
             }
             //Write the settings to isolated storage. 
-            XWordSettingsHandler.WriteRepositorySettings(addinSettings);
+            XOfficeCommonSettingsHandler.WriteRepositorySettings(addinSettings);
 
             this.Cursor = c;
         }
@@ -164,7 +165,7 @@ namespace XWord
             {
                 Addin.DownloadedAttachmentsRepository = Path.GetTempPath();
             }            
-            XWordSettingsHandler.WriteRepositorySettings(addinSettings);
+            XOfficeCommonSettingsHandler.WriteRepositorySettings(addinSettings);
             addinSettingsApplied = true;
             Thread.Sleep(500);
             this.Cursor = c;
@@ -200,7 +201,7 @@ namespace XWord
                 txtUserName.Text = Addin.username;
                 txtPassword.Text = Addin.password;
             }
-            addinSettings = new XWordSettings();
+            addinSettings = new XOfficeCommonSettings();
             addinSettings.PagesRepository = Addin.PagesRepository;
             addinSettings.DownloadedAttachmentsRepository = Addin.DownloadedAttachmentsRepository;
             addinSettings.ClientType = Addin.ClientType;
