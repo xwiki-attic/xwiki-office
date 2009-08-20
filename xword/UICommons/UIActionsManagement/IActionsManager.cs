@@ -17,7 +17,6 @@ namespace UICommons.UIActionsManagement
         /// <summary>
         /// Enqueues all (known) event handlers defined for a control.
         /// </summary>
-        /// <param name="control">A reference to a generic control.</param>
-        void EnqueueAllHandlers(ref T control);
+        void EnqueueAllHandlers();
     }
 }

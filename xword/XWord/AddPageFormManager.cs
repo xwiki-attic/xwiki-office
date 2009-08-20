@@ -4,61 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UICommons;
+using UICommons.UIActionsManagement;
 
 namespace XWord
 {
     /// <summary>
-    /// Manages the instances and public events handlers for AddPageForm.
+    /// Manages the public events handlers for AddPageForm.
     /// </summary>
-    public class AddPageFormManager
+    public class AddPageFormManager : AbstractAddPageFormActionsManager
     {
-        private AddPageForm addPageForm;
+        AddPageForm addPageForm;
 
         /// <summary>
-        /// Creates a new AddPageForm.
+        /// Default constructor.
         /// </summary>
-        /// <param name="wiki">A reference to <code>XWiki.WikiSructure</code>.</param>
-        /// <returns>New AddPageForm.</returns>
-        public AddPageForm NewAddPageForm(ref XWiki.WikiStructure wiki)
+        /// <param name="addPageForm">A reference to an <code>AddPageForm</code> instance.</param>
+        public AddPageFormManager(ref AddPageForm addPageForm)
         {
-            addPageForm = new AddPageForm(ref wiki);
-            addPageForm.OnAdd += new EventHandler(this.ActionAdd);
-            return addPageForm;
+            this.addPageForm = addPageForm;
         }
 
         /// <summary>
-        /// Creates a new AddPageForm.
-        /// </summary>
-        /// <param name="wiki">A reference to <code>XWiki.WikiSructure</code>.</param>
-        /// <param name="spaceName">Space name.</param>
-        /// <returns>New AddPageForm.</returns>
-        public AddPageForm NewAddPageForm(ref XWiki.WikiStructure wiki, string spaceName)
-        {
-            addPageForm = new AddPageForm(ref wiki,spaceName);
-            addPageForm.OnAdd += new EventHandler(this.ActionAdd);
-            return addPageForm;
-        }
-
-        /// <summary>
-        /// Creates a new AddPageForm.
-        /// </summary>
-        /// <param name="wiki">A reference to <code>XWiki.WikiSructure</code>.</param>
-        /// <param name="newSpace">TRUE if it's a new space.</param>
-        /// <param name="exportMode">TRUE if export mode.</param>
-        /// <returns>New AddPageForm.</returns>
-        public AddPageForm NewAddPageForm(ref XWiki.WikiStructure wiki, bool newSpace,bool exportMode)
-        {
-            addPageForm = new AddPageForm(ref wiki, newSpace, exportMode);
-            addPageForm.OnAdd += new EventHandler(this.ActionAdd);
-            return addPageForm;
-        }
-
-        /// <summary>
-        /// Event trigeered when OnAdd event of the AddPageForm instance is raised.
+        /// Event trigerred when OnAdd event of the AddPageForm instance is raised.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event args.</param>
-        private void ActionAdd(object sender, EventArgs e)
+        protected override void ActionAdd(object sender, EventArgs e)
         {
             if (!addPageForm.ExportMode)
             {
@@ -70,5 +41,17 @@ namespace XWord
                 Globals.XWikiAddIn.AddinActions.SaveToServer();
             }
         }
+
+        #region IActionsManager<AddPageForm> Members
+
+        /// <summary>
+        /// Enqueues all event handlers for an AddPageForm.
+        /// </summary>
+        public override void EnqueueAllHandlers()
+        {
+            addPageForm.OnAdd += new EventHandler(this.ActionAdd);
+        }
+
+        #endregion IActionsManager<AddPageForm> Members
     }
 }

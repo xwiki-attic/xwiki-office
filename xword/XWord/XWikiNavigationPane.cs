@@ -14,6 +14,7 @@ using XWiki;
 using XWiki.Clients;
 using System.Diagnostics;
 using XWiki.Logging;
+using UICommons;
 
 namespace XWord
 {
@@ -512,7 +513,9 @@ namespace XWord
             {
                 String spaceName = treeView.SelectedNode.Text;
                 WikiStructure wiki = Wiki;
-                new AddPageFormManager().NewAddPageForm(ref wiki, spaceName).ShowDialog();
+                AddPageForm addPageForm = new AddPageForm(ref wiki, spaceName);
+                new AddPageFormManager(ref addPageForm).EnqueueAllHandlers();
+                addPageForm.ShowDialog();
             }
         }
 
@@ -611,8 +614,9 @@ namespace XWord
         /// </summary>
         private void btnAddSpace_Click(object sender, EventArgs e)
         {
-            //new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false).ShowDialog();
-            new AddPageFormManager().NewAddPageForm(ref Globals.XWikiAddIn.wiki, true, false).ShowDialog();
+            AddPageForm addPageForm = new AddPageForm(ref Globals.XWikiAddIn.wiki, true, false);
+            new AddPageFormManager(ref addPageForm).EnqueueAllHandlers();
+            addPageForm.ShowDialog();
         }
 
         /// <summary>
