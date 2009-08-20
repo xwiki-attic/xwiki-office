@@ -38,7 +38,7 @@
     <PublishUrl>publish/</PublishUrl>
     <InstallUrl>http://xoffice.xwiki.org/xwiki/bin/download/Repository/WebHome/XWord1.1.zip/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.1.0.94</ApplicationVersion>
+    <ApplicationVersion>1.1.0.95</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -266,8 +266,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="XWordSettingsHandler.cs" />
-    <Compile Include="XWordSettings.cs" />
     <Compile Include="Test\XWikiRibbonTest.cs" />
     <Compile Include="Util\UtilityClass.cs" />
     <Compile Include="Vsto Extensions\ContentProtectionExtension.cs" />
