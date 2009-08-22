@@ -111,7 +111,10 @@ namespace XWord
 
         private void Show_ConnetionDialog(object sender, RibbonControlEventArgs e)
         {
-            DialogResult result = new AddinSettingsForm().ShowDialog();
+            AddinSettingsForm addinSettingsForm = new AddinSettingsForm();
+            new AddinSettingsFormManager(ref addinSettingsForm).EnqueueAllHandlers();
+
+            DialogResult result = addinSettingsForm.ShowDialog();
             if (result == DialogResult.OK)
             {                
                 //AddTaskPanes(); TODO: Sync all taskpanes
