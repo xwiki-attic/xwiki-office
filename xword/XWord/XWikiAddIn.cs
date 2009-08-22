@@ -36,6 +36,7 @@ using XWord.VstoExtensions;
 using XWiki.Clients;
 using XWiki;
 using XWiki.Logging;
+using UICommons;
 
 namespace XWord
 {
@@ -625,7 +626,9 @@ namespace XWord
         {
             if (AddinSettingsForm.IsShown == false)
             {
-                new AddinSettingsForm().ShowDialog();
+                AddinSettingsForm addinSettingsForm = new AddinSettingsForm();
+                new AddinSettingsFormManager(ref addinSettingsForm).EnqueueAllHandlers();
+                addinSettingsForm.ShowDialog();
             }            
         }
 
