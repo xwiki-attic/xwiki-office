@@ -683,7 +683,7 @@ namespace XWord
         /// <returns></returns>
         private bool AutoLogin()
         {
-            LoginData loginData = new LoginData();
+            LoginData loginData = new LoginData(LoginData.XWORD_LOGIN_DATA_FILENAME);
             bool canAutoLogin = loginData.CanAutoLogin();
             if (canAutoLogin)
             {

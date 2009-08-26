@@ -184,7 +184,7 @@ namespace XWord
             addin.serverURL = addinSettingsForm.ServerURL;
             addin.username = addinSettingsForm.UserName;
             addin.password = addinSettingsForm.Password;
-            LoginData loginData = new LoginData();
+            LoginData loginData = new LoginData(LoginData.XWORD_LOGIN_DATA_FILENAME);
             addin.Client = XWikiClientFactory.CreateXWikiClient(addin.ClientType,
                 addin.serverURL, addin.username, addin.password);
 
