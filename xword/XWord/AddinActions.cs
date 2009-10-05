@@ -53,6 +53,8 @@ namespace XWord
         bool checkSpellingAsYouType = false;
         bool contextualSpeller = false;
 
+        //The instance of the newest Word document.
+        private Word.Document newDoc;
 
         /// <summary>
         /// Generic webclient used for conneting to xwiki.
@@ -72,6 +74,7 @@ namespace XWord
         public AddinActions(XWikiAddIn addin)
         {
             this.addin = addin;
+            addin.Application.WindowDeactivate += new Word.ApplicationEvents4_WindowDeactivateEventHandler(KeepNewWindowActivated);
         }
 
         /// <summary>
@@ -565,6 +568,8 @@ namespace XWord
             //Any modal dialog nust be closed before opening or closing active documents.
             if (sender != null)
             {
+                sender.Hide();
+                Application.DoEvents();
                 sender.Close();
             }
             try
@@ -599,7 +604,9 @@ namespace XWord
 
                 //Open the file with Word
                 Word.Document doc = OpenHTMLDocument(localFileName);
-
+                Application.DoEvents();
+                doc.Activate();
+                newDoc = doc;
 
                 //If it's a new space, add it to the wiki structure and mark it as unpublished
                 List<Space> spaces = Globals.XWikiAddIn.wiki.spaces;
@@ -797,6 +804,19 @@ namespace XWord
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Activates the newest Word window.
+        /// </summary>
+        /// <param name="Doc">The document instance that triggers the deactivate event.</param>
+        /// <param name="Wn">The document's </param>
+        void KeepNewWindowActivated(Word.Document Doc, Word.Window Wn)
+        {
+            if (newDoc == Doc)
+            {
+                Doc.Activate();
+            }
         }
     }
 }
