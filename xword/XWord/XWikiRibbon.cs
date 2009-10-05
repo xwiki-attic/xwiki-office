@@ -126,7 +126,7 @@ namespace XWord
             String page = Globals.XWikiAddIn.AddinStatus.TaskPaneSelectedPage.Get("page");
             if (page == null)
             {
-                UserNotifier.Exclamation("You need to select a pege in the wiki explorer first.");
+                UserNotifier.Exclamation("You need to select a page in the wiki explorer first.");
                 return;
             }
             bool finished = Globals.XWikiAddIn.AddinActions.AttachCurrentFile(page);
