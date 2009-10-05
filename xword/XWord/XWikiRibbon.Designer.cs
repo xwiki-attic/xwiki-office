@@ -421,7 +421,7 @@
         /// </summary>
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnEditPage;
         /// <summary>
-        /// Contains the syntax options to save a pege on the wiki.
+        /// Contains the syntax options to save a page on the wiki.
         /// </summary>
         public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSyntax;
         /// <summary>
