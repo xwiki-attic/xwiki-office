@@ -515,7 +515,7 @@ namespace XWord
                 WikiStructure wiki = Wiki;
                 AddPageForm addPageForm = new AddPageForm(ref wiki, spaceName);
                 new AddPageFormManager(ref addPageForm).EnqueueAllHandlers();
-                addPageForm.ShowDialog();
+                addPageForm.Show();
             }
         }
 
