@@ -144,7 +144,7 @@ namespace XWord
         {
             AddPageForm addPageForm = new AddPageForm(ref Globals.XWikiAddIn.wiki);
             new AddPageFormManager(ref addPageForm).EnqueueAllHandlers();
-            addPageForm.ShowDialog();
+            addPageForm.Show();
         }
 
         private void btnSavePage_Click(object sender, RibbonControlEventArgs e)
@@ -177,7 +177,7 @@ namespace XWord
                 String spaceName = treeView.SelectedNode.Text;
                 AddPageForm addPageForm = new AddPageForm(ref Globals.XWikiAddIn.wiki, spaceName);
                 new AddPageFormManager(ref addPageForm).EnqueueAllHandlers();
-                addPageForm.ShowDialog();
+                addPageForm.Show();
             }
             else
             {
