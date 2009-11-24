@@ -28,6 +28,7 @@ namespace XWiki.Clients
         IXWikiProxy proxy;
 
         private const string XML_RPC_PATH = "/xwiki/xmlrpc";
+        ServerInfo serverInfo;
         
         /// <summary>
         /// XML-RPC implementation of IXWikiCLient.
@@ -46,6 +47,7 @@ namespace XWiki.Clients
             try
             {
                 token = proxy.Login(this.username, this.password);
+                serverInfo = proxy.GetServerInfo(token);
                 isLoggedIn = true;
             }
             catch (Exception)
@@ -186,6 +188,12 @@ namespace XWiki.Clients
             Page page = new Page(docName, content);
             try
             {
+                int serverMajorVersion = Int32.Parse(serverInfo.majorVersion);
+                int serverMinorVersion = Int32.Parse(serverInfo.minorVersion);
+                if (serverMajorVersion >= 2 && serverMinorVersion >= 1)
+                {
+                    page.content = proxy.Convert(token, page.content, "xhtml/1.0", serverInfo.DefaultSyntax);
+                }
                 proxy.StorePage(token, page);
                 return true;
             }
