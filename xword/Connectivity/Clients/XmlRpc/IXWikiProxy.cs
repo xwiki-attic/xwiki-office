@@ -349,5 +349,36 @@ namespace XWiki.XmlRpc
         /// <returns>A result set for the speified query.</returns>
         [XmlRpcMethod("confluence1.search")]
         XmlRpcStruct[] Search(String token, String query, int maxResults);
+
+        #region rendering
+
+        /// <summary>
+        /// Converts a wiki source from a syntax to another syntax.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <param name="source">The content to be converted.</param>
+        /// <param name="initialSyntaxId">The initial syntax of the source.</param>
+        /// <param name="targetSyntaxId">The final syntax of the returned content.</param>
+        /// <returns>The converted source.</returns>
+        [XmlRpcMethod("confluence1.convert")]
+        String Convert(String token, String source, String initialSyntaxId, String targetSyntaxId);
+
+        /// <summary>
+        /// Gets all syntaxes supported by the rendering parsers as an input for a syntax conversion.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <returns>A list containing all syntaxes supported by rendering parsers.</returns>
+        [XmlRpcMethod("confluence1.getInputSyntaxes")]
+        String[] GetInputSyntaxes(String token);
+
+        /// <summary>
+        /// Gets all syntaxes supported by the rendering as an output for a syntax conversion.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <returns>A list containing all syntaxes supported by renderers.</returns>
+        [XmlRpcMethod("confluence1.getOutputSyntaxes")]
+        String[] GetOutputSyntaxes(String token);
+
+        #endregion
     }
 }
