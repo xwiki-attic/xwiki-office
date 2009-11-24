@@ -703,7 +703,7 @@ namespace XWiki.Clients
         /// Gets the availbale syntaxes for the server's rendered.
         /// </summary>
         /// <returns>A string list containing the names of the wiki server syntaxes.</returns>
-        public List<String> GetAvailableSyntaxes()
+        public List<String> GetConfiguredSyntaxes()
         {
             //TODO: Get this from the server.
             List<String> syntaxes = new List<string>();
@@ -712,6 +712,15 @@ namespace XWiki.Clients
                 syntaxes.Add(s);
             }
             return syntaxes;
+        }
+
+        /// <summary>
+        /// Gets the default wiki syntax of the server.
+        /// </summary>
+        /// <returns>A string representing the id of the </returns>
+        public String GetDefaultServerSyntax()
+        {
+            return "xwiki/2.0";
         }
 
         #endregion

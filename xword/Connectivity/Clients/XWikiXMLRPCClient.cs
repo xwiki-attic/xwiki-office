@@ -416,20 +416,36 @@ namespace XWiki.Clients
         }
 
         /// <summary>
-        /// Gets the availbale syntaxes for the server's rendered.
+        /// Gets the availbale syntaxes for the server's renderer.
         /// </summary>
-        /// <returns>A string list containing the names of the wiki server syntaxes.</returns>
-        public List<String> GetAvailableSyntaxes()
+        /// <returns>A string list containing the names of the configured wiki server syntaxes.</returns>
+        public List<String> GetConfiguredSyntaxes()
         {
-            //TODO: Get this from the server.
             List<String> syntaxes = new List<string>();
-            foreach (String s in Properties.Settings.Default.XmlRpcSyntaxes)
+            if (serverInfo.ConfiguredSyntaxes != null && serverInfo.ConfiguredSyntaxes != "")
             {
-                syntaxes.Add(s);
+                string[] separators = { " ", "[", "]", "," };
+                syntaxes.AddRange(serverInfo.ConfiguredSyntaxes.Split(separators, StringSplitOptions.RemoveEmptyEntries));
+                return syntaxes;
+            }
+            else
+            {
+                foreach (String s in Properties.Settings.Default.XmlRpcSyntaxes)
+                {
+                    syntaxes.Add(s);
+                }
             }
             return syntaxes;
         }
 
+        /// <summary>
+        /// Gets the default wiki syntax of the server.
+        /// </summary>
+        /// <returns>A string representing the id of the </returns>
+        public String GetDefaultServerSyntax()
+        {
+            return serverInfo.DefaultSyntax;
+        }
 
         #endregion
     }
