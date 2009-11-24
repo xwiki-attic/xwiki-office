@@ -192,6 +192,6 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="documentFullName">The full name of the wiki page.</param>
         /// <returns>The url of the wiki page.</returns>
-        String GetURL(String documentFullName);        
+        String GetURL(String documentFullName);
     }
 }
