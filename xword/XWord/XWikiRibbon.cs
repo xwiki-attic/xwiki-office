@@ -47,7 +47,7 @@ namespace XWord
         void Addin_ClientInstanceChanged(object sender, EventArgs e)
         {
             //Refresh the available syntaxes.
-            syntaxes = Addin.Client.GetAvailableSyntaxes();
+            syntaxes = Addin.Client.GetConfiguredSyntaxes();
             dropDownSyntax.Items.Clear();
             foreach (String syntax in syntaxes)
             {

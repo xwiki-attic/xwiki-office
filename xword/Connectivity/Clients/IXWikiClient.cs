@@ -59,7 +59,13 @@ namespace XWiki.Clients
         /// Gets the availbale syntaxes for the server's rendered.
         /// </summary>
         /// <returns>A string list containing the names of the wiki server syntaxes.</returns>
-        List<String> GetAvailableSyntaxes();
+        List<String> GetConfiguredSyntaxes();
+
+        /// <summary>
+        /// Gets the default wiki syntax of the server.
+        /// </summary>
+        /// <returns>A string representing the id of the </returns>
+        String GetDefaultServerSyntax();
         
         /// <summary>
         /// Gets the spaces form the wiki instance.
@@ -192,6 +198,6 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="documentFullName">The full name of the wiki page.</param>
         /// <returns>The url of the wiki page.</returns>
-        String GetURL(String documentFullName);
+        String GetURL(String documentFullName);       
     }
 }
