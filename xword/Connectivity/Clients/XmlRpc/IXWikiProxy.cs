@@ -379,6 +379,13 @@ namespace XWiki.XmlRpc
         [XmlRpcMethod("confluence1.getOutputSyntaxes")]
         String[] GetOutputSyntaxes(String token);
 
+        [XmlRpcMethod("confluence1.getRenderedContent")]
+        String GetRenderedContent(String token, String pageId, String syntaxId);
+
+        [XmlRpcMethod("confluence1.renderPageContent")]
+        String RenderPageContent(String token, String pageId, String content, String sourceSyntaxId,
+                                 String targetSyntaxId);
+
         #endregion
     }
 }

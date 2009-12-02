@@ -1,4 +1,5 @@
 ﻿using System;
+using CookComputing.XmlRpc;
 
 namespace XWiki.XmlRpc
 {
@@ -44,6 +45,12 @@ namespace XWiki.XmlRpc
         public String content;
 
         /// <summary>
+        /// The wiki syntax of the document.(Since XWiki 2.0.4)
+        /// </summary> 
+        [XmlRpcMissingMapping(MappingAction.Ignore)]
+        public String syntaxId;
+
+        /// <summary>
         /// Creates a new Page instance. Initialises the non-parametrized members with the default values.
         /// </summary>
         /// <param name="pageId">The id of the page.</param>
@@ -56,6 +63,7 @@ namespace XWiki.XmlRpc
             this.url = "";
             this.content = "";
             this.parentId = "";
+            this.syntaxId = "";
         }
 
         /// <summary>
@@ -72,6 +80,7 @@ namespace XWiki.XmlRpc
             this.space = "";
             this.url = "";
             this.parentId = "";
+            this.syntaxId = "";
         }
     }
 }
