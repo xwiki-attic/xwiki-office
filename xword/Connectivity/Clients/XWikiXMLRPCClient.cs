@@ -190,7 +190,7 @@ namespace XWiki.Clients
             {
                 int serverMajorVersion = Int32.Parse(serverInfo.majorVersion);
                 int serverMinorVersion = Int32.Parse(serverInfo.minorVersion);
-                if (serverMajorVersion >= 2 && serverMinorVersion >= 1)
+                if (serverMajorVersion >= 2 && serverMinorVersion >= 0)
                 {
                     page.content = proxy.Convert(token, page.content, "xhtml/1.0", serverInfo.DefaultSyntax);
                 }
@@ -387,8 +387,31 @@ namespace XWiki.Clients
         /// <returns>The rendered content of the page.</returns>
         public string GetRenderedPageContent(string pageFullName)
         {
+            //TODO: use getRenderedContent when fixed and use only one transport(remove GetPage)
+            String renderedContent = null;
+            bool supportsXWikiNewRendering = true;
+            
+            //Get the page data including the wiki content
             Page page = proxy.GetPage(token, pageFullName);
-            String renderedContent = proxy.RenderContent(token, page.space, page.id, page.content);
+
+            int version = Int32.Parse(serverInfo.majorVersion);
+            if (version >= 2)
+            {
+                try
+                {                    
+                    renderedContent = proxy.RenderPageContent(token, pageFullName, page.content,
+                                                              page.syntaxId, "annotatedxhtml/1.0");
+                }
+                catch (Exception ex)
+                {
+                    supportsXWikiNewRendering = false;
+                    Log.Exception(ex);               
+                }
+            }
+            if((!supportsXWikiNewRendering) || version < 2)
+            {
+                renderedContent  = proxy.RenderContent(token, page.space, page.id, page.content);
+            }
             return renderedContent;
         }
 
