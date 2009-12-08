@@ -48,14 +48,18 @@ namespace XWord
         {
             //Refresh the available syntaxes.
             syntaxes = Addin.Client.GetConfiguredSyntaxes();
+            String defaultSyntax = Addin.Client.GetDefaultServerSyntax();
             dropDownSyntax.Items.Clear();
             foreach (String syntax in syntaxes)
             {
                 RibbonDropDownItem rddi = new RibbonDropDownItem();
                 rddi.Label = syntax;
                 dropDownSyntax.Items.Add(rddi);
+                if (syntax == defaultSyntax)
+                {
+                    dropDownSyntax.SelectedItem = rddi;
+                }
             }
-            dropDownSyntax.SelectedItemIndex = 0;
         }
         /// <summary>
         /// Refreshes the buttons from the selectionOptionsGroup according to the connection state.

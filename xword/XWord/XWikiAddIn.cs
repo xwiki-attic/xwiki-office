@@ -108,8 +108,7 @@ namespace XWord
         /// and the full name of the associated wiki page.
         /// </summary>
         private Dictionary<String, String> editedPages = new Dictionary<string, string>();
-        private String defaultSyntax = "XWiki 2.0";
-
+        
         #endregion
 
         ///Delegate and event declarations
@@ -342,7 +341,10 @@ namespace XWord
         /// </summary>
         public String DefaultSyntax
         {
-            get { return defaultSyntax; }
+            get 
+            {
+                return Client.GetDefaultServerSyntax(); 
+            }
         }
 
         /// <summary>
@@ -562,7 +564,6 @@ namespace XWord
             Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
             Application.Options.UseNormalStyleForList = true;
             this.SaveFormat = Word.WdSaveFormat.wdFormatHTML;
-            this.AddinStatus.Syntax = this.DefaultSyntax;
             timer = new System.Timers.Timer(TIMER_INTERVAL);
             //Repositories and temporary files settings
             if (XOfficeCommonSettingsHandler.HasSettings())
@@ -587,6 +588,7 @@ namespace XWord
             {
                 ShowConnectToServerUI();
             }
+            this.AddinStatus.Syntax = this.DefaultSyntax;            
             addinActions = new AddinActions(this);
             Log.Success("XWord started");
         }
