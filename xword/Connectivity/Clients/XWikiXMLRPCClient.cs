@@ -192,7 +192,7 @@ namespace XWiki.Clients
                 int serverMinorVersion = Int32.Parse(serverInfo.minorVersion);
                 if (serverMajorVersion >= 2 && serverMinorVersion >= 0)
                 {
-                    page.content = proxy.Convert(token, page.content, "xhtml/1.0", serverInfo.DefaultSyntax);
+                    page.content = proxy.Convert(token, page.content, "xhtml/1.0", syntax);
                 }
                 proxy.StorePage(token, page);
                 return true;
