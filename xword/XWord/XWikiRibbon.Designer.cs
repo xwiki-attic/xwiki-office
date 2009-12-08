@@ -295,6 +295,7 @@
             this.syncSaving.Enabled = false;
             this.syncSaving.Label = "Synchronize saving with Word";
             this.syncSaving.Name = "syncSaving";
+            this.syncSaving.Visible = false;
             this.syncSaving.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.SyncSaving_Click);
             // 
             // dropDownSyntax
@@ -306,6 +307,7 @@
             this.dropDownSyntax.Label = "Server syntax:       ";
             this.dropDownSyntax.Name = "dropDownSyntax";
             this.dropDownSyntax.ScreenTip = "The syntax used to save the page on the XWiki server.";
+            this.dropDownSyntax.Visible = false;
             this.dropDownSyntax.SelectionChanged += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSyntax_SelectionChanged);
             // 
             // dropDownSaveFormat
@@ -317,6 +319,7 @@
             this.dropDownSaveFormat.Label = "Local save format:";
             this.dropDownSaveFormat.Name = "dropDownSaveFormat";
             this.dropDownSaveFormat.ScreenTip = "The format used to save your local wiki pages.";
+            this.dropDownSaveFormat.Visible = false;
             this.dropDownSaveFormat.ItemsLoading += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSaveFormat_ItemsLoading);
             this.dropDownSaveFormat.SelectionChanged += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSaveFormat_SelectionChanged);
             // 
