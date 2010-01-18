@@ -45,7 +45,7 @@ namespace ContentFiltering.StyleSheetExtensions
             XmlRpcStruct dictionary = new XmlRpcStruct();
             dictionary.Add("code", pageCSSContent);
             dictionary.Add("name", "XOfficeStyle");
-            dictionary.Add("use", "onDemand");
+            dictionary.Add("use", "currentPage");
             dictionary.Add("parse", "0");
             dictionary.Add("cache", "long");
 
