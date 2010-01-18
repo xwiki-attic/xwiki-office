@@ -30,7 +30,10 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
         public void GlobalSetup()
         {
             initialHTML = "<html><head><title>Title</title>"
-                +"<meta http-equiv=Content-Type content=text/html;charset=utf-8>"
+                +"<meta http-equiv=Content-Type content=text/html;charset=utf-8/>"
+                +"<style type=text/css>body {color:black;}</style>"
+                +"<link rel=stylesheet type=text/css href=style.css />"
+                +"<script type=text/javascript>var x=1;</script>"
                 +"</head><body>"
                 + "<p id=p1>text</p>"
                 + "<p style='font-color:red;'>text</p>"
@@ -38,7 +41,10 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
                 + "<font color=\"red\">red text</font>"
                 + "</body></html>";
             expectedHTML = "<html><head><title>Title</title>"
-                +"<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">"
+                +"<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>"
+                + "<style type=\"text/css\">body {color:black;}</style>"
+                + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />"
+                + "<script type=\"text/javascript\">var x=1;</script>"
                 +"</head><body>"
                 + "<p id=\"p1\">text</p>"
                 + "<p style='font-color:red;'>text</p>"
@@ -51,15 +57,17 @@ namespace ContentFiltering.Test.Office.Word.Cleaners
         {
             bool canLoadXML = false;
             initialHTML = new CorrectAttributesCleaner().Clean(initialHTML);
-            Assert.AreEqual(initialHTML, expectedHTML);
+            Assert.AreEqual(expectedHTML, initialHTML);
 
             try
             {
                 new XmlDocument().LoadXml(initialHTML);
                 canLoadXML = true;
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(initialHTML.Replace(">",">" + Environment.NewLine));
+                Console.WriteLine(e);
                 canLoadXML = false;
             }
 

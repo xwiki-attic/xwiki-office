@@ -24,13 +24,15 @@ namespace ContentFiltering.Office.Word.Cleaners
             foreach (String initialValue in tags)
             {
                 String value = initialValue;
-                char[] separators = { ' ', '>', '/', '\r' };
+                string[] separators = { " ", ">", "/>", "/ >", "\r" };
                 bool hasChanged = false;
-                foreach (String s in initialValue.Split(separators))
+                
+                foreach (String s in initialValue.Split(separators,StringSplitOptions.RemoveEmptyEntries))
                 {
-                    String[] attribute = s.Split('=');
-                    if (attribute.Length == 2)
+                    int equalSignPosition = s.IndexOf('=');
+                    if (equalSignPosition > 0)
                     {
+                        String[] attribute = { s.Substring(0, equalSignPosition), s.Substring(equalSignPosition+1) };
                         try
                         {
                             String newValue = attribute[1];
