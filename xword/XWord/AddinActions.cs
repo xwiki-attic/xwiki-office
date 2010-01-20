@@ -477,7 +477,7 @@ namespace XWord
                     return;
                 }
                 contentFilePath = tempExportFileName;
-                StreamReader sr = new StreamReader(contentFilePath);
+                StreamReader sr = new StreamReader(contentFilePath, Client.ServerEncoding);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();
                 File.Delete(contentFilePath);
@@ -506,15 +506,7 @@ namespace XWord
                 if (addin.AddinStatus.Syntax == null)
                 {
                     addin.AddinStatus.Syntax = addin.DefaultSyntax;
-                }
-
-
-                //Convert the source to the propper encoding.
-                Encoding iso = Client.ServerEncoding;
-                byte[] content = Encoding.Unicode.GetBytes(cleanHTML);
-                byte[] wikiContent = null;
-                wikiContent = Encoding.Convert(Encoding.Unicode, iso, content);
-                cleanHTML = iso.GetString(wikiContent);
+                }                
 
                 if (SavePage(addin.currentPageFullName, ref cleanHTML, addin.AddinStatus.Syntax))
                 {
@@ -595,8 +587,8 @@ namespace XWord
                 pageContent = pageContent + newPageText;
                 FileStream stream = new FileStream(localFileName, FileMode.Create);
                 //byte[] buffer = UTF8Encoding.UTF8.GetBytes(pageContent.ToString());
-                Encoding iso = Client.ServerEncoding;
-                byte[] buffer = iso.GetBytes(pageContent);
+                Encoding encoding = Client.ServerEncoding;
+                byte[] buffer = encoding.GetBytes(pageContent);
                 stream.Write(buffer, 0, buffer.Length);
                 stream.Close();
                 addin.currentPageFullName = pageFullName;
@@ -785,7 +777,7 @@ namespace XWord
             {
                 Object format = saveFormat;
                 Object copyPath = path;
-                Object encoding = MsoEncoding.msoEncodingUnicodeLittleEndian;
+                Object encoding = MsoEncoding.msoEncodingUTF8;
                 Object missing = Type.Missing;
                 Object originalFilePath = document.FullName;
                 Object initialDocSaveFormat = document.SaveFormat;

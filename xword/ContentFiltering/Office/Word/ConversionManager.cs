@@ -109,14 +109,6 @@ namespace XWiki.Office.Word
         {
             states.SetActionState(ConverterActionState.Uploading);
             content = localToWebHtml.AdaptSource(content);
-            String oldContent = content;
-            //The indentation does not work if the file is to complex or very large.
-            //In this case the content will be stored without indentation.
-            content = new HtmlUtil().IndentContent(content);
-            if (content == "")
-            {
-                content = oldContent;
-            }
             states.SetActionState(ConverterActionState.EditingPage);
             return content;
         }

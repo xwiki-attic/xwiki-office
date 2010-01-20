@@ -17,7 +17,7 @@ namespace XWiki.Clients
     {
         private bool isLoggedIn;
         //Default value for encoding
-        private Encoding encoding = Encoding.GetEncoding("ISO-8859-1");
+        private Encoding encoding = Encoding.GetEncoding("UTF-8");
 
         private string serverUrl;
         private string username;
