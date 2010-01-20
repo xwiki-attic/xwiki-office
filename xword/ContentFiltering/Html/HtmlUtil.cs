@@ -80,12 +80,12 @@ namespace XWiki.Html
             MemoryStream input = new MemoryStream();
             MemoryStream output = new MemoryStream();
 
-            byte[] byteArray = Encoding.UTF8.GetBytes(htmlSource);
+            byte[] byteArray = Encoding.Unicode.GetBytes(htmlSource);
             input.Write(byteArray, 0, byteArray.Length);
             input.Position = 0;
             tidy.Parse(input, output, tmc);
 
-            htmlSource = Encoding.UTF8.GetString(output.ToArray());
+            htmlSource = Encoding.Unicode.GetString(output.ToArray());
             return htmlSource;
         }
 
