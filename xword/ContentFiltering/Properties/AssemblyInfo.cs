@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ContentFiltering")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Contains the logic for filtering and adapting content to XWiki and Office")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XWiki.org")]
 [assembly: AssemblyProduct("ContentFiltering")]

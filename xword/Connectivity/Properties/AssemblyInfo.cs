@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Connectivity")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Contains the logic for connecting to a XWiki server.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Connectivity")]
-[assembly: AssemblyCopyright("Copyright ©  2009")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("XWiki.org")]
+[assembly: AssemblyProduct("XWiki Office")]
+[assembly: AssemblyCopyright("Copyright © XWiki 2009")]
+[assembly: AssemblyTrademark("XWiki.org")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

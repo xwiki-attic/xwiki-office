@@ -11,8 +11,8 @@ using System.Security;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XWiki.org")]
 [assembly: AssemblyProduct("XWord")]
-[assembly: AssemblyCopyright("Copyright © XWiki.org  2008-2009")]
-[assembly: AssemblyTrademark("XWiki Word")]
+[assembly: AssemblyCopyright("Copyright © XWiki.org  2008-2010")]
+[assembly: AssemblyTrademark("XWiki")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

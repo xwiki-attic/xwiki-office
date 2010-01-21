@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("A utility library for creating XWiki .NET clients.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XWiki.org")]
-[assembly: AssemblyProduct("XWikiLib")]
+[assembly: AssemblyProduct("XWiki Office")]
 [assembly: AssemblyCopyright("Copyright ©XWiki  2008")]
 [assembly: AssemblyTrademark("XWiki.org")]
 [assembly: AssemblyCulture("")]
