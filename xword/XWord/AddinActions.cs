@@ -298,10 +298,10 @@ namespace XWord
                 {
                     Directory.CreateDirectory(folder);
                 }
-                FileStream stream = new FileStream(localFileName, FileMode.Create);
-                byte[] buffer = UTF8Encoding.UTF8.GetBytes(pageContent.ToString());
-                stream.Write(buffer, 0, buffer.Length);
-                stream.Close();
+                
+                StreamWriter writer = new StreamWriter(localFileName, false, Encoding.UTF8);
+                writer.Write(pageContent.ToString());
+                writer.Close();
 
                 #region OpenLocalDocument
                 //Register new local filename as a wiki page.
