@@ -302,9 +302,6 @@
     <None Include="Resources\Nuvola_apps_download_manager1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\60px-Nuvola_apps_download_manager2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Crystal_Clear_action_edit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -326,11 +323,7 @@
     <None Include="Resources\Crystal_Clear_app_package_settings.png" />
     <None Include="Resources\Crystal_Clear_action_reload.png" />
     <None Include="Resources\Crystal_Clear_action_reload1.png" />
-    <None Include="Resources\Crystal_Clear_action_reload_small.png" />
-    <None Include="Resources\Crystal_Clear_action_reload_smaller.png" />
     <None Include="Resources\loadingWikiData.gif" />
-    <None Include="Resources\loadingWikiData.bmp" />
-    <None Include="Resources\loading4.gif" />
     <None Include="Resources\Nuvola_apps_download_manager2.png" />
     <None Include="XWord_TemporaryKey.pfx" />
     <Content Include="Resources\storegrid_browser_icon.gif" />
@@ -338,6 +331,9 @@
     <Content Include="Resources\viewInBrowser.png" />
     <Content Include="Resources\viewInBrowser1.png" />
     <Content Include="Resources\XWiki.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="actions\" />
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
