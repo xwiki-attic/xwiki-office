@@ -332,9 +332,6 @@
     <Content Include="Resources\viewInBrowser1.png" />
     <Content Include="Resources\XWiki.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="actions\" />
-  </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- Include additional build rules for an Office application add-in. -->

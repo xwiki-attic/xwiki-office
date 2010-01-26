@@ -832,5 +832,44 @@ namespace XWord
                 Doc.Activate();
             }
         }
+
+        /// <summary>
+        /// Reloads the active document, if it's a wiki page.
+        /// </summary>
+        public void RefreshActiveDocument()
+        {
+            String activeWikiPageName = GetActivePageName();
+            if (activeWikiPageName != null)
+            {                 
+                //references for COM interop
+                object no = false;
+                object missing = Type.Missing;
+
+                //close the active document
+                addin.ActiveDocumentInstance.Close(ref no, ref missing, ref missing);
+
+                //reload the document
+                EditPage(activeWikiPageName);                
+            }
+        }
+
+        /// <summary>
+        /// Gets the fullname of the wiki page edited in the active document.
+        /// </summary>
+        /// <returns>
+        /// A string representing the name of the currently edited wiki page.
+        /// If the active documet is not a wiki page then null is returned.
+        /// </returns>
+        private String GetActivePageName()
+        {
+            foreach (String docPath in addin.EditedPages.Keys)
+            {
+                if (docPath == addin.ActiveDocumentFullName)
+                {
+                    return addin.EditedPages[docPath];
+                }
+            }
+            return null;
+        }
     }
 }

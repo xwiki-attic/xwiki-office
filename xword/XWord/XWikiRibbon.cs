@@ -333,5 +333,49 @@ namespace XWord
             cc.LockContents = true;    
             
         }
+
+        /// <summary>
+        /// Refreshes the active document. If the document is not a wiki page no action is done.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRefresh_Click(object sender, RibbonControlEventArgs e)
+        {
+            Addin.AddinActions.RefreshActiveDocument();
+            ActivateXWordMenu();
+        }
+
+        /// <summary>
+        /// Activates the XWord tab.
+        /// <remarks>
+        /// This method isn't guarantted to succeed due to other user interactions in the addin.
+        /// </remarks>
+        /// </summary>
+        private void ActivateXWordMenu()
+        {
+            // Enable keyboard menu selection
+            // send % = Alt key
+            SendKeys.Send("%");
+            SendKeys.Send(xWikiTab.KeyTip);
+            // Disable keyboard menu selection
+            SendKeys.Send("%");
+        }
+
+        /// <summary>
+        /// Disables all buttons in the wiki explorer context menu.
+        /// </summary>
+        public void DisableTreeNavigationActions()
+        {
+            uploadAttToPage.Enabled = false;
+            downloadAtt.Enabled = false;
+            btnAddPage.Enabled = false;
+            btnEditPage.Enabled = false;
+            btnShowPages.Enabled = false;
+            btnShowAttachments.Enabled = false;
+            btnViewInBrowser.Enabled = false;
+            btnUpload.Enabled = false;
+            btnDownload.Enabled = false;
+            btnDownloadAndOpen.Enabled = false;
+        }
     }
 }

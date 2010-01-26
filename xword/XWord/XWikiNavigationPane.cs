@@ -354,7 +354,7 @@ namespace XWord
         private void treeView1_Leave(object sender, EventArgs e)
         {
             //Disables all buttons in the context menu.
-            ResetButtons();
+            Globals.Ribbons.XWikiRibbon.DisableTreeNavigationActions();
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace XWord
         /// <param name="e">The arguments of the event</param>
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            ResetButtons();
+            Globals.Ribbons.XWikiRibbon.DisableTreeNavigationActions();
             ResetNavigationContextMenus();
             if (treeView.SelectedNode != null)
             {
@@ -405,22 +405,7 @@ namespace XWord
         }
 
 
-        /// <summary>
-        /// Disables all buttons in the wiki explorer context menu.
-        /// </summary>
-        private void ResetButtons()
-        {
-            Globals.Ribbons.XWikiRibbon.uploadAttToPage.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.downloadAtt.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnAddPage.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnEditPage.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnShowPages.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnShowAttachments.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnViewInBrowser.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnUpload.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnDownload.Enabled = false;
-            Globals.Ribbons.XWikiRibbon.btnDownloadAndOpen.Enabled = false;
-        }
+
 
         /// <summary>
         /// Downloads the selected file to the local disk and openes it(optional).
@@ -549,7 +534,7 @@ namespace XWord
         private void XWikiNavigationPane_Leave(object sender, EventArgs e)
         {
             //Disables all buttons.
-            ResetButtons();
+            Globals.Ribbons.XWikiRibbon.DisableTreeNavigationActions();
         }
 
         /// <summary>

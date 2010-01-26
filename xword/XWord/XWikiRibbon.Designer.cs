@@ -34,7 +34,7 @@
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem3 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem4 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             this.tab1 = new Microsoft.Office.Tools.Ribbon.RibbonTab();
-            this.XWikiTab = new Microsoft.Office.Tools.Ribbon.RibbonTab();
+            this.xWikiTab = new Microsoft.Office.Tools.Ribbon.RibbonTab();
             this.XEGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnNewPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnPublishDocument = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -42,6 +42,8 @@
             this.AttachmentsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.uploadAttToPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.downloadAtt = new Microsoft.Office.Tools.Ribbon.RibbonButton();
+            this.currentDocumentGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
+            this.btnRefresh = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.selectionOptionsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnAddPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnEditPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -59,9 +61,10 @@
             this.separator1 = new Microsoft.Office.Tools.Ribbon.RibbonSeparator();
             this.btnAboutXWord = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.tab1.SuspendLayout();
-            this.XWikiTab.SuspendLayout();
+            this.xWikiTab.SuspendLayout();
             this.XEGroup.SuspendLayout();
             this.AttachmentsGroup.SuspendLayout();
+            this.currentDocumentGroup.SuspendLayout();
             this.selectionOptionsGroup.SuspendLayout();
             this.OptionsGroup.SuspendLayout();
             this.SuspendLayout();
@@ -73,14 +76,16 @@
             this.tab1.Name = "tab1";
             this.tab1.Visible = false;
             // 
-            // XWikiTab
+            // xWikiTab
             // 
-            this.XWikiTab.Groups.Add(this.XEGroup);
-            this.XWikiTab.Groups.Add(this.AttachmentsGroup);
-            this.XWikiTab.Groups.Add(this.selectionOptionsGroup);
-            this.XWikiTab.Groups.Add(this.OptionsGroup);
-            this.XWikiTab.Label = "XWord";
-            this.XWikiTab.Name = "XWikiTab";
+            this.xWikiTab.Groups.Add(this.XEGroup);
+            this.xWikiTab.Groups.Add(this.AttachmentsGroup);
+            this.xWikiTab.Groups.Add(this.currentDocumentGroup);
+            this.xWikiTab.Groups.Add(this.selectionOptionsGroup);
+            this.xWikiTab.Groups.Add(this.OptionsGroup);
+            this.xWikiTab.KeyTip = "X";
+            this.xWikiTab.Label = "XWord";
+            this.xWikiTab.Name = "xWikiTab";
             // 
             // XEGroup
             // 
@@ -160,6 +165,23 @@
             this.downloadAtt.SuperTip = "Downloads the selected attachment to the local file system. To select an attchmen" +
                 "t you must navigate the wiki using the Wiki explorer.";
             this.downloadAtt.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.downloadAtt_Click);
+            // 
+            // currentDocumentGroup
+            // 
+            this.currentDocumentGroup.Items.Add(this.btnRefresh);
+            this.currentDocumentGroup.Label = "Active Document";
+            this.currentDocumentGroup.Name = "currentDocumentGroup";
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnRefresh.Label = "Refresh document";
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.OfficeImageId = "BlogCategoriesRefresh";
+            this.btnRefresh.ScreenTip = "Refresh the current document";
+            this.btnRefresh.ShowImage = true;
+            this.btnRefresh.SuperTip = "Refresh the current document.";
+            this.btnRefresh.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnRefresh_Click);
             // 
             // selectionOptionsGroup
             // 
@@ -340,16 +362,18 @@
             this.Name = "XWikiRibbon";
             this.RibbonType = "Microsoft.Word.Document";
             this.Tabs.Add(this.tab1);
-            this.Tabs.Add(this.XWikiTab);
+            this.Tabs.Add(this.xWikiTab);
             this.Load += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonUIEventArgs>(this.XWikiRibbon_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.XWikiTab.ResumeLayout(false);
-            this.XWikiTab.PerformLayout();
+            this.xWikiTab.ResumeLayout(false);
+            this.xWikiTab.PerformLayout();
             this.XEGroup.ResumeLayout(false);
             this.XEGroup.PerformLayout();
             this.AttachmentsGroup.ResumeLayout(false);
             this.AttachmentsGroup.PerformLayout();
+            this.currentDocumentGroup.ResumeLayout(false);
+            this.currentDocumentGroup.PerformLayout();
             this.selectionOptionsGroup.ResumeLayout(false);
             this.selectionOptionsGroup.PerformLayout();
             this.OptionsGroup.ResumeLayout(false);
@@ -361,7 +385,7 @@
         #endregion
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
-        private Microsoft.Office.Tools.Ribbon.RibbonTab XWikiTab;
+        private Microsoft.Office.Tools.Ribbon.RibbonTab xWikiTab;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup XEGroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup OptionsGroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox syncSaving;
@@ -430,6 +454,8 @@
         public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSaveFormat;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAboutXWord;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup currentDocumentGroup;
+        public Microsoft.Office.Tools.Ribbon.RibbonButton btnRefresh;
     }
 
     partial class ThisRibbonCollection : Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection
