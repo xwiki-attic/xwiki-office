@@ -326,6 +326,7 @@
     <None Include="Resources\loadingWikiData.gif" />
     <None Include="Resources\Nuvola_apps_download_manager2.png" />
     <None Include="XWord_TemporaryKey.pfx" />
+    <None Include="Resources\Nuvola_filesystems_www.png" />
     <Content Include="Resources\storegrid_browser_icon.gif" />
     <Content Include="Resources\viewInBrowser.gif" />
     <Content Include="Resources\viewInBrowser.png" />

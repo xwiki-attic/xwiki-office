@@ -24,6 +24,7 @@ using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 using Microsoft.Office.Tools.Ribbon;
 using Word = Microsoft.Office.Interop.Word;
 using VSTO = Microsoft.Office.Tools;
@@ -376,6 +377,19 @@ namespace XWord
             btnUpload.Enabled = false;
             btnDownload.Enabled = false;
             btnDownloadAndOpen.Enabled = false;
+        }
+
+        private void btnViewActiveDocInBrowser_Click(object sender, RibbonControlEventArgs e)
+        {
+            String pageFullName = Addin.AddinActions.GetActivePageName();
+            if (pageFullName != null)
+            {
+                String url = Addin.Client.GetURL(pageFullName);
+                //url = Addin.serverURL + url;
+                Process p = new Process();
+                p.StartInfo = new ProcessStartInfo(url);
+                p.Start();
+            }
         }
     }
 }

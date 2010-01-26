@@ -860,7 +860,7 @@ namespace XWord
         /// A string representing the name of the currently edited wiki page.
         /// If the active documet is not a wiki page then null is returned.
         /// </returns>
-        private String GetActivePageName()
+        public String GetActivePageName()
         {
             foreach (String docPath in addin.EditedPages.Keys)
             {
