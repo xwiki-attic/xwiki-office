@@ -472,6 +472,7 @@ namespace XWord
                 String pageFullName = treeView.SelectedNode.Name;
                 AddinActions.EditPage(pageFullName);                
             }
+            Globals.Ribbons.XWikiRibbon.DisableTreeNavigationActions();
         }
 
         /// <summary>
@@ -883,6 +884,14 @@ namespace XWord
             if (e.Node.Level == TREE_SPACE_LEVEL && (e.Node.Nodes.Count == 0))
             {
                 ShowPages(e.Node);
+            }
+        }
+
+        private void XWikiNavigationPane_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!Visible)
+            {
+                Globals.Ribbons.XWikiRibbon.DisableTreeNavigationActions();
             }
         }
     }
