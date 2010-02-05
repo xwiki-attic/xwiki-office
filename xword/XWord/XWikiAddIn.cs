@@ -40,6 +40,7 @@ using XWord.VstoExtensions;
 using XWiki.Clients;
 using XWiki;
 using XWiki.Logging;
+using XWiki.Prefetching;
 using UICommons;
 
 namespace XWord
@@ -99,6 +100,7 @@ namespace XWord
         private Word.Range activeDocumentContent;
         private String lastActiveDocumentFullName;
         private XWikiClientType clientType = XWikiClientType.XML_RPC;
+        private PrefetchSettings prefetchSettings;
         /// <summary>
         /// Collection containing all custom task panes in all opened Word instances.
         /// </summary>
@@ -352,6 +354,17 @@ namespace XWord
         }
 
         /// <summary>
+        /// Gets the values for the prefetch settings.
+        /// </summary>
+        public PrefetchSettings PrefetchSettings
+        {
+            get
+            {
+                return prefetchSettings;
+            }
+        }
+
+        /// <summary>
         /// Event triggered when a new word instance is starting.
         /// </summary>
         /// <param name="sender">The control/application that triggers the event.</param>
@@ -576,6 +589,7 @@ namespace XWord
                 this.DownloadedAttachmentsRepository = addinSettings.DownloadedAttachmentsRepository;
                 this.PagesRepository = addinSettings.PagesRepository;
                 this.clientType = addinSettings.ClientType;
+                this.prefetchSettings = addinSettings.PrefethSettings;
             }
             else
             {

@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using XWiki;
+using XWiki.Prefetching;
 
 namespace XWord
 {
@@ -38,6 +39,7 @@ namespace XWord
         private string pagesRepository;        
         private string downloadedAttachmentsRepository;
         private XWikiClientType clientType;
+        private PrefetchSettings prefethSettings;
 
         /// <summary>
         /// Creates a new instance of the class.
@@ -48,6 +50,7 @@ namespace XWord
             pagesRepository = Path.GetTempPath();
             downloadedAttachmentsRepository = Path.GetTempPath();
             clientType = XWikiClientType.XML_RPC;
+            prefethSettings = new PrefetchSettings();
         }
 
         /// <summary>
@@ -75,6 +78,15 @@ namespace XWord
         {
             get { return clientType; }
             set { clientType = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the instance holding the settings for the wiki prefetcher.
+        /// </summary>
+        public PrefetchSettings PrefethSettings
+        {
+            get { return prefethSettings; }
+            set { prefethSettings = value; }
         }
     }
 }

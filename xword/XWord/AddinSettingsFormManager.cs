@@ -96,8 +96,14 @@ namespace XWord
             addinSettings.PagesRepository = addin.PagesRepository;
             addinSettings.DownloadedAttachmentsRepository = addin.DownloadedAttachmentsRepository;
             addinSettings.ClientType = addin.ClientType;
+            //repository tab
             addinSettingsForm.TxtPagesRepoText = addin.PagesRepository;
             addinSettingsForm.TxtAttachmentsRepoText = addin.DownloadedAttachmentsRepository;
+            //prefetch tab
+            //TODO extract the settings from the add-in
+            addinSettingsForm.IsPrefetchEnabled = addin.PrefetchSettings.PrefetchEnabled;
+            addinSettingsForm.txtPrefetchInterval.Text = addin.PrefetchSettings.PollingInterval.ToString();
+            addinSettingsForm.txtPrefetchPagesSetSize.Text = addin.PrefetchSettings.ResultSetSize.ToString();
 
             //init protocol settings
             addinSettingsForm.ConnectDictionary.Add(addinSettingsForm.ConnectMethods[0], XWikiClientType.XML_RPC);
@@ -258,7 +264,7 @@ namespace XWord
             addinSettingsForm.Cursor = c;
         }
 
- 
+               
 
     }
 }

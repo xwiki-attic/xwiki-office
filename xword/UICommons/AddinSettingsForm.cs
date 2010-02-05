@@ -195,6 +195,15 @@ namespace UICommons
         }
 
         /// <summary>
+        /// Sets or gets the value of the checkbox specifying the configured state of the prefetcher.
+        /// </summary>
+        public bool IsPrefetchEnabled
+        {
+            get { return checkEnablePrefetch.Checked; }
+            set { checkEnablePrefetch.Checked = value; }
+        }
+
+        /// <summary>
         /// Gets the text value from the txtPagesRepo textbox.
         /// </summary>
         public string TxtPagesRepoText

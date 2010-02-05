@@ -93,6 +93,7 @@ namespace XWord
                 stream = new IsolatedStorageFileStream(filename, FileMode.Open, isFile);
                 formatter = new BinaryFormatter();
                 settings = (XOfficeCommonSettings)formatter.Deserialize(stream);
+                NullsToDefaults(settings);
             }
             catch (InvalidCastException ce)
             {
@@ -149,6 +150,22 @@ namespace XWord
             }
 
             return hasSettings;
+        }
+
+        private static void NullsToDefaults(XOfficeCommonSettings settings)
+        {
+            if (settings.DownloadedAttachmentsRepository == null)
+            {
+                settings.DownloadedAttachmentsRepository = Path.GetTempPath();
+            }
+            if (settings.PagesRepository == null)
+            {
+                settings.PagesRepository = Path.GetTempPath();
+            }
+            if (settings.PrefethSettings == null)
+            {
+                settings.PrefethSettings = new XWiki.Prefetching.PrefetchSettings();
+            }
         }
     }
 }

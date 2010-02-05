@@ -50,6 +50,13 @@ namespace UICommons
             this.btnPagesRepo = new System.Windows.Forms.Button();
             this.txtPagesRepo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.tabPrefetch = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkEnablePrefetch = new System.Windows.Forms.CheckBox();
+            this.txtPrefetchPagesSetSize = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtPrefetchInterval = new System.Windows.Forms.TextBox();
+            this.lblPollTimeout = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -58,12 +65,15 @@ namespace UICommons
             this.groupBox1.SuspendLayout();
             this.tabFileRepository.SuspendLayout();
             this.grp.SuspendLayout();
+            this.tabPrefetch.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabConnection);
             this.tabControl.Controls.Add(this.tabFileRepository);
+            this.tabControl.Controls.Add(this.tabPrefetch);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
@@ -283,6 +293,75 @@ namespace UICommons
             this.label4.TabIndex = 13;
             this.label4.Text = "Pages:";
             // 
+            // tabPrefetch
+            // 
+            this.tabPrefetch.Controls.Add(this.groupBox2);
+            this.tabPrefetch.Location = new System.Drawing.Point(4, 22);
+            this.tabPrefetch.Name = "tabPrefetch";
+            this.tabPrefetch.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPrefetch.Size = new System.Drawing.Size(408, 234);
+            this.tabPrefetch.TabIndex = 2;
+            this.tabPrefetch.Text = "Prefetch & Update Wiki";
+            this.tabPrefetch.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkEnablePrefetch);
+            this.groupBox2.Controls.Add(this.txtPrefetchPagesSetSize);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.txtPrefetchInterval);
+            this.groupBox2.Controls.Add(this.lblPollTimeout);
+            this.groupBox2.Location = new System.Drawing.Point(8, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(383, 184);
+            this.groupBox2.TabIndex = 21;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Settings";
+            // 
+            // checkEnablePrefetch
+            // 
+            this.checkEnablePrefetch.AutoSize = true;
+            this.checkEnablePrefetch.Location = new System.Drawing.Point(18, 19);
+            this.checkEnablePrefetch.Name = "checkEnablePrefetch";
+            this.checkEnablePrefetch.Size = new System.Drawing.Size(166, 17);
+            this.checkEnablePrefetch.TabIndex = 27;
+            this.checkEnablePrefetch.Text = "Enable wiki structure prefetch";
+            this.checkEnablePrefetch.UseVisualStyleBackColor = true;
+            // 
+            // txtPrefetchPagesSetSize
+            // 
+            this.txtPrefetchPagesSetSize.Location = new System.Drawing.Point(265, 104);
+            this.txtPrefetchPagesSetSize.Name = "txtPrefetchPagesSetSize";
+            this.txtPrefetchPagesSetSize.Size = new System.Drawing.Size(62, 20);
+            this.txtPrefetchPagesSetSize.TabIndex = 25;
+            this.txtPrefetchPagesSetSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 107);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(185, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Number of pages retrieve per request:";
+            // 
+            // txtPrefetchInterval
+            // 
+            this.txtPrefetchInterval.Location = new System.Drawing.Point(265, 59);
+            this.txtPrefetchInterval.Name = "txtPrefetchInterval";
+            this.txtPrefetchInterval.Size = new System.Drawing.Size(62, 20);
+            this.txtPrefetchInterval.TabIndex = 23;
+            this.txtPrefetchInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblPollTimeout
+            // 
+            this.lblPollTimeout.AutoSize = true;
+            this.lblPollTimeout.Location = new System.Drawing.Point(15, 62);
+            this.lblPollTimeout.Name = "lblPollTimeout";
+            this.lblPollTimeout.Size = new System.Drawing.Size(137, 13);
+            this.lblPollTimeout.TabIndex = 22;
+            this.lblPollTimeout.Text = "Get data interval (seconds):";
+            // 
             // btnApply
             // 
             this.btnApply.Location = new System.Drawing.Point(248, 266);
@@ -340,6 +419,9 @@ namespace UICommons
             this.tabFileRepository.ResumeLayout(false);
             this.grp.ResumeLayout(false);
             this.grp.PerformLayout();
+            this.tabPrefetch.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -370,6 +452,13 @@ namespace UICommons
         private System.Windows.Forms.LinkLabel linkConnectDoc;
         private System.Windows.Forms.ComboBox comboProtocol;
         private System.Windows.Forms.Label lblProtocol;
+        private System.Windows.Forms.TabPage tabPrefetch;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label lblPollTimeout;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkEnablePrefetch;
+        public System.Windows.Forms.TextBox txtPrefetchInterval;
+        public System.Windows.Forms.TextBox txtPrefetchPagesSetSize;
 
     }
 }

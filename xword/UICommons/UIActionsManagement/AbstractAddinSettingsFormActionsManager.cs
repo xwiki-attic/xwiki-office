@@ -67,7 +67,6 @@ namespace UICommons.UIActionsManagement
         /// <param name="e">Event arguments.</param>
         protected abstract void ActionCancel(object sender, EventArgs e);
 
-
         #region IActionsManager<AddinSettingsForm> Members
 
         /// <summary>
