@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XWikiRibbon));
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncher1 = new Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem1 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem2 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
@@ -44,6 +45,7 @@
             this.downloadAtt = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.currentDocumentGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnRefresh = new Microsoft.Office.Tools.Ribbon.RibbonButton();
+            this.btnPreview = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnViewActiveDocInBrowser = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.selectionOptionsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnAddPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -170,6 +172,7 @@
             // currentDocumentGroup
             // 
             this.currentDocumentGroup.Items.Add(this.btnRefresh);
+            this.currentDocumentGroup.Items.Add(this.btnPreview);
             this.currentDocumentGroup.Items.Add(this.btnViewActiveDocInBrowser);
             this.currentDocumentGroup.Label = "Active Document";
             this.currentDocumentGroup.Name = "currentDocumentGroup";
@@ -185,13 +188,23 @@
             this.btnRefresh.SuperTip = "Refresh the current document.";
             this.btnRefresh.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnRefresh_Click);
             // 
+            // btnPreview
+            // 
+            this.btnPreview.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnPreview.Image = ((System.Drawing.Image)(resources.GetObject("btnPreview.Image")));
+            this.btnPreview.Label = "Preview in browser";
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.ScreenTip = "View the edited page in browser.";
+            this.btnPreview.ShowImage = true;
+            this.btnPreview.SuperTip = "THe selected page will be opened in the system\'s default browser.";
+            // 
             // btnViewActiveDocInBrowser
             // 
             this.btnViewActiveDocInBrowser.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnViewActiveDocInBrowser.Image = global::XWord.Properties.Resources.Nuvola_browser;
-            this.btnViewActiveDocInBrowser.Label = "View in browser";
+            this.btnViewActiveDocInBrowser.Label = "View saved version";
             this.btnViewActiveDocInBrowser.Name = "btnViewActiveDocInBrowser";
-            this.btnViewActiveDocInBrowser.ScreenTip = "View the edited page in browser.";
+            this.btnViewActiveDocInBrowser.ScreenTip = "View the last saved version of edited page in browser.";
             this.btnViewActiveDocInBrowser.ShowImage = true;
             this.btnViewActiveDocInBrowser.SuperTip = "THe selected page will be opened in the system\'s default browser.";
             this.btnViewActiveDocInBrowser.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnViewActiveDocInBrowser_Click);
@@ -470,6 +483,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup currentDocumentGroup;
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnRefresh;
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnViewActiveDocInBrowser;
+        public Microsoft.Office.Tools.Ribbon.RibbonButton btnPreview;
     }
 
     partial class ThisRibbonCollection : Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection
