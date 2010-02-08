@@ -187,6 +187,7 @@ namespace XWord
             this.treeView.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView.Leave += new System.EventHandler(this.treeView1_Leave);
+            this.treeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseDown);
             // 
             // pictureBox
             // 

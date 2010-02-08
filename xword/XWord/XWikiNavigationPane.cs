@@ -894,5 +894,10 @@ namespace XWord
                 Globals.Ribbons.XWikiRibbon.DisableTreeNavigationActions();
             }
         }
+
+        private void treeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            treeView.SelectedNode = treeView.GetNodeAt(e.X, e.Y);
+        }
     }
 }
