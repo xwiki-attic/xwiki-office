@@ -61,6 +61,7 @@ namespace XWord
             {
                 Globals.XWikiAddIn.currentPageFullName = addPageForm.SpaceName + "." + addPageForm.PageName;
                 Globals.XWikiAddIn.AddinActions.SaveToServer();
+                Globals.XWikiAddIn.EditedPages.Add(Globals.XWikiAddIn.ActiveDocumentFullName, Globals.XWikiAddIn.currentPageFullName);                
             }
         }
 
