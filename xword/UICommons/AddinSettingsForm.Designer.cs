@@ -327,6 +327,7 @@ namespace UICommons
             this.checkEnablePrefetch.TabIndex = 27;
             this.checkEnablePrefetch.Text = "Enable wiki structure prefetch";
             this.checkEnablePrefetch.UseVisualStyleBackColor = true;
+            this.checkEnablePrefetch.CheckedChanged += new System.EventHandler(this.PrefechSettingChanged);
             // 
             // txtPrefetchPagesSetSize
             // 
@@ -335,6 +336,7 @@ namespace UICommons
             this.txtPrefetchPagesSetSize.Size = new System.Drawing.Size(62, 20);
             this.txtPrefetchPagesSetSize.TabIndex = 25;
             this.txtPrefetchPagesSetSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPrefetchPagesSetSize.TextChanged += new System.EventHandler(this.PrefechSettingChanged);
             // 
             // label1
             // 
@@ -352,6 +354,7 @@ namespace UICommons
             this.txtPrefetchInterval.Size = new System.Drawing.Size(62, 20);
             this.txtPrefetchInterval.TabIndex = 23;
             this.txtPrefetchInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPrefetchInterval.TextChanged += new System.EventHandler(this.PrefechSettingChanged);
             // 
             // lblPollTimeout
             // 

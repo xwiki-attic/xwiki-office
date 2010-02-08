@@ -100,7 +100,6 @@ namespace XWord
             addinSettingsForm.TxtPagesRepoText = addin.PagesRepository;
             addinSettingsForm.TxtAttachmentsRepoText = addin.DownloadedAttachmentsRepository;
             //prefetch tab
-            //TODO extract the settings from the add-in
             addinSettingsForm.IsPrefetchEnabled = addin.PrefetchSettings.PrefetchEnabled;
             addinSettingsForm.txtPrefetchInterval.Text = addin.PrefetchSettings.PollingInterval.ToString();
             addinSettingsForm.txtPrefetchPagesSetSize.Text = addin.PrefetchSettings.ResultSetSize.ToString();
@@ -138,6 +137,11 @@ namespace XWord
                 ApplyRepositoriesSettings();
                 addinSettingsForm.AddinSettingsApplied = true;
             }
+            else if (addinSettingsForm.IsTabPrefetchSelected)
+            {
+                ApplyPrefetchSettings();
+                addinSettingsForm.AddinSettingsApplied = true;
+            }
         }
 
         /// <summary>
@@ -155,6 +159,7 @@ namespace XWord
             if (!addinSettingsForm.AddinSettingsApplied)
             {
                 ApplyRepositoriesSettings();
+                ApplyPrefetchSettings();
             }
             addinSettingsForm.DialogResult = DialogResult.OK;
             addinSettingsForm.Close();
@@ -264,7 +269,35 @@ namespace XWord
             addinSettingsForm.Cursor = c;
         }
 
-               
-
+        /// <summary>
+        /// Sets the settings for the active prefetcher and 
+        /// </summary>
+        private void ApplyPrefetchSettings()
+        {
+            Cursor c = addinSettingsForm.Cursor;
+            addinSettingsForm.Cursor = Cursors.WaitCursor;
+            //reference the active settings
+            addinSettings.PrefethSettings = addin.PrefetchSettings;
+            //replace active settings
+            try
+            {
+                //parse the input
+                double prefetchInterval = Double.Parse(addinSettingsForm.txtPrefetchInterval.Text);
+                int resultSetSize = Int32.Parse(addinSettingsForm.txtPrefetchPagesSetSize.Text);
+                addinSettings.PrefethSettings.PollingInterval = prefetchInterval;
+                addinSettings.PrefethSettings.ResultSetSize = resultSetSize;
+            }
+            catch (FormatException fe)
+            {
+                Log.Exception(fe);
+                //return to initial values
+                addinSettingsForm.txtPrefetchInterval.Text = addinSettings.PrefethSettings.PollingInterval.ToString();
+                addinSettingsForm.txtPrefetchPagesSetSize.Text = addinSettings.PrefethSettings.ResultSetSize.ToString();
+            }
+            addinSettings.PrefethSettings.PrefetchEnabled = addinSettingsForm.IsPrefetchEnabled;
+            //write the settings to storage
+            XOfficeCommonSettingsHandler.WriteRepositorySettings(addinSettings);
+            addinSettingsForm.Cursor = c;
+        }
     }
 }

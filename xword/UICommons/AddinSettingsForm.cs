@@ -195,6 +195,14 @@ namespace UICommons
         }
 
         /// <summary>
+        /// Return TRUE if prefetch tab is selected.
+        /// </summary>
+        public bool IsTabPrefetchSelected
+        {
+            get { return tabControl.SelectedTab == tabPrefetch; }
+        }
+
+        /// <summary>
         /// Sets or gets the value of the checkbox specifying the configured state of the prefetcher.
         /// </summary>
         public bool IsPrefetchEnabled
@@ -457,6 +465,11 @@ namespace UICommons
         private void AddinSettingsForm_Shown(object sender, EventArgs e)
         {
             IsShown = true;
+        }
+
+        private void PrefechSettingChanged(object sender, EventArgs e)
+        {
+            addinSettingsApplied = false;
         }
     }
 }
