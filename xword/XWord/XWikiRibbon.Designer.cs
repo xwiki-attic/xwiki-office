@@ -287,7 +287,7 @@
             this.btnShowPages.Image = global::XWord.Properties.Resources.Crystal_Clear_action_view_tree96;
             this.btnShowPages.Label = "Show pages";
             this.btnShowPages.Name = "btnShowPages";
-            this.btnShowPages.ScreenTip = "Shows the pages for the selectes space.";
+            this.btnShowPages.ScreenTip = "Shows the pages for the selected space.";
             this.btnShowPages.ShowImage = true;
             this.btnShowPages.SuperTip = "The selected space node will be expanded in order to see the pages.";
             this.btnShowPages.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnShowPages_Click);
@@ -300,7 +300,7 @@
             this.btnShowAttachments.Name = "btnShowAttachments";
             this.btnShowAttachments.ScreenTip = "Shows the attachments for the selected page.";
             this.btnShowAttachments.ShowImage = true;
-            this.btnShowAttachments.SuperTip = "The selected space node will be expanded in order to see the attachments.";
+            this.btnShowAttachments.SuperTip = "The selected page node will be expanded in order to see the attachments.";
             this.btnShowAttachments.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnShowAttachments_Click);
             // 
             // btnViewInBrowser
