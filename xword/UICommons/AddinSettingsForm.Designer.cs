@@ -102,6 +102,8 @@ namespace UICommons
             // 
             // txtServerURL
             // 
+            this.txtServerURL.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.txtServerURL.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
             this.txtServerURL.Location = new System.Drawing.Point(102, 25);
             this.txtServerURL.Name = "txtServerURL";
             this.txtServerURL.Size = new System.Drawing.Size(271, 20);
