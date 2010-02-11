@@ -155,7 +155,7 @@ namespace XWiki.Office.Word
         {
             foreach (String filePath in newAttachments)
             {
-                xwikiClient.AddAttachmentAsync(states.PageFullName, filePath);
+                xwikiClient.AddAttachment(states.PageFullName, filePath);
             }
             //clean the list for future uploads
             newAttachments.Clear();
