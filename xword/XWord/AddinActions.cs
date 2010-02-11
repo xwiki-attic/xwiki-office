@@ -807,7 +807,7 @@ namespace XWord
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref encoding,
                                 ref missing, ref missing, ref missing, ref missing);
                 //Refresh the active instance(required after acquiring chart data from Excel)
-                document = addin.ActiveDocumentInstance;
+                document = addin.Application.ActiveWindow.Document;
                 document.SaveAs(ref originalFilePath, ref initialDocSaveFormat, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing);
