@@ -528,7 +528,7 @@ namespace XWord
                 if (addin.AddinStatus.Syntax == null)
                 {
                     addin.AddinStatus.Syntax = addin.DefaultSyntax;
-                }                
+                }
 
                 if (SavePage(addin.currentPageFullName, ref cleanHTML, addin.AddinStatus.Syntax))
                 {
@@ -806,17 +806,23 @@ namespace XWord
                 document.SaveAs(ref copyPath, ref format, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref encoding,
                                 ref missing, ref missing, ref missing, ref missing);
+                //Refresh the active instance(required after acquiring chart data from Excel)
+                document = addin.ActiveDocumentInstance;
                 document.SaveAs(ref originalFilePath, ref initialDocSaveFormat, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
                                 ref missing, ref missing, ref missing, ref missing);
             }
-            catch (IOException ioex)
+            catch (IOException ioex) 
             {
                 Log.Exception(ioex);
                 UserNotifier.Error(ioex.Message);
                 return false;
             }
-
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+                return false;
+            }
             return true;
         }
 
