@@ -104,7 +104,7 @@
             this.btnNewPage.Description = "Add a new page to the wiki.";
             this.btnNewPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
             this.btnNewPage.KeyTip = "A";
-            this.btnNewPage.Label = "Add page";
+            this.btnNewPage.Label = "Add Page";
             this.btnNewPage.Name = "btnNewPage";
             this.btnNewPage.ScreenTip = "Add a new page to the wiki.";
             this.btnNewPage.ShowImage = true;
@@ -117,7 +117,7 @@
             // 
             this.btnPublishDocument.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnPublishDocument.Image = global::XWord.Properties.Resources.Crystal_Clear_action_apply;
-            this.btnPublishDocument.Label = "Publish document";
+            this.btnPublishDocument.Label = "Publish Document";
             this.btnPublishDocument.Name = "btnPublishDocument";
             this.btnPublishDocument.ScreenTip = "Publish Page to XWiki";
             this.btnPublishDocument.ShowImage = true;
@@ -129,7 +129,7 @@
             this.toggleButton1.Checked = true;
             this.toggleButton1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.toggleButton1.Image = global::XWord.Properties.Resources.Crystal_Clear_filesystem_folder_green;
-            this.toggleButton1.Label = "Wiki explorer";
+            this.toggleButton1.Label = "Wiki Explorer";
             this.toggleButton1.Name = "toggleButton1";
             this.toggleButton1.ScreenTip = "Toggle Wiki Explorer";
             this.toggleButton1.ShowImage = true;
@@ -149,7 +149,7 @@
             this.uploadAttToPage.Description = "Uploads the current document to the wiki.";
             this.uploadAttToPage.Enabled = false;
             this.uploadAttToPage.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager2;
-            this.uploadAttToPage.Label = "Attach current document";
+            this.uploadAttToPage.Label = "Attach Current Document";
             this.uploadAttToPage.Name = "uploadAttToPage";
             this.uploadAttToPage.ScreenTip = "Uploads the active document to the wiki.";
             this.uploadAttToPage.ShowImage = true;
@@ -161,7 +161,7 @@
             this.downloadAtt.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.downloadAtt.Enabled = false;
             this.downloadAtt.Image = global::XWord.Properties.Resources.Nuvola_apps_download_manager;
-            this.downloadAtt.Label = "Download selected file";
+            this.downloadAtt.Label = "Download Selected File";
             this.downloadAtt.Name = "downloadAtt";
             this.downloadAtt.ScreenTip = "Download the selected attachment.";
             this.downloadAtt.ShowImage = true;
@@ -180,7 +180,7 @@
             // btnRefresh
             // 
             this.btnRefresh.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnRefresh.Label = "Refresh document";
+            this.btnRefresh.Label = "Refresh Document";
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.OfficeImageId = "BlogCategoriesRefresh";
             this.btnRefresh.ScreenTip = "Refresh the current document";
@@ -192,7 +192,7 @@
             // 
             this.btnPreview.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnPreview.Image = ((System.Drawing.Image)(resources.GetObject("btnPreview.Image")));
-            this.btnPreview.Label = "Preview in browser";
+            this.btnPreview.Label = "Preview in Browser";
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.ScreenTip = "View the edited page in browser.";
             this.btnPreview.ShowImage = true;
@@ -202,7 +202,7 @@
             // 
             this.btnViewActiveDocInBrowser.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnViewActiveDocInBrowser.Image = global::XWord.Properties.Resources.Nuvola_browser;
-            this.btnViewActiveDocInBrowser.Label = "View saved version";
+            this.btnViewActiveDocInBrowser.Label = "View Saved Version";
             this.btnViewActiveDocInBrowser.Name = "btnViewActiveDocInBrowser";
             this.btnViewActiveDocInBrowser.ScreenTip = "View the last saved version of edited page in browser.";
             this.btnViewActiveDocInBrowser.ShowImage = true;
@@ -226,7 +226,7 @@
             // 
             this.btnAddPage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnAddPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit_add;
-            this.btnAddPage.Label = "Add page";
+            this.btnAddPage.Label = "Add Page";
             this.btnAddPage.Name = "btnAddPage";
             this.btnAddPage.ScreenTip = "Add a page to the selected space.";
             this.btnAddPage.ShowImage = true;
@@ -239,7 +239,7 @@
             // 
             this.btnEditPage.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnEditPage.Image = global::XWord.Properties.Resources.Crystal_Clear_action_edit;
-            this.btnEditPage.Label = "Edit page";
+            this.btnEditPage.Label = "Edit Page";
             this.btnEditPage.Name = "btnEditPage";
             this.btnEditPage.ScreenTip = "Edit the selected page.";
             this.btnEditPage.ShowImage = true;
@@ -273,7 +273,7 @@
             // 
             this.btnDownloadAndOpen.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnDownloadAndOpen.Image = global::XWord.Properties.Resources.Crystal_Clear_download_and_open;
-            this.btnDownloadAndOpen.Label = "Download and open";
+            this.btnDownloadAndOpen.Label = "Download and Open";
             this.btnDownloadAndOpen.Name = "btnDownloadAndOpen";
             this.btnDownloadAndOpen.ScreenTip = "Downloads and opens the selected attachment.";
             this.btnDownloadAndOpen.ShowImage = true;
@@ -285,7 +285,7 @@
             // 
             this.btnShowPages.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnShowPages.Image = global::XWord.Properties.Resources.Crystal_Clear_action_view_tree96;
-            this.btnShowPages.Label = "Show pages";
+            this.btnShowPages.Label = "Show Pages";
             this.btnShowPages.Name = "btnShowPages";
             this.btnShowPages.ScreenTip = "Shows the pages for the selected space.";
             this.btnShowPages.ShowImage = true;
@@ -296,7 +296,7 @@
             // 
             this.btnShowAttachments.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnShowAttachments.Image = global::XWord.Properties.Resources.Crystal_Clear_action_view_tree96;
-            this.btnShowAttachments.Label = "Show attachments";
+            this.btnShowAttachments.Label = "Show Attachments";
             this.btnShowAttachments.Name = "btnShowAttachments";
             this.btnShowAttachments.ScreenTip = "Shows the attachments for the selected page.";
             this.btnShowAttachments.ShowImage = true;
@@ -307,7 +307,7 @@
             // 
             this.btnViewInBrowser.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnViewInBrowser.Image = global::XWord.Properties.Resources.browser;
-            this.btnViewInBrowser.Label = "View in browser";
+            this.btnViewInBrowser.Label = "View in Browser";
             this.btnViewInBrowser.Name = "btnViewInBrowser";
             this.btnViewInBrowser.ScreenTip = "View the selected page in browser.";
             this.btnViewInBrowser.ShowImage = true;
@@ -351,7 +351,7 @@
             ribbonDropDownItem2.Label = "XHTML";
             this.dropDownSyntax.Items.Add(ribbonDropDownItem1);
             this.dropDownSyntax.Items.Add(ribbonDropDownItem2);
-            this.dropDownSyntax.Label = "Server syntax:       ";
+            this.dropDownSyntax.Label = "Server Syntax:       ";
             this.dropDownSyntax.Name = "dropDownSyntax";
             this.dropDownSyntax.ScreenTip = "The syntax used to save the page on the XWiki server.";
             this.dropDownSyntax.SelectionChanged += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSyntax_SelectionChanged);
@@ -362,7 +362,7 @@
             ribbonDropDownItem4.Label = "Filtered HTML";
             this.dropDownSaveFormat.Items.Add(ribbonDropDownItem3);
             this.dropDownSaveFormat.Items.Add(ribbonDropDownItem4);
-            this.dropDownSaveFormat.Label = "Local save format:";
+            this.dropDownSaveFormat.Label = "Local Save Format:";
             this.dropDownSaveFormat.Name = "dropDownSaveFormat";
             this.dropDownSaveFormat.ScreenTip = "The format used to save your local wiki pages.";
             this.dropDownSaveFormat.ItemsLoading += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSaveFormat_ItemsLoading);
