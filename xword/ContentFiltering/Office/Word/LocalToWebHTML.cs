@@ -56,7 +56,7 @@ namespace XWiki.Office.Word
             content = new LocalToWebHTMLCleaner(HTML_OPENING_TAG).Clean(content);
 
             xmlDoc.LoadXml(content);
-
+            //rigister the html filters
             List<IDOMFilter> contentFilters = new List<IDOMFilter>()
             {
                 new LocalToWebStyleFilter(manager),

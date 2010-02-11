@@ -72,9 +72,8 @@ namespace ContentFiltering.Office.Word.Filters
                             {
                                 imagePath = Path.Combine(manager.States.LocalFolder, imagePath);
                             }
-                            bool sucess = manager.XWikiClient.AddAttachment(manager.States.PageFullName, imagePath);
-                            //TODO report if the attachment cannot be loaded.
-                            newPath = manager.XWikiClient.GetAttachmentURL(manager.States.PageFullName, attachmentName);
+                            manager.RegisterForUpload(imagePath);
+                            newPath = attachmentName;
                         }
                         node.Attributes["src"].Value = newPath;
                         adaptedSrcs.Add(newPath);

@@ -186,7 +186,15 @@ namespace XWord
                 }
                 else
                 {
-                    Addin.AddinActions.SaveToServer();
+                    try
+                    {
+                        Addin.AddinActions.SaveToServer();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Exception(ex);
+                        UserNotifier.Exclamation("There was an error when trying to save the page to the server");
+                    }
                 }
             }
             catch(NullReferenceException ex)

@@ -533,6 +533,7 @@ namespace XWord
                 if (SavePage(addin.currentPageFullName, ref cleanHTML, addin.AddinStatus.Syntax))
                 {
                     ssxManager.UploadStyleSheetExtensions();
+                    pageConverter.UploadAttachments();
                 }
             }
             catch (COMException ex)

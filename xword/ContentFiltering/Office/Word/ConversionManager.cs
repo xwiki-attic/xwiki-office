@@ -34,6 +34,12 @@ namespace XWiki.Office.Word
     /// </summary>
     public class ConversionManager
     {
+
+        /// <summary>
+        /// Contains the new or modified attachments that need to be uploaded.
+        /// </summary>
+        private List<String> newAttachments;
+
         /// <summary>
         /// Creates a new instance of the ConversionManager class.
         /// </summary>
@@ -51,6 +57,7 @@ namespace XWiki.Office.Word
             xwikiClient = client;
             localToWebHtml = new LocalToWebHTML(this);
             webToLocalHtml = new WebToLocalHTML(this);
+            newAttachments = new List<string>();
         }
 
         /// <summary>
@@ -133,6 +140,25 @@ namespace XWiki.Office.Word
             content = localToWebHtml.AdaptSource(content);
             states.SetActionState(ConverterActionState.EditingPage);
             return content;
+        }
+
+        /// <summary>
+        /// Adds an file to the list of files to be attached to the page.
+        /// </summary>
+        /// <param name="attachmentPath">The path to the attachment to be uploaded.</param>
+        public void RegisterForUpload(String attachmentPath)
+        {
+            newAttachments.Add(attachmentPath);
+        }
+
+        public void UploadAttachments()
+        {
+            foreach (String filePath in newAttachments)
+            {
+                xwikiClient.AddAttachmentAsync(states.PageFullName, filePath);
+            }
+            //clean the list for future uploads
+            newAttachments.Clear();
         }
     }
 }
