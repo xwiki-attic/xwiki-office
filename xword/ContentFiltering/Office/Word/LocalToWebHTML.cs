@@ -59,6 +59,7 @@ namespace XWiki.Office.Word
             //rigister the html filters
             List<IDOMFilter> contentFilters = new List<IDOMFilter>()
             {
+                new ParentDivAttributeRemoverFilter(manager),
                 new LocalToWebStyleFilter(manager),
                 new StyleRemoverFilter(manager),
                 new GrammarAndSpellingErrorsFilter(manager),

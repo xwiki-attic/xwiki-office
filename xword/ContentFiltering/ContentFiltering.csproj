@@ -87,6 +87,7 @@
     <Compile Include="Office\Word\Cleaners\IHTMLCleaner.cs" />
     <Compile Include="Office\Word\Filters\LocalImageAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\LocalToWebStyleFilter.cs" />
+    <Compile Include="Office\Word\Filters\ParentDivAttributeRemoverFilter.cs" />
     <Compile Include="Office\Word\Filters\WebImageAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\WebListsAdaptorFilter.cs" />
     <Compile Include="Office\Word\Filters\WebMacrosAdaptorFilter.cs" />
