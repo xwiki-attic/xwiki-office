@@ -92,17 +92,21 @@ namespace XWord
                 addinSettingsForm.UserName = addin.username;
                 addinSettingsForm.Password = addin.password;
             }
+            addinSettingsForm.CkRememberMe = addin.RememberCredentials;
+            addinSettingsForm.CkAutoLogin = addin.AutoLogin;
+
             addinSettings = new XOfficeCommonSettings();
             addinSettings.PagesRepository = addin.PagesRepository;
             addinSettings.DownloadedAttachmentsRepository = addin.DownloadedAttachmentsRepository;
             addinSettings.ClientType = addin.ClientType;
+            addinSettings.AutoLogin = addin.AutoLogin;
             //repository tab
             addinSettingsForm.TxtPagesRepoText = addin.PagesRepository;
             addinSettingsForm.TxtAttachmentsRepoText = addin.DownloadedAttachmentsRepository;
             //prefetch tab
             addinSettingsForm.IsPrefetchEnabled = addin.PrefetchSettings.PrefetchEnabled;
             addinSettingsForm.txtPrefetchInterval.Text = addin.PrefetchSettings.PollingInterval.ToString();
-            addinSettingsForm.txtPrefetchPagesSetSize.Text = addin.PrefetchSettings.ResultSetSize.ToString();
+            addinSettingsForm.txtPrefetchPagesSetSize.Text = addin.PrefetchSettings.ResultSetSize.ToString();            
 
             //init protocol settings
             addinSettingsForm.ConnectDictionary.Add(addinSettingsForm.ConnectMethods[0], XWikiClientType.XML_RPC);
@@ -217,11 +221,14 @@ namespace XWord
             addin.serverURL = addinSettingsForm.ServerURL;
             addin.username = addinSettingsForm.UserName;
             addin.password = addinSettingsForm.Password;
+            addin.RememberCredentials = addinSettingsForm.CkRememberMe;
+            addin.AutoLogin = addinSettingsForm.CkAutoLogin;
+            addinSettings.AutoLogin = addin.AutoLogin;
             LoginData loginData = new LoginData(LoginData.XWORD_LOGIN_DATA_FILENAME);
             addin.Client = XWikiClientFactory.CreateXWikiClient(addin.ClientType,
                 addin.serverURL, addin.username, addin.password);
 
-            if (addinSettingsForm.IsCkRememberMeChecked)
+            if (addinSettingsForm.CkRememberMe)
             {
                 String[] credentials = new String[3];
                 credentials[0] = Globals.XWikiAddIn.serverURL;

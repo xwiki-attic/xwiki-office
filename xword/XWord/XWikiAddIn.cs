@@ -101,6 +101,8 @@ namespace XWord
         private String lastActiveDocumentFullName;
         private XWikiClientType clientType = XWikiClientType.XML_RPC;
         private PrefetchSettings prefetchSettings;
+        private bool rememberCredentials = false;
+        private bool autologin = false;
         /// <summary>
         /// Collection containing all custom task panes in all opened Word instances.
         /// </summary>
@@ -158,6 +160,15 @@ namespace XWord
         }
 
         /// <summary>
+        /// Specifies if the user has stored credentials.
+        /// </summary>
+        public bool RememberCredentials
+        {
+            get { return rememberCredentials; }
+            set { rememberCredentials = value; }
+        }
+
+        /// <summary>
         /// Gets a dictionary with the edited pages list.
         /// </summary>
         public Dictionary<String, String> EditedPages
@@ -178,6 +189,15 @@ namespace XWord
             {
                 clientType = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the auto-login behavior for the add-in
+        /// </summary>
+        public bool AutoLogin
+        {
+            get { return autologin; }
+            set { autologin = value; }
         }
 
         /// <summary>
@@ -590,6 +610,7 @@ namespace XWord
                 this.PagesRepository = addinSettings.PagesRepository;
                 this.clientType = addinSettings.ClientType;
                 this.prefetchSettings = addinSettings.PrefethSettings;
+                this.autologin = addinSettings.AutoLogin;
             }
             else
             {
@@ -600,13 +621,33 @@ namespace XWord
             timer.Start();
 
             InitializeEventsHandlers();
-
-            //Authentication settings
-            if (!AutoLogin())
+            bool connected = false;
+            bool hasCredentials = LoadCredentials();
+            if (hasCredentials && autologin)
             {
-                ShowConnectToServerUI();
+                Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
+                connected = true;
             }
-            this.AddinStatus.Syntax = this.DefaultSyntax;            
+            else if (!hasCredentials)
+            {
+                //if the user wants to login at startup, and enter the credentials
+                if (autologin)
+                {
+                    if (ShowConnectToServerUI())
+                    {
+                        connected = true;
+                        this.AddinStatus.Syntax = this.DefaultSyntax;
+                    }
+                }
+            }
+            if (!connected)
+            {
+                Globals.Ribbons.XWikiRibbon.SwitchToOfflineMode();
+            }
+            else
+            {
+                Globals.Ribbons.XWikiRibbon.SwitchToOnlineMode();
+            }
             addinActions = new AddinActions(this);
             Log.Success("XWord started");
         }
@@ -627,6 +668,7 @@ namespace XWord
             }
             // refreshes the ribbon buttons which allow the user to work with the documents from XWiki server
             Globals.Ribbons.XWikiRibbon.Refresh(null, null);
+            Globals.Ribbons.XWikiRibbon.SwitchToOnlineMode();
             XWikiNavigationPane.ReloadDataAndSyncAll();
             Log.Success("Logged in  to " + serverURL);
         }
@@ -642,14 +684,18 @@ namespace XWord
             RemoveAllTaskPanes();
         }
 
-        private void ShowConnectToServerUI()
+        private bool ShowConnectToServerUI()
         {
             if (AddinSettingsForm.IsShown == false)
             {
                 AddinSettingsForm addinSettingsForm = new AddinSettingsForm();
                 new AddinSettingsFormManager(ref addinSettingsForm).EnqueueAllHandlers();
-                addinSettingsForm.ShowDialog();
-            }            
+                if (addinSettingsForm.ShowDialog() == DialogResult.OK)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         void XWikiAddIn_ClientInstanceChanged(object sender, EventArgs e)
@@ -698,22 +744,26 @@ namespace XWord
         }
 
         /// <summary>
-        /// Logins to the server by using the last used credentials.(If the user choosed to save them).
+        ///  Loads the last used credentials of the user.
         /// </summary>
-        /// <returns></returns>
-        private bool AutoLogin()
+        /// <returns>TRUE if the user has stored credentials can be performed. FALSE otherwise.</returns>
+        private bool LoadCredentials()
         {
             LoginData loginData = new LoginData(LoginData.XWORD_LOGIN_DATA_FILENAME);
-            bool canAutoLogin = loginData.CanAutoLogin();
-            if (canAutoLogin)
+            bool hasCredentials = loginData.HasCredentials();
+            if (hasCredentials)
             {
+                rememberCredentials = true;
                 String[] credentials = loginData.GetCredentials();
                 serverURL = credentials[0];
                 username = credentials[1];
                 password = credentials[2];
-                Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
             }
-            return canAutoLogin;
+            else
+            {
+                rememberCredentials = false;
+            }
+            return hasCredentials;
         }
 
         /// <summary>

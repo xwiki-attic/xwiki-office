@@ -40,6 +40,7 @@ namespace XWord
         private string downloadedAttachmentsRepository;
         private XWikiClientType clientType;
         private PrefetchSettings prefethSettings;
+        private bool autoLogin;
 
         /// <summary>
         /// Creates a new instance of the class.
@@ -51,6 +52,7 @@ namespace XWord
             downloadedAttachmentsRepository = Path.GetTempPath();
             clientType = XWikiClientType.XML_RPC;
             prefethSettings = new PrefetchSettings();
+            autoLogin = false;
         }
 
         /// <summary>
@@ -87,6 +89,15 @@ namespace XWord
         {
             get { return prefethSettings; }
             set { prefethSettings = value; }
+        }
+
+        /// <summary>
+        /// Specifies if the add-in should auto-login at startup.
+        /// </summary>
+        public bool AutoLogin
+        {
+            get { return autoLogin; }
+            set { autoLogin = value; }
         }
     }
 }

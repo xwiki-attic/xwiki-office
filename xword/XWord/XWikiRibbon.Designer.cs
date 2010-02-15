@@ -36,11 +36,11 @@
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem4 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             this.tab1 = new Microsoft.Office.Tools.Ribbon.RibbonTab();
             this.xWikiTab = new Microsoft.Office.Tools.Ribbon.RibbonTab();
-            this.XEGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
+            this.xeGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnNewPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnPublishDocument = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.toggleButton1 = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
-            this.AttachmentsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
+            this.attachmentsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.uploadAttToPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.downloadAtt = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.currentDocumentGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
@@ -65,8 +65,8 @@
             this.btnAboutXWord = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.tab1.SuspendLayout();
             this.xWikiTab.SuspendLayout();
-            this.XEGroup.SuspendLayout();
-            this.AttachmentsGroup.SuspendLayout();
+            this.xeGroup.SuspendLayout();
+            this.attachmentsGroup.SuspendLayout();
             this.currentDocumentGroup.SuspendLayout();
             this.selectionOptionsGroup.SuspendLayout();
             this.OptionsGroup.SuspendLayout();
@@ -81,8 +81,8 @@
             // 
             // xWikiTab
             // 
-            this.xWikiTab.Groups.Add(this.XEGroup);
-            this.xWikiTab.Groups.Add(this.AttachmentsGroup);
+            this.xWikiTab.Groups.Add(this.xeGroup);
+            this.xWikiTab.Groups.Add(this.attachmentsGroup);
             this.xWikiTab.Groups.Add(this.currentDocumentGroup);
             this.xWikiTab.Groups.Add(this.selectionOptionsGroup);
             this.xWikiTab.Groups.Add(this.OptionsGroup);
@@ -90,13 +90,13 @@
             this.xWikiTab.Label = "XWord";
             this.xWikiTab.Name = "xWikiTab";
             // 
-            // XEGroup
+            // xeGroup
             // 
-            this.XEGroup.Items.Add(this.btnNewPage);
-            this.XEGroup.Items.Add(this.btnPublishDocument);
-            this.XEGroup.Items.Add(this.toggleButton1);
-            this.XEGroup.Label = "XWiki Pages";
-            this.XEGroup.Name = "XEGroup";
+            this.xeGroup.Items.Add(this.btnNewPage);
+            this.xeGroup.Items.Add(this.btnPublishDocument);
+            this.xeGroup.Items.Add(this.toggleButton1);
+            this.xeGroup.Label = "XWiki Pages";
+            this.xeGroup.Name = "xeGroup";
             // 
             // btnNewPage
             // 
@@ -136,12 +136,12 @@
             this.toggleButton1.SuperTip = "Use this button to show or to hide the wiki explorer.";
             this.toggleButton1.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.toggleButton1_Click);
             // 
-            // AttachmentsGroup
+            // attachmentsGroup
             // 
-            this.AttachmentsGroup.Items.Add(this.uploadAttToPage);
-            this.AttachmentsGroup.Items.Add(this.downloadAtt);
-            this.AttachmentsGroup.Label = "XWiki Attachments";
-            this.AttachmentsGroup.Name = "AttachmentsGroup";
+            this.attachmentsGroup.Items.Add(this.uploadAttToPage);
+            this.attachmentsGroup.Items.Add(this.downloadAtt);
+            this.attachmentsGroup.Label = "XWiki Attachments";
+            this.attachmentsGroup.Name = "attachmentsGroup";
             // 
             // uploadAttToPage
             // 
@@ -154,7 +154,7 @@
             this.uploadAttToPage.ScreenTip = "Uploads the active document to the wiki.";
             this.uploadAttToPage.ShowImage = true;
             this.uploadAttToPage.SuperTip = "The file will be attached to the page that is selected in the wiki explorer.";
-            this.uploadAttToPage.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.uploadAttToPage_Click);
+            this.uploadAttToPage.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.UploadAttToPage_Click);
             // 
             // downloadAtt
             // 
@@ -197,16 +197,17 @@
             this.btnPreview.ScreenTip = "View the edited page in browser.";
             this.btnPreview.ShowImage = true;
             this.btnPreview.SuperTip = "THe selected page will be opened in the system\'s default browser.";
+            this.btnPreview.Visible = false;
             // 
             // btnViewActiveDocInBrowser
             // 
             this.btnViewActiveDocInBrowser.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnViewActiveDocInBrowser.Image = global::XWord.Properties.Resources.Nuvola_browser;
-            this.btnViewActiveDocInBrowser.Label = "View Saved Version";
+            this.btnViewActiveDocInBrowser.Label = "View Last Saved Version";
             this.btnViewActiveDocInBrowser.Name = "btnViewActiveDocInBrowser";
             this.btnViewActiveDocInBrowser.ScreenTip = "View the last saved version of edited page in browser.";
             this.btnViewActiveDocInBrowser.ShowImage = true;
-            this.btnViewActiveDocInBrowser.SuperTip = "THe selected page will be opened in the system\'s default browser.";
+            this.btnViewActiveDocInBrowser.SuperTip = "The selected page will be opened in the system\'s default browser.";
             this.btnViewActiveDocInBrowser.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnViewActiveDocInBrowser_Click);
             // 
             // selectionOptionsGroup
@@ -255,7 +256,7 @@
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.ScreenTip = "Upload the current document to the selected wiki page.";
             this.btnUpload.ShowImage = true;
-            this.btnUpload.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.uploadAttToPage_Click);
+            this.btnUpload.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.UploadAttToPage_Click);
             // 
             // btnDownload
             // 
@@ -336,13 +337,14 @@
             this.btnXWordOptions.ShowImage = true;
             this.btnXWordOptions.SuperTip = "Here you can setup a connection to a XWiki server or select the locations for you" +
                 "r local wiki pages.";
-            this.btnXWordOptions.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.Show_ConnetionDialog);
+            this.btnXWordOptions.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.Show_ConnectionDialog);
             // 
             // syncSaving
             // 
             this.syncSaving.Enabled = false;
             this.syncSaving.Label = "Synchronize saving with Word";
             this.syncSaving.Name = "syncSaving";
+            this.syncSaving.Visible = false;
             this.syncSaving.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.SyncSaving_Click);
             // 
             // dropDownSyntax
@@ -354,6 +356,7 @@
             this.dropDownSyntax.Label = "Server Syntax:       ";
             this.dropDownSyntax.Name = "dropDownSyntax";
             this.dropDownSyntax.ScreenTip = "The syntax used to save the page on the XWiki server.";
+            this.dropDownSyntax.Visible = false;
             this.dropDownSyntax.SelectionChanged += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSyntax_SelectionChanged);
             // 
             // dropDownSaveFormat
@@ -365,6 +368,7 @@
             this.dropDownSaveFormat.Label = "Local Save Format:";
             this.dropDownSaveFormat.Name = "dropDownSaveFormat";
             this.dropDownSaveFormat.ScreenTip = "The format used to save your local wiki pages.";
+            this.dropDownSaveFormat.Visible = false;
             this.dropDownSaveFormat.ItemsLoading += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSaveFormat_ItemsLoading);
             this.dropDownSaveFormat.SelectionChanged += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.dropDownSaveFormat_SelectionChanged);
             // 
@@ -394,10 +398,10 @@
             this.tab1.PerformLayout();
             this.xWikiTab.ResumeLayout(false);
             this.xWikiTab.PerformLayout();
-            this.XEGroup.ResumeLayout(false);
-            this.XEGroup.PerformLayout();
-            this.AttachmentsGroup.ResumeLayout(false);
-            this.AttachmentsGroup.PerformLayout();
+            this.xeGroup.ResumeLayout(false);
+            this.xeGroup.PerformLayout();
+            this.attachmentsGroup.ResumeLayout(false);
+            this.attachmentsGroup.PerformLayout();
             this.currentDocumentGroup.ResumeLayout(false);
             this.currentDocumentGroup.PerformLayout();
             this.selectionOptionsGroup.ResumeLayout(false);
@@ -412,14 +416,13 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         private Microsoft.Office.Tools.Ribbon.RibbonTab xWikiTab;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup XEGroup;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup xeGroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup OptionsGroup;
-        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox syncSaving;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnXWordOptions;
         /// <summary>
         /// Group containing the buttons for handling attachments.
         /// </summary>
-        public Microsoft.Office.Tools.Ribbon.RibbonGroup AttachmentsGroup;
+        public Microsoft.Office.Tools.Ribbon.RibbonGroup attachmentsGroup;
         /// <summary>
         /// Button used to upload the active document to the selected page.
         /// </summary>
@@ -471,10 +474,6 @@
         /// </summary>
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnEditPage;
         /// <summary>
-        /// Contains the syntax options to save a page on the wiki.
-        /// </summary>
-        public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSyntax;
-        /// <summary>
         /// Contains a list with the html formats that Word can use to save the local wiki pages.
         /// </summary>
         public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSaveFormat;
@@ -484,6 +483,8 @@
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnRefresh;
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnViewActiveDocInBrowser;
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnPreview;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox syncSaving;
+        public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSyntax;
     }
 
     partial class ThisRibbonCollection : Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection

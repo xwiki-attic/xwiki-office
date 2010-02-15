@@ -186,15 +186,15 @@ namespace XWiki
         /// Specifies if the last user saved his credentials for autologin.
         /// </summary>
         /// <returns></returns>
-        public bool CanAutoLogin()
+        public bool HasCredentials()
         {
             IsolatedStorageFile isFile = null;
-            bool canAutoLogin = false;
+            bool hasCredentials = false;
 
             try
             {
                 isFile = IsolatedStorageFile.GetUserStoreForAssembly();
-                canAutoLogin = (isFile.GetFileNames(filename).Length > 0);
+                hasCredentials = (isFile.GetFileNames(filename).Length > 0);
             }
             catch (Exception exception)
             {
@@ -209,7 +209,7 @@ namespace XWiki
                 }
             }
 
-            return canAutoLogin;
+            return hasCredentials;
         }
 
 

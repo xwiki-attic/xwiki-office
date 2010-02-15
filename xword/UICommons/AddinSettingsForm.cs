@@ -171,14 +171,6 @@ namespace UICommons
         }
 
         /// <summary>
-        /// Gets the checked value of the ckRememberMe checkbox.
-        /// </summary>
-        public bool IsCkRememberMeChecked
-        {
-            get { return ckRememberMe.Checked; }
-        }
-
-        /// <summary>
         /// Returns TRUE if connection tab is selected.
         /// </summary>
         public bool IsTabConnectionSelected
@@ -218,6 +210,24 @@ namespace UICommons
         {
             get { return txtPagesRepo.Text; }
             set { txtPagesRepo.Text = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the value of the "Remember Me" checkBox
+        /// </summary>
+        public bool CkRememberMe
+        {
+            get { return ckRememberMe.Checked; }
+            set { ckRememberMe.Checked = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the value of the "AutoLogin" checkBox
+        /// </summary>
+        public bool CkAutoLogin
+        {
+            get { return ckAutoLogin.Checked; }
+            set { ckAutoLogin.Checked = value; }
         }
 
         /// <summary>

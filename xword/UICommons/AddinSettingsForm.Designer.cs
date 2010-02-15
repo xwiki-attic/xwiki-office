@@ -60,6 +60,7 @@ namespace UICommons
             this.btnApply = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.ckAutoLogin = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -84,6 +85,7 @@ namespace UICommons
             // tabConnection
             // 
             this.tabConnection.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabConnection.Controls.Add(this.ckAutoLogin);
             this.tabConnection.Controls.Add(this.txtServerURL);
             this.tabConnection.Controls.Add(this.ckRememberMe);
             this.tabConnection.Controls.Add(this.txtPassword);
@@ -122,6 +124,7 @@ namespace UICommons
             this.ckRememberMe.TabIndex = 18;
             this.ckRememberMe.Text = "Remember me";
             this.ckRememberMe.UseVisualStyleBackColor = true;
+            this.ckRememberMe.CheckedChanged += new System.EventHandler(this.txtAnyConnectionSetting_TextChanged);
             // 
             // txtPassword
             // 
@@ -398,6 +401,19 @@ namespace UICommons
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // ckAutoLogin
+            // 
+            this.ckAutoLogin.AutoSize = true;
+            this.ckAutoLogin.Checked = true;
+            this.ckAutoLogin.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckAutoLogin.Location = new System.Drawing.Point(161, 196);
+            this.ckAutoLogin.Name = "ckAutoLogin";
+            this.ckAutoLogin.Size = new System.Drawing.Size(113, 17);
+            this.ckAutoLogin.TabIndex = 21;
+            this.ckAutoLogin.Text = "Connect at startup";
+            this.ckAutoLogin.UseVisualStyleBackColor = true;
+            this.ckAutoLogin.CheckedChanged += new System.EventHandler(this.txtAnyConnectionSetting_TextChanged);
+            // 
             // AddinSettingsForm
             // 
             this.AcceptButton = this.btnOK;
@@ -464,6 +480,7 @@ namespace UICommons
         private System.Windows.Forms.CheckBox checkEnablePrefetch;
         public System.Windows.Forms.TextBox txtPrefetchInterval;
         public System.Windows.Forms.TextBox txtPrefetchPagesSetSize;
+        private System.Windows.Forms.CheckBox ckAutoLogin;
 
     }
 }

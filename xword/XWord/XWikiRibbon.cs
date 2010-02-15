@@ -136,7 +136,7 @@ namespace XWord
             Globals.XWikiAddIn.ToggleTaskPanes();
         }
 
-        private void Show_ConnetionDialog(object sender, RibbonControlEventArgs e)
+        private void Show_ConnectionDialog(object sender, RibbonControlEventArgs e)
         {
             AddinSettingsForm addinSettingsForm = new AddinSettingsForm();
             new AddinSettingsFormManager(ref addinSettingsForm).EnqueueAllHandlers();
@@ -148,7 +148,7 @@ namespace XWord
             }
         }
 
-        private void uploadAttToPage_Click(object sender, RibbonControlEventArgs e)
+        private void UploadAttToPage_Click(object sender, RibbonControlEventArgs e)
         {
             String page = Globals.XWikiAddIn.AddinStatus.TaskPaneSelectedPage.Get("page");
             if (page == null)
@@ -385,6 +385,28 @@ namespace XWord
             btnUpload.Enabled = false;
             btnDownload.Enabled = false;
             btnDownloadAndOpen.Enabled = false;
+        }
+
+        /// <summary>
+        /// Disables the UI groups that need a server connection.
+        /// </summary>
+        public void SwitchToOfflineMode()
+        {
+            xeGroup.Visible = false;
+            attachmentsGroup.Visible = false;
+            currentDocumentGroup.Visible = false;
+            selectionOptionsGroup.Visible = false;
+        }
+
+        /// <summary>
+        /// Enables the UI groups that need a server connection.
+        /// </summary>
+        public void SwitchToOnlineMode()
+        {
+            xeGroup.Visible = true;
+            attachmentsGroup.Visible = true;
+            currentDocumentGroup.Visible = true;
+            selectionOptionsGroup.Visible = true;
         }
 
         private void btnViewActiveDocInBrowser_Click(object sender, RibbonControlEventArgs e)
