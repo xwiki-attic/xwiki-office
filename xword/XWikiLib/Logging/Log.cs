@@ -27,6 +27,7 @@ using System.Text;
 using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
+using XWiki.Logging;
 
 namespace XWiki
 {
@@ -37,24 +38,66 @@ namespace XWiki
     {
         private static string eventSource = "XWiki";
         private static string logName = "XOffice";
+        private static LogMode mode = LogMode.WindowsLog;
+        private static bool fileCreated = false;
         //The message for EventLog can not exceed 32766 bytes
-        private const int MAX_MSG_SIZE = 32766;
+        private const int MAX_MSG_SIZE = 32766;       
 
         /// <summary>
-        /// Writes a entry to the application's log.
+        /// Writes a entry to the appWindows logging system.
         /// </summary>
         /// <param name="message">The logged message.</param>
         /// <param name="type">The type of the message.</param>
-        public static void Write(String message, EventLogEntryType type)
-        {            
-            String msg = (message.Length > MAX_MSG_SIZE) ? message.Substring(0, MAX_MSG_SIZE) : message;
-            if (EventLog.Exists(logName))
+        public static void WriteWindowsLog(String message, EventLogEntryType type)
+        {
+            try
             {
-                EventLog.CreateEventSource(eventSource, logName);
+                String msg = (message.Length > MAX_MSG_SIZE) ? message.Substring(0, MAX_MSG_SIZE) : message;
+                if (EventLog.Exists(logName))
+                {
+                    EventLog.CreateEventSource(eventSource, logName);
+                }
+                else
+                {
+                    EventLog.WriteEntry(eventSource, msg, type);
+                }
             }
-            else
+            catch (InvalidOperationException ex)
             {
-                EventLog.WriteEntry(eventSource, msg, type);
+                mode = LogMode.FileLog;
+                WriteFileLog(message, type);
+            }
+        }
+
+        public static void WriteFileLog(String message, EventLogEntryType type)
+        {
+            string logFileName = "xoffice.log";
+            FileInfo logFile = new FileInfo(logFileName);
+            StreamWriter writer = null;
+            if (!fileCreated)
+            {
+                if (logFile.Exists)
+                {
+                    writer = logFile.AppendText();
+                }
+                else
+                {
+                    writer = logFile.CreateText();
+                }
+            }
+            writer.WriteLine(type.ToString() + ": "+ message);
+            writer.Close();
+        }
+
+        public static void Write(String message, EventLogEntryType type)
+        {
+            if (mode == LogMode.WindowsLog)
+            {
+                WriteWindowsLog(message, type);
+            }
+            else if (mode == LogMode.FileLog)
+            {
+                WriteFileLog(message, type);
             }
         }
 

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\LogMode.cs" />
     <Compile Include="Logging\UserNotifier.cs" />
     <Compile Include="LoginData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
