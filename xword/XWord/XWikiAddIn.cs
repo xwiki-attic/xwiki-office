@@ -452,6 +452,8 @@ namespace XWord
             {
                 currentPageFullName = null;
             }
+            //Update the toggle button.
+            UpdateWikiExplorerButtonState();
         }
 
         /// <summary>
@@ -491,16 +493,65 @@ namespace XWord
 
         /// <summary>
         /// Adds a custom task pane to the addin's taskpanes collection.
-        /// The task pane is assigned to the givend document's active window.
+        /// The task pane is assigned to the given document's active window.
         /// </summary>
         /// <param name="doc">The instance of the document.</param>
         private void AddTaskPane(Word.Document doc)
         {
             XWikiNavigationPane paneControl = new XWikiNavigationPane(this);
-            Tools.CustomTaskPane ctp = this.CustomTaskPanes.Add(paneControl, XWikiNavigationPane.TASK_PANE_TITLE,
+            if (GetWikiExplorer(doc) == null)
+            {
+                //attach a new Wiki Explorer to the document window.
+                Tools.CustomTaskPane ctp = this.CustomTaskPanes.Add(paneControl, XWikiNavigationPane.TASK_PANE_TITLE,
                                                                 doc.ActiveWindow);
-            this.XWikiTaskPane = paneControl;
-            ctp.Visible = true;            
+                this.XWikiTaskPane = paneControl;
+                ctp.Visible = true;
+                ctp.VisibleChanged += new EventHandler(wikiExplorer_VisibleChanged);
+            }            
+        }
+        
+        private void wikiExplorer_VisibleChanged(object sender, EventArgs e)
+        {
+            UpdateWikiExplorerButtonState();
+        }
+
+        private void UpdateWikiExplorerButtonState()
+        {
+            XWikiNavigationPane activePane = XWikiTaskPane;
+            Tools.CustomTaskPane ctp = GetActiveWikiExplorer();
+            Globals.Ribbons.XWikiRibbon.SetWikiExplorerButtonState(ctp.Visible);
+        }
+
+        private Tools.CustomTaskPane GetActiveWikiExplorer()
+        {
+            return GetWikiExplorer(Application.ActiveWindow);
+        }
+
+        private Tools.CustomTaskPane GetWikiExplorer(Word.Document document)
+        {
+            //required by COM interop
+            object zero = 1;
+            return GetWikiExplorer(document.Windows.get_Item(ref zero));
+        }
+
+        /// <summary>
+        /// Gets the attached Wiki Explorer of a Word Window.
+        /// </summary>
+        /// <param name="window">The Word window contining the Wiki Explorer.</param>
+        /// <returns>The instance of the corresponding Wiki Explorer Task Pane. Null if not found.</returns>
+        private Tools.CustomTaskPane GetWikiExplorer(Word.Window window)
+        {
+            foreach (Tools.CustomTaskPane ctp in CustomTaskPanes)
+            {
+                if (ctp.Title == XWikiNavigationPane.TASK_PANE_TITLE)
+                {
+                    if (ctp.Window == window)
+                    {
+                        return ctp;
+                    }
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -588,6 +639,19 @@ namespace XWord
             else
                 ShowTaskPanes();
             bShowTaskPanes = !(bShowTaskPanes);
+        }
+
+        /// <summary>
+        /// Shows or hides the active Wiki Explorer.
+        /// </summary>
+        /// <param name="newState">The new state of the pane. TRUE for visible, FALSE for hidden.</param>
+        public void ToggleActiveTaskPane(bool newState)
+        {
+            Tools.CustomTaskPane ctp = GetActiveWikiExplorer();
+            if (ctp != null)
+            {
+                ctp.Visible = newState;
+            }
         }
 
         /// <summary>
@@ -789,6 +853,7 @@ namespace XWord
         /// <param name="visible">True - makes the taskpane visible. False - Hides the taskpane.</param>
         private void ShowTaskPanes(bool visible)
         {
+            RemoveOrphans();
             foreach (Tools.CustomTaskPane ctp in Globals.XWikiAddIn.XWikiCustomTaskPanes)
             {
                 String tag = (String)ctp.Control.Tag;

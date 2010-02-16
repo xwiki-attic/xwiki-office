@@ -39,7 +39,7 @@
             this.xeGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnNewPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnPublishDocument = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.toggleButton1 = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
+            this.toggleWikiExplorer = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
             this.attachmentsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.uploadAttToPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.downloadAtt = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -94,7 +94,7 @@
             // 
             this.xeGroup.Items.Add(this.btnNewPage);
             this.xeGroup.Items.Add(this.btnPublishDocument);
-            this.xeGroup.Items.Add(this.toggleButton1);
+            this.xeGroup.Items.Add(this.toggleWikiExplorer);
             this.xeGroup.Label = "XWiki Pages";
             this.xeGroup.Name = "xeGroup";
             // 
@@ -124,17 +124,17 @@
             this.btnPublishDocument.SuperTip = "Saves the current document as a wiki page on the XWiki server.";
             this.btnPublishDocument.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnSavePage_Click);
             // 
-            // toggleButton1
+            // toggleWikiExplorer
             // 
-            this.toggleButton1.Checked = true;
-            this.toggleButton1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toggleButton1.Image = global::XWord.Properties.Resources.Crystal_Clear_filesystem_folder_green;
-            this.toggleButton1.Label = "Wiki Explorer";
-            this.toggleButton1.Name = "toggleButton1";
-            this.toggleButton1.ScreenTip = "Toggle Wiki Explorer";
-            this.toggleButton1.ShowImage = true;
-            this.toggleButton1.SuperTip = "Use this button to show or to hide the wiki explorer.";
-            this.toggleButton1.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.toggleButton1_Click);
+            this.toggleWikiExplorer.Checked = true;
+            this.toggleWikiExplorer.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.toggleWikiExplorer.Image = global::XWord.Properties.Resources.Crystal_Clear_filesystem_folder_green;
+            this.toggleWikiExplorer.Label = "Wiki Explorer";
+            this.toggleWikiExplorer.Name = "toggleWikiExplorer";
+            this.toggleWikiExplorer.ScreenTip = "Toggle Wiki Explorer";
+            this.toggleWikiExplorer.ShowImage = true;
+            this.toggleWikiExplorer.SuperTip = "Use this button to show or to hide the wiki explorer.";
+            this.toggleWikiExplorer.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.toggleWikiExplorer_Click);
             // 
             // attachmentsGroup
             // 
@@ -435,7 +435,7 @@
         /// Button used to create a new page.
         /// </summary>
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnNewPage;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleButton1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleWikiExplorer;
         /// <summary>
         /// Button used to save/publish the active document to the wiki.
         /// </summary>

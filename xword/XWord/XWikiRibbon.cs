@@ -131,9 +131,18 @@ namespace XWord
             throw new NotImplementedException();
         }
 
-        private void toggleButton1_Click(object sender, RibbonControlEventArgs e)
+        private void toggleWikiExplorer_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.XWikiAddIn.ToggleTaskPanes();
+            Globals.XWikiAddIn.ToggleActiveTaskPane(toggleWikiExplorer.Checked);
+        }
+
+        /// <summary>
+        /// Sets the Wiki Explorer toggle button to the given state.
+        /// </summary>
+        /// <param name="state">The state of the button.</param>
+        public void SetWikiExplorerButtonState(bool state)
+        {
+            toggleWikiExplorer.Checked = state;
         }
 
         private void Show_ConnectionDialog(object sender, RibbonControlEventArgs e)
