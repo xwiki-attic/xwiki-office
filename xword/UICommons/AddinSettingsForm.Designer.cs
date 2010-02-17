@@ -31,6 +31,7 @@ namespace UICommons
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddinSettingsForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabConnection = new System.Windows.Forms.TabPage();
+            this.ckAutoLogin = new System.Windows.Forms.CheckBox();
             this.txtServerURL = new System.Windows.Forms.TextBox();
             this.ckRememberMe = new System.Windows.Forms.CheckBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -60,7 +61,6 @@ namespace UICommons
             this.btnApply = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.ckAutoLogin = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -101,6 +101,19 @@ namespace UICommons
             this.tabConnection.TabIndex = 0;
             this.tabConnection.Text = "Connection Settings";
             this.tabConnection.UseVisualStyleBackColor = true;
+            // 
+            // ckAutoLogin
+            // 
+            this.ckAutoLogin.AutoSize = true;
+            this.ckAutoLogin.Checked = true;
+            this.ckAutoLogin.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckAutoLogin.Location = new System.Drawing.Point(161, 196);
+            this.ckAutoLogin.Name = "ckAutoLogin";
+            this.ckAutoLogin.Size = new System.Drawing.Size(113, 17);
+            this.ckAutoLogin.TabIndex = 21;
+            this.ckAutoLogin.Text = "Connect at startup";
+            this.ckAutoLogin.UseVisualStyleBackColor = true;
+            this.ckAutoLogin.CheckedChanged += new System.EventHandler(this.txtAnyConnectionSetting_TextChanged);
             // 
             // txtServerURL
             // 
@@ -179,7 +192,7 @@ namespace UICommons
             this.groupBox1.Controls.Add(this.lblProtocol);
             this.groupBox1.Location = new System.Drawing.Point(8, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(383, 184);
+            this.groupBox1.Size = new System.Drawing.Size(383, 169);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -193,6 +206,7 @@ namespace UICommons
             this.linkConnectDoc.TabIndex = 25;
             this.linkConnectDoc.TabStop = true;
             this.linkConnectDoc.Text = "Why?";
+            this.linkConnectDoc.Visible = false;
             this.linkConnectDoc.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkConnectDoc_LinkClicked);
             // 
             // comboProtocol
@@ -203,6 +217,7 @@ namespace UICommons
             this.comboProtocol.Name = "comboProtocol";
             this.comboProtocol.Size = new System.Drawing.Size(230, 21);
             this.comboProtocol.TabIndex = 24;
+            this.comboProtocol.Visible = false;
             this.comboProtocol.SelectedIndexChanged += new System.EventHandler(this.comboProtocol_SelectedIndexChanged);
             // 
             // lblProtocol
@@ -213,6 +228,7 @@ namespace UICommons
             this.lblProtocol.Size = new System.Drawing.Size(67, 13);
             this.lblProtocol.TabIndex = 23;
             this.lblProtocol.Text = "Connect via:";
+            this.lblProtocol.Visible = false;
             // 
             // tabFileRepository
             // 
@@ -400,19 +416,6 @@ namespace UICommons
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // ckAutoLogin
-            // 
-            this.ckAutoLogin.AutoSize = true;
-            this.ckAutoLogin.Checked = true;
-            this.ckAutoLogin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckAutoLogin.Location = new System.Drawing.Point(161, 196);
-            this.ckAutoLogin.Name = "ckAutoLogin";
-            this.ckAutoLogin.Size = new System.Drawing.Size(113, 17);
-            this.ckAutoLogin.TabIndex = 21;
-            this.ckAutoLogin.Text = "Connect at startup";
-            this.ckAutoLogin.UseVisualStyleBackColor = true;
-            this.ckAutoLogin.CheckedChanged += new System.EventHandler(this.txtAnyConnectionSetting_TextChanged);
             // 
             // AddinSettingsForm
             // 
