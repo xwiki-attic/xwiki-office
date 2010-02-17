@@ -107,7 +107,7 @@ namespace UICommons
             this.ckAutoLogin.AutoSize = true;
             this.ckAutoLogin.Checked = true;
             this.ckAutoLogin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckAutoLogin.Location = new System.Drawing.Point(161, 196);
+            this.ckAutoLogin.Location = new System.Drawing.Point(161, 192);
             this.ckAutoLogin.Name = "ckAutoLogin";
             this.ckAutoLogin.Size = new System.Drawing.Size(113, 17);
             this.ckAutoLogin.TabIndex = 21;
@@ -119,7 +119,7 @@ namespace UICommons
             // 
             this.txtServerURL.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtServerURL.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
-            this.txtServerURL.Location = new System.Drawing.Point(102, 25);
+            this.txtServerURL.Location = new System.Drawing.Point(102, 41);
             this.txtServerURL.Name = "txtServerURL";
             this.txtServerURL.Size = new System.Drawing.Size(271, 20);
             this.txtServerURL.TabIndex = 12;
@@ -131,7 +131,7 @@ namespace UICommons
             this.ckRememberMe.AutoSize = true;
             this.ckRememberMe.Checked = true;
             this.ckRememberMe.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckRememberMe.Location = new System.Drawing.Point(297, 196);
+            this.ckRememberMe.Location = new System.Drawing.Point(297, 192);
             this.ckRememberMe.Name = "ckRememberMe";
             this.ckRememberMe.Size = new System.Drawing.Size(94, 17);
             this.ckRememberMe.TabIndex = 18;
@@ -141,7 +141,7 @@ namespace UICommons
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(102, 110);
+            this.txtPassword.Location = new System.Drawing.Point(102, 126);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(271, 20);
@@ -152,7 +152,7 @@ namespace UICommons
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(21, 113);
+            this.lblPassword.Location = new System.Drawing.Point(21, 129);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 13);
             this.lblPassword.TabIndex = 17;
@@ -160,7 +160,7 @@ namespace UICommons
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(102, 68);
+            this.txtUserName.Location = new System.Drawing.Point(102, 84);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(271, 20);
             this.txtUserName.TabIndex = 14;
@@ -170,7 +170,7 @@ namespace UICommons
             // lblUserName
             // 
             this.lblUserName.AutoSize = true;
-            this.lblUserName.Location = new System.Drawing.Point(21, 71);
+            this.lblUserName.Location = new System.Drawing.Point(21, 87);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(63, 13);
             this.lblUserName.TabIndex = 13;
@@ -179,7 +179,7 @@ namespace UICommons
             // lblServerUrl
             // 
             this.lblServerUrl.AutoSize = true;
-            this.lblServerUrl.Location = new System.Drawing.Point(21, 28);
+            this.lblServerUrl.Location = new System.Drawing.Point(21, 44);
             this.lblServerUrl.Name = "lblServerUrl";
             this.lblServerUrl.Size = new System.Drawing.Size(66, 13);
             this.lblServerUrl.TabIndex = 11;
@@ -423,7 +423,7 @@ namespace UICommons
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(416, 295);
+            this.ClientSize = new System.Drawing.Size(416, 298);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnOK);
