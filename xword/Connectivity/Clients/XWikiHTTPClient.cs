@@ -745,6 +745,11 @@ namespace XWiki.Clients
             return "xwiki/2.0";
         }
 
+        public PageHistorySummary[] GetPageHistory(String pageId)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

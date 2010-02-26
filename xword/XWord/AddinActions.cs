@@ -396,7 +396,6 @@ namespace XWord
                 Client.Login(addin.username, addin.password);
             }
 
-
             if (!Client.SavePageHTML(pageName, pageContent, syntax))
             {
                 Log.Error("Failed to save page " + pageName + "on server " + addin.serverURL);

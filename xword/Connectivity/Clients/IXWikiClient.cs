@@ -220,6 +220,13 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="documentFullName">The full name of the wiki page.</param>
         /// <returns>The url of the wiki page.</returns>
-        String GetURL(String documentFullName);       
+        String GetURL(String documentFullName);
+
+        /// <summary>
+        /// Retrieves the history of a wiki page.
+        /// </summary>
+        /// <param name="pageId">The fullname of the page.</param>
+        /// <returns>An PageHistorySummary array containing the history data.</returns>
+        PageHistorySummary[] GetPageHistory(String pageId);
     }
 }

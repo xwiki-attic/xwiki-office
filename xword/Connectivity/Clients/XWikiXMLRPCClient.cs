@@ -484,6 +484,16 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Retrieves the history of a wiki page.
+        /// </summary>
+        /// <param name="pageId">The fullname of the page.</param>
+        /// <returns>An PageHistorySummary array containing the history data.</returns>
+        public PageHistorySummary[] GetPageHistory(String pageId)
+        {
+            return proxy.GetPageHistory(token, pageId);
+        }
+
+        /// <summary>
         /// Gets the default wiki syntax of the server.
         /// </summary>
         /// <returns>A string representing the id of the </returns>
