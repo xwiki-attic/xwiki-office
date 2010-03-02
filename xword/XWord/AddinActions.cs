@@ -41,6 +41,7 @@ using XWord.VstoExtensions;
 using XWiki.Logging;
 using ContentFiltering.Office.Word.Cleaners;
 using ContentFiltering.StyleSheetExtensions;
+using Rpc = XWiki.XmlRpc;
 
 namespace XWord
 {
@@ -56,6 +57,8 @@ namespace XWord
         HtmlUtil htmlUtil = new HtmlUtil();
         //A dictionary, storing the converter instances for each opened page.
         Dictionary<String, ConversionManager> pageConverters = new Dictionary<string, ConversionManager>();
+
+        Dictionary<String, Rpc.PageHistorySummary[]> pagesHistory = new Dictionary<string, XWiki.XmlRpc.PageHistorySummary[]>();
 
         private const string DOWNLOAD_FOLDER = "XWord"; //"MyDocuments\XWord"
         private string TEMP_UPLOAD_FILES_FOLDER = Environment.SpecialFolder.ApplicationData.ToString() + @"\XWordTempData\UploadedFiles";
@@ -279,6 +282,114 @@ namespace XWord
         }
 
         /// <summary>
+        /// Retrieves the versioning information for a wiki page, and registers it ot the history dictionary.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the page.</param>
+        private void IndexPageHistory(String pageFullName)
+        {
+            Rpc.PageHistorySummary[] pageHistory = Client.GetPageHistory(pageFullName);
+            pagesHistory.Add(pageFullName, pageHistory);
+        }
+
+        /// <summary>
+        /// Updates the history of a page, the last author and specifies if the page was modified.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the wiki page.</param>
+        /// <param name="wasModified">Reference specifing if the page was modified since was opened in Word or compared last time.</param>
+        /// <param name="lastAuthor">Reference to the username of last author.</param>
+        private void RefreshPageHistory(String pageFullName, out bool wasModified, out String lastAuthor)
+        {
+            wasModified = false;
+            lastAuthor = "";
+            Rpc.PageHistorySummary[] updatedPageHistory = Client.GetPageHistory(pageFullName);
+            try
+            {
+                Rpc.PageHistorySummary latestVersion = updatedPageHistory[pagesHistory.Count - 1];
+                Rpc.PageHistorySummary versionAtOpening = pagesHistory[pageFullName][pagesHistory.Count - 1];
+                if (latestVersion.version > versionAtOpening.version)
+                {
+                    wasModified = true;
+                }
+                else if (latestVersion.version == versionAtOpening.version)
+                {
+                    if (latestVersion.minorVersion > versionAtOpening.minorVersion)
+                    {
+                        wasModified = true;
+                    }
+                }
+                lastAuthor = latestVersion.modifier;
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+                wasModified = false;
+            }
+            //Update the history for the page.
+            pagesHistory[pageFullName] = updatedPageHistory;
+        }
+
+        /// <summary>
+        /// If the document was modified externally, prompts the user with the document merge screen.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the wiki page.</param>
+        private void MergeWithLatestVersion(String pageFullName)
+        {
+            bool wasModified = false;
+            String lastAuthor = "";
+            RefreshPageHistory(pageFullName, out wasModified, out lastAuthor);
+            if (wasModified)
+            {
+                String localFileName = "";
+                OpenForMerge(pageFullName, out localFileName);
+                Word.Document newDoc = OpenHTMLDocument(localFileName);
+                addin.Application.MergeDocuments(addin.ActiveDocumentInstance, newDoc,
+                                                 Word.WdCompareDestination.wdCompareDestinationOriginal,
+                                                 Word.WdGranularity.wdGranularityCharLevel,
+                                                 true, true, true, true, true, true, true, true,
+                                                 true, true, "Word Version", lastAuthor,
+                                                 Word.WdMergeFormatFrom.wdMergeFormatFromPrompt);
+                Object _false = false;
+                newDoc.Close(ref _false, ref _false, ref _false);
+            }
+        }
+
+
+        /// <summary>
+        /// Retrieves a page from the wiki and save it locally in order to be merged to the active document.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the wiki page.</param>
+        /// <param name="localFileName">String reference to the file path of the created document.</param>
+        private void OpenForMerge(String pageFullName, out String localFileName)
+        {
+            String content = Client.GetRenderedPageContent(pageFullName);
+            String suffix = "__LATEST";
+            String folder = addin.PagesRepository + "TempPages";
+            
+            localFileName = pageFullName.Replace(".", "-") + suffix;
+            ConvertToNormalFolder(folder);
+            ConversionManager pageConverter;
+            //TODO: The converter info should be merged.
+            pageConverter = new ConversionManager(addin.serverURL, folder, pageFullName, localFileName, addin.Client);
+            //pageConverters.Add(pageFullName + suffix, pageConverter);
+            
+            content = pageConverter.ConvertFromWebToWord(content);
+            localFileName = folder + "\\" + localFileName + ".html";
+            addin.currentLocalFilePath = localFileName;
+            StringBuilder pageContent = new StringBuilder(content);
+            //Process the content
+            pageContent.Insert(0, startDocument);
+            pageContent.Append(endDocument);
+            //Save the file
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            StreamWriter writer = new StreamWriter(localFileName, false, Encoding.UTF8);
+            writer.Write(pageContent.ToString());
+            writer.Close();
+        }
+
+        /// <summary>
         /// Edits a wiki page.
         /// </summary>
         /// <param name="_pageFullName">The full name of the wiki page that is being opened for editing.</param>
@@ -293,6 +404,9 @@ namespace XWord
                 String pageFullName = (String)_pageFullName;
                 //Read from server
                 String content = Client.GetRenderedPageContent(pageFullName);
+
+                //TODO: Add versioniong info to the xmlrpc Page model
+                IndexPageHistory(pageFullName);
 
                 String localFileName = pageFullName.Replace(".", "-");
                 String folder = addin.PagesRepository + "TempPages";
@@ -353,7 +467,6 @@ namespace XWord
             checkGrammarWithSpelling = wordOptions.CheckGrammarWithSpelling;
             checkSpellingAsYouType = wordOptions.CheckSpellingAsYouType;
             contextualSpeller = wordOptions.ContextualSpeller;
-
         }
 
         /// <summary>
@@ -461,6 +574,11 @@ namespace XWord
             {
                 UserNotifier.Exclamation("You are not currently editing a wiki page");
                 return;
+            }
+
+            if (addin.currentPagePublished)
+            {
+                MergeWithLatestVersion(addin.currentPageFullName);
             }
 
             LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
