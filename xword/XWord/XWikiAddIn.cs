@@ -39,6 +39,7 @@ using Security = System.Security;
 using XWord.VstoExtensions;
 using XWiki.Clients;
 using XWiki;
+using XWiki.Model;
 using XWiki.Logging;
 using XWiki.Prefetching;
 using UICommons;
@@ -91,7 +92,7 @@ namespace XWord
         /// Object containing the structure(Spaces,Pages,Attachment names)
         /// of the wiki the use is connected to.
         /// </summary>
-        public WikiStructure wiki = null;
+        public Wiki wiki = null;
         private IXWikiClient client;
         private AddinActions addinActions;
         private XWikiNavigationPane xWikiTaskPane;

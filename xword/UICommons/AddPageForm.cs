@@ -31,6 +31,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using XWiki;
+using XWiki.Model;
 using XWiki.Logging;
 
 namespace UICommons
@@ -41,7 +42,7 @@ namespace UICommons
     public partial class AddPageForm : Form
     {
 
-        WikiStructure wiki;
+        Wiki wiki;
         Space selectedSpace;
         String spaceName;
         String pageName;
@@ -82,7 +83,7 @@ namespace UICommons
         }
 
         /// <param name="_wiki">A reference to the currently loaded wiki structure.</param>
-        public AddPageForm(ref WikiStructure _wiki)
+        public AddPageForm(ref Wiki _wiki)
         {
             InitializeComponent();
             this.wiki = _wiki;
@@ -93,7 +94,7 @@ namespace UICommons
         /// <param name="_spaceName">
         /// The default space name in which the new page will be created
         /// </param>
-        public AddPageForm(ref WikiStructure _wiki, String _spaceName)
+        public AddPageForm(ref Wiki _wiki, String _spaceName)
         {
             InitializeComponent();
             this.wiki = _wiki;
@@ -121,7 +122,7 @@ namespace UICommons
         /// Specifies if the form is used to assign an export destination
         /// for a document
         /// </param>
-        public AddPageForm(ref WikiStructure _wiki, bool newSpace, bool _exportMode)
+        public AddPageForm(ref Wiki _wiki, bool newSpace, bool _exportMode)
         {
             InitializeComponent();
             this.wiki = _wiki;

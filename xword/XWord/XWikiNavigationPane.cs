@@ -33,7 +33,9 @@ using System.Xml.Serialization;
 using Tools = Microsoft.Office.Tools;
 using Word = Microsoft.Office.Interop.Word;
 using XWiki;
+using XWiki.Model;
 using XWiki.Clients;
+using XWiki.Connectivity;
 using System.Diagnostics;
 using XWiki.Logging;
 using UICommons;
@@ -86,7 +88,7 @@ namespace XWord
         private bool loadingWikiData;
         
         //NetworkCredential nc = new NetworkCredential("Admin", "admin");
-        XmlSerializer serializer = new XmlSerializer(typeof(WikiStructure));
+        XmlSerializer serializer = new XmlSerializer(typeof(Wiki));
         private object missing = Type.Missing;
 
         #region properties
@@ -133,7 +135,7 @@ namespace XWord
         /// <summary>
         /// Gets or sets the WikiStructure of wiki the add-in is curreltly connected to.
         /// </summary>
-        public WikiStructure Wiki
+        public Wiki Wiki
         {
             get { return Globals.XWikiAddIn.wiki; }
             set { Globals.XWikiAddIn.wiki = value; }
@@ -195,12 +197,12 @@ namespace XWord
             UTF8Encoding encoding = new UTF8Encoding();
             byte[] buffer = encoding.GetBytes(s);
             MemoryStream memoryStream = new MemoryStream(buffer, false);
-            XmlSerializer serializer = new XmlSerializer(typeof(WikiStructure));
-            WikiStructure wiki = (WikiStructure)serializer.Deserialize(memoryStream);
+            XmlSerializer serializer = new XmlSerializer(typeof(Wiki));
+            Wiki wiki = (Wiki)serializer.Deserialize(memoryStream);
             memoryStream.Close();
 
             //keep unpublished spaces and pages
-            WikiStructure oldWikiStruct = null;
+            Wiki oldWikiStruct = null;
             if (Addin.wiki != null)
             {
                 oldWikiStruct = Addin.wiki.GetUnpublishedWikiStructure();
@@ -520,7 +522,7 @@ namespace XWord
             if (treeView.SelectedNode.Level == TREE_SPACE_LEVEL)
             {
                 String spaceName = treeView.SelectedNode.Text;
-                WikiStructure wiki = Wiki;
+                Wiki wiki = Wiki;
                 AddPageForm addPageForm = new AddPageForm(ref wiki, spaceName);
                 new AddPageFormManager(ref addPageForm).EnqueueAllHandlers();
                 addPageForm.Show();
@@ -656,9 +658,9 @@ namespace XWord
         {
             try
             {
-                WikiStructure wiki = RequestWikiStructure();
+                Wiki wiki = RequestWikiStructure();
                 //keep unpublished spaces and pages
-                WikiStructure oldWikiStruct = null;
+                Wiki oldWikiStruct = null;
                 if (Addin.wiki != null)
                 {
                     oldWikiStruct = Addin.wiki.GetUnpublishedWikiStructure();
@@ -679,9 +681,9 @@ namespace XWord
         /// Requests the spaces and pages of the wiki from the server.
         /// </summary>
         /// <returns>A WikiStructure instance.</returns>
-        private WikiStructure RequestWikiStructure()
+        private Wiki RequestWikiStructure()
         {
-            WikiStructure wikiStructure = new WikiStructure();
+            Wiki wikiStructure = new Wiki();
             List<String> spacesNames = Client.GetSpacesNames();
             spacesNames.Sort();
             wikiStructure.AddSpaces(spacesNames);
@@ -698,7 +700,7 @@ namespace XWord
             return wikiStructure;
         }
 
-        private void AddUnpublishedData(ref WikiStructure actualWiki,ref WikiStructure unpublishedWiki)
+        private void AddUnpublishedData(ref Wiki actualWiki,ref Wiki unpublishedWiki)
         {
             //add local spaces and pages
             if (unpublishedWiki != null)

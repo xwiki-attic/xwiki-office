@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace XWiki
+namespace XWiki.Model
 {
     /// <summary>
     /// Describes a space in a XWiki server.
@@ -67,6 +67,26 @@ namespace XWiki
             name = "";
             hidden = false;
             documents = new List<XWikiDocument>();
+        }
+
+        /// <summary>
+        /// Space indexer. Gets a XWiki document based on its name.
+        /// </summary>
+        /// <param name="pageName">The name of the XWiki document.</param>
+        /// <returns>A instance of </returns>
+        public XWikiDocument this[String pageName]
+        {
+            get
+            {
+                foreach (XWikiDocument doc in documents)
+                {
+                    if (doc.name == pageName)
+                    {
+                        return doc;
+                    }
+                }
+                throw new PageDoesNotExistException();
+            }
         }
 
         /// <summary>

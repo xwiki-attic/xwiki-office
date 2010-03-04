@@ -39,6 +39,7 @@ using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
 using XWord.VstoExtensions;
 using XWiki.Logging;
+using XWiki.Model;
 using ContentFiltering.Office.Word.Cleaners;
 using ContentFiltering.StyleSheetExtensions;
 using Rpc = XWiki.XmlRpc;
@@ -304,8 +305,9 @@ namespace XWord
             Rpc.PageHistorySummary[] updatedPageHistory = Client.GetPageHistory(pageFullName);
             try
             {
-                Rpc.PageHistorySummary latestVersion = updatedPageHistory[pagesHistory.Count - 1];
-                Rpc.PageHistorySummary versionAtOpening = pagesHistory[pageFullName][pagesHistory.Count - 1];
+                Rpc.PageHistorySummary latestVersion = updatedPageHistory[updatedPageHistory.Length - 1];
+                int pageVersionCount = pagesHistory[pageFullName].Length;
+                Rpc.PageHistorySummary versionAtOpening = pagesHistory[pageFullName][pageVersionCount - 1];
                 if (latestVersion.version > versionAtOpening.version)
                 {
                     wasModified = true;
@@ -340,16 +342,18 @@ namespace XWord
             if (wasModified)
             {
                 String localFileName = "";
+                Word.Document originalDoc = addin.ActiveDocumentInstance;
                 OpenForMerge(pageFullName, out localFileName);
-                Word.Document newDoc = OpenHTMLDocument(localFileName);
-                addin.Application.MergeDocuments(addin.ActiveDocumentInstance, newDoc,
+                Word.Document revizedDoc = OpenHTMLDocument(localFileName);
+                originalDoc = addin.Application.MergeDocuments(originalDoc, revizedDoc,
                                                  Word.WdCompareDestination.wdCompareDestinationOriginal,
                                                  Word.WdGranularity.wdGranularityCharLevel,
                                                  true, true, true, true, true, true, true, true,
                                                  true, true, "Word Version", lastAuthor,
                                                  Word.WdMergeFormatFrom.wdMergeFormatFromPrompt);
                 Object _false = false;
-                newDoc.Close(ref _false, ref _false, ref _false);
+                originalDoc.Save();
+                //revizedDoc.Close(ref _false, ref _false, ref _false);
             }
         }
 
@@ -867,7 +871,7 @@ namespace XWord
         /// </summary>
         /// <param name="wiki">The wiki instance.</param>
         /// <param name="wildcards">The list of protected pages wildcards.</param>
-        public void HideProtectedPages(WikiStructure wiki, List<String> wildcards)
+        public void HideProtectedPages(Wiki wiki, List<String> wildcards)
         {
             foreach (XWikiDocument doc in wiki.GetAllDocuments())
             {

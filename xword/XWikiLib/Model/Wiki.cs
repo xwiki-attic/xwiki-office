@@ -26,14 +26,14 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace XWiki
+namespace XWiki.Model
 {
     /// <summary>
     /// Class used to store data about the wiki structure.
     /// Contains the list of spaces and documents.
     /// </summary>
     [Serializable]
-    public class WikiStructure
+    public class Wiki
     {
         /// <summary>
         /// A list with all spaces in the wiki.
@@ -42,7 +42,7 @@ namespace XWiki
         /// <summary>
         /// Default constructor. Instantiates the spaces list.
         /// </summary>
-        public WikiStructure()
+        public Wiki()
         {
             spaces = new List<Space>();
         }
@@ -105,9 +105,9 @@ namespace XWiki
         /// Gets the unplublished spaces and documents from wiki structure instance.
         /// </summary>
         /// <returns>A new WikiStructure instance containing only the unpublished spaces and documents.</returns>
-        public WikiStructure GetUnpublishedWikiStructure()
+        public Wiki GetUnpublishedWikiStructure()
         {
-            WikiStructure unpublishedStruct = new WikiStructure();
+            Wiki unpublishedStruct = new Wiki();
             foreach (Space sp in spaces)
             {
                 //space with unpublished pages?
@@ -167,6 +167,21 @@ namespace XWiki
                 space.published = true;
                 spaces.Add(space);
             }        
+        }
+
+        /// <summary>
+        /// Gets the XWiki Document for a given id.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the page.</param>
+        public XWikiDocument GetPageById(String pageFullName)
+        {
+            String[] wikiPageName = pageFullName.Split('.');
+            if (wikiPageName.Length > 2)
+            {
+                throw new InvalidPageNameException();
+            }
+            Space space = this[wikiPageName[0]];
+            return space[wikiPageName[1]];
         }
     }
 }

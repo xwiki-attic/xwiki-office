@@ -25,10 +25,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace XWiki
+namespace XWiki.Connectivity
 {
     /// <summary>
-    /// Contains a list with the XWiki Word services url's.
+    /// Legacy URLs for the old HTTP client.
+    /// Contains a list with the XWiki Word services urls.
     /// </summary>
     public class XWikiURLs
     {

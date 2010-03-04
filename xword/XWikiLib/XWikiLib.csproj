@@ -74,11 +74,13 @@
     <Compile Include="Prefetching\PrefetchSettings.cs" />
     <Compile Include="XOfficeSettings\XOfficeCommonSettings.cs" />
     <Compile Include="XOfficeSettings\XOfficeCommonSettingsHandler.cs" />
-    <Compile Include="XWikiClientType.cs" />
-    <Compile Include="XWiki\Space.cs" />
-    <Compile Include="XWiki\WikiStructure.cs" />
-    <Compile Include="XWiki\XWikiDocument.cs" />
-    <Compile Include="XWiki\XWikiURLs.cs" />
+    <Compile Include="Connectivity\XWikiClientType.cs" />
+    <Compile Include="Model\InvalidPageNameException.cs" />
+    <Compile Include="Model\PageDoesNotExistException.cs" />
+    <Compile Include="Model\Space.cs" />
+    <Compile Include="Model\Wiki.cs" />
+    <Compile Include="Model\XWikiDocument.cs" />
+    <Compile Include="Connectivity\XWikiURLs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
