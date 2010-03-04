@@ -298,7 +298,7 @@ namespace XWord
         /// <param name="pageFullName">The full name of the wiki page.</param>
         /// <param name="wasModified">Reference specifing if the page was modified since was opened in Word or compared last time.</param>
         /// <param name="lastAuthor">Reference to the username of last author.</param>
-        private void RefreshPageHistory(String pageFullName, out bool wasModified, out String lastAuthor)
+        private Rpc.PageHistorySummary[] CheckPageHistory(String pageFullName, out bool wasModified, out String lastAuthor)
         {
             wasModified = false;
             lastAuthor = "";
@@ -326,8 +326,7 @@ namespace XWord
                 Log.Exception(ex);
                 wasModified = false;
             }
-            //Update the history for the page.
-            pagesHistory[pageFullName] = updatedPageHistory;
+            return updatedPageHistory;
         }
 
         /// <summary>
@@ -339,7 +338,7 @@ namespace XWord
         {
             bool wasModified = false;
             String lastAuthor = "";
-            RefreshPageHistory(pageFullName, out wasModified, out lastAuthor);
+            Rpc.PageHistorySummary[] history = CheckPageHistory(pageFullName, out wasModified, out lastAuthor);
             if (wasModified)
             {
                 String message = "The wiki page was modified by " + lastAuthor + "." + Environment.NewLine;
@@ -362,6 +361,8 @@ namespace XWord
                 Object _false = false;
                 revizedDoc.ActiveWindow.Visible = false;
                 revizedDoc.Close(ref _false, ref _false, ref _false);
+                //If document was merged then it's considered to be at the latest version.
+                pagesHistory[pageFullName] = history;
             }
             return wasModified;
         }
@@ -606,8 +607,12 @@ namespace XWord
             LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             SaveToXwiki();
-            loadingDialog.CloseSyncDialog();
 
+            //TODO: Create an SaveCompleted event. Listen for the event and do an async version update 
+            //Update local history to the latest version
+            pagesHistory[addin.currentPageFullName] = Client.GetPageHistory(addin.currentPageFullName);
+            
+            loadingDialog.CloseSyncDialog();
             //After a new page has been published to XWiki, refresh the tree view
             //so the user can see his/her page plus other pages that might have been
             //created while the user was working on the current one.
