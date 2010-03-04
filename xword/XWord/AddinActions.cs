@@ -334,13 +334,21 @@ namespace XWord
         /// If the document was modified externally, prompts the user with the document merge screen.
         /// </summary>
         /// <param name="pageFullName">The full name of the wiki page.</param>
-        private void MergeWithLatestVersion(String pageFullName)
+        /// <returns>Specifies if the page was modified since it was last merged or opened in Word.</returns>
+        private bool MergeWithLatestVersion(String pageFullName)
         {
             bool wasModified = false;
             String lastAuthor = "";
             RefreshPageHistory(pageFullName, out wasModified, out lastAuthor);
             if (wasModified)
             {
+                String message = "The wiki page was modified by " + lastAuthor + "." + Environment.NewLine;
+                message += "You need to merge the versions then publish the page. Continue?";
+                DialogResult result = UserNotifier.YesNoQuestion(message);
+                if (result != DialogResult.Yes)
+                {
+                    return true;
+                }
                 String localFileName = "";
                 Word.Document originalDoc = addin.ActiveDocumentInstance;
                 OpenForMerge(pageFullName, out localFileName);
@@ -352,9 +360,15 @@ namespace XWord
                                                  true, true, "Word Version", lastAuthor,
                                                  Word.WdMergeFormatFrom.wdMergeFormatFromPrompt);
                 Object _false = false;
-                originalDoc.Save();
-                //revizedDoc.Close(ref _false, ref _false, ref _false);
+                revizedDoc.ActiveWindow.Visible = false;
+                revizedDoc.Close(ref _false, ref _false, ref _false);
             }
+            return wasModified;
+        }
+
+        void Application_MailMergeAfterMerge(Microsoft.Office.Interop.Word.Document Doc, Microsoft.Office.Interop.Word.Document DocResult)
+        {
+            DocResult.Save();
         }
 
 
@@ -582,9 +596,13 @@ namespace XWord
 
             if (addin.CurrentPagePublished)
             {
-                MergeWithLatestVersion(addin.currentPageFullName);
+                //Checks if a newer version exists. If yes, then the publishing is canceled redardless if
+                //the user  merged the documents or not.
+                if (MergeWithLatestVersion(addin.currentPageFullName))
+                {
+                    return;
+                }
             }
-
             LoadingDialog loadingDialog = new LoadingDialog("Saving to wiki...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
             SaveToXwiki();
