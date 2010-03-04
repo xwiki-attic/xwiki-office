@@ -580,7 +580,7 @@ namespace XWord
                 return;
             }
 
-            if (addin.currentPagePublished)
+            if (addin.CurrentPagePublished)
             {
                 MergeWithLatestVersion(addin.currentPageFullName);
             }
@@ -593,10 +593,10 @@ namespace XWord
             //After a new page has been published to XWiki, refresh the tree view
             //so the user can see his/her page plus other pages that might have been
             //created while the user was working on the current one.
-            if (!addin.currentPagePublished)
+            if (!addin.CurrentPagePublished)
             {
                 Globals.XWikiAddIn.XWikiTaskPane.RefreshWikiExplorer();
-                addin.currentPagePublished = true;
+                addin.CurrentPagePublished = true;
             }
         }
 
