@@ -330,6 +330,8 @@ namespace XWord
             if (node.Level == TREE_SPACE_LEVEL)
             {
                 List<String> pages = Client.GetPagesNames(node.Name);
+                Space space = Wiki[node.Name];
+                space.AddDocuments(pages);
                 node.Nodes.Clear();
                 node.ImageIndex = TREE_SPACE_LEVEL;
                 pages.Sort();
