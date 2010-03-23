@@ -156,7 +156,6 @@ namespace ContentFiltering.Office.Word.Filters
                     parent.RemoveChild(node);
                 }
             }
-
         }
 
         /// <summary>

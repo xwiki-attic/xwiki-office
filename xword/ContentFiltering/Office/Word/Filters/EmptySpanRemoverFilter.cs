@@ -28,6 +28,8 @@ using System.Xml;
 using System.Xml.XPath;
 using ContentFiltering.Office.Word.Filters;
 using XWiki.Office.Word;
+using XWiki.Logging;
+using XWiki;
 
 namespace ContentFiltering.Office.Word.Filters
 {
@@ -50,20 +52,28 @@ namespace ContentFiltering.Office.Word.Filters
             XmlNodeList nodes = xmlDoc.GetElementsByTagName("span");
             foreach (XmlNode node in nodes)
             {
-                if (node.Attributes.Count == 0)
-                {
-                    //copy the child elements to the parent
-                    foreach (XmlNode childNode in node.ChildNodes)
-                    {
-                        node.ParentNode.AppendChild(childNode.CloneNode(true));
-                    }
-                }
-                extraNodes.Add(node);                                              
+                extraNodes.Add(node);
             }
-            foreach (XmlNode node in extraNodes)
+            //in order to allow DOM changes we need to iterate trough a List<XmlNode> instead of a XmlNodeList
+            try
             {
-                XmlNode parent = node.ParentNode;
-                parent.RemoveChild(node);
+                foreach (XmlNode node in extraNodes)
+                {
+                    if (node.Attributes.Count == 0)
+                    {
+                        //copy the child elements to the parent
+                        foreach (XmlNode childNode in node.ChildNodes)
+                        {
+                            node.ParentNode.AppendChild(childNode);
+                        }
+                    }
+                    XmlNode parent = node.ParentNode;
+                    parent.RemoveChild(node);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
             }
         }
     }
