@@ -69,7 +69,7 @@ namespace ContentFiltering.StyleSheetExtensions
             dictionary.Add("name", "XOfficeStyle");
             dictionary.Add("use", "currentPage");
             dictionary.Add("parse", "0");
-            dictionary.Add("cache", "long");
+            dictionary.Add("cache", "forbid");
 
             XWikiObject ssxObject = new XWikiObject();
             ssxObject.className = SSX_CLASS_NAME;
@@ -175,10 +175,8 @@ namespace ContentFiltering.StyleSheetExtensions
                         client.RemoveObject(pageFullName, SSX_CLASS_NAME, existingSSX.id);
                     }
                 }
-
                 client.AddObject(pageFullName, ssxObject.className, fieldsValues);
             }
-
         }
 
         /// <summary>

@@ -82,6 +82,8 @@
     <Compile Include="Office\Word\Cleaners\XmlNamespaceDefinitionsReplacer.cs" />
     <Compile Include="Office\Word\ConversionManager.cs" />
     <Compile Include="Office\Word\ConverterActionState.cs" />
+    <Compile Include="Office\Word\Filters\EmptyNestedElementsFilter.cs" />
+    <Compile Include="Office\Word\Filters\EmptySpanRemoverFilter.cs" />
     <Compile Include="Office\Word\Filters\GrammarAndSpellingErrorsFilter.cs" />
     <Compile Include="Office\Word\Filters\IDOMFilter.cs" />
     <Compile Include="Office\Word\Cleaners\IHTMLCleaner.cs" />

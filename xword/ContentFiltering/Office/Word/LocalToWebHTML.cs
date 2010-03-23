@@ -59,22 +59,23 @@ namespace XWiki.Office.Word
             //rigister the html filters
             List<IDOMFilter> contentFilters = new List<IDOMFilter>()
             {
-                new ParentDivAttributeRemoverFilter(manager),
                 new LocalToWebStyleFilter(manager),
                 new StyleRemoverFilter(manager),
                 new GrammarAndSpellingErrorsFilter(manager),
                 new LocalImageAdaptorFilter(manager),
                 new LocalListsAdaptorFilter(manager),
                 new LocalMacrosAdaptorFilter(manager),
-                new OfficeAttributesRemoverFilter(manager)
+                new OfficeAttributesRemoverFilter(manager),
+                new EmptySpanRemoverFilter(manager),
+                //new EmptyNestedElementsFilter(manager),
+                new ParentDivAttributeRemoverFilter(manager),                
             };
             
             
             foreach(IDOMFilter contentFilter in contentFilters)
             {
                 contentFilter.Filter(ref xmlDoc);
-            }
-            
+            }            
             
             StringBuilder sb = new StringBuilder(xmlDoc.GetIndentedXml());
             sb.Replace(" xmlns=\"\"","");
