@@ -66,7 +66,7 @@ namespace XWiki.Office.Word
                 new LocalListsAdaptorFilter(manager),
                 new LocalMacrosAdaptorFilter(manager),
                 new OfficeAttributesRemoverFilter(manager),
-                new EmptySpanRemoverFilter(manager),
+                //new EmptySpanRemoverFilter(manager),
                 //new EmptyNestedElementsFilter(manager),
                 new ParentDivAttributeRemoverFilter(manager),                
             };
