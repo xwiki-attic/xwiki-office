@@ -705,7 +705,7 @@ namespace XWord
             if (hasCredentials && autologin)
             {
                 Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
-                connected = true;
+                connected = Client.LoggedIn;
             }
             else if (!hasCredentials)
             {
@@ -714,7 +714,7 @@ namespace XWord
                 {
                     if (ShowConnectToServerUI())
                     {
-                        connected = true;
+                        connected = Client.LoggedIn;
                         this.AddinStatus.Syntax = this.DefaultSyntax;
                     }
                 }
@@ -723,7 +723,7 @@ namespace XWord
             {
                 Globals.Ribbons.XWikiRibbon.SwitchToOfflineMode();
             }
-            else
+            else if (Client.LoggedIn)
             {
                 Globals.Ribbons.XWikiRibbon.SwitchToOnlineMode();
             }
