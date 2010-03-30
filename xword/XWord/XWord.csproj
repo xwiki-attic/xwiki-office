@@ -26,19 +26,18 @@
     <RootNamespace>XWord</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ManifestCertificateThumbprint>E62442FE6D3A20F050E565BC4983E6191FE1C94F</ManifestCertificateThumbprint>
-    <ManifestKeyFile>XWord_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>63BB54C99C749753AB3F129AC311ADB179BF2E55</ManifestCertificateThumbprint>
+    <ManifestKeyFile>XWord_1_TemporaryKey.pfx</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>XWord_1_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>publish/</PublishUrl>
-    <InstallUrl>http://xoffice.xwiki.org/xwiki/bin/download/Repository/WebHome/XWord1.1.zip/</InstallUrl>
+    <InstallUrl>http://xoffice.xwiki.org/xwiki/bin/download/Repository/WebHome/XWord1.0SNAPSHOT.zip/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.1.0.110</ApplicationVersion>
+    <ApplicationVersion>1.1.0.123</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -325,6 +324,7 @@
     <None Include="Resources\Crystal_Clear_action_reload1.png" />
     <None Include="Resources\loadingWikiData.gif" />
     <None Include="Resources\Nuvola_apps_download_manager2.png" />
+    <None Include="XWord_1_TemporaryKey.pfx" />
     <None Include="XWord_TemporaryKey.pfx" />
     <None Include="Resources\Nuvola_filesystems_www.png" />
     <Content Include="Resources\storegrid_browser_icon.gif" />
