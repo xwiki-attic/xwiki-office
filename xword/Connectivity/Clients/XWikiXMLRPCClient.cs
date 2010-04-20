@@ -35,7 +35,7 @@ namespace XWiki.Clients
     /// Interacts with a XWiki server via XML-RPC
     /// </summary>
     /// <remarks>The client side xml-rpc is done using a XMlRPC.net(CookComputing)generated proxy.</remarks>
-    public class XWikiXMLRPCClient : IXWikiClient
+    public partial class XWikiXMLRPCClient : IXWikiClient
     {
         private bool isLoggedIn;
         //Default value for encoding
