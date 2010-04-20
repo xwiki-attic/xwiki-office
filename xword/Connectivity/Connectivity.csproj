@@ -66,6 +66,7 @@
     <Compile Include="Clients\XmlRpc\Model\XWikiClassSummary.cs" />
     <Compile Include="Clients\XmlRpc\Model\XWikiObject.cs" />
     <Compile Include="Clients\XmlRpc\Model\XWikiObjectSummary.cs" />
+    <Compile Include="Clients\XWikiXMLRPCClientExtension.cs" />
     <Compile Include="Clients\XWikiClientFactory.cs" />
     <Compile Include="Clients\XWikiHTTPClient.cs" />
     <Compile Include="Clients\XWikiXMLRPCClient.cs" />
@@ -78,18 +79,18 @@
     <Compile Include="Rest\Model\RestModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XWikiLib\XWikiLib.csproj">
-      <Project>{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}</Project>
-      <Name>XWikiLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Rest\Model\RestModel.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XWikiLib\XWikiLib.csproj">
+      <Project>{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}</Project>
+      <Name>XWikiLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

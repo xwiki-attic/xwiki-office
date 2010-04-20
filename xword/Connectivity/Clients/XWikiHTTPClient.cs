@@ -30,7 +30,6 @@ using System.IO;
 using XWiki.XmlRpc;
 using XWiki.Connectivity;
 
-
 namespace XWiki.Clients
 {
     /// <summary>
@@ -747,6 +746,11 @@ namespace XWiki.Clients
         }
 
         public PageHistorySummary[] GetPageHistory(String pageId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public String UpdateObject(string pageFullName, string className, int objectIndex, System.Collections.Specialized.NameValueCollection fieldsValues)
         {
             throw new NotImplementedException();
         }

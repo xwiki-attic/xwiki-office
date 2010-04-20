@@ -166,16 +166,25 @@ namespace ContentFiltering.StyleSheetExtensions
                 fieldsValues.Add("parse", ssxObject.objectDictionary["parse"].ToString());
                 fieldsValues.Add("cache", ssxObject.objectDictionary["cache"].ToString());
 
-                //remove existing XOffice style sheet extensions for current page
+                bool ssxExists = false;
                 List<XWikiObject> existingSSXObjects = RetrieveStyleSheetExtensions();
                 foreach (XWikiObject existingSSX in existingSSXObjects)
                 {
                     if (existingSSX.objectDictionary["name"] + "" == XOFFICE_SSX || existingSSX.prettyName == XOFFICE_SSX)
                     {
-                        client.RemoveObject(pageFullName, SSX_CLASS_NAME, existingSSX.id);
+                        //
+                        //client.RemoveObject(pageFullName, SSX_CLASS_NAME, existingSSX.id);
+                        ssxExists = true;
                     }
                 }
-                client.AddObject(pageFullName, ssxObject.className, fieldsValues);
+                if (ssxExists)
+                {
+                    client.UpdateObject(pageFullName, ssxObject.className, ssxObject.id, fieldsValues);
+                }
+                else
+                {
+                    client.AddObject(pageFullName, ssxObject.className, fieldsValues);
+                }                    
             }
         }
 
