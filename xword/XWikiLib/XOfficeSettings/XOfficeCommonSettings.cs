@@ -41,6 +41,7 @@ namespace XWord
         private XWikiClientType clientType;
         private PrefetchSettings prefethSettings;
         private bool autoLogin;
+        private String metaDataFolderSuffix;
 
         /// <summary>
         /// Creates a new instance of the class.
@@ -53,6 +54,7 @@ namespace XWord
             clientType = XWikiClientType.XML_RPC;
             prefethSettings = new PrefetchSettings();
             autoLogin = false;
+            metaDataFolderSuffix = "";
         }
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace XWord
         /// <summary>
         /// Gets or sets the instance holding the settings for the wiki prefetcher.
         /// </summary>
-        public PrefetchSettings PrefethSettings
+        public PrefetchSettings PrefetchSettings
         {
             get { return prefethSettings; }
             set { prefethSettings = value; }
@@ -98,6 +100,12 @@ namespace XWord
         {
             get { return autoLogin; }
             set { autoLogin = value; }
+        }
+
+        public String MetaDataFolderSuffix
+        {
+            get { return metaDataFolderSuffix; }
+            set { metaDataFolderSuffix = value; }
         }
     }
 }

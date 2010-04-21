@@ -162,9 +162,13 @@ namespace XWord
             {
                 settings.PagesRepository = Path.GetTempPath();
             }
-            if (settings.PrefethSettings == null)
+            if (settings.PrefetchSettings == null)
             {
-                settings.PrefethSettings = new XWiki.Prefetching.PrefetchSettings();
+                settings.PrefetchSettings = new XWiki.Prefetching.PrefetchSettings();
+            }
+            if (settings.MetaDataFolderSuffix == null)
+            {
+                settings.MetaDataFolderSuffix = "";
             }
         }
     }

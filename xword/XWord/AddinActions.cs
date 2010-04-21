@@ -118,7 +118,7 @@ namespace XWord
             }
             if (path == null)
             {
-                path = addin.DownloadedAttachmentsRepository;
+                path = addin.AddinSettings.DownloadedAttachmentsRepository;
                 if (new FileInfo(path).Exists)
                 {
                     File.Create(path);
@@ -189,10 +189,10 @@ namespace XWord
             {
                 String docFullName = addin.Application.ActiveDocument.FullName;
                 String docName = addin.Application.ActiveDocument.Name;
-                Directory.CreateDirectory(addin.PagesRepository);
+                Directory.CreateDirectory(addin.AddinSettings.PagesRepository);
                 try
                 {
-                    String targetFile = addin.PagesRepository + "\\" + docName;
+                    String targetFile = addin.AddinSettings.PagesRepository + "\\" + docName;
                     File.Copy(docFullName, targetFile, true);
                     Client.AddAttachment(space, page, targetFile);
                     operationCompleted = true;
@@ -382,7 +382,7 @@ namespace XWord
         {
             String content = Client.GetRenderedPageContent(pageFullName);
             String suffix = "__LATEST";
-            String folder = addin.PagesRepository + "TempPages";
+            String folder = addin.AddinSettings.PagesRepository + "TempPages";
             
             localFileName = pageFullName.Replace(".", "-") + suffix;
             ConvertToNormalFolder(folder);
@@ -428,7 +428,7 @@ namespace XWord
                 IndexPageHistory(pageFullName);
 
                 String localFileName = pageFullName.Replace(".", "-");
-                String folder = addin.PagesRepository + "TempPages";
+                String folder = addin.AddinSettings.PagesRepository + "TempPages";
                 ConvertToNormalFolder(folder);
                 //content = new WebToLocalHTML(addin.serverURL, folder, localFileName).AdaptSource(content);
                 ConversionManager pageConverter;
@@ -739,7 +739,7 @@ namespace XWord
                 }
                 String pageFullName = spaceName + "." + pageName;
                 String localFileName = pageFullName.Replace(".", "-");
-                String folder = addin.PagesRepository + "TempPages";
+                String folder = addin.AddinSettings.PagesRepository + "TempPages";
                 ConvertToNormalFolder(folder);
                 //content = new WebToLocalHTML(addin.serverURL, folder, localFileName).AdaptSource(content);
                 ConversionManager pageConverter = new ConversionManager(addin.serverURL, folder, pageFullName, localFileName, addin.Client);
@@ -823,8 +823,8 @@ namespace XWord
                 dialog.Filter = "(*." + dialog.DefaultExt + ")|*." + dialog.DefaultExt;
             }
             dialog.CheckPathExists = true;
-            dialog.CustomPlaces.Add(addin.DownloadedAttachmentsRepository);
-            dialog.CustomPlaces.Add(addin.PagesRepository);
+            dialog.CustomPlaces.Add(addin.AddinSettings.DownloadedAttachmentsRepository);
+            dialog.CustomPlaces.Add(addin.AddinSettings.PagesRepository);
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK)
             {
