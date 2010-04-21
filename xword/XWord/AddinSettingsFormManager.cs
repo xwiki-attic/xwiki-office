@@ -41,9 +41,13 @@ namespace XWord
     public class AddinSettingsFormManager : AbstractAddinSettingsFormActionsManager
     {
         private AddinSettingsForm addinSettingsForm;
-        private XOfficeCommonSettings addinSettings;
         private XWikiAddIn addin;
         private XWikiClientType currentClientType;
+
+        private XOfficeCommonSettings AddinSettings
+        {
+            get { return addin.AddinSettings; }
+        }
 
         /// <summary>
         /// Default constructor.
@@ -52,9 +56,8 @@ namespace XWord
         public AddinSettingsFormManager(ref AddinSettingsForm addinSettingsForm)
         {
             this.addinSettingsForm = addinSettingsForm;
-            this.addinSettings = new XOfficeCommonSettings();
             this.addin = Globals.XWikiAddIn;
-            this.currentClientType = addin.ClientType;
+            this.currentClientType = addin.AddinSettings.ClientType;
         }
 
         #region AbstractAddinSettingsFormActionsManager Members
@@ -93,26 +96,21 @@ namespace XWord
                 addinSettingsForm.Password = addin.password;
             }
             addinSettingsForm.CkRememberMe = addin.RememberCredentials;
-            addinSettingsForm.CkAutoLogin = addin.AutoLogin;
+            addinSettingsForm.CkAutoLogin = AddinSettings.AutoLogin;
 
-            addinSettings = new XOfficeCommonSettings();
-            addinSettings.PagesRepository = addin.PagesRepository;
-            addinSettings.DownloadedAttachmentsRepository = addin.DownloadedAttachmentsRepository;
-            addinSettings.ClientType = addin.ClientType;
-            addinSettings.AutoLogin = addin.AutoLogin;
             //repository tab
-            addinSettingsForm.TxtPagesRepoText = addin.PagesRepository;
-            addinSettingsForm.TxtAttachmentsRepoText = addin.DownloadedAttachmentsRepository;
+            addinSettingsForm.TxtPagesRepoText = addin.AddinSettings.PagesRepository;
+            addinSettingsForm.TxtAttachmentsRepoText = addin.AddinSettings.DownloadedAttachmentsRepository;
             //prefetch tab
-            addinSettingsForm.IsPrefetchEnabled = addin.PrefetchSettings.PrefetchEnabled;
-            addinSettingsForm.txtPrefetchInterval.Text = addin.PrefetchSettings.PollingInterval.ToString();
-            addinSettingsForm.txtPrefetchPagesSetSize.Text = addin.PrefetchSettings.ResultSetSize.ToString();            
+            addinSettingsForm.IsPrefetchEnabled = addin.AddinSettings.PrefetchSettings.PrefetchEnabled;
+            addinSettingsForm.txtPrefetchInterval.Text = addin.AddinSettings.PrefetchSettings.PollingInterval.ToString();
+            addinSettingsForm.txtPrefetchPagesSetSize.Text = addin.AddinSettings.PrefetchSettings.ResultSetSize.ToString();            
 
             //init protocol settings
             addinSettingsForm.ConnectDictionary.Add(addinSettingsForm.ConnectMethods[0], XWikiClientType.XML_RPC);
             addinSettingsForm.ConnectDictionary.Add(addinSettingsForm.ConnectMethods[1], XWikiClientType.HTTP_Client);
             addinSettingsForm.ComboProtocolDataSource = addinSettingsForm.ConnectMethods;
-            switch (addin.ClientType)
+            switch (addin.AddinSettings.ClientType)
             {
                 case XWikiClientType.XML_RPC:
                     addinSettingsForm.ComboProtocolSelectedIndex = 0;
@@ -182,8 +180,8 @@ namespace XWord
                 String selectedValue = (String)addinSettingsForm.ComboProtocolSelectedValue;
                 if (addinSettingsForm.ConnectDictionary.Keys.Contains(selectedValue))
                 {
-                    addinSettings.ClientType = addinSettingsForm.ConnectDictionary[selectedValue];
-                    addin.ClientType = addinSettings.ClientType;
+                    AddinSettings.ClientType = addinSettingsForm.ConnectDictionary[selectedValue];
+                    addin.AddinSettings.ClientType = AddinSettings.ClientType;
                     addinSettingsForm.ConnectionSettingsApplied = false;
                 }
                 else
@@ -201,7 +199,7 @@ namespace XWord
         protected override void ActionCancel(object sender, EventArgs e)
         {
             //rollback to initial value of addin client type
-            addin.ClientType = currentClientType;
+            addin.AddinSettings.ClientType = currentClientType;
         }
 
         #endregion AbstractAddinSettingsFormActionsManager
@@ -222,10 +220,9 @@ namespace XWord
             addin.username = addinSettingsForm.UserName;
             addin.password = addinSettingsForm.Password;
             addin.RememberCredentials = addinSettingsForm.CkRememberMe;
-            addin.AutoLogin = addinSettingsForm.CkAutoLogin;
-            addinSettings.AutoLogin = addin.AutoLogin;
+            addin.AddinSettings.AutoLogin = addinSettingsForm.CkAutoLogin;
             LoginData loginData = new LoginData(LoginData.XWORD_LOGIN_DATA_FILENAME);
-            addin.Client = XWikiClientFactory.CreateXWikiClient(addin.ClientType,
+            addin.Client = XWikiClientFactory.CreateXWikiClient(addin.AddinSettings.ClientType,
                 addin.serverURL, addin.username, addin.password);
 
             if (addinSettingsForm.CkRememberMe)
@@ -241,7 +238,7 @@ namespace XWord
                 loginData.ClearCredentials();
             }
             //Write the settings to isolated storage. 
-            XOfficeCommonSettingsHandler.WriteRepositorySettings(addinSettings);
+            XOfficeCommonSettingsHandler.WriteRepositorySettings(AddinSettings);
 
             addinSettingsForm.Cursor = c;
         }
@@ -256,21 +253,21 @@ namespace XWord
             addinSettingsForm.Cursor = Cursors.WaitCursor;
             if (addinSettingsForm.ValidatePath(addinSettingsForm.TxtPagesRepoText))
             {
-                addin.PagesRepository = addinSettingsForm.TxtPagesRepoText;
+                addin.AddinSettings.PagesRepository = addinSettingsForm.TxtPagesRepoText;
             }
             else
             {
-                addin.PagesRepository = Path.GetTempPath();
+                addin.AddinSettings.PagesRepository = Path.GetTempPath();
             }
             if (addinSettingsForm.ValidatePath(addinSettingsForm.TxtAttachmentsRepoText))
             {
-                addin.DownloadedAttachmentsRepository = addinSettingsForm.TxtAttachmentsRepoText;
+                addin.AddinSettings.DownloadedAttachmentsRepository = addinSettingsForm.TxtAttachmentsRepoText;
             }
             else
             {
-                addin.DownloadedAttachmentsRepository = Path.GetTempPath();
+                addin.AddinSettings.DownloadedAttachmentsRepository = Path.GetTempPath();
             }
-            XOfficeCommonSettingsHandler.WriteRepositorySettings(addinSettings);
+            XOfficeCommonSettingsHandler.WriteRepositorySettings(AddinSettings);
             addinSettingsForm.AddinSettingsApplied = true;
             Thread.Sleep(500);
             addinSettingsForm.Cursor = c;
@@ -283,27 +280,25 @@ namespace XWord
         {
             Cursor c = addinSettingsForm.Cursor;
             addinSettingsForm.Cursor = Cursors.WaitCursor;
-            //reference the active settings
-            addinSettings.PrefethSettings = addin.PrefetchSettings;
             //replace active settings
             try
             {
                 //parse the input
                 double prefetchInterval = Double.Parse(addinSettingsForm.txtPrefetchInterval.Text);
                 int resultSetSize = Int32.Parse(addinSettingsForm.txtPrefetchPagesSetSize.Text);
-                addinSettings.PrefethSettings.PollingInterval = prefetchInterval;
-                addinSettings.PrefethSettings.ResultSetSize = resultSetSize;
+                AddinSettings.PrefetchSettings.PollingInterval = prefetchInterval;
+                AddinSettings.PrefetchSettings.ResultSetSize = resultSetSize;
             }
             catch (FormatException fe)
             {
                 Log.Exception(fe);
                 //return to initial values
-                addinSettingsForm.txtPrefetchInterval.Text = addinSettings.PrefethSettings.PollingInterval.ToString();
-                addinSettingsForm.txtPrefetchPagesSetSize.Text = addinSettings.PrefethSettings.ResultSetSize.ToString();
+                addinSettingsForm.txtPrefetchInterval.Text = AddinSettings.PrefetchSettings.PollingInterval.ToString();
+                addinSettingsForm.txtPrefetchPagesSetSize.Text = AddinSettings.PrefetchSettings.ResultSetSize.ToString();
             }
-            addinSettings.PrefethSettings.PrefetchEnabled = addinSettingsForm.IsPrefetchEnabled;
+            AddinSettings.PrefetchSettings.PrefetchEnabled = addinSettingsForm.IsPrefetchEnabled;
             //write the settings to storage
-            XOfficeCommonSettingsHandler.WriteRepositorySettings(addinSettings);
+            XOfficeCommonSettingsHandler.WriteRepositorySettings(AddinSettings);
             addinSettingsForm.Cursor = c;
         }
     }

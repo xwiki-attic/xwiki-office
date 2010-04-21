@@ -78,8 +78,6 @@ namespace XWord
         /// The password used to connect to the server.
         /// </summary>
         public string password = "";
-        private string pagesRepository;
-        private string downloadedAttachmentsRepository;
         private Word.WdSaveFormat saveFormat;
         /// <summary>
         /// Object containing the structure(Spaces,Pages,Attachment names)
@@ -93,10 +91,7 @@ namespace XWord
         private Word.Document lastActiveDocument;
         private Word.Range activeDocumentContent;
         private String lastActiveDocumentFullName;
-        private XWikiClientType clientType = XWikiClientType.XML_RPC;
-        private PrefetchSettings prefetchSettings;
         private bool rememberCredentials = false;
-        private bool autologin = false;
         /// <summary>
         /// Collection containing all custom task panes in all opened Word instances.
         /// </summary>
@@ -110,6 +105,7 @@ namespace XWord
         /// and the full name of the associated wiki page.
         /// </summary>
         private Dictionary<String, String> editedPages = new Dictionary<string, string>();
+        private XOfficeCommonSettings addinSettings;
         
         #endregion
 
@@ -154,6 +150,15 @@ namespace XWord
         }
 
         /// <summary>
+        /// Common settings for the addins.
+        /// </summary>
+        public XOfficeCommonSettings AddinSettings
+        {
+            get { return addinSettings; }
+            set { addinSettings = value; }
+        }
+
+        /// <summary>
         /// Specifies if the user has stored credentials.
         /// </summary>
         public bool RememberCredentials
@@ -189,30 +194,6 @@ namespace XWord
                 XWikiDocument currentDoc = wiki.GetPageById(currentPageFullName);
                 currentDoc.published = value;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the type of the XWiki client used by the add-in.
-        /// </summary>
-        public XWikiClientType ClientType
-        {
-            get
-            {
-                return clientType;
-            }
-            set
-            {
-                clientType = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the auto-login behavior for the add-in
-        /// </summary>
-        public bool AutoLogin
-        {
-            get { return autologin; }
-            set { autologin = value; }
         }
 
         /// <summary>
@@ -326,24 +307,6 @@ namespace XWord
         }
 
         /// <summary>
-        /// Gets or sets the folder where the pages are saved.
-        /// </summary>
-        public String PagesRepository
-        {
-            get { return pagesRepository; }
-            set { pagesRepository = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the folder where the downloaded attachemtns are saved.
-        /// </summary>
-        public String DownloadedAttachmentsRepository
-        {
-            get { return downloadedAttachmentsRepository; }
-            set { downloadedAttachmentsRepository = value; }
-        }
-
-        /// <summary>
         /// Provides functionality for common XWiki actions, like creating and editing pages, adding attachments and others.
         /// </summary>
         public AddinActions AddinActions
@@ -385,17 +348,6 @@ namespace XWord
             get 
             {
                 return Client.GetDefaultServerSyntax(); 
-            }
-        }
-
-        /// <summary>
-        /// Gets the values for the prefetch settings.
-        /// </summary>
-        public PrefetchSettings PrefetchSettings
-        {
-            get
-            {
-                return prefetchSettings;
             }
         }
 
@@ -545,8 +497,8 @@ namespace XWord
         private Tools.CustomTaskPane GetWikiExplorer(Word.Document document)
         {
             //required by COM interop
-            object zero = 1;
-            return GetWikiExplorer(document.Windows.get_Item(ref zero));
+            object first = 1;
+            return GetWikiExplorer(document.Windows.get_Item(ref first));
         }
 
         /// <summary>
@@ -669,6 +621,40 @@ namespace XWord
             }
         }
 
+        private void SetFolderSuffix(XOfficeCommonSettings settings)
+        {
+            Object _false = false;
+            Object _true = true;
+            String defaultSuffixValue = "_files";
+            Word.Document newDoc = Application.Documents.Add(ref missing, ref missing, ref missing, ref _false);
+
+            String uniqueName = "XOffice" + DateTime.Now.Ticks.ToString();
+            Object uniquePath = Path.Combine(settings.PagesRepository, uniqueName);
+            
+            //required by COM interop
+            Object format = Word.WdSaveFormat.wdFormatHTML;
+            
+            newDoc.SaveAs(ref uniquePath, ref format, ref missing, ref missing, ref _false, ref missing, ref missing,
+                          ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+                          ref missing, ref missing);
+            newDoc.Close(ref _false, ref missing, ref missing);
+            DirectoryInfo dirInfo = new DirectoryInfo(settings.PagesRepository);
+            //search for the metadata directory.
+            foreach (DirectoryInfo subDir in dirInfo.GetDirectories())
+            {
+                if (subDir.Name.StartsWith(uniqueName))
+                {
+                    String suffix = subDir.Name.Replace(uniqueName, "");
+                    settings.MetaDataFolderSuffix = suffix;
+                    XOfficeCommonSettingsHandler.WriteRepositorySettings(settings);
+                }
+            }
+            if (settings.MetaDataFolderSuffix == "")
+            {
+                settings.MetaDataFolderSuffix = defaultSuffixValue;
+            }
+        }
+
         /// <summary>
         /// Makes the login to the server, using the ConnectionSettingsForm
         /// or the last stored credentials.
@@ -684,17 +670,15 @@ namespace XWord
             //Repositories and temporary files settings
             if (XOfficeCommonSettingsHandler.HasSettings())
             {
-                XOfficeCommonSettings addinSettings = XOfficeCommonSettingsHandler.GetSettings();
-                this.DownloadedAttachmentsRepository = addinSettings.DownloadedAttachmentsRepository;
-                this.PagesRepository = addinSettings.PagesRepository;
-                this.clientType = addinSettings.ClientType;
-                this.prefetchSettings = addinSettings.PrefethSettings;
-                this.autologin = addinSettings.AutoLogin;
+                addinSettings = XOfficeCommonSettingsHandler.GetSettings();                
+                if (addinSettings.MetaDataFolderSuffix == "")
+                {
+                    SetFolderSuffix(addinSettings);
+                }
             }
             else
             {
-                this.PagesRepository = Path.GetTempPath();
-                this.DownloadedAttachmentsRepository = Path.GetTempPath();
+                this.AddinSettings = new XOfficeCommonSettings();                
             }            
             timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
             timer.Start();
@@ -702,15 +686,15 @@ namespace XWord
             InitializeEventsHandlers();
             bool connected = false;
             bool hasCredentials = LoadCredentials();
-            if (hasCredentials && autologin)
+            if (hasCredentials && AddinSettings.AutoLogin)
             {
-                Client = XWikiClientFactory.CreateXWikiClient(ClientType, serverURL, username, password);
+                Client = XWikiClientFactory.CreateXWikiClient(AddinSettings.ClientType, serverURL, username, password);
                 connected = Client.LoggedIn;
             }
             else if (!hasCredentials)
             {
                 //if the user wants to login at startup, and enter the credentials
-                if (autologin)
+                if (AddinSettings.AutoLogin)
                 {
                     if (ShowConnectToServerUI())
                     {
