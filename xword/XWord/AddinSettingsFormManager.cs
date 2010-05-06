@@ -32,6 +32,7 @@ using XWiki;
 using XWiki.Logging;
 using UICommons;
 using UICommons.UIActionsManagement;
+using XOffice;
 
 namespace XWord
 {

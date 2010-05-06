@@ -30,7 +30,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using XWiki;
 
-namespace XWord
+namespace XOffice
 {
     /// <summary>
     /// Offers functionality for storing the settings to Isolated Storage.
