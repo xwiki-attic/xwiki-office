@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using XWiki.Html;
 using XWiki.Clients;
 using XOffice;
@@ -157,7 +158,8 @@ namespace XWiki.Office.Word
         /// <param name="attachmentPath">The path to the attachment to be uploaded.</param>
         public void RegisterForUpload(String attachmentPath)
         {
-            newAttachments.Add(attachmentPath);
+            String path = HttpUtility.UrlDecode(attachmentPath);
+            newAttachments.Add(path);            
         }
 
         public void UploadAttachments()
