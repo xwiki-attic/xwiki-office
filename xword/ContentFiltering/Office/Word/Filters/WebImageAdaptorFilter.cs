@@ -87,7 +87,7 @@ namespace ContentFiltering.Office.Word.Filters
                         imgURL = serverURL + imgURL;
                     }
                     ParameterizedThreadStart pts = new ParameterizedThreadStart(DownloadImage);
-                    String folder = localFolder + "\\" + localFilename + "_Files";
+                    String folder = localFolder + "\\" + localFilename + manager.AddinSettings.MetaDataFolderSuffix;
                     Object param = new ImageDownloadInfo(imgURL, folder, imgInfo);
                     pts.Invoke(param);
                     imgURL = folder + "\\" + Path.GetFileName(imgURL);

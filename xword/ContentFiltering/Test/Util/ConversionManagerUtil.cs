@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using XWiki.Office.Word;
 using XWiki.Clients;
+using XOffice;
 
 namespace ContentFiltering.Test.Util
 {
@@ -44,7 +45,8 @@ namespace ContentFiltering.Test.Util
         {
             IXWikiClient client = null;
             client = XWikiClientTestUtil.CreateMockInstance();
-            return new ConversionManager(serverURL, localFolder, docFullName, localFileName, client);
+            XOfficeCommonSettings settings = new XOfficeCommonSettings();
+            return new ConversionManager(settings, serverURL, localFolder, docFullName, localFileName, client);
         }
     }
 }

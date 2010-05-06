@@ -28,7 +28,7 @@ using System.Text;
 using XWiki;
 using XWiki.Prefetching;
 
-namespace XWord
+namespace XOffice
 {
     /// <summary>
     /// Structure used for writing and retrieving settings data from Isolated Storage.

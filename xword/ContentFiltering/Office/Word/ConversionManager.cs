@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using XWiki.Html;
 using XWiki.Clients;
+using XOffice;
 
 namespace XWiki.Office.Word
 {
@@ -40,6 +41,8 @@ namespace XWiki.Office.Word
         /// </summary>
         private List<String> newAttachments;
 
+        private XOfficeCommonSettings settings;
+
         /// <summary>
         /// Creates a new instance of the ConversionManager class.
         /// </summary>
@@ -48,16 +51,22 @@ namespace XWiki.Office.Word
         /// <param name="docFullName">The full name of the wiki page.</param>
         /// <param name="localFileName">The local file coresponding to the edited wiki page.</param>
         /// <param name="client">IXWikiClient implementation, handling Client server communication.</param>
-        public ConversionManager(String serverURL, String localFolder, String docFullName, String localFileName, IXWikiClient client)
+        public ConversionManager(XOfficeCommonSettings settings, String serverURL, String localFolder, String docFullName, String localFileName, IXWikiClient client)
         {
             states = new BidirectionalConversionStates(serverURL);
             states.LocalFolder = localFolder;
             states.PageFullName = docFullName;
             states.LocalFileName = localFileName;
             xwikiClient = client;
+            this.settings = settings;
             localToWebHtml = new LocalToWebHTML(this);
             webToLocalHtml = new WebToLocalHTML(this);
             newAttachments = new List<string>();
+        }
+
+        internal XOfficeCommonSettings AddinSettings
+        {
+            get { return this.settings; }
         }
 
         /// <summary>

@@ -37,6 +37,7 @@ using Office = Microsoft.Office.Core;
 using Tools = Microsoft.Office.Tools;
 using Security = System.Security;
 using XWord.VstoExtensions;
+using XOffice;
 using XWiki.Clients;
 using XWiki;
 using XWiki.Model;

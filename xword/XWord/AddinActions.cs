@@ -395,7 +395,7 @@ namespace XWord
             ConvertToNormalFolder(folder);
             ConversionManager pageConverter;
             //TODO: The converter info should be merged.
-            pageConverter = new ConversionManager(addin.serverURL, folder, pageFullName, localFileName, addin.Client);
+            pageConverter = new ConversionManager(addin.AddinSettings, addin.serverURL, folder, pageFullName, localFileName, addin.Client);
             //pageConverters.Add(pageFullName + suffix, pageConverter);
             
             content = pageConverter.ConvertFromWebToWord(content);
@@ -445,7 +445,7 @@ namespace XWord
                 }
                 else
                 {
-                    pageConverter = new ConversionManager(addin.serverURL, folder, pageFullName, localFileName, addin.Client);
+                    pageConverter = new ConversionManager(addin.AddinSettings, addin.serverURL, folder, pageFullName, localFileName, addin.Client);
                     pageConverters.Add(pageFullName, pageConverter);
                 }
                 content = pageConverter.ConvertFromWebToWord(content);
@@ -666,7 +666,7 @@ namespace XWord
                 }
                 else
                 {
-                    pageConverter = new ConversionManager(addin.serverURL, Path.GetDirectoryName(contentFilePath),
+                    pageConverter = new ConversionManager(addin.AddinSettings, addin.serverURL, Path.GetDirectoryName(contentFilePath),
                                                           addin.currentPageFullName, Path.GetFileName(contentFilePath), addin.Client);
                 }
                 cleanHTML = pageConverter.ConvertFromWordToWeb(cleanHTML);
@@ -749,7 +749,7 @@ namespace XWord
                 String folder = addin.AddinSettings.PagesRepository + "TempPages";
                 ConvertToNormalFolder(folder);
                 //content = new WebToLocalHTML(addin.serverURL, folder, localFileName).AdaptSource(content);
-                ConversionManager pageConverter = new ConversionManager(addin.serverURL, folder, pageFullName, localFileName, addin.Client);
+                ConversionManager pageConverter = new ConversionManager(addin.AddinSettings, addin.serverURL, folder, pageFullName, localFileName, addin.Client);
                 localFileName = folder + "\\" + localFileName + ".html";
                 addin.currentLocalFilePath = localFileName;
                 //Save the file
