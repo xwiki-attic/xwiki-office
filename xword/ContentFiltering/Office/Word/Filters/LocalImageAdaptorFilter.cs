@@ -25,8 +25,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using XWiki.Office.Word;
+using System.Web;
 using System.IO;
+using XWiki.Office.Word;
+
 
 namespace ContentFiltering.Office.Word.Filters
 {
@@ -54,6 +56,7 @@ namespace ContentFiltering.Office.Word.Filters
                 if (node.NodeType == XmlNodeType.Element)
                 {
                     String imagePath = node.Attributes["src"].Value;
+                    imagePath = HttpUtility.UrlDecode(imagePath);
                     if (!adaptedSrcs.Contains(imagePath))
                     {
                         String newPath = "";
