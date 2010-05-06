@@ -289,7 +289,14 @@ namespace XWord
         private void IndexPageHistory(String pageFullName)
         {
             Rpc.PageHistorySummary[] pageHistory = Client.GetPageHistory(pageFullName);
-            pagesHistory.Add(pageFullName, pageHistory);
+            if (pagesHistory.ContainsKey(pageFullName))
+            {
+                pagesHistory[pageFullName] = pageHistory;
+            }
+            else
+            {
+                pagesHistory.Add(pageFullName, pageHistory);
+            }
         }
 
         /// <summary>
