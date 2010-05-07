@@ -25,36 +25,36 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E77BB557-42F1-461C-9F9D-729732C2AC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E77BB557-42F1-461C-9F9D-729732C2AC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77BB557-42F1-461C-9F9D-729732C2AC06}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{E77BB557-42F1-461C-9F9D-729732C2AC06}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{E77BB557-42F1-461C-9F9D-729732C2AC06}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{E77BB557-42F1-461C-9F9D-729732C2AC06}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{211CDFA1-F21F-42F7-BBCD-305863C7328A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{211CDFA1-F21F-42F7-BBCD-305863C7328A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{211CDFA1-F21F-42F7-BBCD-305863C7328A}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{211CDFA1-F21F-42F7-BBCD-305863C7328A}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{211CDFA1-F21F-42F7-BBCD-305863C7328A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{211CDFA1-F21F-42F7-BBCD-305863C7328A}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{BCF8C79A-A683-4B68-927A-64AD96F37847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCF8C79A-A683-4B68-927A-64AD96F37847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF8C79A-A683-4B68-927A-64AD96F37847}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF8C79A-A683-4B68-927A-64AD96F37847}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{BCF8C79A-A683-4B68-927A-64AD96F37847}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCF8C79A-A683-4B68-927A-64AD96F37847}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{2815740E-E05C-4163-8951-F550A27B5668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2815740E-E05C-4163-8951-F550A27B5668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2815740E-E05C-4163-8951-F550A27B5668}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{2815740E-E05C-4163-8951-F550A27B5668}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{2815740E-E05C-4163-8951-F550A27B5668}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{2815740E-E05C-4163-8951-F550A27B5668}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{93C6F40A-BAF9-41C2-987F-FBF71D8C26B6}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{C41CC724-2CF5-4083-8E56-B5C9F04C1960}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{51BE2592-DB6D-4FDF-BB9F-E4CBCE22026C}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{98023373-94C4-477D-A746-85457393CAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98023373-94C4-477D-A746-85457393CAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98023373-94C4-477D-A746-85457393CAB2}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{98023373-94C4-477D-A746-85457393CAB2}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{98023373-94C4-477D-A746-85457393CAB2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{98023373-94C4-477D-A746-85457393CAB2}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
@@ -62,7 +62,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_RulesLocation = 0
 		CodeStyleEnforcer_Active = -1
+		CodeStyleEnforcer_RulesLocation = 0
 	EndGlobalSection
 EndGlobal
