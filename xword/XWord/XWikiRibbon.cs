@@ -33,6 +33,8 @@ using XWord.VstoExtensions;
 using XWiki.Logging;
 using XWiki;
 using UICommons;
+using XWiki.Annotations;
+using XWord.Annotations;
 
 namespace XWord
 {
@@ -429,6 +431,18 @@ namespace XWord
                 p.StartInfo = new ProcessStartInfo(url);
                 p.Start();
             }
+        }
+
+        private void btnAnnotate_Click(object sender, RibbonControlEventArgs e)
+        {
+            AnnotationsManager manager = new AnnotationsManager();
+            List<Annotation> annotations= manager.DownloadAnnotations(Addin.Client, Addin.currentPageFullName);
+
+            AnnotationDisplay display = new AnnotationDisplay(Addin.ActiveDocumentInstance);
+            foreach (Annotation ann in annotations)
+            {
+                display.DisplayAnnotation(ann);
+            }            
         }
     }
 }

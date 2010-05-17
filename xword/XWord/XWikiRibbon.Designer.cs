@@ -63,6 +63,7 @@
             this.dropDownSaveFormat = new Microsoft.Office.Tools.Ribbon.RibbonDropDown();
             this.separator1 = new Microsoft.Office.Tools.Ribbon.RibbonSeparator();
             this.btnAboutXWord = new Microsoft.Office.Tools.Ribbon.RibbonButton();
+            this.btnAnnotate = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.tab1.SuspendLayout();
             this.xWikiTab.SuspendLayout();
             this.xeGroup.SuspendLayout();
@@ -174,6 +175,7 @@
             this.currentDocumentGroup.Items.Add(this.btnRefresh);
             this.currentDocumentGroup.Items.Add(this.btnPreview);
             this.currentDocumentGroup.Items.Add(this.btnViewActiveDocInBrowser);
+            this.currentDocumentGroup.Items.Add(this.btnAnnotate);
             this.currentDocumentGroup.Label = "Active Document";
             this.currentDocumentGroup.Name = "currentDocumentGroup";
             // 
@@ -387,6 +389,17 @@
             this.btnAboutXWord.SuperTip = "Displays a summay about this Word Extension.";
             this.btnAboutXWord.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnAboutXWord_Click);
             // 
+            // btnAnnotate
+            // 
+            this.btnAnnotate.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnAnnotate.Image = global::XWord.Properties.Resources.XWiki;
+            this.btnAnnotate.Label = "Show Annotations";
+            this.btnAnnotate.Name = "btnAnnotate";
+            this.btnAnnotate.ScreenTip = "About XWord";
+            this.btnAnnotate.ShowImage = true;
+            this.btnAnnotate.SuperTip = "Displays a summay about this Word Extension.";
+            this.btnAnnotate.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnAnnotate_Click);
+            // 
             // XWikiRibbon
             // 
             this.Name = "XWikiRibbon";
@@ -485,6 +498,7 @@
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnPreview;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox syncSaving;
         public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSyntax;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAnnotate;
     }
 
     partial class ThisRibbonCollection : Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection

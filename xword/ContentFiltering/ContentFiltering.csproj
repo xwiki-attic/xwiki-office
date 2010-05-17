@@ -8,7 +8,7 @@
     <ProjectGuid>{C41CC724-2CF5-4083-8E56-B5C9F04C1960}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ContentFiltering</RootNamespace>
+    <RootNamespace>XWiki</RootNamespace>
     <AssemblyName>ContentFiltering</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -35,8 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dependencies\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.VisualStudio.TeamSystem.Data.UnitTesting, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dependencies\nunit.framework.dll</HintPath>
@@ -65,6 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\Annotation.cs" />
+    <Compile Include="Annotations\AnnotationsManager.cs" />
     <Compile Include="Html\CSSUtil.cs" />
     <Compile Include="Html\HtmlUtil.cs" />
     <Compile Include="Office\Word\AbstractConverter.cs" />
