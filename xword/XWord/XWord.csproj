@@ -35,6 +35,7 @@
     </AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsUrl>http://xoffice.xwiki.org/xwiki/bin/download/Repository/WebHome/PIAs.zip/o2007pia.msi</BootstrapperComponentsUrl>
     <PublishUrl>publish/</PublishUrl>
     <InstallUrl>http://xoffice.xwiki.org/xwiki/bin/download/Repository/WebHome/XWord1.0SNAPSHOT.zip/</InstallUrl>
     <TargetCulture>en</TargetCulture>

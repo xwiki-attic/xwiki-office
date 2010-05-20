@@ -86,7 +86,6 @@ namespace ContentFiltering.Office.Word.Cleaners
             string cleanContent = Encoding.UTF8.GetString(output.ToArray());
             return cleanContent;
         }
-
         #endregion IHTMLCleaner Members
     }
 }

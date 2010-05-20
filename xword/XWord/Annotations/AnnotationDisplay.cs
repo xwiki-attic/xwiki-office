@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Word = Microsoft.Office.Interop.Word;
 using XWiki.Annotations;
 
@@ -12,21 +11,29 @@ namespace XWord.Annotations
         private Word.Document document;
         private String clearContent;
         private Dictionary<int,int> deletedCharsMap;
-
+        private const int MAX_LENGHT = 255;
+        String[] newLineChars;
+        
         public AnnotationDisplay(Word.Document doc)
         {
-            String[] newLineChars = { "\n", "\r", "\t"};
+            newLineChars = new String[] { "\n", "\r" };
             this.document = doc;
-            String wordContent = document.Content.Text;
-            deletedCharsMap = MapDeletedCharsOffsets(wordContent, newLineChars);
-            clearContent = ClearContent(wordContent, newLineChars);
+            document.TextLineEnding = Microsoft.Office.Interop.Word.WdLineEndingType.wdLFOnly;
+            document.Content.TextRetrievalMode.IncludeFieldCodes = true;
+            document.Content.TextRetrievalMode.IncludeHiddenText = true;
+            String wordContent = document.Content.Text.Normalize();
+            deletedCharsMap = MapDeletedCharsOffsets(wordContent);
+            clearContent = ClearContent(wordContent);
         }
 
-        private String ClearContent(String content, String[] newLineChars)
-        {            
-            foreach (String s in newLineChars)
+        private String ClearContent(String content)
+        {
+            if (content != null)
             {
-                content = content.Replace(s, "");
+                foreach (String s in newLineChars)
+                {
+                    content = content.Replace(s, "");
+                }
             }
             return content;
         }
@@ -40,7 +47,7 @@ namespace XWord.Annotations
         /// A dictionary instance. 
         /// KEY: The index of the next non-cleared char in the output string. 
         /// Value: the number of deleted chars in the initial string preceding the char in the output string.</returns>
-        private Dictionary<int, int> MapDeletedCharsOffsets(String content, String[] newLineChars)
+        private Dictionary<int, int> MapDeletedCharsOffsets(String content)
         {
             Dictionary<int, int> deletedCharsMap = new Dictionary<int, int>();
             int deletedCharsNo = 0;
@@ -70,7 +77,6 @@ namespace XWord.Annotations
             }
             return offset;
         }
-
 
         /// <summary>
         /// Displays an annotation in a Word document.
@@ -132,21 +138,58 @@ namespace XWord.Annotations
         {
             String annotationContext = annotation.SelectionLeftContext + annotation.Selection +
                                        annotation.SelectionRightContext;
-            
             int contextIndex = clearContent.IndexOf(annotationContext);
             object annotationStart = contextIndex + annotationContext.IndexOf(annotation.Selection);
             object annotationEnd = (int)annotationStart + annotation.Selection.Length;
-
-            annotationStart = (int)annotationStart + GetOffset((int)annotationStart);
-            annotationEnd = (int)annotationEnd + GetOffset((int)annotationEnd);
+            //required by COM interop
+            object startOffset = GetOffset((int)annotationStart);
+            object endOffset = GetOffset((int)annotationEnd);
+            annotationStart = (int)annotationStart + (int)startOffset;
+            annotationEnd = (int)annotationEnd + (int)endOffset;
             if (contextIndex >= 0)
             {
-                return document.Range(ref annotationStart, ref annotationEnd);
+                Word.Range range = document.Range(ref annotationStart, ref annotationEnd);
+                return AdjustRange(range, annotation);
             }
             else
             {
                 return null;
+            }   
+        }
+
+        private Word.Range AdjustRange(Word.Range range, Annotation annotaion)
+        {
+            String initialText = ClearContent(range.Text);
+            bool match = initialText.EndsWith(annotaion.Selection);
+            int offset = Int32.MinValue;
+            object rangeStart = range.Start;
+            object rangeEnd = range.End;
+            object selectionStart = annotaion.Selection[0];
+            while (!match)
+            {
+                offset = range.Text.IndexOf((char)selectionStart);
+                object start = range.Start + (int)offset;
+                object end = range.End +  (int)offset;
+                range = document.Range(ref start, ref end);
+                range.TextRetrievalMode.IncludeHiddenText = false;
+                String rangeText = ClearContent(range.Text);
+                if (rangeText.StartsWith(annotaion.Selection))
+                {
+                    match = true;
+                }
+                else if (offset < 0)
+                {
+                    //if not found return initial range
+                    return document.Range(ref rangeStart, ref rangeEnd);
+                }
+                else if (offset == 0)
+                {
+                    start = (int)start + 1;
+                    end = (int)start + 1;
+                    range = document.Range(ref start, ref end);
+                }
             }
+            return range;
         }
     }
 }
