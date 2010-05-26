@@ -26,8 +26,8 @@
     <RootNamespace>XWord</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ManifestCertificateThumbprint>63BB54C99C749753AB3F129AC311ADB179BF2E55</ManifestCertificateThumbprint>
-    <ManifestKeyFile>XWord_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>E62442FE6D3A20F050E565BC4983E6191FE1C94F</ManifestCertificateThumbprint>
+    <ManifestKeyFile>XWord_TemporaryKey.pfx</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>false</SignAssembly>

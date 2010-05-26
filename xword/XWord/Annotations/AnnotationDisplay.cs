@@ -56,7 +56,15 @@ namespace XWord.Annotations
                 if (newLineChars.Contains(content[i].ToString()))
                 {
                     deletedCharsNo++;
-                    deletedCharsMap.Add(i - deletedCharsNo + 1, deletedCharsNo);
+                    int newIndex = i - deletedCharsNo + 1;
+                    if (deletedCharsMap.ContainsKey(newIndex))
+                    {
+                        deletedCharsMap[newIndex] = deletedCharsNo;
+                    }
+                    else
+                    {
+                        deletedCharsMap.Add(newIndex, deletedCharsNo);
+                    }
                 }
             }
             return deletedCharsMap;
