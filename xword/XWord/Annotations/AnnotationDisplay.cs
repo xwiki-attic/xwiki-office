@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Word = Microsoft.Office.Interop.Word;
+using XWiki;
 using XWiki.Annotations;
 
 namespace XWord.Annotations
@@ -165,39 +166,67 @@ namespace XWord.Annotations
             }   
         }
 
-        private Word.Range AdjustRange(Word.Range range, Annotation annotaion)
+        private Word.Range AdjustRange(Word.Range range, Annotation annotation)
         {
             String initialText = ClearContent(range.Text);
-            bool match = initialText.EndsWith(annotaion.Selection);
+            bool match = IsMatch(range, annotation);
+            String rangeText = "";
             int offset = Int32.MinValue;
             object rangeStart = range.Start;
             object rangeEnd = range.End;
-            object selectionStart = annotaion.Selection[0];
-            while (!match)
+            int rangeLength = (int)rangeEnd - (int)rangeStart;
+            object selectionStart = annotation.Selection[0];
+            try
             {
-                offset = range.Text.IndexOf((char)selectionStart);
-                object start = range.Start + (int)offset;
-                object end = range.End +  (int)offset;
-                range = document.Range(ref start, ref end);
-                range.TextRetrievalMode.IncludeHiddenText = false;
-                String rangeText = ClearContent(range.Text);
-                if (rangeText.StartsWith(annotaion.Selection))
+                while (!match)
                 {
-                    match = true;
-                }
-                else if (offset < 0)
-                {
-                    //if not found return initial range
-                    return document.Range(ref rangeStart, ref rangeEnd);
-                }
-                else if (offset == 0)
-                {
-                    start = (int)start + 1;
-                    end = (int)start + 1;
-                    range = document.Range(ref start, ref end);
+                    offset = range.Text.IndexOf((char)selectionStart);
+                    object start = range.Start + (int)offset;
+                    //object end = range.End + (int)offset;
+                    object end = range.Start + rangeLength + (int)offset;
+                    do
+                    {
+                        //extend the range to the selection length
+                        range = document.Range(ref start, ref end);
+                        range.TextRetrievalMode.IncludeHiddenText = false;
+                        rangeText = ClearContent(range.Text);
+                        end = (int)end + 1;
+                    } while (rangeText.Length != annotation.Selection.Length);
+                    if (IsMatch(range, annotation))
+                    {
+                        match = true;
+                    }
+                    else if (offset < 0)
+                    {
+                        //if not found return initial range
+                        return document.Range(ref rangeStart, ref rangeEnd);
+                    }
+                    else if (offset == 0)
+                    {
+                        start = (int)start + 1;
+                        end = (int)start + 1;
+                        range = document.Range(ref start, ref end);
+                    }
                 }
             }
+            catch (NullReferenceException nre)
+            {
+                Log.Exception(nre);
+                return null;
+            }
             return range;
+        }
+
+        /// <summary>
+        /// Determines if a Word range is matching the selected text for an annotation
+        /// </summary>
+        /// <param name="range">The Word range to be verified.</param>
+        /// <param name="annotation">The displayed annotation.</param>
+        /// <returns>True if the range contains the annotated text and does not start with white spaces.</returns>
+        private bool IsMatch(Word.Range range, Annotation annotation)
+        {
+            String rangeText = ClearContent(range.Text);
+            return (rangeText == annotation.Selection) && (range.Text[0] == annotation.Selection[0]);
         }
     }
 }
