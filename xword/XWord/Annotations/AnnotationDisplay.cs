@@ -4,6 +4,7 @@ using System.Linq;
 using Word = Microsoft.Office.Interop.Word;
 using XWiki;
 using XWiki.Annotations;
+using XWord.Annotations;
 
 namespace XWord.Annotations
 {
@@ -14,11 +15,13 @@ namespace XWord.Annotations
         private Dictionary<int,int> deletedCharsMap;
         private const int MAX_LENGHT = 255;
         String[] newLineChars;
+        List<Word.Comment> displayedAnnotations;
         
         public AnnotationDisplay(Word.Document doc)
         {
             newLineChars = new String[] { "\n", "\r" };
             this.document = doc;
+            displayedAnnotations = new List<Microsoft.Office.Interop.Word.Comment>();
             document.TextLineEnding = Microsoft.Office.Interop.Word.WdLineEndingType.wdLFOnly;
             document.Content.TextRetrievalMode.IncludeFieldCodes = true;
             document.Content.TextRetrievalMode.IncludeHiddenText = true;
@@ -101,6 +104,8 @@ namespace XWord.Annotations
                 Word.Comment comment = document.Comments.Add(range, ref annotationText);
                 comment.Author = annotation.Author;
                 comment.Initial = annotation.OriginalSelection;
+                displayedAnnotations.Add(comment);
+                Globals.XWikiAddIn.AnnotationMaintainer.RegisterAnnotation(annotation, comment);
             }
         }
 

@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations\Annotation.cs" />
+    <Compile Include="Annotations\AnnotationClientStatus.cs" />
     <Compile Include="Annotations\AnnotationsManager.cs" />
     <Compile Include="Html\CSSUtil.cs" />
     <Compile Include="Html\HtmlUtil.cs" />

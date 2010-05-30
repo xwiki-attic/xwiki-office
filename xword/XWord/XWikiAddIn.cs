@@ -101,6 +101,8 @@ namespace XWord
         /// A list with the pages that cannot be edited with Word.
         /// </summary>
         private List<String> protectedPages = new List<string>();
+
+        private IAnnotationMaintainer annotationMainteiner;
         /// <summary>
         /// A dictionary that contains a key value pair with the local file name of the document
         /// and the full name of the associated wiki page.
@@ -329,6 +331,21 @@ namespace XWord
             {
                 client = value;
                 ClientInstanceChanged(this, null);
+            }
+        }
+
+        /// <summary>
+        /// An AnnotationMaintainer instance for annotaions updates.
+        /// </summary>
+        public IAnnotationMaintainer AnnotationMaintainer
+        {
+            get
+            {
+                return this.annotationMainteiner; ;
+            }
+            set
+            {
+                this.annotationMainteiner = value;
             }
         }
 
@@ -667,6 +684,9 @@ namespace XWord
             Application.Options.DefaultTextEncoding = Microsoft.Office.Core.MsoEncoding.msoEncodingWestern;
             Application.Options.UseNormalStyleForList = true;
             this.SaveFormat = Word.WdSaveFormat.wdFormatHTML;
+
+            this.AnnotationMaintainer = new AnnotationMaintainer();
+
             timer = new System.Timers.Timer(TIMER_INTERVAL);
             //Repositories and temporary files settings
             if (XOfficeCommonSettingsHandler.HasSettings())

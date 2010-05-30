@@ -436,13 +436,19 @@ namespace XWord
         private void btnAnnotate_Click(object sender, RibbonControlEventArgs e)
         {
             AnnotationsManager manager = new AnnotationsManager();
-            List<Annotation> annotations= manager.DownloadAnnotations(Addin.Client, Addin.currentPageFullName);
+            List<Annotation> annotations = manager.DownloadAnnotations(Addin.Client, Addin.currentPageFullName);
 
             AnnotationDisplay display = new AnnotationDisplay(Addin.ActiveDocumentInstance);
             foreach (Annotation ann in annotations)
             {
                 display.DisplayAnnotation(ann);
             }            
+        }
+
+        private void btnUpdateAnnotations_Click(object sender, RibbonControlEventArgs e)
+        {
+            IAnnotationMaintainer maintainer = Globals.XWikiAddIn.AnnotationMaintainer;
+            maintainer.UpdateAnnotations();
         }
     }
 }

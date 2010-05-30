@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using XWiki.Clients;
@@ -10,7 +11,7 @@ namespace XWiki.Annotations
     public class AnnotationsManager
     {
         const string ANNOTATION_CLASS_NAME = "AnnotationCode.AnnotationClass";
-
+        
         public List<Annotation> DownloadAnnotations(IXWikiClient client, String pageFullName)
         {
             List<Annotation> annotations = new List<Annotation>();
@@ -24,6 +25,15 @@ namespace XWiki.Annotations
                 }
             }
             return annotations;
+        }
+
+        public void UpdateAnnotations(List<Annotation> annotations, IXWikiClient client, String pageFullName)
+        {
+            foreach (Annotation annotation in annotations)
+            {
+                NameValueCollection nvc = annotation.ToNameValuePairs();
+                client.UpdateObject(annotation.PageId, ANNOTATION_CLASS_NAME, annotation.Id, nvc);
+            }
         }
     }
 }
