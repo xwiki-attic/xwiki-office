@@ -14,64 +14,17 @@ namespace XWord.Annotations
         private String clearContent;
         private Dictionary<int,int> deletedCharsMap;
         private const int MAX_LENGHT = 255;
-        String[] newLineChars;
         List<Word.Comment> displayedAnnotations;
         
         public AnnotationDisplay(Word.Document doc)
         {
-            newLineChars = new String[] { "\n", "\r" };
             this.document = doc;
             displayedAnnotations = new List<Microsoft.Office.Interop.Word.Comment>();
             document.TextLineEnding = Microsoft.Office.Interop.Word.WdLineEndingType.wdLFOnly;
             document.Content.TextRetrievalMode.IncludeFieldCodes = true;
             document.Content.TextRetrievalMode.IncludeHiddenText = true;
-            String wordContent = document.Content.Text.Normalize();
-            deletedCharsMap = MapDeletedCharsOffsets(wordContent);
-            clearContent = ClearContent(wordContent);
-        }
-
-        private String ClearContent(String content)
-        {
-            if (content != null)
-            {
-                foreach (String s in newLineChars)
-                {
-                    content = content.Replace(s, "");
-                }
-            }
-            return content;
-        }
-
-        /// <summary>
-        /// Computes the offset for the Word content and the cleared content.
-        /// </summary>
-        /// <param name="content">The text of a Word range.</param>
-        /// <param name="newLineChars">The charachters to be cleared.</param>
-        /// <returns>
-        /// A dictionary instance. 
-        /// KEY: The index of the next non-cleared char in the output string. 
-        /// Value: the number of deleted chars in the initial string preceding the char in the output string.</returns>
-        private Dictionary<int, int> MapDeletedCharsOffsets(String content)
-        {
-            Dictionary<int, int> deletedCharsMap = new Dictionary<int, int>();
-            int deletedCharsNo = 0;
-            for (int i = 0; i < content.Length; i++)
-            {
-                if (newLineChars.Contains(content[i].ToString()))
-                {
-                    deletedCharsNo++;
-                    int newIndex = i - deletedCharsNo + 1;
-                    if (deletedCharsMap.ContainsKey(newIndex))
-                    {
-                        deletedCharsMap[newIndex] = deletedCharsNo;
-                    }
-                    else
-                    {
-                        deletedCharsMap.Add(newIndex, deletedCharsNo);
-                    }
-                }
-            }
-            return deletedCharsMap;
+            deletedCharsMap = document.Content.MapDeletedCharsOffsets();
+            clearContent = document.Content.GetCleanedText();
         }
 
         private int GetOffset(int clearedContentIndex)
@@ -103,7 +56,6 @@ namespace XWord.Annotations
             {
                 Word.Comment comment = document.Comments.Add(range, ref annotationText);
                 comment.Author = annotation.Author;
-                comment.Initial = annotation.OriginalSelection;
                 displayedAnnotations.Add(comment);
                 Globals.XWikiAddIn.AnnotationMaintainer.RegisterAnnotation(annotation, comment);
             }
@@ -173,7 +125,7 @@ namespace XWord.Annotations
 
         private Word.Range AdjustRange(Word.Range range, Annotation annotation)
         {
-            String initialText = ClearContent(range.Text);
+            String initialText = range.GetCleanedText();
             bool match = IsMatch(range, annotation);
             String rangeText = "";
             int offset = Int32.MinValue;
@@ -194,7 +146,7 @@ namespace XWord.Annotations
                         //extend the range to the selection length
                         range = document.Range(ref start, ref end);
                         range.TextRetrievalMode.IncludeHiddenText = false;
-                        rangeText = ClearContent(range.Text);
+                        rangeText = range.GetCleanedText();
                         end = (int)end + 1;
                     } while (rangeText.Length != annotation.Selection.Length);
                     if (IsMatch(range, annotation))
@@ -230,7 +182,7 @@ namespace XWord.Annotations
         /// <returns>True if the range contains the annotated text and does not start with white spaces.</returns>
         private bool IsMatch(Word.Range range, Annotation annotation)
         {
-            String rangeText = ClearContent(range.Text);
+            String rangeText = range.GetCleanedText();
             return (rangeText == annotation.Selection) && (range.Text[0] == annotation.Selection[0]);
         }
     }

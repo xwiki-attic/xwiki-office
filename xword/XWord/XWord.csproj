@@ -208,8 +208,10 @@
     <Compile Include="AddinStatus.cs" />
     <Compile Include="AddPageFormManager.cs" />
     <Compile Include="Annotations\AnnotationDisplay.cs" />
+    <Compile Include="Annotations\Internal\AnnotationExtension.cs" />
     <Compile Include="Annotations\AnnotationMaintainer.cs" />
     <Compile Include="Annotations\IAnnotationMaintainer.cs" />
+    <Compile Include="Annotations\Internal\RangeExtension.cs" />
     <Compile Include="LoadingDialog.cs">
       <SubType>Form</SubType>
     </Compile>

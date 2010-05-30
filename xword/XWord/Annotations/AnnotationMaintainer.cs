@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using Word = Microsoft.Office.Interop.Word;
 using XWord;
 using XWiki.Annotations;
+using XWord.Annotations;
 
 
 public class AnnotationMaintainer : IAnnotationMaintainer
@@ -43,6 +44,7 @@ public class AnnotationMaintainer : IAnnotationMaintainer
 
     public void RegisterAnnotation(Annotation annotation, Word.Comment comment)
     {
+        annotation.ClientStatus = AnnotationClientStatus.Unchanged;
         annotations.Add(annotation, comment);
     }
 
@@ -67,9 +69,14 @@ public class AnnotationMaintainer : IAnnotationMaintainer
         String currentPageId = Globals.XWikiAddIn.currentPageFullName;
         List<Annotation> updatedAnnotations = GetAnnotationsForDocument(currentPageId);
         List<Word.Comment> activeDocComments = GetWordComments();
-        List<Word.Comment> oldComments;
-        List<Word.Comment> newComments;
+        List<Word.Comment> oldComments, newComments;
         FilterWordComments(activeDocComments, out oldComments, out newComments);
+
+        foreach (Word.Comment comment in oldComments)
+        {
+            Annotation oldAnnotation = GetAnnotationByCommentIndex(comment.Index);
+            UpdateAnnotation(oldAnnotation, comment);
+        }
         return updatedAnnotations;
     }
     #endregion
@@ -110,12 +117,36 @@ public class AnnotationMaintainer : IAnnotationMaintainer
                 if(activeComment.Index == annotationComment.Index)
                 {
                     isOldComment = true;
+                    oldComments.Add(activeComment);
                 }
             }
             if(!isOldComment)
             {
                 newComments.Add(activeComment);
             }
+        }
+    }
+
+    private Annotation GetAnnotationByCommentIndex(int commetnIndex)
+    {
+        foreach(Annotation ann in annotations.Keys)
+        {
+            if(annotations[ann].Index == commetnIndex)
+            {
+                return ann;
+            }
+        }
+        return null;
+    }
+
+    private void UpdateAnnotation(Annotation annotation, Word.Comment comment)
+    {
+        //TODO: check & update right/left context 
+        String currentSelection = comment.Scope.GetCleanedText();
+        if (!(currentSelection == annotation.Selection))
+        {
+            annotation.Selection = currentSelection;
+            annotation.ClientStatus = AnnotationClientStatus.Updated;
         }
     }
 }
