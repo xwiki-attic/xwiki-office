@@ -34,10 +34,15 @@ public class AnnotationMaintainer : IAnnotationMaintainer
 {
 
     Dictionary<Annotation, Word.Comment> annotations;
+    private const String DEFAULT_ANNOTATION_STATE = "SAFE";
+    private const String DEFAULT_USER_SPACE = "XWiki";
+    AnnotationsIO manager;
 
     public AnnotationMaintainer()
     {
         annotations = new Dictionary<Annotation,Word.Comment>();
+        manager = new AnnotationsIO(Globals.XWikiAddIn.Client);
+        Globals.XWikiAddIn.ClientInstanceChanged += new XWikiAddIn.ClientInstanceChangedHandler(ClientChanged);
     }
 
     #region IAnnotationMaintener Members
@@ -66,6 +71,35 @@ public class AnnotationMaintainer : IAnnotationMaintainer
     /// </summary>
     public List<Annotation> UpdateAnnotations()
     {
+        List<Annotation> annotations = GetUpdateAnnotationsList();
+        List<Annotation> newAnnotations = new List<Annotation>();
+        List<Annotation> modifiedAnnotations = new List<Annotation>();
+        foreach (Annotation ann in annotations)
+        {
+            switch (ann.ClientStatus)
+            {
+                case AnnotationClientStatus.New :
+                    newAnnotations.Add(ann);
+                    break;
+                case AnnotationClientStatus.Modified :
+                    modifiedAnnotations.Add(ann);
+                    break;
+                case AnnotationClientStatus.Deleted :
+                    break;
+                case AnnotationClientStatus.Unchanged :
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        manager.AddAnnotations(newAnnotations);
+        manager.UpdateAnnotations(modifiedAnnotations);
+        return annotations;
+    }
+
+    private List<Annotation> GetUpdateAnnotationsList()
+    {
         String currentPageId = Globals.XWikiAddIn.currentPageFullName;
         List<Annotation> updatedAnnotations = GetAnnotationsForDocument(currentPageId);
         List<Word.Comment> activeDocComments = GetWordComments();
@@ -76,6 +110,24 @@ public class AnnotationMaintainer : IAnnotationMaintainer
         {
             Annotation oldAnnotation = GetAnnotationByCommentIndex(comment.Index);
             UpdateAnnotation(oldAnnotation, comment);
+        }
+
+        foreach (Word.Comment comment in newComments)
+        {
+            //TODO Set right/left context - add to Extension
+            Annotation newAnnotation = new Annotation().FromWordComment(comment);
+
+            RegisterAnnotation(newAnnotation, comment);
+
+            newAnnotation.Author = GetCommentAuthor();
+            newAnnotation.Date = DateTime.Now;
+            newAnnotation.State = "SAFE";
+            newAnnotation.PageId = currentPageId;
+            newAnnotation.State = DEFAULT_ANNOTATION_STATE;
+            newAnnotation.Target = currentPageId;
+
+            newAnnotation.ClientStatus = AnnotationClientStatus.New;
+            
         }
         return updatedAnnotations;
     }
@@ -146,7 +198,17 @@ public class AnnotationMaintainer : IAnnotationMaintainer
         if (!(currentSelection == annotation.Selection))
         {
             annotation.Selection = currentSelection;
-            annotation.ClientStatus = AnnotationClientStatus.Updated;
+            annotation.ClientStatus = AnnotationClientStatus.Modified;
         }
+    }
+
+    private String GetCommentAuthor()
+    {
+        return DEFAULT_USER_SPACE + "." + Globals.XWikiAddIn.username;
+    }
+
+    private void ClientChanged(Object sender, EventArgs args)
+    {
+        manager = new AnnotationsIO(Globals.XWikiAddIn.Client);
     }
 }

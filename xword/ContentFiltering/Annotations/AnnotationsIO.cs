@@ -8,11 +8,18 @@ using XWiki.XmlRpc;
 
 namespace XWiki.Annotations
 {
-    public class AnnotationsManager
+    public class AnnotationsIO
     {
         const string ANNOTATION_CLASS_NAME = "AnnotationCode.AnnotationClass";
+
+        IXWikiClient client;
+
+        public AnnotationsIO(IXWikiClient client)
+        {
+            this.client = client;
+        }
         
-        public List<Annotation> DownloadAnnotations(IXWikiClient client, String pageFullName)
+        public List<Annotation> DownloadAnnotations(String pageFullName)
         {
             List<Annotation> annotations = new List<Annotation>();
             XWikiObjectSummary[] objects = client.GetObjects(pageFullName);
@@ -27,12 +34,21 @@ namespace XWiki.Annotations
             return annotations;
         }
 
-        public void UpdateAnnotations(List<Annotation> annotations, IXWikiClient client, String pageFullName)
+        public void UpdateAnnotations(List<Annotation> annotations)
         {
             foreach (Annotation annotation in annotations)
             {
                 NameValueCollection nvc = annotation.ToNameValuePairs();
                 client.UpdateObject(annotation.PageId, ANNOTATION_CLASS_NAME, annotation.Id, nvc);
+            }
+        }
+
+        public void AddAnnotations(List<Annotation> annotations)
+        {
+            foreach (Annotation annotation in annotations)
+            {
+                NameValueCollection nvc = annotation.ToNameValuePairs();
+                client.AddObject(annotation.PageId, ANNOTATION_CLASS_NAME, nvc);
             }
         }
     }

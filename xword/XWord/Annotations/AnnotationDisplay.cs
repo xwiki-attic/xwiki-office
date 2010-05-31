@@ -58,6 +58,7 @@ namespace XWord.Annotations
                 comment.Author = annotation.Author;
                 displayedAnnotations.Add(comment);
                 Globals.XWikiAddIn.AnnotationMaintainer.RegisterAnnotation(annotation, comment);
+                annotation.ClientStatus = AnnotationClientStatus.Unchanged;
             }
         }
 

@@ -435,8 +435,8 @@ namespace XWord
 
         private void btnAnnotate_Click(object sender, RibbonControlEventArgs e)
         {
-            AnnotationsManager manager = new AnnotationsManager();
-            List<Annotation> annotations = manager.DownloadAnnotations(Addin.Client, Addin.currentPageFullName);
+            AnnotationsIO manager = new AnnotationsIO(Addin.Client);
+            List<Annotation> annotations = manager.DownloadAnnotations(Addin.currentPageFullName);
 
             AnnotationDisplay display = new AnnotationDisplay(Addin.ActiveDocumentInstance);
             foreach (Annotation ann in annotations)

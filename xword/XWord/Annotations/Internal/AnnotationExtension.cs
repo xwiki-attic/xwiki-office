@@ -41,6 +41,7 @@ namespace XWord.Annotations
             Annotation ann = new Annotation();
             ann.AnnotationText = comment.Range.Text;
             ann.Selection = comment.Scope.Text;
+            annotation.OriginalSelection = comment.Scope.Text;
             ann.Author = comment.Author;
             return ann;
         }

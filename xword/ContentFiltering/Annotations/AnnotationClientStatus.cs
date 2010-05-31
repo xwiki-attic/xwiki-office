@@ -33,7 +33,7 @@ namespace XWiki.Annotations
     {
         New,
         Unchanged,
-        Updated,
+        Modified,
         Deleted
     }
 }

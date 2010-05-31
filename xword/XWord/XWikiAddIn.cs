@@ -685,8 +685,6 @@ namespace XWord
             Application.Options.UseNormalStyleForList = true;
             this.SaveFormat = Word.WdSaveFormat.wdFormatHTML;
 
-            this.AnnotationMaintainer = new AnnotationMaintainer();
-
             timer = new System.Timers.Timer(TIMER_INTERVAL);
             //Repositories and temporary files settings
             if (XOfficeCommonSettingsHandler.HasSettings())
@@ -732,6 +730,9 @@ namespace XWord
             {
                 Globals.Ribbons.XWikiRibbon.SwitchToOnlineMode();
             }
+
+            this.AnnotationMaintainer = new AnnotationMaintainer();            
+
             addinActions = new AddinActions(this);
             Log.Success("XWord started");
         }
