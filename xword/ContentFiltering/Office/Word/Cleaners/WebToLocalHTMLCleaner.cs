@@ -50,7 +50,6 @@ namespace ContentFiltering.Office.Word.Cleaners
             content = new EmptyParagraphsCleaner().Clean(content);
             content = new NbspBetweenTagsRemover().Clean(content);
             content = new NbspReplacer().Clean(content);
-
             return content;
         }
 

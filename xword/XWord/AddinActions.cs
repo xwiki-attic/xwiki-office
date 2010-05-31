@@ -638,6 +638,7 @@ namespace XWord
         {
             try
             {
+                ClearComments();
                 String contentFilePath = "";
                 addin.ReinforceApplicationOptions();
                 String filePath = addin.ActiveDocumentFullName;
@@ -1028,6 +1029,14 @@ namespace XWord
                 }
             }
             return null;
+        }
+
+        private void ClearComments()
+        {
+            if (addin.ActiveDocumentInstance.Comments.Count > 0)
+            {
+                addin.ActiveDocumentInstance.DeleteAllComments();
+            }
         }
     }
 }

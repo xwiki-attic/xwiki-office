@@ -66,6 +66,7 @@ namespace ContentFiltering.Office.Word.Cleaners
             content = new NbspBetweenTagsRemover().Clean(content);
             content = new OfficeNameSpacesTagsRemover().Clean(content);
             content = new NbspReplacer().Clean(content);
+            content = new CommentsDivCleaner().Clean(content);
 
             return content;
         }

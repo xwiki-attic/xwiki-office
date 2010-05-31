@@ -71,6 +71,7 @@
     <Compile Include="Office\Word\AbstractConverter.cs" />
     <Compile Include="Office\Word\BidirectionalConversionStates.cs" />
     <Compile Include="Office\Word\Cleaners\BodyContentExtractor.cs" />
+    <Compile Include="Office\Word\Cleaners\CommentsDivCleaner.cs" />
     <Compile Include="Office\Word\Cleaners\CommentsRemover.cs" />
     <Compile Include="Office\Word\Cleaners\CorrectAttributesCleaner.cs" />
     <Compile Include="Office\Word\Cleaners\CorrectTagsClosingCleaner.cs" />
