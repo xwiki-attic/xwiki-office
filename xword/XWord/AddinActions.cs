@@ -686,6 +686,7 @@ namespace XWord
                 {
                     ssxManager.UploadStyleSheetExtensions();
                     pageConverter.UploadAttachments();
+                    addin.AnnotationMaintainer.UpdateAnnotations();
                 }
             }
             catch (COMException ex)

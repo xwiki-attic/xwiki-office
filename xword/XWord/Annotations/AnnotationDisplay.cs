@@ -105,9 +105,10 @@ namespace XWord.Annotations
         {
             String annotationContext = annotation.SelectionLeftContext + annotation.Selection +
                                        annotation.SelectionRightContext;
+            annotationContext = annotationContext.GetCleanedText();
             int contextIndex = clearContent.IndexOf(annotationContext);
-            object annotationStart = contextIndex + annotationContext.IndexOf(annotation.Selection);
-            object annotationEnd = (int)annotationStart + annotation.Selection.Length;
+            object annotationStart = contextIndex + annotationContext.IndexOf(annotation.Selection.GetCleanedText());
+            object annotationEnd = (int)annotationStart + annotation.Selection.GetCleanedText().Length;
             //required by COM interop
             object startOffset = GetOffset((int)annotationStart);
             object endOffset = GetOffset((int)annotationEnd);
@@ -132,7 +133,7 @@ namespace XWord.Annotations
             int offset = Int32.MinValue;
             object rangeStart = range.Start;
             object rangeEnd = range.End;
-            int rangeLength = (int)rangeEnd - (int)rangeStart;
+            int rangeLength = (int)rangeEnd - (int)rangeStart - 1;
             object selectionStart = annotation.Selection[0];
             try
             {
@@ -140,7 +141,6 @@ namespace XWord.Annotations
                 {
                     offset = range.Text.IndexOf((char)selectionStart);
                     object start = range.Start + (int)offset;
-                    //object end = range.End + (int)offset;
                     object end = range.Start + rangeLength + (int)offset;
                     do
                     {
@@ -149,7 +149,7 @@ namespace XWord.Annotations
                         range.TextRetrievalMode.IncludeHiddenText = false;
                         rangeText = range.GetCleanedText();
                         end = (int)end + 1;
-                    } while (rangeText.Length != annotation.Selection.Length);
+                    } while (rangeText.Length != annotation.Selection.GetCleanedText().Length);
                     if (IsMatch(range, annotation))
                     {
                         match = true;
@@ -184,7 +184,11 @@ namespace XWord.Annotations
         private bool IsMatch(Word.Range range, Annotation annotation)
         {
             String rangeText = range.GetCleanedText();
-            return (rangeText == annotation.Selection) && (range.Text[0] == annotation.Selection[0]);
+            String selectedText =  annotation.Selection.GetCleanedText();
+            bool match = (rangeText == selectedText) && (range.Text[0] == annotation.Selection[0]);
+            match = match && (!range.Text[0].ToString().IsWhiteSpace());
+            match = match && (!range.Text[range.Text.Length -1].ToString().IsWhiteSpace());
+            return match;
         }
     }
 }

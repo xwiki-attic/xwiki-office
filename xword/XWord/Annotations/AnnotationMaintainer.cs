@@ -121,7 +121,6 @@ public class AnnotationMaintainer : IAnnotationMaintainer
 
             newAnnotation.Author = GetCommentAuthor();
             newAnnotation.Date = DateTime.Now;
-            newAnnotation.State = "SAFE";
             newAnnotation.PageId = currentPageId;
             newAnnotation.State = DEFAULT_ANNOTATION_STATE;
             newAnnotation.Target = currentPageId;
