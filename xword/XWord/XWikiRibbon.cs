@@ -433,22 +433,32 @@ namespace XWord
             }
         }
 
-        private void btnAnnotate_Click(object sender, RibbonControlEventArgs e)
-        {
-            AnnotationsIO manager = new AnnotationsIO(Addin.Client);
-            List<Annotation> annotations = manager.DownloadAnnotations(Addin.currentPageFullName);
-
-            AnnotationDisplay display = new AnnotationDisplay(Addin.ActiveDocumentInstance);
-            foreach (Annotation ann in annotations)
-            {
-                display.DisplayAnnotation(ann);
-            }            
-        }
-
         private void btnUpdateAnnotations_Click(object sender, RibbonControlEventArgs e)
         {
             IAnnotationMaintainer maintainer = Globals.XWikiAddIn.AnnotationMaintainer;
             maintainer.UpdateAnnotations();
+        }
+
+        private void toggleAnnotations_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (Addin.currentPageFullName != null)
+            {
+                if (toggleAnnotations.Checked == true)
+                {
+                    AnnotationsIO manager = new AnnotationsIO(Addin.Client);
+                    List<Annotation> annotations = manager.DownloadAnnotations(Addin.currentPageFullName);
+
+                    AnnotationDisplay display = new AnnotationDisplay(Addin.ActiveDocumentInstance);
+                    foreach (Annotation ann in annotations)
+                    {
+                        display.DisplayAnnotation(ann);
+                    }
+                }
+                else
+                {
+                    Addin.AnnotationMaintainer.ClearComments();
+                }
+            }
         }
     }
 }

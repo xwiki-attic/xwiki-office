@@ -107,7 +107,7 @@ namespace XWord.Annotations
                                        annotation.SelectionRightContext;
             annotationContext = annotationContext.GetCleanedText();
             int contextIndex = clearContent.IndexOf(annotationContext);
-            object annotationStart = contextIndex + annotationContext.IndexOf(annotation.Selection.GetCleanedText());
+            object annotationStart = contextIndex + annotation.SelectionLeftContext.GetCleanedText().Length;
             object annotationEnd = (int)annotationStart + annotation.Selection.GetCleanedText().Length;
             //required by COM interop
             object startOffset = GetOffset((int)annotationStart);

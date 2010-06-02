@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XWikiRibbon));
-            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncher2 = new Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem5 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem6 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem7 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem8 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncher1 = new Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem1 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem2 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem3 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItem4 = new Microsoft.Office.Tools.Ribbon.RibbonDropDownItem();
             this.tab1 = new Microsoft.Office.Tools.Ribbon.RibbonTab();
             this.xWikiTab = new Microsoft.Office.Tools.Ribbon.RibbonTab();
             this.xeGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
@@ -47,7 +47,7 @@
             this.btnRefresh = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnPreview = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnViewActiveDocInBrowser = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.btnAnnotate = new Microsoft.Office.Tools.Ribbon.RibbonButton();
+            this.toggleAnnotations = new Microsoft.Office.Tools.Ribbon.RibbonToggleButton();
             this.selectionOptionsGroup = new Microsoft.Office.Tools.Ribbon.RibbonGroup();
             this.btnAddPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.btnEditPage = new Microsoft.Office.Tools.Ribbon.RibbonButton();
@@ -64,7 +64,6 @@
             this.dropDownSaveFormat = new Microsoft.Office.Tools.Ribbon.RibbonDropDown();
             this.separator1 = new Microsoft.Office.Tools.Ribbon.RibbonSeparator();
             this.btnAboutXWord = new Microsoft.Office.Tools.Ribbon.RibbonButton();
-            this.btnUpdateAnnotations = new Microsoft.Office.Tools.Ribbon.RibbonButton();
             this.tab1.SuspendLayout();
             this.xWikiTab.SuspendLayout();
             this.xeGroup.SuspendLayout();
@@ -176,8 +175,7 @@
             this.currentDocumentGroup.Items.Add(this.btnRefresh);
             this.currentDocumentGroup.Items.Add(this.btnPreview);
             this.currentDocumentGroup.Items.Add(this.btnViewActiveDocInBrowser);
-            this.currentDocumentGroup.Items.Add(this.btnAnnotate);
-            this.currentDocumentGroup.Items.Add(this.btnUpdateAnnotations);
+            this.currentDocumentGroup.Items.Add(this.toggleAnnotations);
             this.currentDocumentGroup.Label = "Active Document";
             this.currentDocumentGroup.Name = "currentDocumentGroup";
             // 
@@ -214,16 +212,16 @@
             this.btnViewActiveDocInBrowser.SuperTip = "The selected page will be opened in the system\'s default browser.";
             this.btnViewActiveDocInBrowser.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnViewActiveDocInBrowser_Click);
             // 
-            // btnAnnotate
+            // toggleAnnotations
             // 
-            this.btnAnnotate.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnAnnotate.Image = global::XWord.Properties.Resources.XWiki;
-            this.btnAnnotate.Label = "Show Annotations";
-            this.btnAnnotate.Name = "btnAnnotate";
-            this.btnAnnotate.ScreenTip = "Show annotations.";
-            this.btnAnnotate.ShowImage = true;
-            this.btnAnnotate.SuperTip = "Displays a summay about this Word Extension.";
-            this.btnAnnotate.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnAnnotate_Click);
+            this.toggleAnnotations.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.toggleAnnotations.Image = global::XWord.Properties.Resources.comment_icon;
+            this.toggleAnnotations.Label = "Show Annotations";
+            this.toggleAnnotations.Name = "toggleAnnotations";
+            this.toggleAnnotations.ScreenTip = "Toggle annotations";
+            this.toggleAnnotations.ShowImage = true;
+            this.toggleAnnotations.SuperTip = "Use this button to show or to hide the annotations.";
+            this.toggleAnnotations.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.toggleAnnotations_Click);
             // 
             // selectionOptionsGroup
             // 
@@ -332,7 +330,7 @@
             // 
             // OptionsGroup
             // 
-            this.OptionsGroup.DialogLauncher = ribbonDialogLauncher2;
+            this.OptionsGroup.DialogLauncher = ribbonDialogLauncher1;
             this.OptionsGroup.Items.Add(this.btnXWordOptions);
             this.OptionsGroup.Items.Add(this.syncSaving);
             this.OptionsGroup.Items.Add(this.dropDownSyntax);
@@ -364,10 +362,10 @@
             // 
             // dropDownSyntax
             // 
-            ribbonDropDownItem5.Label = "XWiki 2.0";
-            ribbonDropDownItem6.Label = "XHTML";
-            this.dropDownSyntax.Items.Add(ribbonDropDownItem5);
-            this.dropDownSyntax.Items.Add(ribbonDropDownItem6);
+            ribbonDropDownItem1.Label = "XWiki 2.0";
+            ribbonDropDownItem2.Label = "XHTML";
+            this.dropDownSyntax.Items.Add(ribbonDropDownItem1);
+            this.dropDownSyntax.Items.Add(ribbonDropDownItem2);
             this.dropDownSyntax.Label = "Server Syntax:       ";
             this.dropDownSyntax.Name = "dropDownSyntax";
             this.dropDownSyntax.ScreenTip = "The syntax used to save the page on the XWiki server.";
@@ -376,10 +374,10 @@
             // 
             // dropDownSaveFormat
             // 
-            ribbonDropDownItem7.Label = "HTML";
-            ribbonDropDownItem8.Label = "Filtered HTML";
-            this.dropDownSaveFormat.Items.Add(ribbonDropDownItem7);
-            this.dropDownSaveFormat.Items.Add(ribbonDropDownItem8);
+            ribbonDropDownItem3.Label = "HTML";
+            ribbonDropDownItem4.Label = "Filtered HTML";
+            this.dropDownSaveFormat.Items.Add(ribbonDropDownItem3);
+            this.dropDownSaveFormat.Items.Add(ribbonDropDownItem4);
             this.dropDownSaveFormat.Label = "Local Save Format:";
             this.dropDownSaveFormat.Name = "dropDownSaveFormat";
             this.dropDownSaveFormat.ScreenTip = "The format used to save your local wiki pages.";
@@ -401,17 +399,6 @@
             this.btnAboutXWord.ShowImage = true;
             this.btnAboutXWord.SuperTip = "Displays a summay about this Word Extension.";
             this.btnAboutXWord.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnAboutXWord_Click);
-            // 
-            // btnUpdateAnnotations
-            // 
-            this.btnUpdateAnnotations.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnUpdateAnnotations.Image = global::XWord.Properties.Resources.XWiki;
-            this.btnUpdateAnnotations.Label = "Update Annotations";
-            this.btnUpdateAnnotations.Name = "btnUpdateAnnotations";
-            this.btnUpdateAnnotations.ScreenTip = "Update annotations";
-            this.btnUpdateAnnotations.ShowImage = true;
-            this.btnUpdateAnnotations.SuperTip = "Displays a summay about this Word Extension.";
-            this.btnUpdateAnnotations.Click += new System.EventHandler<Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs>(this.btnUpdateAnnotations_Click);
             // 
             // XWikiRibbon
             // 
@@ -511,8 +498,7 @@
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnPreview;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox syncSaving;
         public Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownSyntax;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAnnotate;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnUpdateAnnotations;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleAnnotations;
     }
 
     partial class ThisRibbonCollection : Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection

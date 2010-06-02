@@ -30,6 +30,7 @@ using XWiki.Annotations;
 public interface IAnnotationMaintainer
 {
     void RegisterAnnotation(Annotation annotation, Word.Comment comment);
+    void ClearComments();
     List<Annotation> GetAnnotationsForDocument(String pageId);
     List<Annotation> UpdateAnnotations(); 
 }

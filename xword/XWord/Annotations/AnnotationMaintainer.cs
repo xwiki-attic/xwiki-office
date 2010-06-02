@@ -65,6 +65,19 @@ public class AnnotationMaintainer : IAnnotationMaintainer
         }
         return docAnnotations;
     }
+    
+    /// <summary>
+    /// Deletes the annotations and Word comments for a given page.
+    /// </summary>
+    /// <param name="pageId">The full name of a page.</param>
+    public void ClearComments()
+    {
+        XWikiAddIn addin = Globals.XWikiAddIn;
+        if (addin.ActiveDocumentInstance.Comments.Count > 0)
+        {
+            addin.ActiveDocumentInstance.DeleteAllComments();
+        }
+    }
 
     /// <summary>
     /// Updates the annotations for the active page
@@ -178,11 +191,11 @@ public class AnnotationMaintainer : IAnnotationMaintainer
         }
     }
 
-    private Annotation GetAnnotationByCommentIndex(int commetnIndex)
+    private Annotation GetAnnotationByCommentIndex(int commentIndex)
     {
         foreach(Annotation ann in annotations.Keys)
         {
-            if(annotations[ann].Index == commetnIndex)
+            if(annotations[ann].Index == commentIndex)
             {
                 return ann;
             }

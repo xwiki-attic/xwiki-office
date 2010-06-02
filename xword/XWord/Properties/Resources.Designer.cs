@@ -67,6 +67,13 @@ namespace XWord.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap comment_icon {
+            get {
+                object obj = ResourceManager.GetObject("comment-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Crystal_Clear_action_apply {
             get {
                 object obj = ResourceManager.GetObject("Crystal_Clear_action_apply", resourceCulture);
