@@ -136,7 +136,17 @@ namespace XWord
         /// <summary>
         /// Event triggered when a failed login is made.
         /// </summary>
-        public event LoginFailedHandler LoginFailed;  
+        public event LoginFailedHandler LoginFailed;
+
+        /// <summary>
+        /// Delegate for handling active document swithing.
+        /// </summary>
+        public delegate void DocumentChangedHandler();
+
+        /// <summary>
+        /// Event triggered when the active document is changed.
+        /// </summary>
+        public event DocumentChangedHandler DocumentChanged;
 
 
         #endregion//Delegates&Events
@@ -439,6 +449,9 @@ namespace XWord
             }
             //Update the toggle button.
             UpdateWikiExplorerButtonState();
+
+            //Trigger event
+            DocumentChanged();
         }
 
         /// <summary>

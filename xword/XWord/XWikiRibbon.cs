@@ -67,6 +67,15 @@ namespace XWord
         private void XWikiRibbon_Load(object sender, RibbonUIEventArgs e)
         {
             Addin.ClientInstanceChanged += new XWikiAddIn.ClientInstanceChangedHandler(Addin_ClientInstanceChanged);
+            Addin.DocumentChanged += new XWikiAddIn.DocumentChangedHandler(Addin_DocumentChanged);
+        }
+
+        void Addin_DocumentChanged()
+        {
+            String currentPageId = Addin.currentPageFullName;
+            List<Annotation> annotations = Addin.AnnotationMaintainer.GetAnnotationsForDocument(currentPageId);
+            bool hasDisplayedAnnotations = annotations.Count > 0;
+            toggleAnnotations.Checked = hasDisplayedAnnotations;
         }
 
         void Addin_ClientInstanceChanged(object sender, EventArgs e)

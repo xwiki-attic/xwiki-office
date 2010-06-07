@@ -77,6 +77,18 @@ public class AnnotationMaintainer : IAnnotationMaintainer
         {
             addin.ActiveDocumentInstance.DeleteAllComments();
         }
+        List<Annotation> deletedAnnotations = new List<Annotation>();
+        foreach (Annotation ann in annotations.Keys)
+        {
+            if (ann.PageId == addin.currentPageFullName)
+            {
+                deletedAnnotations.Add(ann);
+            }
+        }
+        foreach (Annotation ann in deletedAnnotations)
+        {
+            annotations.Remove(ann);
+        }
     }
 
     /// <summary>
