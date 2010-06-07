@@ -277,7 +277,7 @@ namespace XWord
             }
             LoadingDialog loadingDialog = new LoadingDialog("Opening page...");
             ThreadPool.QueueUserWorkItem(new WaitCallback(loadingDialog.ShowSyncDialog));
-            Thread.Sleep(500);
+            
             GetPage(pageFullName);
             loadingDialog.CloseSyncDialog();
         }
@@ -476,6 +476,13 @@ namespace XWord
                 //Mark just-opened document as saved. This prevents a silly confirmation box that
                 //warns about unsaved changes when closing an unchanged document.
                 doc.Saved = true;
+
+                //The opened doc becomes the newest doc used for window reactivation.
+                newDoc = doc;
+                if (addin.ActiveDocumentInstance != doc)
+                {
+                    doc.Activate();
+                }
             }
             catch (IOException ex)
             {
@@ -985,11 +992,11 @@ namespace XWord
         /// </summary>
         /// <param name="Doc">The document instance that triggers the deactivate event.</param>
         /// <param name="Wn">The document's </param>
-        void KeepNewWindowActivated(Word.Document Doc, Word.Window Wn)
+        void KeepNewWindowActivated(Word.Document doc, Word.Window Wn)
         {
-            if (newDoc == Doc)
+            if (newDoc == doc)
             {
-                Doc.Activate();
+                doc.Activate();
             }
         }
 
