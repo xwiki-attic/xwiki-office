@@ -26,8 +26,8 @@
     <RootNamespace>XWord</RootNamespace>
     <AssemblyName>XWord</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ManifestCertificateThumbprint>E62442FE6D3A20F050E565BC4983E6191FE1C94F</ManifestCertificateThumbprint>
-    <ManifestKeyFile>XWord_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>63BB54C99C749753AB3F129AC311ADB179BF2E55</ManifestCertificateThumbprint>
+    <ManifestKeyFile>XWord_1_TemporaryKey.pfx</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <SignAssembly>false</SignAssembly>
@@ -325,6 +325,7 @@
     <None Include="Resources\Crystal_Clear_action_reload1.png" />
     <None Include="Resources\loadingWikiData.gif" />
     <None Include="Resources\Nuvola_apps_download_manager2.png" />
+    <None Include="XWord_1_TemporaryKey.pfx" />
     <None Include="XWord_TemporaryKey.pfx" />
     <None Include="Resources\Nuvola_filesystems_www.png" />
     <None Include="Resources\comment-icon.png" />
