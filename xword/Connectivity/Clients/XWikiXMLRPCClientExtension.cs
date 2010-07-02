@@ -93,9 +93,16 @@ namespace XWiki.Clients
             // read back the contents of the stream and supply the encoding
             System.IO.StreamReader reader = new System.IO.StreamReader(stream, Encoding.UTF8);
             body = reader.ReadToEnd();
-            String response = webClient.UploadString(address, "PUT", body);
-
-            return response;            
+            String response = "";
+            try
+            {
+                response = webClient.UploadString(address, "PUT", body);
+            }
+            catch (Exception e)
+            {
+                Log.Warning("The styles for page " + pageFullName + " were not updated");
+            }
+            return response;
         }
     }
 }
