@@ -755,6 +755,11 @@ namespace XWiki.Clients
             throw new NotImplementedException();
         }
 
+        public void UpdateObject(string pageFullName, string className, System.Collections.Specialized.NameValueCollection fieldsValues)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

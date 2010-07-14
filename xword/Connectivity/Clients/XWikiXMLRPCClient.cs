@@ -283,6 +283,28 @@ namespace XWiki.Clients
         }
 
         /// <summary>
+        /// Updates a xwiki object.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the page containing the object.</param>
+        /// <param name="className">The class name of the object.</param>
+        /// <param name="fieldsValues">Name-value pairs containig corespongin to the field names and values ov the object.</param>
+        public void UpdateObject(string pageFullName, string className, System.Collections.Specialized.NameValueCollection fieldsValues)
+        {
+            XmlRpcStruct objectDictionary = new XmlRpcStruct();
+            foreach (string key in fieldsValues.Keys)
+            {
+                objectDictionary.Add(key, fieldsValues[key]);
+            }
+            XWikiObject obj = new XWikiObject();
+            obj.className = className;
+            obj.objectDictionary = objectDictionary;
+            obj.pageId = pageFullName;
+            obj.guid = string.Empty;
+            obj.prettyName = fieldsValues["name"];
+            obj = proxy.StoreObject(token, obj);
+        }
+
+        /// <summary>
         /// Gets an object from a page.
         /// </summary>
         /// <param name="pageId">Page name - SpaceName.PageName.</param>

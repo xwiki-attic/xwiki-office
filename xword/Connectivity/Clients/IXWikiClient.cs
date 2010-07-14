@@ -172,6 +172,14 @@ namespace XWiki.Clients
         /// </summary>
         /// <param name="pageFullName">The full name of the page containing the object.</param>
         /// <param name="className">The class name of the object.</param>
+        /// <param name="fieldsValues">Name-value pairs containig corespongin to the field names and values ov the object.</param>
+        void UpdateObject(string pageFullName, string className, System.Collections.Specialized.NameValueCollection fieldsValues);
+
+        /// <summary>
+        /// Updates a xwiki object.
+        /// </summary>
+        /// <param name="pageFullName">The full name of the page containing the object.</param>
+        /// <param name="className">The class name of the object.</param>
         /// <param name="objectIndex">The index of the object in the document.</param>
         /// <param name="fieldsValues">Name-value pairs containig corespongin to the field names and values ov the object.</param>
         String UpdateObject(string pageFullName, string className, int objectIndex, System.Collections.Specialized.NameValueCollection fieldsValues);

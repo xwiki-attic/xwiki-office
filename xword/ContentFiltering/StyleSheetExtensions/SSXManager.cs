@@ -179,7 +179,7 @@ namespace ContentFiltering.StyleSheetExtensions
                 }
                 if (ssxExists)
                 {
-                    client.UpdateObject(pageFullName, ssxObject.className, ssxObject.id, fieldsValues);
+                    client.UpdateObject(pageFullName, ssxObject.className, fieldsValues);
                 }
                 else
                 {
