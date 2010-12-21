@@ -98,7 +98,7 @@ namespace ContentFiltering.Office.Word.Filters
             {
                 String imageName = node.Attributes["src"].Value;
                 imageName = Path.GetFileName(imageName);
-                XmlNode startComment = xmlDoc.CreateComment("startimage:" + imageName);
+                XmlNode startComment = xmlDoc.CreateComment("startimage:false|-|attach|-|" + imageName);
                 XmlNode endComment = xmlDoc.CreateComment("stopimage");
                 XmlNode parent = node.ParentNode;
                 parent.InsertBefore(startComment, node);
