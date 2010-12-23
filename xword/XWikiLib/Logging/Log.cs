@@ -40,8 +40,11 @@ namespace XWiki
         private static string logName = "XOffice";
         private static LogMode mode = LogMode.WindowsLog;
         private static bool fileCreated = false;
+
+        private static bool cantLog = false;
+
         //The message for EventLog can not exceed 32766 bytes
-        private const int MAX_MSG_SIZE = 32766;       
+        private const int MAX_MSG_SIZE = 32766;
 
         /// <summary>
         /// Writes a entry to the appWindows logging system.
@@ -53,14 +56,18 @@ namespace XWiki
             try
             {
                 String msg = (message.Length > MAX_MSG_SIZE) ? message.Substring(0, MAX_MSG_SIZE) : message;
-                if (EventLog.Exists(logName))
+                if (!(EventLog.Exists(logName) || (EventLog.SourceExists(eventSource))))
                 {
                     EventLog.CreateEventSource(eventSource, logName);
                 }
-                else
-                {
-                    EventLog.WriteEntry(eventSource, msg, type);
-                }
+                EventLog.WriteEntry(eventSource, msg, type);
+            }
+            catch (System.Security.SecurityException e)
+            {
+                // can't CreateEventSource() in Vista/Win7 without permissions,
+                // it has to be done in the installer with Admin privileges
+                mode = LogMode.FileLog;
+                WriteFileLog(message, type);
             }
             catch (InvalidOperationException ex)
             {
@@ -71,22 +78,33 @@ namespace XWiki
 
         public static void WriteFileLog(String message, EventLogEntryType type)
         {
-            string logFileName = "xoffice.log";
+            // no need to check for this in WriteWindowsLog(), as this is our fallback
+            if (cantLog)
+                return;
+
+            string logFileName = System.IO.Path.GetTempPath() + "xoffice.log";
             FileInfo logFile = new FileInfo(logFileName);
-            StreamWriter writer = null;
-            if (!fileCreated)
+            try
             {
-                if (logFile.Exists)
+                StreamWriter writer = null;
+                if (!fileCreated)
                 {
-                    writer = logFile.AppendText();
+                    if (logFile.Exists)
+                    {
+                        writer = logFile.AppendText();
+                    }
+                    else
+                    {
+                        writer = logFile.CreateText();
+                    }
                 }
-                else
-                {
-                    writer = logFile.CreateText();
-                }
+                writer.WriteLine(type.ToString() + ": " + message);
+                writer.Close();
             }
-            writer.WriteLine(type.ToString() + ": "+ message);
-            writer.Close();
+            catch (Exception e)
+            {
+                cantLog = true;
+            }
         }
 
         public static void Write(String message, EventLogEntryType type)
