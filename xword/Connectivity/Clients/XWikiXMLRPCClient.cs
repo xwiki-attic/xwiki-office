@@ -49,7 +49,8 @@ namespace XWiki.Clients
         private const string separator = ".";
         IXWikiProxy proxy;
 
-        private const string XML_RPC_PATH = "/xwiki/xmlrpc";
+        private const string XML_RPC_PATH = "/xmlrpc";
+        private const string DEFAULT_APP_CONTEXT = "/xwiki";
         ServerInfo serverInfo;
         
         /// <summary>
@@ -66,6 +67,17 @@ namespace XWiki.Clients
             this.password = password;
             proxy = XmlRpcProxyGen.Create<IXWikiProxy>();
             proxy.Url = this.serverUrl + XML_RPC_PATH;
+            Login();
+            if (!isLoggedIn)
+            {
+                proxy.Url = this.serverUrl + DEFAULT_APP_CONTEXT + XML_RPC_PATH;
+                Login();
+            }
+        }
+
+
+        private void Login()
+        {
             try
             {
                 token = proxy.Login(this.username, this.password);
@@ -522,6 +534,22 @@ namespace XWiki.Clients
         public String GetDefaultServerSyntax()
         {
             return serverInfo.DefaultSyntax;
+        }
+
+        /// <summary>
+        /// Gets the app context from the server URL
+        /// </summary>
+        private String GetAppContext()
+        {
+            char separator = '/';
+            if (serverUrl.Contains(separator))
+            {
+                return serverUrl.Split(separator)[1];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion
