@@ -56,8 +56,10 @@ namespace XWiki
             try
             {
                 String msg = (message.Length > MAX_MSG_SIZE) ? message.Substring(0, MAX_MSG_SIZE) : message;
-                if (!EventLog.Exists(logName))
+                if (!(EventLog.Exists(logName) || (EventLog.SourceExists(eventSource))))
+                {
                     EventLog.CreateEventSource(eventSource, logName);
+                }
                 EventLog.WriteEntry(eventSource, msg, type);
             }
             catch (System.Security.SecurityException e)
@@ -102,9 +104,6 @@ namespace XWiki
             catch (Exception e)
             {
                 cantLog = true;
-                UserNotifier.Error("Unable to log to the Systems log or" + Environment.NewLine +
-                    "to my fallback option: " + logFile.FullName + Environment.NewLine +
-                    "Please try reinstalling XOffice");
             }
         }
 
