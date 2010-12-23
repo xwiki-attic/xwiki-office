@@ -181,9 +181,9 @@ namespace UICommons
             this.lblServerUrl.AutoSize = true;
             this.lblServerUrl.Location = new System.Drawing.Point(21, 44);
             this.lblServerUrl.Name = "lblServerUrl";
-            this.lblServerUrl.Size = new System.Drawing.Size(66, 13);
+            this.lblServerUrl.Size = new System.Drawing.Size(56, 13);
             this.lblServerUrl.TabIndex = 11;
-            this.lblServerUrl.Text = "Server URL:";
+            this.lblServerUrl.Text = "Wiki URL:";
             // 
             // groupBox1
             // 
