@@ -544,8 +544,7 @@ namespace XWord
 
             if (!Client.SavePageHTML(pageName, pageContent, syntax))
             {
-                Log.Error("Failed to save page " + pageName + "on server " + addin.serverURL);
-                UserNotifier.Error("There was an error on the server when trying to save the page");
+                ReportSaveProblem();
                 saveSucceeded = false;
             }
             else
@@ -654,7 +653,7 @@ namespace XWord
                 String tempExportFileName = currentFileName + "_TempExport.html";
                 if (!ShadowCopyDocument(addin.ActiveDocumentInstance, tempExportFileName, addin.SaveFormat))
                 {
-                    UserNotifier.Error("There was an error when trying to save the page.");
+                    ReportSaveProblem();
                     return;
                 }
                 contentFilePath = tempExportFileName;
@@ -1037,6 +1036,14 @@ namespace XWord
                 }
             }
             return null;
+        }
+
+        private void ReportSaveProblem()
+        {
+            String error = Log.GetLastException().Message;
+            String message = "There was an error on the server when trying to save the page";
+            message += Environment.NewLine + "Details:" + Environment.NewLine + error;
+            UserNotifier.Error(message);
         }
     }
 }

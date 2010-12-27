@@ -41,17 +41,27 @@ namespace XWiki
         private static LogMode mode = LogMode.WindowsLog;
         private static bool fileCreated = false;
 
+        //retain the current runtime logs
+        private static List<LogEntry> sessionLogs = new List<LogEntry>();
+        private static List<Exception> exceptions = new List<Exception>();
+
         private static bool cantLog = false;
 
         //The message for EventLog can not exceed 32766 bytes
         private const int MAX_MSG_SIZE = 32766;
 
+        public static List<LogEntry> SessionLogs
+        {
+            get { return Log.sessionLogs; }
+            set { Log.sessionLogs = value; }
+        }
+        
         /// <summary>
         /// Writes a entry to the appWindows logging system.
         /// </summary>
         /// <param name="message">The logged message.</param>
         /// <param name="type">The type of the message.</param>
-        public static void WriteWindowsLog(String message, EventLogEntryType type)
+        protected static void WriteWindowsLog(String message, EventLogEntryType type)
         {
             try
             {
@@ -76,7 +86,12 @@ namespace XWiki
             }
         }
 
-        public static void WriteFileLog(String message, EventLogEntryType type)
+        /// <summary>
+        /// Writes a log entry to the log file
+        /// </summary>
+        /// <param name="message">The message describing the error</param>
+        /// <param name="type">The log message type</param>
+        protected static void WriteFileLog(String message, EventLogEntryType type)
         {
             // no need to check for this in WriteWindowsLog(), as this is our fallback
             if (cantLog)
@@ -117,6 +132,7 @@ namespace XWiki
             {
                 WriteFileLog(message, type);
             }
+            sessionLogs.Add(new LogEntry(message, type));
         }
 
         /// <summary>
@@ -175,6 +191,7 @@ namespace XWiki
             message += "Message:  " + ex.Message + Environment.NewLine;
             message += "Help link " + ex.HelpLink;
             Write(message, EventLogEntryType.Error);
+            exceptions.Add(ex);
         }
 
         /// <summary>
@@ -195,6 +212,41 @@ namespace XWiki
             message += exceptionData + Environment.NewLine;
             message += Environment.NewLine + "Stack trace:" + Environment.NewLine + ex.StackTrace;
             Write(message, EventLogEntryType.Error);
+            exceptions.Add(ex);
         }
+
+        /// <summary>
+        /// Returns the last generated error message.
+        /// </summary>
+        /// <returns>A string containg the last logged error.</returns>
+        public static String GetLastError()
+        {
+            return sessionLogs.Last(logs => logs.Type == EventLogEntryType.Error).Message;
+        }
+
+        /// <returns>The last logged exception</returns>
+        public static Exception GetLastException()
+        {
+            return exceptions.Last();
+        }
+    }
+
+    /// <summary>
+    /// Simple struct to store log entries.
+    /// </summary>
+    public struct LogEntry
+    {
+        /// <summary>
+        /// Creates a LogEntry instance.
+        /// </summary>
+        /// <param name="message">The log message.</param>
+        /// <param name="type">The type of the log message.</param>
+        public LogEntry(String message, EventLogEntryType type)
+        {
+            this.Message = message;
+            this.Type = type;
+        }
+        public String Message;
+        public EventLogEntryType Type;
     }
 }
