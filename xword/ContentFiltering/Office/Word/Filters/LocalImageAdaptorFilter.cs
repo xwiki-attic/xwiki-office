@@ -28,6 +28,8 @@ using System.Xml;
 using System.Web;
 using System.IO;
 using XWiki.Office.Word;
+using XWiki.Connectivity;
+using XWiki.Clients;
 
 
 namespace ContentFiltering.Office.Word.Filters
@@ -35,6 +37,10 @@ namespace ContentFiltering.Office.Word.Filters
     public class LocalImageAdaptorFilter:IDOMFilter
     {
         private ConversionManager manager;
+        private const string OLD_IMAGE_START_MARKER = "startimage:";
+        private const string IMAGE_START_MARKER = "startimage:false|-|attach|-|";
+        private const string IMAGE_STOP_MARKER = "stopimage";
+        private const double MARKER_CHANGE_VERSION = 2.4;
 
         public LocalImageAdaptorFilter(ConversionManager manager)
         {
@@ -94,15 +100,32 @@ namespace ContentFiltering.Office.Word.Filters
         /// <param name="xmlDoc">A reference to the filtered XmlDocument instance.</param>
         private void BorderImages(ref XmlDocument xmlDoc)
         {
+            String startMarker = getStartMarker();
             foreach (XmlNode node in xmlDoc.GetElementsByTagName("img"))
             {
                 String imageName = node.Attributes["src"].Value;
                 imageName = Path.GetFileName(imageName);
-                XmlNode startComment = xmlDoc.CreateComment("startimage:" + imageName);
-                XmlNode endComment = xmlDoc.CreateComment("stopimage");
+                XmlNode startComment = xmlDoc.CreateComment(startMarker + imageName);
+                XmlNode endComment = xmlDoc.CreateComment(IMAGE_STOP_MARKER);
                 XmlNode parent = node.ParentNode;
                 parent.InsertBefore(startComment, node);
                 parent.InsertAfter(endComment, node);
+            }
+        }
+
+
+        private String getStartMarker()
+        {
+            String majorVersion = ((XWikiXMLRPCClient)manager.XWikiClient).ServerInfo.majorVersion;
+            String minorVersion = ((XWikiXMLRPCClient)manager.XWikiClient).ServerInfo.minorVersion;
+            Double version = Convert.ToDouble(majorVersion + "." + minorVersion);
+            if (version >= MARKER_CHANGE_VERSION)
+            {
+                return IMAGE_START_MARKER;
+            }
+            else
+            {
+                return OLD_IMAGE_START_MARKER;
             }
         }
 
