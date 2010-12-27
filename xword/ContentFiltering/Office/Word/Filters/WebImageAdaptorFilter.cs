@@ -64,8 +64,9 @@ namespace ContentFiltering.Office.Word.Filters
                     {
                         node.Attributes.Remove(vshapesAttr);
                     }
+                    //remove parameters from URLs
+                    String src = node.Attributes["src"].Value.Split('?')[0];
                     //Creating an additional attribute to help identifing the image in the html.
-                    String src = node.Attributes["src"].Value;
                     XmlAttribute attr = xmlDoc.CreateAttribute(ImageInfo.XWORD_IMG_ATTRIBUTE);
                     //Adding the attribute to the xhtml code.
                     Guid imgId = Guid.NewGuid();
@@ -80,19 +81,18 @@ namespace ContentFiltering.Office.Word.Filters
                     }
                     manager.States.Images.Add(imgId, imgInfo);
                     //Downloading image
-                    String imgURL = node.Attributes["src"].Value;
-                    if (imgURL == "") continue;
-                    if (imgURL[0] == '/')
+                    if (src == "") continue;
+                    if (src[0] == '/')
                     {
-                        imgURL = serverURL + imgURL;
+                        src = serverURL + src;
                     }
                     ParameterizedThreadStart pts = new ParameterizedThreadStart(DownloadImage);
                     String folder = localFolder + "\\" + localFilename + manager.AddinSettings.MetaDataFolderSuffix;
-                    Object param = new ImageDownloadInfo(imgURL, folder, imgInfo);
+                    Object param = new ImageDownloadInfo(src, folder, imgInfo);
                     pts.Invoke(param);
-                    imgURL = folder + "\\" + Path.GetFileName(imgURL);
-                    imgURL = "file:///" + imgURL.Replace("\\", "/");
-                    node.Attributes["src"].Value = imgURL;
+                    src = folder + "\\" + Path.GetFileName(src);
+                    src = "file:///" + src.Replace("\\", "/");
+                    node.Attributes["src"].Value = src;
                 }
             }
         }
@@ -109,7 +109,8 @@ namespace ContentFiltering.Office.Word.Filters
             {
                 ImageDownloadInfo idi = (ImageDownloadInfo)obj;
                 String targetFolder = idi.DownloadFolder;
-                String URI = idi.URI;
+                //remove parameters from URI(.net 'Path' does not delete or warn about them)
+                String URI = idi.URI.Split('?')[0];
                 WebClient webClient = new WebClient();
                 if (!Directory.Exists(targetFolder))
                 {
