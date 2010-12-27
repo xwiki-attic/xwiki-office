@@ -52,6 +52,12 @@ namespace XWiki.Clients
         private const string XML_RPC_PATH = "/xmlrpc";
         private const string DEFAULT_APP_CONTEXT = "/xwiki";
         ServerInfo serverInfo;
+
+        public ServerInfo ServerInfo
+        {
+            get { return serverInfo; }
+            set { serverInfo = value; }
+        }
         
         /// <summary>
         /// XML-RPC implementation of IXWikiCLient.
